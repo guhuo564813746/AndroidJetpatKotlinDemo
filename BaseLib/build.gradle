@@ -14,7 +14,6 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -35,15 +34,25 @@ android {
 }
 
 dependencies {
+    def nav_version = "2.3.2"
     //navigation
-    api "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
-    api "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    api "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    api "androidx.navigation:navigation-ui-ktx:$nav_version"
     //Feature module Support
-    api "androidx.navigation:navigation-dynamic-features-fragment:$rootProject.navigationVersion"
+    api "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
     //Testing Navigation
     androidTestApi "androidx.navigation:navigation-testing:$rootProject.navigationVersion"
     // Jetpack Compose Integration
-    api "androidx.navigation:navigation-compose:1.0.0-alpha04"
+//    api "androidx.navigation:navigation-compose:1.0.0-alpha04"
+
+    //网络框架
+    api 'com.squareup.okhttp3:okhttp:3.11.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    api 'com.squareup.okio:okio:2.0.0'
+    api 'com.google.code.gson:gson:2.8.5'
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
 
 
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
