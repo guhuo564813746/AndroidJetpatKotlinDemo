@@ -1,6 +1,7 @@
 package com.wawa.baselib.utils.net.viewmodule
 
-import androidx.lifecycle.MutableLiveData
+import android.content.Context
+import androidx.lifecycle.*
 import com.wawa.baselib.utils.net.coroutine.CoroutineEvent
 import kotlinx.coroutines.Job
 
@@ -38,5 +39,57 @@ interface IViewModuleActionEvent : IUIActionEvent{
 
     override fun finishView() {
         finishViewEventLD.value=FinishViewEvent
+    }
+}
+
+interface IUIActionEventObserver :IUIActionEvent{
+    val lContext: Context?
+    val lLifecycleOwner: LifecycleOwner
+
+    fun <VM> getViewModel(clazz: Class<VM>,factory: ViewModelProvider.Factory?=null,
+                            initializer: (VM.(lifecycleOwner: LifecycleOwner)-> Unit)?= null) : Lazy<VM> where VM : ViewModel,VM : IViewModuleActionEvent{
+        return lazy {
+            getViewModelFast(clazz,factory,initializer)
+        }
+    }
+
+    fun <VM> getViewModelFast(clazz: Class<VM>, factory: ViewModelProvider.Factory? =null,
+                            initializer: (VM.(lifecycleOwner: LifecycleOwner)-> Unit)?= null) :VM where VM :ViewModel, VM : IViewModuleActionEvent{
+        return when(val localValue=lLifecycleOwner){
+            is ViewModelStoreOwner -> {
+                if (factory ==null){
+                    ViewModelProvider(localValue).get(clazz)
+                } else{
+                    ViewModelProvider(localValue,factory).get(clazz)
+                }
+            }
+            else -> {
+                factory?.create(clazz) ?: clazz.newInstance()
+            }
+
+        }.apply {
+            genarateActionEvent(this)
+            initializer?.invoke(this,lLifecycleOwner)
+        }
+    }
+
+    fun <VM> genarateActionEvent(viewModel: VM) where VM : ViewModel , VM : IViewModuleActionEvent{
+        viewModel.showLoadingEventLD.observe(lLifecycleOwner, Observer {
+            this@IUIActionEventObserver.showLoading(it.job)
+        })
+
+        viewModel.dismissLoadingEventLD.observe(lLifecycleOwner, Observer {
+            this@IUIActionEventObserver.dismissLoading()
+        })
+
+        viewModel.showToastEventLD.observe(lLifecycleOwner, Observer {
+            if (it.message.isNotBlank()){
+                this@IUIActionEventObserver.showToast(it.message)
+            }
+        })
+
+        viewModel.finishViewEventLD.observe(lLifecycleOwner, Observer {
+            this@IUIActionEventObserver.finishView()
+        })
     }
 }

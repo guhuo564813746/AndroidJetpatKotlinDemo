@@ -10,4 +10,6 @@ interface IHttpWrapBean<Data> {
     val httpMsg: String
     val httpData: Data
     val httpIsSuccess: Boolean
+    val httpIsFailed: Boolean
+        get() = !httpIsSuccess
 }
