@@ -18,6 +18,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.wowgotcha.robot.wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="${applicationId}"/>/>
+
         <!--<activity android:name=".activity.LauncherActivity"
             android:theme="@style/startpageTheme"
             android:screenOrientation="portrait">

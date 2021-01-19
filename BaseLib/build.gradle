@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.apollographql.android'
 }
 
 android {
@@ -54,6 +55,13 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.9.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
 
+    //微信登陆
+    api ('com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+')
+
+    //apollo网络框架
+    compileOnly 'org.jetbrains:annotations:13.0'
+    testCompileOnly 'org.jetbrains:annotations:13.0'//可选
+    api 'com.apollographql.apollo:apollo-runtime:1.2.1'
 
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api 'androidx.core:core-ktx:1.2.0'
