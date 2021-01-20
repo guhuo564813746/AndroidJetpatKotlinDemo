@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wawa.baselib.utils.net.datasource.RemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -12,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
  *邮箱：564813746@qq.com
  * @Desc: ViewModel 基类
  */
-open class BaseRetrofitViewModule : ViewModel(), IViewModuleActionEvent{
+open class BaseViewModule : ViewModel(), IViewModuleActionEvent{
     override val showLoadingEventLD = MutableLiveData<ShowLoadingEvent>()
 
     override val dismissLoadingEventLD = MutableLiveData<DismissLoadingEvent>()

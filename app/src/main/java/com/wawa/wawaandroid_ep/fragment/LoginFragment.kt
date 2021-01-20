@@ -9,6 +9,7 @@ import com.wawa.wawaandroid_ep.databinding.FragmentLoginLayBinding
  *邮箱：564813746@qq.com
  */
 class LoginFragment : BaseFragment<FragmentLoginLayBinding>(){
+    private val loginViewModel: Log
     override fun getLayoutId(): Int {
         return R.layout.fragment_login_lay
     }

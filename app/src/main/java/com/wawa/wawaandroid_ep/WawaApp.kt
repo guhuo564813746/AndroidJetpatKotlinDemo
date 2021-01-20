@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep
 
 import android.app.Application
+import android.content.Context
 import com.wawa.baselib.utils.Utils
 
 /**
@@ -8,8 +9,12 @@ import com.wawa.baselib.utils.Utils
  *邮箱：564813746@qq.com
  */
 class WawaApp : Application(){
+    companion object{
+        lateinit var  lContext: Context
+    }
     override fun onCreate() {
         super.onCreate()
+        lContext=this
         Utils.initSp(this)
     }
 }
