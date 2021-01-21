@@ -1,5 +1,5 @@
 mutation UserLoginByWechat ($code: String!){
-  userLoginByWechat{
+  userLoginByWechat(code: $code){
     accessToken
     userId
   }
