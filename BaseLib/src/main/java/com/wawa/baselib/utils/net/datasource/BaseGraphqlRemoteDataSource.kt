@@ -21,11 +21,11 @@ open class GraphqlRemoteDataSource() {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY))
-            .authenticator { _, response -> response.request()
-                .newBuilder()
-                .addHeader("Authorization", "Bearer <YOUR ACCESS TOKEN>")
-                .build()
-            }
+//            .authenticator { _, response -> response.request()
+//                .newBuilder()
+//                .addHeader("Authorization", "Bearer <YOUR ACCESS TOKEN>")
+//                .build()
+//            }
             .build()
 
         open val apolloClient= ApolloClient.builder()
