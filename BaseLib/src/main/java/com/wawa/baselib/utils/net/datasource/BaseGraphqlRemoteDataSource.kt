@@ -23,7 +23,7 @@ open class GraphqlRemoteDataSource() {
                 .setLevel(HttpLoggingInterceptor.Level.BODY))
             .authenticator { _, response -> response.request()
                 .newBuilder()
-//                    .addHeader("Authorization", "Bearer <YOUR ACCESS TOKEN>")
+                .addHeader("Authorization", "Bearer <YOUR ACCESS TOKEN>")
                 .build()
             }
             .build()
