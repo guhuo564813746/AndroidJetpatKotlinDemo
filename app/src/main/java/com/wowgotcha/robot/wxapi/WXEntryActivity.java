@@ -22,6 +22,7 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.wawa.wawaandroid_ep.BuildConfig;
 
 /**
  * 微信客户端回调activity示例
@@ -77,7 +78,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate---");
-        api = WXAPIFactory.createWXAPI(this,BuildConfig.WX_APPID, false);
+        api = WXAPIFactory.createWXAPI(this, BuildConfig.WX_APPID, false);
         api.handleIntent(getIntent(), this);
     }
 

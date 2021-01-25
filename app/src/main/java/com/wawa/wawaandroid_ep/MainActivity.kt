@@ -41,9 +41,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         if (!TextUtils.isEmpty(Utils.readUid()) && !TextUtils.isEmpty(Utils.readToken())){
-//            navBottom.visibility=View.VISIBLE
+            navBottom.visibility=View.VISIBLE
+
         }else{
-//            navBottom.visibility=View.GONE
+            navBottom.visibility=View.GONE
+            navControlor.navigate(R.id.loginFragment)
         }
     }
 

@@ -2,6 +2,7 @@ package com.wawa.wawaandroid_ep
 
 import android.app.Application
 import android.content.Context
+import androidx.multidex.MultiDex
 import com.wawa.baselib.utils.Utils
 
 /**
@@ -15,6 +16,7 @@ class WawaApp : Application(){
     override fun onCreate() {
         super.onCreate()
         lContext=this
+        MultiDex.install(lContext)
         Utils.initSp(this)
     }
 }

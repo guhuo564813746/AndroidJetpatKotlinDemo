@@ -37,7 +37,7 @@ class ChargeFragmentViewModel : ViewModel(){
 
                 override fun onResponse(response: Response<ChargeItemListQuery.Data>) {
                     response?.let {
-                        Log.d("loadChargeList--success",response.toString())
+                        Log.d("loadChargeList--success",response.data().toString())
 //                        chargeList=response
                     }
                 }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="10dp"
+    app:cardMaxElevation="10dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="82dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:src="@mipmap/bg_phone_login_header"
+            />
+        <TextView
+            android:id="@+id/btn_wx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:text="@string/LOGIN_WX_RECOMMEND"
+            android:textAllCaps="false"
+            android:textColor="@color/link_blue"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/input_phone"
+            android:layout_width="220dp"
+            android:layout_height="34dp"
+            android:layout_marginBottom="10dp"
+            android:background="@mipmap/bg_phone_login_input"
+            android:hint="@string/input_phone_num"
+            android:inputType="phone"
+            android:textAlignment="center"
+            android:textColorHint="@color/lineColor"
+            android:textSize="14sp" />
+        <EditText
+            android:id="@+id/input_code"
+            android:layout_width="220dp"
+            android:layout_height="34dp"
+            android:layout_marginBottom="10dp"
+            android:background="@mipmap/bg_phone_login_input"
+            android:hint="@string/input_validate_code"
+            android:inputType="phone"
+            android:textAlignment="center"
+            android:textColorHint="@color/lineColor"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/btn_send_code"
+            android:layout_width="220dp"
+            android:layout_height="34dp"
+            android:layout_marginBottom="35dp"
+            android:gravity="center"
+            android:background="@mipmap/bg_phone_login_gray"
+            android:text="@string/LOGIN_CLICK_CATPCHA"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/charge_gray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/btn_confirm"
+            android:layout_width="220dp"
+            android:layout_height="34dp"
+            android:layout_marginBottom="35dp"
+            android:gravity="center"
+            android:background="@mipmap/bg_phone_login_blue"
+            android:text="@string/login"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

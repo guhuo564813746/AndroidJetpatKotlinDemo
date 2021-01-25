@@ -25,6 +25,7 @@ abstract class BaseFragment<V : ViewDataBinding> : Fragment(){
     ): View? {
         val viewRoot=inflater.inflate(getLayoutId(),container,false)
         binding= DataBindingUtil.bind<V>(viewRoot)!!
+        initFragmentView()
         return binding.root
     }
 
