@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--越南语-->
+    <string name="app_label">熊猫抓抓</string>
+    <string name="app_name">熊猫抓抓</string>
+    <string name="COIN_VERTICAL">đồng tiền</string>
+    <!--    <string name="COIN_VERTICAL">达\n人\n币</string>-->
+    <string name="COIN">đồng tiền</string>
+    <!--    <string name="COIN">达人币</string>-->
+    <string name="LOGIN_NEW_USER_GIFT">Người dùng mới đăng nhập WeChat để gửi 50%1$s</string>
+    <!--    <string name="LOGIN_NEW_USER_GIFT">新用户微信登录送50达人币</string>-->
+    <string name="GAME_PC_LT_AUTO_IC_MAX">Sự cân bằng không thể thua%1$d%2$s</string>
+    <!--    <string name="GAME_PC_LT_AUTO_IC_MAX">使用自动投币功能, 余额不得少于%d达人币</string>-->
+    <string name="GAME_PC_AUTO_IC_TIP">Nhắc nhở: số xu * số phòng = số %1$s</string>
+    <!--    <string name="GAME_PC_AUTO_IC_TIP">温馨提示：硬币币数 * 房间倍数 = 达人币数</string>-->
+    <string name="main_welCome_tips">Chào mừng bạn đến với máy đào coin hạnh phúc, bắt đầu trò chơi của bạn ~</string>
+    <!--    <string name="main_welCome_tips">欢迎来到推币达人，开始你的游戏吧～</string>-->
+    <string name="reward_dialog_tips">Chúc mừng về cấp độ %1$d tuần trước，lấy%2$d%3$s</string>
+    <!--    <string name="reward_dialog_tips">恭喜您上周排名成绩第%d名，获得%d达人币</string>-->
+    <string name="prize_tips">phần thưởng %1$s cá nhân %2$s</string>
+    <!--    <string name="prize_tips">奖励%s个达人币</string>-->
+    <string name="tx_coinsRecord">%1$sghi</string>
+    <!--    <string name="tx_coinsRecord">达人币记录</string>-->
+    <string name="getreward_tips2">%1$d%2$s</string>
+    <!--    <string name="getreward_tips2">%d达人币</string>-->
+    <string name="tx_newusertips">Người dùng mới đăng nhập Facebook để gửi 50%1$s</string>
+    <!--    <string name="tx_newusertips">新用户FaceBook登录送50达人币</string>-->
+</resources>

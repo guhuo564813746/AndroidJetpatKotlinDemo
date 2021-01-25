@@ -1,0 +1,4 @@
+include ':BaseLib'
+include ':baseresourcelib'
+include ':app'
+rootProject.name = "WawaAndroid_EP"

@@ -1,0 +1,6 @@
+mutation UserLoginByWechat ($code: String!){
+  userLoginByWechat(code: $code){
+    accessToken
+    userId
+  }
+}

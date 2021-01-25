@@ -1,0 +1,31 @@
+query ChargeItemList(){
+  chargeItemList(){
+    chargeItemId
+    goods{
+        ...chargeGoodsFields
+    }
+    name
+    shortDesc
+    sortOrder
+    status
+  }
+}
+
+fragment chargeGoodsFields on Goods{
+    GoogleProductId
+    Price
+    Status
+    coverUrl
+    detailDesc
+    goodsId
+    name
+    originPrice
+    photoAlbum
+    shortDesc
+    stockNo
+    stockTotal
+    virtualGoods
+    virtualGoodsAmount
+    virtualGoodsGiveAmount
+    virtualGoodsType
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.MainFragment"
+        android:label="MainFragment" />
+    <fragment
+        android:id="@+id/chargeFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.ChargeFragment"
+        android:label="ChargeFragment" />
+    <fragment
+        android:id="@+id/mineFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.MineFragment"
+        android:label="MineFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.LoginFragment"
+        android:label="LoginFragment">
+        <action android:id="@+id/navto_MainFragment"
+            app:destination="@+id/mainFragment"/>
+    </fragment>
+</navigation>

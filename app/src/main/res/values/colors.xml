@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="colorPrimary">@color/global</color>
+    <color name="colorPrimaryDark">#808080</color>
+    <color name="colorAccent">@color/global</color>
+    <color name="TOP_NAV_BG">#fe406b</color>
+
+    <!--自定义颜色-->
+    <color name="global">#ff4f61</color>
+    <color name="primary_translucent">#7fff4f61</color>
+    <color name="background">#ffffff</color>
+    <color name="gray">#cccccc</color>
+    <color name="cover_gray">#B2cccccc</color>
+    <color name="charge_gray">#666666</color>
+    <color name="textColor">#000</color>
+    <color name="transparent">#00000000</color>
+    <color name="translucent">#66000000</color>
+    <color name="lineColor">#c8c8c8</color>
+    <color name="white_gray">#f2f0f3</color>
+    <color name="productColor">#545454</color>
+    <color name="yellow">#fed02f</color>
+    <color name="roseRed">#ff4f61</color>
+    <color name="normal_red">#FF6660</color>
+    <color name="green">#6bd743</color>
+    <color name="normal_green">#6ED163</color>
+    <color name="code_pink">#f55094</color>
+    <color name="brown">#472816</color>
+    <color name="link_blue">#66c5ff</color>
+    <color name="rank_gray">#f4f5f9</color>
+    <color name="rank_oragne">#ffaa4f</color>
+    <color name="pc_btn_control">#ff1f69</color>
+    <color name="switch_bg">#3678eb</color>
+    <color name="switch_wawa_bg">#F44368</color>
+    <color name="progress_red">#FF2B2B</color>
+    <color name="colornull">#00000000</color>
+    <color name="base_blue">#3678EB</color>
+    <color name="pktab_selected">#421C74</color>
+    <color name="pktab_unselect">#2C1652</color>
+    <color name="light_black">#333333</color>
+    <color name="teal_50">#E0F2F1</color>
+    <color name="teal_100">#B2DFDB</color>
+    <color name="teal_300">#4DB6AC</color>
+    <color name="teal_400">#26A69A</color>
+    <color name="teal_500">#009688</color>
+    <color name="teal_600">#00897B</color>
+    <color name="teal_800">#00695C</color>
+    <color name="teal_900">#004D40</color>
+    <color name="teal_A100">#A7FFEB</color>
+    <color name="teal_A200">#64FFDA</color>
+    <color name="teal_A400">#1DE9B6</color>
+    <color name="teal_A700">#00BFA5</color>
+
+    <color name="ucrop_color_toolbar">@color/teal_500</color>
+    <color name="ucrop_color_statusbar">@color/teal_700</color>
+    <color name="ucrop_color_widget_active">@color/teal_500</color>
+</resources>
