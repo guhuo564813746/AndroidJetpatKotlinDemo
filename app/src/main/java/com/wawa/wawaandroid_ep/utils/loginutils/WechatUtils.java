@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.utils.loginutils;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -14,6 +15,7 @@ import com.wawa.wawaandroid_ep.R;
  * 邮箱：564813746@qq.com
  */
 public class WechatUtils {
+    private static final String TAG="WechatUtils";
     private Context mContext;
     private IWXAPI mApi;
     private String appId;
@@ -26,6 +28,7 @@ public class WechatUtils {
 
     public void wxLogin(){
         // send oauth request
+        Log.d(TAG,"wxLogin---");
         if (!mApi.isWXAppInstalled()){
             Toast.makeText(mContext, mContext.getString(R.string.tx_pls_install_wx_tips), Toast.LENGTH_SHORT).show();
         }else {
