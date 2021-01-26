@@ -1,12 +1,9 @@
 package com.wawa.baselib.utils.net.datasource
 
-import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.Query
-import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.api.cache.http.HttpCachePolicy
-import com.apollographql.apollo.exception.ApolloException
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 
 /**
@@ -21,11 +18,26 @@ open class GraphqlRemoteDataSource() {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY))
-            .authenticator { _, response -> response.request()
+                .addInterceptor { chain: Interceptor.Chain ->
+                    var request: Request=chain.request()
+                    var newRequest: Request=request.newBuilder()
+                        .header("X-ENV", "APP")
+                        .header("X-APP-SYSTEM", "Android")
+                        .header("X-APP-VERSION", "1")
+                        .header("X-APP-ASHOP-ID", "0")
+                        .header("X-APP-CHANNEL", "sansung")
+                        .header("Accept-Language", "en") //LanguageUtils
+                        .header("X-USER-UID", "")
+                        .header("X-USER-TOKEN", "")
+                        .method(request.method(),request.body())
+                        .build()
+                    chain.proceed(newRequest)
+                }
+           /* .authenticator { _, response -> response.request()
                 .newBuilder()
 //                    .addHeader("Authorization", "Bearer <YOUR ACCESS TOKEN>")
                 .build()
-            }
+            }*/
             .build()
 
         open val apolloClient= ApolloClient.builder()
