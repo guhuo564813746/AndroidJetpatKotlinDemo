@@ -28,7 +28,7 @@ class ChargeFragmentViewModel : ViewModel(){
 
     public fun loadChargeList(){
         val chargeItemListQuery=ChargeItemListQuery()
-        GraphqlRemoteDataSource.apolloClient
+        GraphqlRemoteDataSource().apolloClient()
             .query(chargeItemListQuery)
             .enqueue(object: ApolloCall.Callback<ChargeItemListQuery.Data>(){
                 override fun onFailure(e: ApolloException) {

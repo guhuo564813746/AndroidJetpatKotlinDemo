@@ -24,6 +24,7 @@ public class WechatUtils {
         appId= BuildConfig.WX_APPID;
         mApi = WXAPIFactory.createWXAPI(mContext, appId);
         mApi.registerApp(appId);
+        Log.d(TAG,appId+"");
     }
 
     public void wxLogin(){

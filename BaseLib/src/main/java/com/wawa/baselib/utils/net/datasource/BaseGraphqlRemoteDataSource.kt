@@ -14,7 +14,7 @@ open class GraphqlRemoteDataSource() {
 
     companion object{
 
-        val baseUrl: String ="http://robot.t.seafarer.me/api/v1/"
+        val baseUrl: String ="http://robot.t.seafarer.me/api/v1/graphql"
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -27,8 +27,8 @@ open class GraphqlRemoteDataSource() {
                         .header("X-APP-ASHOP-ID", "0")
                         .header("X-APP-CHANNEL", "sansung")
                         .header("Accept-Language", "en") //LanguageUtils
-                        .header("X-USER-UID", "")
-                        .header("X-USER-TOKEN", "")
+//                        .header("X-USER-UID", "")
+//                        .header("X-USER-TOKEN", "")
                         .method(request.method(),request.body())
                         .build()
                     chain.proceed(newRequest)
@@ -40,12 +40,14 @@ open class GraphqlRemoteDataSource() {
             }*/
             .build()
 
-        open val apolloClient= ApolloClient.builder()
+    }
+    //发起请求
+    open fun apolloClient(): ApolloClient{
+        return ApolloClient.builder()
             .okHttpClient(okHttpClient)
             .serverUrl(baseUrl)
             .build()
     }
-    //发起请求
 
 
 }

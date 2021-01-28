@@ -8,7 +8,11 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
+import androidx.databinding.Observable
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.databinding.FragmentLoginLayBinding
@@ -39,20 +43,41 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding>() {
 
             }
             .setConfirmOnClickListener { v, phoneNum, code ->
-
+                loginViewModel.phoneLogin("13311111111", "Panda_Game")
             }
             .create()
+        val backPressCallback=requireActivity().onBackPressedDispatcher.addCallback (this){
+            requireActivity().finish()
+        }
+        backPressCallback.isEnabled
     }
+
 
     override fun initFragmentView() {
         wechatUtils= WechatUtils(activity)
-
         binding.btnWx.setOnClickListener {
             Log.d(TAG,"wxLogin--")
             wechatUtils.wxLogin()
         }
         binding.btnPhoneShow.setOnClickListener{
             loginDialog.show()
+        }
+        loginViewModel.isL.addOnPropertyChangedCallback(object :Observable.OnPropertyChangedCallback(){
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                if (loginViewModel.isL.get()){
+                    Log.d("isL","true")
+                }
+            }
+
+        })
+
+        loginViewModel.isLoginSuccess.observe(this){
+            isLogin: Boolean ->{
+            if (isLogin){
+                Log.d("isLoginSuccess","true")
+                findNavController().navigate(R.id.chargeFragment)
+            }
+        }
         }
     }
 

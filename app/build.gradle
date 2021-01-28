@@ -13,6 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.wowgotcha.robot"
+//        applicationId "com.wowgotcha.wawa"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
@@ -20,7 +21,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BaseURL",'"http://robot.t.seafarer.me/api/v1/"'
-        buildConfigField "String", "WX_APPID", '"wxcba967814b417cb3"'
+        buildConfigField "String", "WX_APPID", '"wxcba967814b417cb3"' //wawa: wx0c0bd85e2edb9f75  robot: wxcba967814b417cb3
         buildConfigField "String", "WX_SECREAT", '"1c9e485a2e8dcbdbf3a07a25e2b61edb"'
     }
 

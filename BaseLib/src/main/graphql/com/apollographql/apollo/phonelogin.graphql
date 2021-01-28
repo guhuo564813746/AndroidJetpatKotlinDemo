@@ -1,0 +1,6 @@
+mutation  UserLoginByPhone($phoneNum: String!, $password: String!){
+  userLoginByPhone(phoneNumber: $phoneNum, password: $password){
+    accessToken
+    userId
+  }
+}
