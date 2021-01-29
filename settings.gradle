@@ -1,3 +1,4 @@
+include ':magicindicator'
 include ':BaseLib'
 include ':baseresourcelib'
 include ':app'

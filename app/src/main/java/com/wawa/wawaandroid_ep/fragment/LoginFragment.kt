@@ -13,6 +13,7 @@ import androidx.databinding.Observable
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.databinding.FragmentLoginLayBinding
@@ -72,12 +73,13 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding>() {
         })
 
         loginViewModel.isLoginSuccess.observe(this){
-            isLogin: Boolean ->{
-            if (isLogin){
+            if(it){
                 Log.d("isLoginSuccess","true")
+                loginDialog?.dismiss()
+                (activity as MainActivity).mainViewModel.isShowBottom.postValue(true)
+                (activity as MainActivity).mainViewModel.isUserLogined.postValue(true)
                 findNavController().navigate(R.id.chargeFragment)
             }
-        }
         }
     }
 

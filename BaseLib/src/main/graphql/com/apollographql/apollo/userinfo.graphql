@@ -1,0 +1,35 @@
+query User{
+  user{
+    avatar
+    avatarThumb
+    email
+    name
+    nickName
+    openId
+    password
+    phoneNo
+    signInType
+    status
+    userAccount{
+        ...userAcountFragment
+    }
+    userId
+
+  }
+}
+
+fragment userAcountFragment on UserAccount{
+    adminChargeMoney
+    chargeMoney
+    coin
+    consumedCoin
+    consumedPoint
+    earnCoin
+    earnPoint
+    lastConsumeCoinTime
+    lastConsumePointTime
+    lastEarnCoinTime
+    lastEarnPointTime
+    point
+    userId
+}

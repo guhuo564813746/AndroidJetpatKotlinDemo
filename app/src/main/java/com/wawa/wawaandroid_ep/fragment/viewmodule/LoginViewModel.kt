@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.UserLoginByPhoneMutation
 import com.apollographql.apollo.UserLoginByWechatMutation
+import com.apollographql.apollo.UserQuery
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.wawa.baselib.utils.Utils

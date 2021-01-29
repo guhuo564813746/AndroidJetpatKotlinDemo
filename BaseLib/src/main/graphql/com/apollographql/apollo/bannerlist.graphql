@@ -1,0 +1,13 @@
+query BannerList($categoryId: Int!){
+  bannerList(categoryId: $categoryId){
+    action
+    bannerId
+    description
+    name
+    openUrlType
+    pictureUrl
+    sortOrder
+    status
+    url
+  }
+}

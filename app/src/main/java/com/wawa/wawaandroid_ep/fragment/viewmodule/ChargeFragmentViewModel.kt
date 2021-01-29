@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.fragment.viewmodule
 
 import android.util.Log
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,13 +10,14 @@ import com.apollographql.apollo.ChargeItemListQuery
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
-import com.wawa.wawaandroid_ep.base.viewmodel.BaseViewModel
 
 /**
  *作者：create by 张金 on 2021/1/25 11:10
  *邮箱：564813746@qq.com
  */
 class ChargeFragmentViewModel : ViewModel(){
+    var coin=ObservableField("0")
+    var diamond = ObservableField("0")
     private val chargeList: MutableLiveData<List<ChargeItemListQuery.ChargeItemList>> by lazy {
         MutableLiveData<List<ChargeItemListQuery.ChargeItemList>>().also {
             loadChargeList()
