@@ -1,0 +1,8 @@
+query RoomCategoryList{
+  roomCategoryList{
+    name
+    remark
+    roomCategoryId
+    status
+  }
+}

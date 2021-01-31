@@ -2,7 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
-    id 'com.apollographql.android'
+//    id 'com.apollographql.android'
+    id 'com.apollographql.apollo'
 }
 
 android {

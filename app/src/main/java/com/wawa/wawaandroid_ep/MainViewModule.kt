@@ -16,6 +16,7 @@ import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
 class MainViewModule : ViewModel(){
     companion object{
         val TAG="MainViewModule"
+         var userData=MutableLiveData<UserQuery.Data>()
     }
     val isShowBottom=MutableLiveData<Boolean>()
     val isUserLogined=MutableLiveData<Boolean>()
@@ -26,7 +27,7 @@ class MainViewModule : ViewModel(){
 
     fun getUserData(){
         val userDataQuery= UserQuery()
-        GraphqlRemoteDataSource().apolloClient()
+        WawaApp.apolloClient
             .query(userDataQuery)
             .enqueue(object : ApolloCall.Callback<UserQuery.Data>(){
                 override fun onFailure(e: ApolloException) {
@@ -36,8 +37,8 @@ class MainViewModule : ViewModel(){
                 override fun onResponse(response: Response<UserQuery.Data>) {
                     Log.d(TAG,"getUserData--"+response?.data()?.user()?.nickName()
                         +response?.data()?.user()?.phoneNo()+response?.data()?.user()?.userId()
-                    +response?.errors().get(0).message())
-
+                    )
+                    userData?.value=response?.data()
                 }
             })
 

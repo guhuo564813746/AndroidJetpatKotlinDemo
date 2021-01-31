@@ -1,0 +1,26 @@
+query UserCoinLogList{
+  userCoinLogList{
+    action
+    amount
+    balance
+    time
+    timeFormat
+    type
+    user{
+      ...userFragment2
+    }
+  }
+}
+fragment userFragment2 on User{
+    avatar
+    avatarThumb
+    email
+    name
+    nickName
+    openId
+    password
+    phoneNo
+    signInType
+    status
+    userId
+}

@@ -10,6 +10,7 @@ import com.apollographql.apollo.ChargeItemListQuery
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
+import com.wawa.wawaandroid_ep.WawaApp
 
 /**
  *作者：create by 张金 on 2021/1/25 11:10
@@ -30,7 +31,7 @@ class ChargeFragmentViewModel : ViewModel(){
 
     public fun loadChargeList(){
         val chargeItemListQuery=ChargeItemListQuery()
-        GraphqlRemoteDataSource().apolloClient()
+        WawaApp.apolloClient
             .query(chargeItemListQuery)
             .enqueue(object: ApolloCall.Callback<ChargeItemListQuery.Data>(){
                 override fun onFailure(e: ApolloException) {

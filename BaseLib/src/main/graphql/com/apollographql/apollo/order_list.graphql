@@ -1,0 +1,31 @@
+query OrderList($orderId: Int){
+  orderList(orderId: $orderId){
+    PayStatus
+    addtime
+    addtimeFormat
+    bizStatus
+    fee
+    orderGoods{
+      ...orderGds
+    }
+    orderId
+    originPrice
+    payType
+    shippingStatus
+    title
+    tradeNo
+    uptime
+    uptimeFormat
+    userId
+    virtualGoods
+  }
+}
+fragment orderGds on OrderGoods{
+    amount
+    fee
+    name
+    orderGoodsId
+    originPrice
+    payProductId
+    virtualGoods
+}

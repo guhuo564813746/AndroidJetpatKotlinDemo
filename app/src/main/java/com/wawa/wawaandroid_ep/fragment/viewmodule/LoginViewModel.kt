@@ -14,6 +14,7 @@ import com.apollographql.apollo.exception.ApolloException
 import com.wawa.baselib.utils.Utils
 import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
 import com.wawa.baselib.utils.net.viewmodule.BaseViewModule
+import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseViewModel
 import com.wawa.wawaandroid_ep.httpcore.bean.ForecastsBean
 import com.wawa.wawaandroid_ep.utils.loginutils.WechatUtils
@@ -25,11 +26,11 @@ import com.wawa.wawaandroid_ep.utils.loginutils.WechatUtils
 class LoginViewModel : ViewModel(){
 
     val loginData=MutableLiveData<ForecastsBean>()
-    val isLoginSuccess=MutableLiveData<Boolean>(false)
+    val isLoginSuccess=MutableLiveData<Boolean>()
     val isL=ObservableBoolean(false)
     fun phoneLogin(phoneNum: String,code: String){
         val userLoginByPhone=UserLoginByPhoneMutation(phoneNum,code)
-        GraphqlRemoteDataSource().apolloClient()
+        WawaApp.apolloClient
             .mutate(userLoginByPhone)
             .enqueue(object: ApolloCall.Callback<UserLoginByPhoneMutation.Data>(){
                 override fun onFailure(e: ApolloException) {
@@ -53,7 +54,7 @@ class LoginViewModel : ViewModel(){
     }
     fun wxLogin(code: String){
         val userLoginByWechat=UserLoginByWechatMutation(code)
-        GraphqlRemoteDataSource().apolloClient()
+        WawaApp.apolloClient
             .mutate(userLoginByWechat)
             .enqueue(object: ApolloCall.Callback<UserLoginByWechatMutation.Data>(){
 

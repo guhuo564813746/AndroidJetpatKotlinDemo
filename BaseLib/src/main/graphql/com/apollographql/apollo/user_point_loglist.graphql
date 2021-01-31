@@ -1,0 +1,26 @@
+query UserPointLogList{
+  userPointLogList{
+    action
+    amount
+    balance
+    time
+    timeFormat
+    type
+    user{
+      ...userFragment1
+    }
+  }
+}
+fragment userFragment1 on User{
+    avatar
+    avatarThumb
+    email
+    name
+    nickName
+    openId
+    password
+    phoneNo
+    signInType
+    status
+    userId
+}

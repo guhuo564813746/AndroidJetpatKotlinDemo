@@ -1,5 +1,5 @@
-query ChargeItemList(){
-  chargeItemList(){
+query ChargeItemList{
+  chargeItemList{
     chargeItemId
     goods{
         ...chargeGoodsFields

@@ -1,0 +1,70 @@
+query ChargeOrderList($orderId: Int){
+  chargeOrderList(OrderId: $orderId){
+    chargeItem{
+      ...chargeItemFragment
+    }
+    goods{
+      ...goodsFragment
+    }
+    name
+    orderGoods{
+      ...orderGoodsFragment
+    }
+    orderId
+    user{
+      ...userFragment4
+    }
+  }
+}
+fragment chargeItemFragment on ChargeItem{
+
+    chargeItemId
+    name
+    shortDesc
+    sortOrder
+    status
+
+}
+fragment goodsFragment on Goods{
+    GoogleProductId
+    Price
+    Status
+    appleProductId
+    coverUrl
+    detailDesc
+    goodsId
+    name
+    originPrice
+    photoAlbum
+    shortDesc
+    stockNo
+    stockTotal
+    virtualGoods
+    virtualGoodsAmount
+    virtualGoodsGiveAmount
+    virtualGoodsType
+
+}
+fragment orderGoodsFragment on OrderGoods{
+    amount
+    fee
+    name
+    orderGoodsId
+    originPrice
+    payProductId
+    virtualGoods
+
+}
+fragment userFragment4 on User{
+    avatar
+    avatarThumb
+    email
+    name
+    nickName
+    openId
+    password
+    phoneNo
+    signInType
+    status
+    userId
+}
