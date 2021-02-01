@@ -39,20 +39,64 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getChargeOrderList(orderId: Int?) {
-
+    override fun getChargeOrderList() {
+        val chargeOrderListQuery=ChargeOrderListQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(chargeOrderListQuery).await()
+                val chargeOrderList=response?.data?.chargeOrderList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    chargeOrderListSubject.onNext(chargeOrderList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
     override fun getChargeItemList() {
-
+        val chargeItemListQuery = ChargeItemListQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(chargeItemListQuery).await()
+                val chargeItemList=response?.data?.chargeItemList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    chargeItemListSubject.onNext(chargeItemList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
     override fun getGameRecordList() {
-
+        val gameRecordListQuery=GameRecordListQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(gameRecordListQuery).await()
+                val gameRecordList=response?.data?.gameRecordList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    gameRecordListSubject.onNext(gameRecordList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
-    override fun getOrderList(orderId: Int?) {
-
+    override fun getOrderList() {
+        val orderListQuery=OrderListQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(orderListQuery).await()
+                val orderList=response?.data?.orderList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    orderListSubject.onNext(orderList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
     override fun getRoomCategoryList() {
@@ -70,16 +114,49 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getRoomList(categoryId: Int?, roomId: Int?) {
+    override fun getRoomList() {
         val roomListQuery = RoomListQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(roomListQuery).await()
+                val roomList=response?.data?.roomList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    roomListSubject.onNext(roomList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
     override fun getUserCoinLogList() {
-
+        val userCoinLogListQuery=UserCoinLogListQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(userCoinLogListQuery).await()
+                val userCoinLogList=response?.data?.userCoinLogList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    userCoinLogListSubject.onNext(userCoinLogList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
     override fun getUserPointLogList() {
-
+        val userPointLogListQuery=UserPointLogListQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(userPointLogListQuery).await()
+                val userPointLogList=response?.data?.userPointLogList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    userPointLogListSubject.onNext(userPointLogList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
     override fun getUserData() {

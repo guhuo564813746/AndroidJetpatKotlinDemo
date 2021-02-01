@@ -90,7 +90,7 @@ dependencies {
 
     // new adpter supported
     //核心库
-    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-core:$adapterVersion"
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-core:$adapterVersion"
 //下面都是可选项
 
 //anko layout 扩展
