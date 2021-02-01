@@ -1,6 +1,13 @@
 package com.wawa.baselib.utils.apollonet.service
 
+import android.util.Log
+import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.BannerListQuery
+import com.apollographql.apollo.api.Operation
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.exception.ApolloException
+import com.apollographql.apollo.fetcher.ApolloResponseFetchers
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 
 /**
@@ -16,43 +23,64 @@ import com.wawa.baselib.utils.apollonet.BaseDataSource
  */
 class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloClient){
     override fun getBannerList(categoryId: Int) {
-        TODO("Not yet implemented")
+        val bannerListQuery=BannerListQuery(categoryId)
+        val callback=createCallback<BannerListQuery.Data> {
+            bannerListSubject.onNext(it?.data?.bannerList()?.filterNotNull().orEmpty())
+        }
+        apolloClient.query(bannerListQuery)
+            .responseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
+            .watcher()
+            .enqueueAndWatch(callback)
+
     }
 
     override fun getChargeOrderList(orderId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getChargeItemList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getGameRecordList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getOrderList(orderId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getRoomCategoryList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getRoomList(categoryId: Int?, roomId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserCoinLogList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserPointLogList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserData() {
-        TODO("Not yet implemented")
+
     }
+
+    private fun <T : Operation.Data> createCallback(onResponse: (response: Response<T>) -> Unit) =
+        object : ApolloCall.Callback<T>() {
+            override fun onResponse(response: Response<T>) = onResponse(response)
+
+            override fun onFailure(e: ApolloException) {
+                exceptionSubject.onNext(e)
+            }
+
+            override fun onStatusEvent(event: ApolloCall.StatusEvent) {
+                Log.d("ApolloWatcherService", "Apollo Status Event: $event")
+            }
+        }
 
 }

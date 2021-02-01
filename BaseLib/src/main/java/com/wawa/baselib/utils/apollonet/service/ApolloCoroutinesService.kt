@@ -1,8 +1,10 @@
 package com.wawa.baselib.utils.apollonet.service
 
-import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.*
+import com.apollographql.apollo.coroutines.await
 import com.wawa.baselib.utils.apollonet.BaseDataSource
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
+import kotlin.Exception
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -19,44 +21,82 @@ import kotlin.coroutines.CoroutineContext
 class ApolloCoroutinesService(apolloClient: ApolloClient,
                               private val processContext: CoroutineContext = Dispatchers.IO,
                               private val resultContext: CoroutineContext = Dispatchers.Main) : BaseDataSource(apolloClient) {
+
+    private var job: Job?=null
+
     override fun getBannerList(categoryId: Int) {
-        TODO("Not yet implemented")
+        val bannerListQuery: BannerListQuery= BannerListQuery(categoryId)
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(bannerListQuery).await()
+                val bannerList=response?.data?.bannerList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    bannerListSubject.onNext(bannerList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
     override fun getChargeOrderList(orderId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getChargeItemList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getGameRecordList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getOrderList(orderId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getRoomCategoryList() {
-        TODO("Not yet implemented")
+        val roomCategoryListQuery = RoomCategoryListQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(roomCategoryListQuery).await()
+                val categoryList=response?.data?.roomCategoryList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    roomCategoryListSubject.onNext(categoryList)
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
     override fun getRoomList(categoryId: Int?, roomId: Int?) {
-        TODO("Not yet implemented")
+        val roomListQuery = RoomListQuery()
     }
 
     override fun getUserCoinLogList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserPointLogList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserData() {
-        TODO("Not yet implemented")
+        val userQuery=UserQuery()
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(userQuery).await()
+                val userData=response?.data?.user()
+                withContext(resultContext){
+                    if (userData != null) {
+                        userDataSubject.onNext(userData)
+                    }
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
 }

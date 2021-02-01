@@ -16,7 +16,7 @@ import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
 class MainViewModule : ViewModel(){
     companion object{
         val TAG="MainViewModule"
-         var userData=MutableLiveData<UserQuery.Data>()
+         var userData=MutableLiveData<UserQuery.User>()
     }
     val isShowBottom=MutableLiveData<Boolean>()
     val isUserLogined=MutableLiveData<Boolean>()
@@ -35,10 +35,7 @@ class MainViewModule : ViewModel(){
                 }
 
                 override fun onResponse(response: Response<UserQuery.Data>) {
-                    Log.d(TAG,"getUserData--"+response?.data()?.user()?.nickName()
-                        +response?.data()?.user()?.phoneNo()+response?.data()?.user()?.userId()
-                    )
-                    userData?.value=response?.data()
+
                 }
             })
 

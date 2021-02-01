@@ -38,6 +38,9 @@ android {
 dependencies {
     def nav_version = "2.3.2"
     def apollo_version="2.5.2"
+    //以下为分包依赖
+    def adapterVersion = 'v1.2.3'
+
     //navigation
     api "androidx.navigation:navigation-fragment-ktx:$nav_version"
     api "androidx.navigation:navigation-ui-ktx:$nav_version"
@@ -84,4 +87,32 @@ dependencies {
     testApi 'junit:junit:4.+'
     androidTestApi 'androidx.test.ext:junit:1.1.2'
     androidTestApi 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // new adpter supported
+    //核心库
+    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-core:$adapterVersion"
+//下面都是可选项
+
+//anko layout 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-anko:$adapterVersion"
+//diffutil 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-diff:$adapterVersion"
+//data binding扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-binding:$adapterVersion"
+// paging3 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-paging:$adapterVersion"
+// sortedlist 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-sorted:$adapterVersion"
+// flexbox 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-flex:$adapterVersion"
+// UI 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-ui:$adapterVersion"
+// Selectable 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-selectable:$adapterVersion"
+// Expandable 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-expandable:$adapterVersion"
+// Animators 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-animators:$adapterVersion"
+// Filter 扩展
+//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-filter:$adapterVersion"
 }

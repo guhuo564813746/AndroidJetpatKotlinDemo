@@ -1,6 +1,8 @@
 package com.wawa.baselib.utils.apollonet.service
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.BannerListQuery
+import com.apollographql.apollo.rx2.rxQuery
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,43 +25,54 @@ class ApolloRxService(apolloClient: ApolloClient,
                       private val processScheduler: Scheduler = Schedulers.io(),
                       private val resultScheduler: Scheduler = AndroidSchedulers.mainThread()) : BaseDataSource(apolloClient){
     override fun getBannerList(categoryId: Int) {
-        TODO("Not yet implemented")
+        val bannerListQuery: BannerListQuery=BannerListQuery(categoryId)
+        val disposable=apolloClient.rxQuery(bannerListQuery)
+            .subscribeOn(processScheduler)
+            .observeOn(resultScheduler)
+            .map { response ->
+                response?.data?.bannerList()?.filterNotNull().orEmpty()
+            }
+            .subscribe(
+                bannerListSubject::onNext,
+                exceptionSubject::onNext
+            )
+        compositeDisposable.add(disposable)
     }
 
     override fun getChargeOrderList(orderId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getChargeItemList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getGameRecordList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getOrderList(orderId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getRoomCategoryList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getRoomList(categoryId: Int?, roomId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserCoinLogList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserPointLogList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserData() {
-        TODO("Not yet implemented")
+
     }
 
 }

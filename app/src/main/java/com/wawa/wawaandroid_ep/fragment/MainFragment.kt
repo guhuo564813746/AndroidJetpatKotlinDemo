@@ -1,21 +1,45 @@
 package com.wawa.wawaandroid_ep.fragment
 
+import android.graphics.Color
 import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.wawa.wawaandroid_ep.MainActivity
+import androidx.viewpager.widget.PagerAdapter
+import com.apollographql.apollo.BannerListQuery
+import com.apollographql.apollo.RoomCategoryListQuery
+import com.google.android.material.tabs.TabLayout
+import com.to.aboomy.pager2banner.IndicatorView
+import com.to.aboomy.pager2banner.ScaleInTransformer
+import com.wawa.baselib.utils.apollonet.BaseDataSource
+import com.wawa.baselib.utils.glide.GlideManager
 import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.R
+import com.wawa.wawaandroid_ep.WawaApp
+import com.wawa.wawaandroid_ep.adapter.ImageAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.databinding.FragmentMainLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.MainFragmentViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import net.lucode.hackware.magicindicator.buildins.UIUtil
+
 
 /**
  *作者：create by 张金 on 2021/1/13 18:08
  *邮箱：564813746@qq.com
  */
 class MainFragment : BaseFragment<FragmentMainLayBinding>() {
+    private lateinit var mainTabLay: TabLayout
+    private var  glideManager: GlideManager= GlideManager()
+    val titles = mutableListOf<String>()
+    val fragments = mutableListOf<Fragment>()
+    private val compositeDisposable = CompositeDisposable()
+    val dataSource: BaseDataSource by lazy {
+        (activity?.application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
+    }
     companion object{
         val TAG="MainFragment"
     }
@@ -25,11 +49,109 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
     }
 
     override fun initFragmentView() {
+        context?.let { glideManager.initGlide(it) }
         MainViewModule.userData?.observe(this, Observer {
-            Log.d(TAG,"userData")
-            binding.tvMainUsername.text=it.user()?.nickName()
+            Log.d(TAG,"userData"+it.name()+it.phoneNo()+it.userId())
+            binding.tvMainUsername.text=it.nickName()
+            glideManager?.disPlayCircleImg(it.avatarThumb(),binding.imMainHead2)
+//            glideManager?.displayImg()
+            Log.d(TAG,it.avatarThumb().toString())
+            mainFragmentViewModel.coins.set(it.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
+//            mainFragmentViewModel.diamons.set(it.userAccount()?.fragments()?.userAcountFragment()?.)
+
 
         })
+        setUpBannerList()
+        setUpRoomCategoryListDataSource()
+    }
+
+    private fun setUpBannerList(){
+        val successBannerListDisposable=dataSource.bannerList
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleSuccessBannerList)
+
+        val errorBannerListDisposable=dataSource.error
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleErrorBannerList)
+        compositeDisposable.add(successBannerListDisposable)
+        compositeDisposable.add(errorBannerListDisposable)
+        dataSource.getBannerList(1)
+    }
+
+    private fun setUpRoomCategoryListDataSource(){
+        val successCategoryListDisposable = dataSource.roomCategoryList
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleSuccessRoomCategoryList)
+        val errorRoomCategoryListDisposable=dataSource.error
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleErrorRoomCategoryList)
+        compositeDisposable.add(successCategoryListDisposable)
+        compositeDisposable.add(errorRoomCategoryListDisposable)
+        dataSource.getRoomCategoryList()
+    }
+
+    private fun handleSuccessRoomCategoryList(categoryList: List<RoomCategoryListQuery.RoomCategoryList>){
+        for (category in categoryList){
+            category.name()?.let { titles.add(it) }
+            fragments.add(RoomListFragment())
+        }
+        binding.mainViewpager.adapter=
+            object : FragmentPagerAdapter(childFragmentManager) {
+                override fun getItem(position: Int): Fragment {
+                    return fragments?.get(position)
+                }
+
+                override fun getCount(): Int {
+                    return fragments?.size
+                }
+
+                override fun getPageTitle(position: Int): CharSequence? {
+                    return titles?.get(position)
+                }
+
+                override fun getItemPosition(o: Any): Int {
+                    return PagerAdapter.POSITION_NONE
+                }
+            }
+        mainTabLay=binding.tabLay2.findViewById(R.id.main_slide_tab) as TabLayout
+        mainTabLay.setupWithViewPager(binding.mainViewpager)
+    }
+
+    private fun handleSuccessBannerList(bannerList: List<BannerListQuery.BannerList>){
+        Log.d(TAG,bannerList.size.toString()+"")
+        //使用内置Indicator
+        binding.mainBanner//设置左右页面露出来的宽度及item与item之间的宽度
+            .setPageMargin(UIUtil.dip2px(context, 20.0), UIUtil.dip2px(context, 10.0))
+//内置ScaleInTransformer，设置切换缩放动画
+        binding.mainBanner.addPageTransformer( ScaleInTransformer())
+        //使用内置Indicator
+        val indicator = IndicatorView(context)
+            .setIndicatorColor(Color.DKGRAY)
+            .setIndicatorSelectorColor(Color.WHITE)
+        val imageAdapter=ImageAdapter(activity,bannerList)
+        binding.mainBanner.setIndicator(indicator).adapter=imageAdapter
+
+    }
+
+
+    private fun handleErrorRoomCategoryList(error: Throwable?){
+        Log.d(TAG,"handleErrorRoomCategoryList--")
+
+    }
+
+    private fun handleErrorBannerList(error: Throwable?){
+        Log.d(TAG,"handleErrorBannerList--")
+    }
+
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 
 }

@@ -3,6 +3,7 @@ package com.wawa.baselib.utils.apollonet.service
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.BannerListQuery
+import com.apollographql.apollo.UserQuery
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.wawa.baselib.utils.apollonet.BaseDataSource
@@ -36,39 +37,51 @@ class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloC
     }
 
     override fun getChargeOrderList(orderId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getChargeItemList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getGameRecordList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getOrderList(orderId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getRoomCategoryList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getRoomList(categoryId: Int?, roomId: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserCoinLogList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserPointLogList() {
-        TODO("Not yet implemented")
+
     }
 
     override fun getUserData() {
-        TODO("Not yet implemented")
+        val userQuery=UserQuery()
+        val callback=object:  ApolloCall.Callback<UserQuery.Data>(){
+            override fun onFailure(e: ApolloException) {
+                exceptionSubject.onNext(e)
+            }
+
+            override fun onResponse(response: Response<UserQuery.Data>) {
+                val userData=response?.data?.user()
+                if (userData != null) {
+                    userDataSubject.onNext(userData)
+                }
+            }
+        }
     }
 
 }

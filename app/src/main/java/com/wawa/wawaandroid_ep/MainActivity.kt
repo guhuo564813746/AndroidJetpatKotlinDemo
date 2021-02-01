@@ -11,15 +11,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.apollographql.apollo.UserQuery
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wawa.baselib.utils.Utils
+import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import com.wawa.wawaandroid_ep.databinding.ActivityMainBinding
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private lateinit var navBottom: BottomNavigationView
     val mainViewModel: MainViewModule by viewModels()
+    private val compositeDisposable = CompositeDisposable()
+    val dataSource: BaseDataSource by lazy {
+        (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
+    }
     companion object{
         private val TAG: String="MainActivity"
     }
@@ -54,7 +63,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             Log.d(TAG,"isUserLogined"+it.toString())
             if (it){
 //                GraphqlRemoteDataSource().initTokenAndUid(Utils.readToken(),Utils.readUid())
-                mainViewModel.getUserData()
+                setUpDataSource()
                 navControlor.navigate(R.id.mainFragment)
             }else{
                 Utils.saveToken("")
@@ -70,6 +79,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             mainViewModel.isShowBottom.postValue(false)
             mainViewModel.isUserLogined.postValue(false)
         }
+    }
+
+    private fun setUpDataSource(){
+        val successUserDisposable=dataSource.userData
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleSuccessUserData)
+
+        val errorUserDisposable=dataSource.error
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleErrorUserData)
+        compositeDisposable.add(successUserDisposable)
+        compositeDisposable.add(errorUserDisposable)
+        dataSource.getUserData()
+    }
+
+    private fun handleSuccessUserData(userData: UserQuery.User){
+        MainViewModule.userData.value=userData
+    }
+
+    private fun handleErrorUserData(error: Throwable?){
+        Log.d(TAG,"handleErrorUserData--")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
+
     }
 
 }

@@ -98,6 +98,7 @@ class WawaApp : Application(){
         lContext=this
         MultiDex.install(lContext)
         Utils.initSp(this)
+        
     }
 
     fun getDataSource(serviceTypes: ServiceTypes = ServiceTypes.CALLBACK): BaseDataSource {
