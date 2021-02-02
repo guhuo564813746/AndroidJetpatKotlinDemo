@@ -39,7 +39,7 @@ class ApolloRxService(apolloClient: ApolloClient,
         compositeDisposable.add(disposable)
     }
 
-    override fun getChargeOrderList(orderId: Int?) {
+    override fun getChargeOrderList() {
 
     }
 
@@ -51,7 +51,7 @@ class ApolloRxService(apolloClient: ApolloClient,
 
     }
 
-    override fun getOrderList(orderId: Int?) {
+    override fun getOrderList() {
 
     }
 
@@ -59,7 +59,7 @@ class ApolloRxService(apolloClient: ApolloClient,
 
     }
 
-    override fun getRoomList(categoryId: Int?, roomId: Int?) {
+    override fun getRoomList(categoryId: Int) {
 
     }
 

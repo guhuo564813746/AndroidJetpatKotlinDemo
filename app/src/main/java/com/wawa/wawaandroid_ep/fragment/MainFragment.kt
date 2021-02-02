@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.fragment
 
 import android.graphics.Color
+import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -97,7 +98,11 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
     private fun handleSuccessRoomCategoryList(categoryList: List<RoomCategoryListQuery.RoomCategoryList>){
         for (category in categoryList){
             category.name()?.let { titles.add(it) }
-            fragments.add(RoomListFragment())
+            val roomListFragment=RoomListFragment()
+            val bundle=Bundle();
+            category.roomCategoryId()?.toInt()?.let { bundle.putInt("categoryId", it) }
+            roomListFragment.arguments=bundle
+            fragments.add(roomListFragment)
         }
         binding.mainViewpager.adapter=
             object : FragmentPagerAdapter(childFragmentManager) {

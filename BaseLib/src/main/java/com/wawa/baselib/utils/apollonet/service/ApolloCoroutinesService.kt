@@ -114,8 +114,8 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getRoomList() {
-        val roomListQuery = RoomListQuery()
+    override fun getRoomList(categoryId: Int) {
+        val roomListQuery = RoomListQuery(categoryId)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(roomListQuery).await()

@@ -1,5 +1,5 @@
-query RoomList{
-  roomList{
+query RoomList($categoryId: Int!){
+  roomList(categoryId: $categoryId){
     RoomCategoryList
     deviceStatus
     display

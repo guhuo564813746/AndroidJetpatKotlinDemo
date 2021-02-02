@@ -47,7 +47,7 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     abstract fun getGameRecordList()
     abstract fun getOrderList()
     abstract fun getRoomCategoryList()
-    abstract fun getRoomList()
+    abstract fun getRoomList(categoryId: Int)
     abstract fun getUserCoinLogList()
     abstract fun getUserPointLogList()
     abstract fun getUserData()

@@ -35,6 +35,9 @@ class WawaApp : Application(){
         lateinit var  lContext: Context
         var apolloClient: ApolloClient=GraphqlRemoteDataSource.apolloClient
     }
+    val dataSource: BaseDataSource by lazy {
+        getDataSource(ServiceTypes.COROUTINES)
+    }
 
     private val baseUrl = "http://robot.t.seafarer.me/api/v1/graphql"
     private val apolloClient: ApolloClient by lazy {
