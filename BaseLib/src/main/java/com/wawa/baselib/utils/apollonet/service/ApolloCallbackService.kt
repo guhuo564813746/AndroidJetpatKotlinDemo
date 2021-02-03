@@ -84,4 +84,8 @@ class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloC
         }
     }
 
+    override fun getRoomInfoData(roodId: Int) {
+
+    }
+
 }

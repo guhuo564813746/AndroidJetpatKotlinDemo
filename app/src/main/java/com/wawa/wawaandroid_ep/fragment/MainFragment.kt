@@ -3,6 +3,7 @@ package com.wawa.wawaandroid_ep.fragment
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
@@ -15,6 +16,8 @@ import com.to.aboomy.pager2banner.IndicatorView
 import com.to.aboomy.pager2banner.ScaleInTransformer
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.glide.GlideManager
+import com.wawa.baselib.utils.glide.loader.ImageLoader
+import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.WawaApp
@@ -25,6 +28,7 @@ import com.wawa.wawaandroid_ep.fragment.viewmodule.MainFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 
 
@@ -34,7 +38,6 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil
  */
 class MainFragment : BaseFragment<FragmentMainLayBinding>() {
     private lateinit var mainTabLay: TabLayout
-    private var  glideManager: GlideManager= GlideManager()
     val titles = mutableListOf<String>()
     val fragments = mutableListOf<Fragment>()
     private val compositeDisposable = CompositeDisposable()
@@ -50,11 +53,15 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
     }
 
     override fun initFragmentView() {
-        context?.let { glideManager.initGlide(it) }
         MainViewModule.userData?.observe(this, Observer {
             Log.d(TAG,"userData"+it.name()+it.phoneNo()+it.userId())
             binding.tvMainUsername.text=it.nickName()
-            glideManager?.disPlayCircleImg(it.avatarThumb(),binding.imMainHead2)
+            ImageLoader.with(activity)
+                .url(it.avatarThumb())
+//                .placeHolder(R.mipmap.ic_launcher)
+                .rectRoundCorner(ImageUtil.dip2px(30f), RoundedCornersTransformation.CornerType.ALL)
+                .into(binding.imMainHead2);
+
 //            glideManager?.displayImg()
             Log.d(TAG,it.avatarThumb().toString())
             mainFragmentViewModel.coins.set(it.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
@@ -96,10 +103,11 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
     }
 
     private fun handleSuccessRoomCategoryList(categoryList: List<RoomCategoryListQuery.RoomCategoryList>){
+        Log.d(TAG,categoryList.size.toString()+"")
         for (category in categoryList){
             category.name()?.let { titles.add(it) }
-            val roomListFragment=RoomListFragment()
-            val bundle=Bundle();
+            var roomListFragment=RoomListFragment()
+            var bundle=Bundle();
             category.roomCategoryId()?.toInt()?.let { bundle.putInt("categoryId", it) }
             roomListFragment.arguments=bundle
             fragments.add(roomListFragment)
@@ -118,9 +126,6 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
                     return titles?.get(position)
                 }
 
-                override fun getItemPosition(o: Any): Int {
-                    return PagerAdapter.POSITION_NONE
-                }
             }
         mainTabLay=binding.tabLay2.findViewById(R.id.main_slide_tab) as TabLayout
         mainTabLay.setupWithViewPager(binding.mainViewpager)
@@ -139,6 +144,7 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
             .setIndicatorSelectorColor(Color.WHITE)
         val imageAdapter=ImageAdapter(activity,bannerList)
         binding.mainBanner.setIndicator(indicator).adapter=imageAdapter
+
 
     }
 

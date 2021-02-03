@@ -1,11 +1,14 @@
 package com.wawa.wawaandroid_ep.adapter
 
 import android.content.Context
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.RoomListQuery.RoomList
 import com.wawa.baselib.utils.glide.loader.ImageLoader
@@ -20,6 +23,7 @@ class RoomListAdapter(
     private val mContext: Context,
     private val roomLists: List<RoomList>?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val TAG="RoomListAdapter"
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -34,11 +38,22 @@ class RoomListAdapter(
         position: Int
     ) {
         val roomListViewHolder: RoomListViewHolder= holder as RoomListViewHolder
+        Log.d(TAG,roomLists?.get(position)?.thumb().toString())
+        roomListViewHolder.name.text=roomLists?.get(position)?.title().toString()
+        roomListViewHolder.shortDesc.text=roomLists?.get(position)?.shortDesc()
+//        roomListViewHolder.coin.text=roomLists?.get(position)?.
         ImageLoader.with(mContext)
             .url(roomLists?.get(position)?.thumb())
-            .placeHolder(R.mipmap.ic_launcher)
+//            .placeHolder(R.mipmap.ic_launcher)
             .rectRoundCorner(15, RoundedCornersTransformation.CornerType.TOP)
-            .into(roomListViewHolder.img);
+            .into(roomListViewHolder.img)
+        roomListViewHolder.itemView.setOnClickListener {
+            var bundle=Bundle()
+            val roomItemInfo=roomLists?.get(position)
+            Log.d(TAG,"ROOMINFO--"+roomItemInfo.toString())
+            bundle.putSerializable("ROOM_ID",roomItemInfo?.roomId())
+            it.findNavController().navigate(R.id.robotActivity,bundle)
+        }
 
     }
 

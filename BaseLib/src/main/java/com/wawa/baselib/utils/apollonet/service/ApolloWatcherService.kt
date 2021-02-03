@@ -70,6 +70,10 @@ class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloCl
 
     }
 
+    override fun getRoomInfoData(roodId: Int) {
+
+    }
+
     private fun <T : Operation.Data> createCallback(onResponse: (response: Response<T>) -> Unit) =
         object : ApolloCall.Callback<T>() {
             override fun onResponse(response: Response<T>) = onResponse(response)

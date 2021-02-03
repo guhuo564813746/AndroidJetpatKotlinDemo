@@ -1,6 +1,8 @@
 package com.wawa.wawaandroid_ep.fragment
 
+import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +23,9 @@ import io.reactivex.schedulers.Schedulers
  */
 class RoomListFragment : BaseFragment<RoomlistFmLayBinding>(){
     private val TAG="RoomListFragment"
+    init {
+        Log.d(TAG,"init")
+    }
     private val compositeDisposable = CompositeDisposable()
     var categoryId: Int?=null
     override fun getLayoutId(): Int {
@@ -28,10 +33,15 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding>(){
     }
 
     override fun initFragmentView() {
-        setUpRoomListDataSource()
+        Log.d(TAG,"initFragmentView--")
         categoryId=arguments?.getInt("categoryId",0)
         binding.lvRooms.layoutManager=GridLayoutManager(activity,2,LinearLayoutManager.VERTICAL,false)
+        setUpRoomListDataSource()
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG,"onViewCreated--")
     }
 
     fun setUpRoomListDataSource(){
@@ -50,7 +60,10 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding>(){
     }
 
     private fun handleSuccessRoomList(roomList: List<RoomListQuery.RoomList>){
-        Log.d(TAG,"handleSuccessRoomList--")
+        Log.d(TAG,"handleSuccessRoomList--"+roomList.size)
+        if (roomList.size==0){
+            return
+        }
         binding.lvRooms.adapter= activity?.let { RoomListAdapter(it,roomList) }
 
     }
@@ -59,8 +72,19 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding>(){
         Log.d(TAG,"handleErrorRoomList--")
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d(TAG,"onHiddenChanged--"+hidden)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d(TAG,"onDestroyView--")
+//        compositeDisposable.dispose()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         compositeDisposable.dispose()
     }
 

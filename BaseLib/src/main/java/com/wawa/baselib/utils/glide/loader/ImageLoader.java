@@ -53,6 +53,7 @@ public class ImageLoader {
      * @return
      */
     public static SingleConfig.ConfigBuilder with(Context context) {
+        init(context);
         return new SingleConfig.ConfigBuilder(context);
     }
 

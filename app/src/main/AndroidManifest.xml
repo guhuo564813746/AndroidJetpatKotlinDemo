@@ -32,16 +32,20 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTask"
-            android:taskAffinity="${applicationId}"/>/>
+            android:taskAffinity="${applicationId}"/>
 
-        <activity android:name="com.wowgotcha.wawa.wxapi.WXEntryActivity"
+        <!--<activity android:name="com.wowgotcha.wawa.wxapi.WXEntryActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTask"
             android:taskAffinity="${applicationId}">
 
-        </activity>
+        </activity>-->
+
+        <activity android:name=".activity.game.RobotGameActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/fullscreenTheme"/>
 
         <!--<activity android:name=".activity.LauncherActivity"
             android:theme="@style/startpageTheme"

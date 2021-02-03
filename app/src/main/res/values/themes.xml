@@ -23,4 +23,8 @@
         <item name="colorAccent">@color/white</item>
         <item name="android:colorBackground">@color/white</item>
     </style>
+
+    <style name="fullscreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

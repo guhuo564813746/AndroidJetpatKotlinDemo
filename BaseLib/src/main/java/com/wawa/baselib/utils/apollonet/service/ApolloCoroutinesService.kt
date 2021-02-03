@@ -176,4 +176,21 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
+    override fun getRoomInfoData(roodId: Int) {
+        val roomInfoQuery=RoomInfoQuery(roodId)
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(roomInfoQuery).await()
+                val roomInfo=response?.data?.roomList()?.filterNotNull().orEmpty()
+                withContext(resultContext){
+                    if (roomInfo.isNotEmpty()) {
+                        roomInfoSubject.onNext(roomInfo)
+                    }
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
+    }
+
 }

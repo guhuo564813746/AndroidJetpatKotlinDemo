@@ -4,14 +4,11 @@ query RoomList($categoryId: Int!){
     deviceStatus
     display
     gameStatus
-    liveStream{
-      ...liveStreamFragment
-    }
     machine
     onlineNo
     onlineRoomId
     roomGameOption{
-      ...roomGameOptionFragment
+      ...roomListGameOptionFragment
     }
     roomId
     shortDesc
@@ -21,30 +18,8 @@ query RoomList($categoryId: Int!){
     title
   }
 }
-fragment liveStreamFragment on LiveStream{
-    forceOpengl
-    hardwareDecoder
-    iosLiveBuffer
-    liveBuffer
-    liveFlvUrl
-    liveHlsUrl
-    liveProvider
-    livePushUrl
-    liveRtmpUrl
-    liveStreamId
-    name
-    number
-    playerDefault
-    playerOnly
-    roomId
-    rotationDegress
-    status
-    streamId
-    streamNo
-    streamStatus
 
-}
-fragment roomGameOptionFragment on RoomGameOption{
+fragment roomListGameOptionFragment on RoomGameOption{
     coin2hardRatio
     diamond2hardRatio
     gameCurrency

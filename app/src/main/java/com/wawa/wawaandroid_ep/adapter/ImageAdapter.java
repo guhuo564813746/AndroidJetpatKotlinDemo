@@ -11,21 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollographql.apollo.BannerListQuery;
 import com.wawa.baselib.utils.glide.GlideManager;
+import com.wawa.baselib.utils.glide.loader.ImageLoader;
+import com.wawa.baselib.utils.glide.utils.ImageUtil;
 import com.wawa.wawaandroid_ep.R;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 
 //或者使用其他三方框架，都是支持的，如：BRVAH
 public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<BannerListQuery.BannerList> bannerLists;
-    private GlideManager glideManager;
     public ImageAdapter(Context context,List<BannerListQuery.BannerList> banners){
         this.context=context;
         this.bannerLists=banners;
-        this.glideManager=new GlideManager();
-        glideManager.initGlide(context);
     }
 
     @NonNull
@@ -40,7 +41,11 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ImageViewHolder imageViewHolder= (ImageViewHolder) holder;
 //        glideManager.displayCornerImg(bannerLists.get(position).pictureUrl(),imageViewHolder.imBanner,0.1f);
-        glideManager.displayImg(bannerLists.get(position).pictureUrl(),imageViewHolder.imBanner);
+        ImageLoader.with(context)
+                .url(bannerLists.get(position).pictureUrl())
+//                .placeHolder(R.mipmap.ic_launcher)
+                .rectRoundCorner(ImageUtil.dip2px(5f), RoundedCornersTransformation.CornerType.ALL)
+                .into(imageViewHolder.imBanner);
     }
 
     @Override

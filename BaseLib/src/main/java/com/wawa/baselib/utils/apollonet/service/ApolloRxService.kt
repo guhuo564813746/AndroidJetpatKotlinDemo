@@ -75,4 +75,8 @@ class ApolloRxService(apolloClient: ApolloClient,
 
     }
 
+    override fun getRoomInfoData(roodId: Int) {
+
+    }
+
 }

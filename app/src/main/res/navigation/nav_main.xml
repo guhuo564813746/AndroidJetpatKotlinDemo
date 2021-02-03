@@ -23,4 +23,8 @@
         <action android:id="@+id/navto_MainFragment"
             app:destination="@+id/mainFragment"/>
     </fragment>
+
+    <activity android:id="@+id/robotActivity"
+        android:name="com.wawa.wawaandroid_ep.activity.game.RobotGameActivity">
+    </activity>
 </navigation>

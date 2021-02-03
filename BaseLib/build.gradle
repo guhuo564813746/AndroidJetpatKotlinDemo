@@ -51,6 +51,9 @@ dependencies {
     // Jetpack Compose Integration
 //    api "androidx.navigation:navigation-compose:1.0.0-alpha04"
 
+    //flexbox dependence
+    api 'com.google.android:flexbox:1.0.0'
+
     //网络框架
     api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.squareup.okhttp3:logging-interceptor:3.11.0'
