@@ -2,11 +2,13 @@ package com.wawa.wawaandroid_ep.activity.game
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.databinding.ViewDataBinding
 import com.apollographql.apollo.RoomInfoQuery
 import com.apollographql.apollo.RoomListQuery
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.wawaandroid_ep.WawaApp
+import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -20,6 +22,7 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(){
     private val TAG="GameBaseActivity"
     protected var roomInfoData: RoomInfoQuery.RoomList?=null
     protected val compositeDisposable = CompositeDisposable()
+    private val baseGameViewModel: BaseGameViewModel by viewModels()
     protected val dataSource: BaseDataSource by lazy {
         (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
     }

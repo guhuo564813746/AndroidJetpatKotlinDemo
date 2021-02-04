@@ -19,7 +19,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(){
     }
 
     override fun initView() {
-
+//        binding.streamReplaced
     }
 
 }
