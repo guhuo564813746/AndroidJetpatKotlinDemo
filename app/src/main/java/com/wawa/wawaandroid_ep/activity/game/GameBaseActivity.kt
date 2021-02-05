@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import com.apollographql.apollo.RoomInfoQuery
 import com.apollographql.apollo.RoomListQuery
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
+import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -20,9 +22,9 @@ import io.reactivex.schedulers.Schedulers
  */
 abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(){
     private val TAG="GameBaseActivity"
-    protected var roomInfoData: RoomInfoQuery.RoomList?=null
     protected val compositeDisposable = CompositeDisposable()
-    private val baseGameViewModel: BaseGameViewModel by viewModels()
+    protected var gameVideoControlor: Fragment?=null
+    protected val baseGameViewModel: BaseGameViewModel by viewModels()
     protected val dataSource: BaseDataSource by lazy {
         (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
     }
@@ -55,7 +57,7 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(){
     private fun handleSuccessRoomInfo(roomInfo: List<RoomInfoQuery.RoomList>){
         Log.d(TAG,"handleSuccessRoomInfo--"+roomInfo.size)
         if (!roomInfo.isNullOrEmpty()){
-            roomInfoData=roomInfo.get(0)
+            baseGameViewModel.roomInfoData.value=roomInfo.get(0)
         }
 
     }

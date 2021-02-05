@@ -3,7 +3,9 @@ package com.wawa.wawaandroid_ep.activity.viewmodule
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.apollographql.apollo.RoomInfoQuery
 
 /**
  *作者：create by 张金 on 2021/2/3 14:41
@@ -19,4 +21,5 @@ open class BaseGameViewModel : ViewModel(){
     var gamePanelVisibility =ObservableInt(View.GONE)
     var countdownText = ObservableField<String>("")
     var countdownVisibility= ObservableInt(View.GONE)
+    var roomInfoData=MutableLiveData<RoomInfoQuery.RoomList>()
 }
