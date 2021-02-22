@@ -147,9 +147,7 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
         Log.d(TAG,"initFragmentView--")
         masterLiveStreamUrl=arguments?.getString(MASTER_VIDEO_URL)
         slaveLiveStreamUrl= arguments?.getString(SLAVE_VIDEO_URL)
-        if (mSurfaceView == null){
-            mSurfaceView=createSurfaceView()
-        }
+        mSurfaceView=createSurfaceView()
         binding.flVideoStream.addView(mSurfaceView)
         mSurfaceView.visibility=View.VISIBLE
         //mSurfaceView.setZOrderOnTop(true);

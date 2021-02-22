@@ -1,5 +1,7 @@
 package com.wawa.baselib.utils.socketio.listener;
 
+import org.json.JSONObject;
+
 /**
  * 作者：create by 张金 on 2021/2/4 10:13
  * 邮箱：564813746@qq.com
@@ -20,7 +22,7 @@ public interface GameManagerListener {
      * 连接断开
      * @param reason 原因
      */
-    public void onDisconnect(String reason);
+    public void onDisconnect(JSONObject reason);
 
     /**
      * 断开连接
@@ -31,38 +33,38 @@ public interface GameManagerListener {
      * 收到群聊消息
      * @param data 消息
      */
-    public void onIMNotify(String jsondata);
-    public void onMarqueeMsgNotify(String jsondata);
+    public void onIMNotify(JSONObject jsondata);
+    public void onMarqueeMsgNotify(JSONObject jsondata);
 
     /**
      * 房间用户数变更
      * @param data 房间用户信息
      */
-    public void onRoomUserAmountChanged(String jsondata);
+    public void onRoomUserAmountChanged(JSONObject jsondata);
 
     /**
      * 游戏开始通知
      * @param data 房间用户信息
      */
-    public void onGameStart(String jsondata);
+    public void onGameStart(JSONObject jsondata);
 
     /**
      * 游戏开始通知
      * @param data 房间用户信息
      */
-    public void onGameOver(String jsondata);
+    public void onGameOver(JSONObject jsondata);
 
     /**
      * 游戏重连
      * @param data 业务参数
      */
-    public void onGameReconnect(String jsondata);
+    public void onGameReconnect(JSONObject jsondata);
 
     /**
      * 推流状态变更
      * @param data
      */
-    public void onLiveStreamChanged(String jsondata);
+    public void onLiveStreamChanged(JSONObject jsondata);
 
     /**
      * 房间预约排队状态
@@ -87,7 +89,7 @@ public interface GameManagerListener {
      * 游戏倒计时
      * @param timeLeft 游戏剩余时间
      */
-    public void onGameCountdown(String jsondata);
+    public void onGameCountdown(JSONObject jsondata);
 
     /**
      * 被踢出排队队列
@@ -109,25 +111,25 @@ public interface GameManagerListener {
     /*
      *锁机开始
      * */
-    public void onGameLockStart(String jsondata);
+    public void onGameLockStart(JSONObject jsondata);
 
     /*
      * 锁机结束
      * */
-    public void onGameLockEnd(String jsondata);
+    public void onGameLockEnd(JSONObject jsondata);
 
     /*
      * 锁机倒计时
      * */
-    public void onGameLockCountDowned(String jsondata);
+    public void onGameLockCountDowned(JSONObject jsondata);
 
     /*
      * 包机开始
      * */
-    public void onOwnGameStart(String jsondata);
+    public void onOwnGameStart(JSONObject jsondata);
 
     /*
      * 包机结束
      * */
-    public void onOwnGameOver(String jsondata);
+    public void onOwnGameOver(JSONObject jsondata);
 }

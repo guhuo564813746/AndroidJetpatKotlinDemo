@@ -5,16 +5,19 @@ import androidx.activity.viewModels
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import com.apollographql.apollo.RoomInfoQuery
+import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
 import com.wawa.wawaandroid_ep.databinding.RobotGameActivityLayBinding
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
+import org.json.JSONObject
 
 /**
  *作者：create by 张金 on 2021/2/3 14:27
  *邮箱：564813746@qq.com
  */
 class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(){
+    private val TAG="RobotGameActivity"
     val robotGameActivityViewModel: RobotGameViewModel by viewModels()
 
 

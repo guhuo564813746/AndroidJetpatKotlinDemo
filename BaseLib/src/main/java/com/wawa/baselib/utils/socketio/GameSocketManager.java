@@ -5,7 +5,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.wawa.baselib.utils.socketio.listener.BroadcastListener;
+import com.wawa.baselib.utils.socketio.listener.EpGameListener;
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener;
+import com.wawa.baselib.utils.socketio.listener.OnlineGameListener;
+import com.wawa.baselib.utils.socketio.listener.WawaGameListener;
+import com.wawa.baselib.utils.socketio.listener.WcgameListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,16 +29,26 @@ import io.socket.engineio.client.transports.WebSocket;
  * 邮箱：564813746@qq.com
  */
 public class GameSocketManager {
+    public static int messageId=0;
     private Socket socket;
     private String wsURL;
     private static final String TAG="GameSocketManager";
     private GameManagerListener gameManagerListener=null;
     private ConcurrentMap<String, Callback> callbacks = new ConcurrentHashMap<String, Callback>();
-    public void setGameManagerListener(GameManagerListener listener){
+    public GameSocketManager setGameManagerListener(GameManagerListener listener){
         this.gameManagerListener=listener;
+        return this;
     }
+
     private GameSocketManager() {
 
+    }
+    public static int generateId(){
+        if (messageId >= Integer.MAX_VALUE){
+            messageId=0;
+        }
+        messageId++;
+        return messageId;
     }
 
     public static synchronized GameSocketManager getInstance() {
@@ -64,22 +79,28 @@ public class GameSocketManager {
         socket.on(Socket.EVENT_CONNECT,new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                Log.d(TAG,"onSocket_EVENT_CONNECT--"+args.length+args[0].toString());
+                Log.d(TAG,"onSocket_EVENT_CONNECT--");
                 gameManagerListener.onConnect();
             }
         }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                Log.d(TAG,"onSocket_EVENT_DISCONNECT--"+args.length+args[0].toString());
+                Log.d(TAG,"onSocket_EVENT_DISCONNECT--");
                 String reason = (String) args[0];
+                JSONObject json=null;
+                try {
+                    json=new JSONObject(reason);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if (gameManagerListener != null) {
-                    gameManagerListener.onDisconnect(reason);
+                    gameManagerListener.onDisconnect(json);
                 }
             }
         }).on(Socket.EVENT_CONNECT_ERROR,new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                Log.d(TAG,"onSocket_EVENT_CONNECT_ERROR--"+args.length+args[0].toString());
+                Log.d(TAG,"onSocket_EVENT_CONNECT_ERROR--");
                 Throwable t = (Exception) args[0];
                 if (gameManagerListener != null){
                     gameManagerListener.onConnectError(t);
@@ -89,7 +110,7 @@ public class GameSocketManager {
         }).on(Socket.EVENT_ERROR,new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                Log.d(TAG,"onSocket_EVENT_ERROR--"+args.length+args[0].toString());
+                Log.d(TAG,"onSocket_EVENT_ERROR--");
                 Throwable t = (Exception) args[0];
                 if (gameManagerListener != null){
                     gameManagerListener.onConnectError(t);
@@ -98,12 +119,12 @@ public class GameSocketManager {
         }).on(Socket.EVENT_RECONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                Log.d(TAG,"onSocket_EVENT_RECONNECT--"+args.length+args[0].toString());
+                Log.d(TAG,"onSocket_EVENT_RECONNECT--");
             }
         }).on(Socket.EVENT_MESSAGE, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                Log.d(TAG,"onSocketEVENT_MESSAGE"+args.length);
+                Log.d(TAG,"onSocketEVENT_MESSAGE");
                 for (Object object : args){
                     Log.d(TAG,"onSocketEVENT_MESSAGE"+object.toString());
                     try {
@@ -112,12 +133,167 @@ public class GameSocketManager {
                         String msgId = response.getString("id");
                         int errorCode=response.getInt("errcode");
                         String errorMsg=response.getString("errmsg");
-                        String data = response.getJSONObject("params").toString();
+                        JSONObject data = response.getJSONObject("params");
                         if (!TextUtils.isEmpty(method)){
                             Log.d(TAG,"onSocketEVENT_MESSAGE--method"+method);
                             switch (method){
-                                case "":
-
+                                case "on_msg_notify":
+                                    if (gameManagerListener != null) {
+                                        gameManagerListener.onIMNotify(response);
+                                    }
+                                    break;
+                                case "on_marquee_msg_notify":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onMarqueeMsgNotify(response);
+                                    }
+                                    break;
+                                case "on_room_user_amount_changed":
+                                    if (gameManagerListener !=null){
+                                        gameManagerListener.onRoomUserAmountChanged(response);
+                                    }
+                                    break;
+                                case "on_online_room_player_changed":
+                                    if (gameManagerListener != null){
+                                        ((OnlineGameListener)gameManagerListener).onOnlineRoomPlayerChanged(response);
+                                    }
+                                    break;
+                                case "on_online_room_user_changed":
+                                    if (gameManagerListener != null){
+                                        ((OnlineGameListener)gameManagerListener).onOnlineRoomUserChanged(response);
+                                    }
+                                    break;
+                                case "on_game_start":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onGameStart(response);
+                                    }
+                                    break;
+                                case "on_game_over":
+                                    if (gameManagerListener !=null){
+                                        gameManagerListener.onGameOver(response);
+                                    }
+                                    break;
+                                case "on_live_stream_changed":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onLiveStreamChanged(response);
+                                    }
+                                    break;
+                                case "on_game_reconnect":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onGameReconnect(response);
+                                    }
+                                    break;
+                                case "room_queue_kick_off":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onRoomQueueKickOff();
+                                    }
+                                    break;
+                                case "on_room_kick_off":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onRoomKickOff();
+                                    }
+                                    break;
+                                case "room_queue_status":
+                                    if (gameManagerListener != null){
+                                        int type=data.getInt("type");
+                                        int queueNo=data.getInt("queueNo");
+                                        int position=data.getInt("position");
+                                        gameManagerListener.onRoomQueueStatus(type==0,queueNo,position);
+                                    }
+                                    break;
+                                case "game_ready":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onGameReady(data.getInt("time_left"));
+                                    }
+                                    break;
+                                case "on_game_countdown":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onGameCountdown(data);
+                                    }
+                                    break;
+                                case "game_result":
+                                    if (gameManagerListener != null){
+                                        ((WawaGameListener)gameManagerListener).onGameResult(data);
+                                    }
+                                    break;
+                                case "on_lock_start":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onGameLockStart(data);
+                                    }
+                                    break;
+                                case "on_lock_end":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onGameLockEnd(data);
+                                    }
+                                    break;
+                                case "on_lock_countdown":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onGameLockCountDowned(data);
+                                    }
+                                    break;
+                                case "on_broadcast_msg":
+                                    if (gameManagerListener != null){
+                                        ((BroadcastListener)gameManagerListener).broadcastMsg(data);
+                                    }
+                                    break;
+                                case "djiep_on_game_result":
+                                    if (gameManagerListener != null){
+                                        ((EpGameListener)gameManagerListener).onEpGameOver(data);
+                                    }
+                                    break;
+                                case "djiep_on_event":
+                                    if (gameManagerListener != null){
+                                        ((EpGameListener)gameManagerListener).onEpEvent(data);
+                                    }
+                                    break;
+                                case "on_game_lease_start":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onOwnGameStart(data);
+                                    }
+                                    break;
+                                case "on_game_lease_result":
+                                    if (gameManagerListener != null){
+                                        gameManagerListener.onOwnGameOver(data);
+                                    }
+                                    break;
+                                case "on_game_wc_join_start":
+                                    if (gameManagerListener != null){
+                                        ((WcgameListener)gameManagerListener).onWcgameStatus(data);
+                                    }
+                                    break;
+                                case "on_game_wc_start":
+                                    if (gameManagerListener != null){
+                                        ((WcgameListener)gameManagerListener).onWcGameStart(data);
+                                    }
+                                    break;
+                                case "on_game_wc_rank":
+                                    if (gameManagerListener != null){
+                                        ((WcgameListener)gameManagerListener).onWcGameRank(data);
+                                    }
+                                    break;
+                                case "on_game_wc_info":
+                                    if (gameManagerListener != null){
+                                        ((WcgameListener)gameManagerListener).onWcGameInfo(data);
+                                    }
+                                    break;
+                                case "on_game_wc_countdown":
+                                    if (gameManagerListener != null){
+                                        ((WcgameListener)gameManagerListener).onWcGameCountDown(data);
+                                    }
+                                    break;
+                                case "on_game_wc_result":
+                                    if (gameManagerListener != null){
+                                        ((WcgameListener)gameManagerListener).onWcGameResult(data);
+                                    }
+                                    break;
+                                case "on_game_wc_over":
+                                    if (gameManagerListener != null){
+                                        ((WcgameListener)gameManagerListener).onWcGameOver(data);
+                                    }
+                                    break;
+                                case "on_game_wc_clearing":
+                                    if (gameManagerListener != null){
+                                        ((WcgameListener)gameManagerListener).onWcGameClearing(data);
+                                    }
                                     break;
                             }
                         }else if (!TextUtils.isEmpty(msgId)){
@@ -160,32 +336,30 @@ public class GameSocketManager {
         this.callbacks.putIfAbsent(id,cb);
     }
 
-    public void sendMessage(String jsonMsg,Callback cb){
+    public void sendMessage(JSONObject jsonMsg,Callback cb){
         Log.d(TAG,"sendMessage--"+jsonMsg);
-        if (socket == null || !socket.connected()){
+        if (socket == null || !socket.connected() || jsonMsg == null){
             return;
         }
-        JSONObject json=null;
         String msgId=null;
         try {
-            json=new JSONObject(jsonMsg);
-            if (json != null){
-                msgId=json.getString("id");
+            if (jsonMsg != null){
+                msgId=jsonMsg.getString("id");
+                if (!TextUtils.isEmpty(msgId)){
+                    addCallback(msgId,cb);
+                    socket.emit(Socket.EVENT_MESSAGE,jsonMsg);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
             return;
-        }
-        addCallback(msgId,cb);
-        try {
-            socket.emit(Socket.EVENT_MESSAGE,json);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 
     public static interface Callback{
-        void onSuccess(String jsonStr);
+        void onSuccess(JSONObject jsonStr);
         void onError(int errorCode,String errorMsg);
     }
 }
