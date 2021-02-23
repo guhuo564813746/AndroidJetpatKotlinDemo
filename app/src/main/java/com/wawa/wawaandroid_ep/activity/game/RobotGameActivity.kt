@@ -10,6 +10,7 @@ import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
 import com.wawa.wawaandroid_ep.databinding.RobotGameActivityLayBinding
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
+import com.wawa.wawaandroid_ep.view.DrawableMenuLayout
 import org.json.JSONObject
 
 /**
@@ -26,10 +27,44 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(){
     }
 
     override fun initView() {
+        initGameMenuView()
 //        binding.streamReplaced
         baseGameViewModel.roomInfoData?.observe(this, Observer {
             initGameVideo(it)
         })
+    }
+
+    fun initGameMenuView(){
+        var drawItemBeans=ArrayList<DrawableMenuLayout.DrawItemBean>()
+        for (i in 1..3){
+            var drawItemBean=DrawableMenuLayout.DrawItemBean()
+            when(i){
+                1 -> drawItemBean.itemImgSrc=R.mipmap.game_icon_setting
+                2 -> drawItemBean.itemImgSrc=R.mipmap.game_icon_desc
+                3 -> drawItemBean.itemImgSrc=R.mipmap.game_icon_quitroom
+            }
+            drawItemBeans.add(drawItemBean)
+        }
+        binding.menuPanel.drawItemBeans=drawItemBeans
+        binding.menuPanel.setOnItemClickListener {
+            when(it){
+                0 -> openSet()
+                1 -> openGameDesc()
+                2 -> quitGameRoom()
+            }
+        }
+    }
+
+    fun openSet(){
+
+    }
+
+    fun openGameDesc(){
+
+    }
+
+    fun quitGameRoom(){
+
     }
 
     fun initGameVideo(data: RoomInfoQuery.RoomList){

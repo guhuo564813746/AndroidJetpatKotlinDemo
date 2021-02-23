@@ -127,14 +127,14 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameMan
 
     override fun onConnect() {
         LogUtils.d(TAG,"onConnect")
-        socketLogin()
+        checkLogin()
     }
 
     fun checkLogin(){
         var data= JSONObject()
         data.put("id",GameSocketManager.generateId().toString())
         data.put("method","check_auth")
-        GameSocketManager.getInstance().sendMessage(data,object: GameSocketManager.Callback{
+        GameSocketManager.getInstance().sendMessage("app",data,object: GameSocketManager.Callback{
             override fun onSuccess(jsonStr: JSONObject?) {
                 LogUtils.d(TAG,"checkLoginSuccess")
             }
@@ -154,12 +154,16 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameMan
         var data= JSONObject()
         data.put("id",GameSocketManager.generateId().toString())
         data.put("method","login")
-        params.put("user_id",Utils.readUid())
+        params.put("user_id",Utils.readUid()?.toInt())
         params.put("token",Utils.readToken())
         data.put("params",params)
-        GameSocketManager.getInstance().sendMessage(data,object: GameSocketManager.Callback{
+        GameSocketManager.getInstance().sendMessage("app",data,object: GameSocketManager.Callback{
             override fun onSuccess(jsonStr: JSONObject?) {
                 LogUtils.d(TAG,"gameLogin--success")
+                var userCoin=jsonStr?.getInt("user_coin")
+                var  userPoints=jsonStr?.getInt("user_point")
+                baseGameViewModel.coin.set(userCoin.toString())
+                baseGameViewModel.points.set(userPoints.toString())
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {

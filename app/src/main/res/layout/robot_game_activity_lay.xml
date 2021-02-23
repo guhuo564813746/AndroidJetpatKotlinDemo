@@ -161,14 +161,12 @@
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.wawa.wawaandroid_ep.view.DrawableMenuLayout
             android:id="@+id/menu_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_marginStart="-425dp"
-            >
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_marginTop="0dp">
+        </com.wawa.wawaandroid_ep.view.DrawableMenuLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"

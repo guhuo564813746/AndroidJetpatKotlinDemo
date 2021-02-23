@@ -95,6 +95,8 @@ dependencies {
     androidTestApi 'androidx.test.ext:junit:1.1.2'
     androidTestApi 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //方法库依赖
+    api ('com.blankj:utilcodex:1.30.6')
 
 //    SocketIO 依赖
     api('io.socket:socket.io-client:1.0.0') //最新 io.socket:socket.io-client:2.0.0

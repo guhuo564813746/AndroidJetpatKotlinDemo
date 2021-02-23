@@ -6,6 +6,6 @@ package com.wawa.wawaandroid_ep.commen
  */
 class Comen {
     companion object{
-        val TOKEN_ERR=50001
+        val TOKEN_ERR=51001
     }
 }

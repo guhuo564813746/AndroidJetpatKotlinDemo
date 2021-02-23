@@ -15,6 +15,7 @@ open class BaseGameViewModel : ViewModel(){
     var userDataGroupVisibility = ObservableInt(View.VISIBLE)
     var fee = ObservableField("")
     var coin=ObservableField("")
+    var points=ObservableField("")
     var roomUserAmountText = ObservableField<String>("")
     var guestPanelVisibility= ObservableInt(View.VISIBLE)
     var queueCount = ObservableField<String>("")

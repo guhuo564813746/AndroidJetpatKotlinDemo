@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.wawa.baselib.utils.logutils.LogUtils;
 import com.wawa.baselib.utils.socketio.listener.BroadcastListener;
 import com.wawa.baselib.utils.socketio.listener.EpGameListener;
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener;
@@ -19,6 +20,7 @@ import java.net.URISyntaxException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -136,166 +138,9 @@ public class GameSocketManager {
                         JSONObject data = response.getJSONObject("params");
                         if (!TextUtils.isEmpty(method)){
                             Log.d(TAG,"onSocketEVENT_MESSAGE--method"+method);
-                            switch (method){
-                                case "on_msg_notify":
-                                    if (gameManagerListener != null) {
-                                        gameManagerListener.onIMNotify(response);
-                                    }
-                                    break;
-                                case "on_marquee_msg_notify":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onMarqueeMsgNotify(response);
-                                    }
-                                    break;
-                                case "on_room_user_amount_changed":
-                                    if (gameManagerListener !=null){
-                                        gameManagerListener.onRoomUserAmountChanged(response);
-                                    }
-                                    break;
-                                case "on_online_room_player_changed":
-                                    if (gameManagerListener != null){
-                                        ((OnlineGameListener)gameManagerListener).onOnlineRoomPlayerChanged(response);
-                                    }
-                                    break;
-                                case "on_online_room_user_changed":
-                                    if (gameManagerListener != null){
-                                        ((OnlineGameListener)gameManagerListener).onOnlineRoomUserChanged(response);
-                                    }
-                                    break;
-                                case "on_game_start":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onGameStart(response);
-                                    }
-                                    break;
-                                case "on_game_over":
-                                    if (gameManagerListener !=null){
-                                        gameManagerListener.onGameOver(response);
-                                    }
-                                    break;
-                                case "on_live_stream_changed":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onLiveStreamChanged(response);
-                                    }
-                                    break;
-                                case "on_game_reconnect":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onGameReconnect(response);
-                                    }
-                                    break;
-                                case "room_queue_kick_off":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onRoomQueueKickOff();
-                                    }
-                                    break;
-                                case "on_room_kick_off":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onRoomKickOff();
-                                    }
-                                    break;
-                                case "room_queue_status":
-                                    if (gameManagerListener != null){
-                                        int type=data.getInt("type");
-                                        int queueNo=data.getInt("queueNo");
-                                        int position=data.getInt("position");
-                                        gameManagerListener.onRoomQueueStatus(type==0,queueNo,position);
-                                    }
-                                    break;
-                                case "game_ready":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onGameReady(data.getInt("time_left"));
-                                    }
-                                    break;
-                                case "on_game_countdown":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onGameCountdown(data);
-                                    }
-                                    break;
-                                case "game_result":
-                                    if (gameManagerListener != null){
-                                        ((WawaGameListener)gameManagerListener).onGameResult(data);
-                                    }
-                                    break;
-                                case "on_lock_start":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onGameLockStart(data);
-                                    }
-                                    break;
-                                case "on_lock_end":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onGameLockEnd(data);
-                                    }
-                                    break;
-                                case "on_lock_countdown":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onGameLockCountDowned(data);
-                                    }
-                                    break;
-                                case "on_broadcast_msg":
-                                    if (gameManagerListener != null){
-                                        ((BroadcastListener)gameManagerListener).broadcastMsg(data);
-                                    }
-                                    break;
-                                case "djiep_on_game_result":
-                                    if (gameManagerListener != null){
-                                        ((EpGameListener)gameManagerListener).onEpGameOver(data);
-                                    }
-                                    break;
-                                case "djiep_on_event":
-                                    if (gameManagerListener != null){
-                                        ((EpGameListener)gameManagerListener).onEpEvent(data);
-                                    }
-                                    break;
-                                case "on_game_lease_start":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onOwnGameStart(data);
-                                    }
-                                    break;
-                                case "on_game_lease_result":
-                                    if (gameManagerListener != null){
-                                        gameManagerListener.onOwnGameOver(data);
-                                    }
-                                    break;
-                                case "on_game_wc_join_start":
-                                    if (gameManagerListener != null){
-                                        ((WcgameListener)gameManagerListener).onWcgameStatus(data);
-                                    }
-                                    break;
-                                case "on_game_wc_start":
-                                    if (gameManagerListener != null){
-                                        ((WcgameListener)gameManagerListener).onWcGameStart(data);
-                                    }
-                                    break;
-                                case "on_game_wc_rank":
-                                    if (gameManagerListener != null){
-                                        ((WcgameListener)gameManagerListener).onWcGameRank(data);
-                                    }
-                                    break;
-                                case "on_game_wc_info":
-                                    if (gameManagerListener != null){
-                                        ((WcgameListener)gameManagerListener).onWcGameInfo(data);
-                                    }
-                                    break;
-                                case "on_game_wc_countdown":
-                                    if (gameManagerListener != null){
-                                        ((WcgameListener)gameManagerListener).onWcGameCountDown(data);
-                                    }
-                                    break;
-                                case "on_game_wc_result":
-                                    if (gameManagerListener != null){
-                                        ((WcgameListener)gameManagerListener).onWcGameResult(data);
-                                    }
-                                    break;
-                                case "on_game_wc_over":
-                                    if (gameManagerListener != null){
-                                        ((WcgameListener)gameManagerListener).onWcGameOver(data);
-                                    }
-                                    break;
-                                case "on_game_wc_clearing":
-                                    if (gameManagerListener != null){
-                                        ((WcgameListener)gameManagerListener).onWcGameClearing(data);
-                                    }
-                                    break;
-                            }
+                           //Deal with the case
+                            dealWithMsgCase(method,data);
+
                         }else if (!TextUtils.isEmpty(msgId)){
                             Callback callback=callbacks.get(msgId);
                             if (callback != null){
@@ -314,8 +159,206 @@ public class GameSocketManager {
                     }
                 }
             }
+        }).on("app",new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                LogUtils.Companion.d(TAG,"appCallback--");
+                for (Object obj: args){
+                    LogUtils.Companion.d(TAG,"appCallback-"+obj.toString());
+                    try {
+                        JSONObject response=new JSONObject(obj.toString());
+                        String method = response.getString("method");
+                        String msgId = response.getString("id");
+                        int errorCode=response.getInt("errcode");
+                        String errorMsg=response.getString("errmsg");
+                        JSONObject data = response.getJSONObject("params");
+                        if(!TextUtils.isEmpty(method)){
+                            dealWithMsgCase(method,data);
+                        }else if (!TextUtils.isEmpty(msgId)){
+                            Callback callback=callbacks.get(msgId);
+                            if (callback != null){
+                                callbacks.remove(msgId);
+                                if (errorCode==0){
+                                    callback.onSuccess(data);
+                                }else {
+                                    callback.onError(errorCode,errorMsg);
+                                }
+                            }
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
         });
         socket.connect();
+    }
+
+    private void dealWithMsgCase(String method,JSONObject data) {
+        try {
+            switch (method) {
+                case "on_msg_notify":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onIMNotify(data);
+                    }
+                    break;
+                case "on_marquee_msg_notify":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onMarqueeMsgNotify(data);
+                    }
+                    break;
+                case "on_room_user_amount_changed":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onRoomUserAmountChanged(data);
+                    }
+                    break;
+                case "on_online_room_player_changed":
+                    if (gameManagerListener != null) {
+                        ((OnlineGameListener) gameManagerListener).onOnlineRoomPlayerChanged(data);
+                    }
+                    break;
+                case "on_online_room_user_changed":
+                    if (gameManagerListener != null) {
+                        ((OnlineGameListener) gameManagerListener).onOnlineRoomUserChanged(data);
+                    }
+                    break;
+                case "on_game_start":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onGameStart(data);
+                    }
+                    break;
+                case "on_game_over":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onGameOver(data);
+                    }
+                    break;
+                case "on_live_stream_changed":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onLiveStreamChanged(data);
+                    }
+                    break;
+                case "on_game_reconnect":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onGameReconnect(data);
+                    }
+                    break;
+                case "room_queue_kick_off":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onRoomQueueKickOff();
+                    }
+                    break;
+                case "on_room_kick_off":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onRoomKickOff();
+                    }
+                    break;
+                case "room_queue_status":
+                    if (gameManagerListener != null) {
+                        int type = data.getInt("type");
+                        int queueNo = data.getInt("queueNo");
+                        int position = data.getInt("position");
+                        gameManagerListener.onRoomQueueStatus(type == 0, queueNo, position);
+                    }
+                    break;
+                case "game_ready":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onGameReady(data.getInt("time_left"));
+                    }
+                    break;
+                case "on_game_countdown":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onGameCountdown(data);
+                    }
+                    break;
+                case "game_result":
+                    if (gameManagerListener != null) {
+                        ((WawaGameListener) gameManagerListener).onGameResult(data);
+                    }
+                    break;
+                case "on_lock_start":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onGameLockStart(data);
+                    }
+                    break;
+                case "on_lock_end":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onGameLockEnd(data);
+                    }
+                    break;
+                case "on_lock_countdown":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onGameLockCountDowned(data);
+                    }
+                    break;
+                case "on_broadcast_msg":
+                    if (gameManagerListener != null) {
+                        ((BroadcastListener) gameManagerListener).broadcastMsg(data);
+                    }
+                    break;
+                case "djiep_on_game_result":
+                    if (gameManagerListener != null) {
+                        ((EpGameListener) gameManagerListener).onEpGameOver(data);
+                    }
+                    break;
+                case "djiep_on_event":
+                    if (gameManagerListener != null) {
+                        ((EpGameListener) gameManagerListener).onEpEvent(data);
+                    }
+                    break;
+                case "on_game_lease_start":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onOwnGameStart(data);
+                    }
+                    break;
+                case "on_game_lease_result":
+                    if (gameManagerListener != null) {
+                        gameManagerListener.onOwnGameOver(data);
+                    }
+                    break;
+                case "on_game_wc_join_start":
+                    if (gameManagerListener != null) {
+                        ((WcgameListener) gameManagerListener).onWcgameStatus(data);
+                    }
+                    break;
+                case "on_game_wc_start":
+                    if (gameManagerListener != null) {
+                        ((WcgameListener) gameManagerListener).onWcGameStart(data);
+                    }
+                    break;
+                case "on_game_wc_rank":
+                    if (gameManagerListener != null) {
+                        ((WcgameListener) gameManagerListener).onWcGameRank(data);
+                    }
+                    break;
+                case "on_game_wc_info":
+                    if (gameManagerListener != null) {
+                        ((WcgameListener) gameManagerListener).onWcGameInfo(data);
+                    }
+                    break;
+                case "on_game_wc_countdown":
+                    if (gameManagerListener != null) {
+                        ((WcgameListener) gameManagerListener).onWcGameCountDown(data);
+                    }
+                    break;
+                case "on_game_wc_result":
+                    if (gameManagerListener != null) {
+                        ((WcgameListener) gameManagerListener).onWcGameResult(data);
+                    }
+                    break;
+                case "on_game_wc_over":
+                    if (gameManagerListener != null) {
+                        ((WcgameListener) gameManagerListener).onWcGameOver(data);
+                    }
+                    break;
+                case "on_game_wc_clearing":
+                    if (gameManagerListener != null) {
+                        ((WcgameListener) gameManagerListener).onWcGameClearing(data);
+                    }
+                    break;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 
     public void disConnect(){
@@ -336,8 +379,8 @@ public class GameSocketManager {
         this.callbacks.putIfAbsent(id,cb);
     }
 
-    public void sendMessage(JSONObject jsonMsg,Callback cb){
-        Log.d(TAG,"sendMessage--"+jsonMsg);
+    public void sendMessage(String msgType,JSONObject jsonMsg,Callback cb){
+        Log.d(TAG,"sendMessage--"+msgType+"--"+jsonMsg);
         if (socket == null || !socket.connected() || jsonMsg == null){
             return;
         }
@@ -347,7 +390,54 @@ public class GameSocketManager {
                 msgId=jsonMsg.getString("id");
                 if (!TextUtils.isEmpty(msgId)){
                     addCallback(msgId,cb);
-                    socket.emit(Socket.EVENT_MESSAGE,jsonMsg);
+                    socket.emit(msgType, jsonMsg, new Ack() {
+                        @Override
+                        public void call(Object... args) {
+                            if (cb != null){
+                                LogUtils.Companion.d(TAG,"sendMessageCallback--"+args.length+args[0].toString());
+                                for (Object obj : args){
+                                    try {
+                                        JSONObject response=new JSONObject(obj.toString());
+                                        String method=null;
+                                        int errorCode=0;
+                                        String errorMsg=null;
+                                        String msgId=null;
+                                        JSONObject data =null;
+                                        if (response.has("method")){
+                                            method = response.getString("method");
+                                        }
+                                        if (response.has("errcode")){
+                                            errorCode=response.getInt("errcode");
+                                        }
+                                        if (response.has("errmsg")){
+                                            errorMsg=response.getString("errmsg");
+                                        }
+                                        if (response.has("id")){
+                                            msgId = response.getString("id");
+                                        }
+                                        if (response.has("params")){
+                                            data = response.getJSONObject("params");
+                                        }
+                                        if(!TextUtils.isEmpty(method)){
+                                            dealWithMsgCase(method,data);
+                                        }else if (!TextUtils.isEmpty(msgId)){
+                                            Callback callback=callbacks.get(msgId);
+                                            if (callback != null){
+                                                callbacks.remove(msgId);
+                                                if (errorCode==0){
+                                                    callback.onSuccess(data);
+                                                }else {
+                                                    callback.onError(errorCode,errorMsg);
+                                                }
+                                            }
+                                        }
+                                    }catch (JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             }
         } catch (JSONException e) {
