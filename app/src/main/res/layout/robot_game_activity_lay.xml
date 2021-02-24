@@ -5,6 +5,9 @@
         <variable
             name="viewModel"
             type="com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel" />
+        <variable
+            name="baseViewModel"
+            type="com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,6 +19,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
+
+        <com.wawa.wawaandroid_ep.view.RockerControlPanel
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/ep_rocker_control"/>
+        <com.wawa.wawaandroid_ep.view.ButtonControlPanel
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/ep_button_control"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:visibility="gone"/>
+
         <RelativeLayout
             android:id="@+id/user_data_group"
             android:layout_width="match_parent"
@@ -29,57 +49,6 @@
                 android:layout_marginTop="-10dp"
                 android:visibility="gone"/>
 
-            <!--<com.google.android.flexbox.FlexboxLayout
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="375dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="-10dp"
-                app:flexWrap="nowrap"
-                app:flexDirection="row"
-                app:justifyContent="space_around"
-                android:visibility="gone">
-                <com.coinhouse777.wawa.custom.buyu.PlayerAvatar
-                    android:id="@+id/player_avatar_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:position="1"
-                    app:onMultipleClick="@{viewModel.onClickCommand}"
-                    >
-                </com.coinhouse777.wawa.custom.buyu.PlayerAvatar>
-                <com.coinhouse777.wawa.custom.buyu.PlayerAvatar
-                    android:id="@+id/player_avatar_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:position="2"
-                    app:onMultipleClick="@{viewModel.onClickCommand}"
-                    >
-                </com.coinhouse777.wawa.custom.buyu.PlayerAvatar>
-                <com.coinhouse777.wawa.custom.buyu.PlayerAvatar
-                    android:id="@+id/player_avatar_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:position="3"
-                    app:onMultipleClick="@{viewModel.onClickCommand}"
-                    >
-                </com.coinhouse777.wawa.custom.buyu.PlayerAvatar>
-                <com.coinhouse777.wawa.custom.buyu.PlayerAvatar
-                    android:id="@+id/player_avatar_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:position="4"
-                    app:onMultipleClick="@{viewModel.onClickCommand}"
-                    >
-                </com.coinhouse777.wawa.custom.buyu.PlayerAvatar>
-                <com.coinhouse777.wawa.custom.buyu.PlayerAvatar
-                    android:id="@+id/player_avatar_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:position="5"
-                    app:onMultipleClick="@{viewModel.onClickCommand}"
-                    >
-                </com.coinhouse777.wawa.custom.buyu.PlayerAvatar>
-            </com.google.android.flexbox.FlexboxLayout>-->
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -231,7 +200,8 @@
                     android:clickable="false"
                     android:scaleType="fitXY"
                     android:alpha="0.9"
-                    />
+                    android:src="@drawable/btn_start_game"
+                    android:onClick="btnStartGame"/>
 
                 <TextView
                     android:id="@+id/queue_count"

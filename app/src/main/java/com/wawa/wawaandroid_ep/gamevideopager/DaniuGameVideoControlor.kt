@@ -26,8 +26,8 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
     private val TAG="DaniuGameVideoControlor"
     private val playBuffer = 0 // 默认0ms
     private val daniuGameVideoViewModel: DaniuGameVideoViewModel by viewModels()
-    private lateinit var mSurfaceView: SurfaceView
-    private lateinit var mSlaveSurfaceView: SurfaceView
+    private  var mSurfaceView: SurfaceView?=null
+    private  var mSlaveSurfaceView: SurfaceView?=null
     private   var masterPlayer: SmartPlayerJniV2?=null
     private   var slavePlayer: SmartPlayerJniV2?=null
     private var masterLiveStreamUrl: String? = null
@@ -58,23 +58,23 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
         }
         if (!mIsVideo1) {
             //切换到视角1
-            if (mSurfaceView.visibility != View.VISIBLE) {
-                mSurfaceView.visibility = View.VISIBLE
+            if (mSurfaceView?.visibility != View.VISIBLE) {
+                mSurfaceView?.visibility = View.VISIBLE
             }
-            mSurfaceView.setZOrderMediaOverlay(true)
+            mSurfaceView?.setZOrderMediaOverlay(true)
             //主视图铺满全屏
-            val params = mSurfaceView.layoutParams
-            params.width = ViewGroup.LayoutParams.MATCH_PARENT
-            params.height = ViewGroup.LayoutParams.MATCH_PARENT
+            val params = mSurfaceView?.layoutParams
+            params?.width = ViewGroup.LayoutParams.MATCH_PARENT
+            params?.height = ViewGroup.LayoutParams.MATCH_PARENT
             binding.flVideoStream.updateViewLayout(mSurfaceView, params)
         } else {
-            if (mSlaveSurfaceView.visibility != View.VISIBLE) {
-                mSlaveSurfaceView.visibility = View.VISIBLE
+            if (mSlaveSurfaceView?.visibility != View.VISIBLE) {
+                mSlaveSurfaceView?.visibility = View.VISIBLE
             }
             //主视图的高度和宽度改为1，实现隐藏效果
-            val params = mSurfaceView.layoutParams
-            params.width = 1
-            params.height = 1
+            val params = mSurfaceView?.layoutParams
+            params?.width = 1
+            params?.height = 1
             binding.flVideoStream.updateViewLayout(mSurfaceView, params)
         }
         mIsVideo1 = !mIsVideo1
@@ -149,9 +149,9 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
         slaveLiveStreamUrl= arguments?.getString(SLAVE_VIDEO_URL)
         mSurfaceView=createSurfaceView()
         binding.flVideoStream.addView(mSurfaceView)
-        mSurfaceView.visibility=View.VISIBLE
+        mSurfaceView?.visibility=View.VISIBLE
         //mSurfaceView.setZOrderOnTop(true);
-        mSurfaceView.setZOrderMediaOverlay(true)
+        mSurfaceView?.setZOrderMediaOverlay(true)
         initGameVideo()
     }
 
@@ -175,7 +175,7 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
         isPlaying = true
     }
 
-    fun initSmartPlayer(streamUrl: String?,surfaceView: SurfaceView): SmartPlayerJniV2?{
+    fun initSmartPlayer(streamUrl: String?,surfaceView: SurfaceView?): SmartPlayerJniV2?{
         if (streamUrl.isNullOrEmpty()){
             return null
         }
@@ -233,12 +233,12 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
     override fun surfaceCreated(holder: SurfaceHolder) {
         if (isHardwareDecoder && isEnableHardwareRenderMode && isPlaying) {
             Log.i(TAG, "UpdateHWRenderSurface..")
-            if (mSurfaceView.holder === holder) {
+            if (mSurfaceView?.holder === holder) {
                 if (masterPlayer != null && masterPlayerHandle != 0L) {
                     masterPlayer!!.SmartPlayerUpdateHWRenderSurface(masterPlayerHandle)
                 }
             }
-            if (mSlaveSurfaceView != null && mSlaveSurfaceView.holder === holder) {
+            if (mSlaveSurfaceView != null && mSlaveSurfaceView?.holder === holder) {
                 if (slavePlayer != null && slavePlayerHandle != 0L) {
                     slavePlayer!!.SmartPlayerUpdateHWRenderSurface(slavePlayerHandle)
                 }
@@ -320,14 +320,14 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
 //                EventBus.getDefault().post(VideoLoadedEvent())
                 activity?.runOnUiThread { // SurfaceView 重新 removew 再Add 回去，可以解决无法隐藏问题
                     if (handle == masterPlayerHandle) {
-                        if (mSurfaceView.visibility != View.VISIBLE) {
-                            mSurfaceView.visibility = View.VISIBLE
+                        if (mSurfaceView?.visibility != View.VISIBLE) {
+                            mSurfaceView?.visibility = View.VISIBLE
                         }
                         if (slaveLiveStreamUrl != null && slavePlayerHandle == 0L) {
                             if (mSlaveSurfaceView == null) {
                                 mSlaveSurfaceView = createSurfaceView()
                                 binding.flVideoStream.addView(mSlaveSurfaceView)
-                                mSlaveSurfaceView.visibility = View.INVISIBLE
+                                mSlaveSurfaceView?.visibility = View.INVISIBLE
                                 slavePlayer = initSmartPlayer(slaveLiveStreamUrl, mSlaveSurfaceView)
                                 slavePlayerHandle = playerHandle
                             }
@@ -339,9 +339,9 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
 //                            }
                         }
                     }
-                    if (handle == slavePlayerHandle && mSlaveSurfaceView != null && mSlaveSurfaceView.visibility != View.VISIBLE) {
+                    if (handle == slavePlayerHandle && mSlaveSurfaceView != null && mSlaveSurfaceView?.visibility != View.VISIBLE) {
                         masterPlayer!!.SmartPlayerSetOrientation(masterPlayerHandle, if (isScreenPort) 1 else 2)
-                        mSlaveSurfaceView.visibility = View.VISIBLE
+                        mSlaveSurfaceView?.visibility = View.VISIBLE
 //                        if (mCover1.getVisibility() == View.VISIBLE) {
 //                            mCover1.setVisibility(View.INVISIBLE)
 //                        }

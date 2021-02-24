@@ -126,16 +126,34 @@ public class GameSocketManager {
         }).on(Socket.EVENT_MESSAGE, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
+                if (args == null || args.length ==0){
+                    return;
+                }
                 Log.d(TAG,"onSocketEVENT_MESSAGE");
-                for (Object object : args){
-                    Log.d(TAG,"onSocketEVENT_MESSAGE"+object.toString());
+                for (Object obj : args){
+                    Log.d(TAG,"onSocketEVENT_MESSAGE"+obj.toString());
                     try {
-                        JSONObject response=new JSONObject(object.toString());
-                        String method = response.getString("method");
-                        String msgId = response.getString("id");
-                        int errorCode=response.getInt("errcode");
-                        String errorMsg=response.getString("errmsg");
-                        JSONObject data = response.getJSONObject("params");
+                        JSONObject response=new JSONObject(obj.toString());
+                        String method=null;
+                        int errorCode=0;
+                        String errorMsg=null;
+                        String msgId=null;
+                        JSONObject data =null;
+                        if (response.has("method")){
+                            method = response.getString("method");
+                        }
+                        if (response.has("errcode")){
+                            errorCode=response.getInt("errcode");
+                        }
+                        if (response.has("errmsg")){
+                            errorMsg=response.getString("errmsg");
+                        }
+                        if (response.has("id")){
+                            msgId = response.getString("id");
+                        }
+                        if (response.has("params")){
+                            data = response.getJSONObject("params");
+                        }
                         if (!TextUtils.isEmpty(method)){
                             Log.d(TAG,"onSocketEVENT_MESSAGE--method"+method);
                            //Deal with the case
@@ -162,16 +180,83 @@ public class GameSocketManager {
         }).on("app",new Emitter.Listener(){
             @Override
             public void call(Object... args) {
+                if (args == null || args.length ==0 ){
+                    return;
+                }
                 LogUtils.Companion.d(TAG,"appCallback--");
                 for (Object obj: args){
                     LogUtils.Companion.d(TAG,"appCallback-"+obj.toString());
                     try {
                         JSONObject response=new JSONObject(obj.toString());
-                        String method = response.getString("method");
-                        String msgId = response.getString("id");
-                        int errorCode=response.getInt("errcode");
-                        String errorMsg=response.getString("errmsg");
-                        JSONObject data = response.getJSONObject("params");
+                        String method=null;
+                        int errorCode=0;
+                        String errorMsg=null;
+                        String msgId=null;
+                        JSONObject data =null;
+                        if (response.has("method")){
+                            method = response.getString("method");
+                        }
+                        if (response.has("errcode")){
+                            errorCode=response.getInt("errcode");
+                        }
+                        if (response.has("errmsg")){
+                            errorMsg=response.getString("errmsg");
+                        }
+                        if (response.has("id")){
+                            msgId = response.getString("id");
+                        }
+                        if (response.has("params")){
+                            data = response.getJSONObject("params");
+                        }
+                        if(!TextUtils.isEmpty(method)){
+                            dealWithMsgCase(method,data);
+                        }else if (!TextUtils.isEmpty(msgId)){
+                            Callback callback=callbacks.get(msgId);
+                            if (callback != null){
+                                callbacks.remove(msgId);
+                                if (errorCode==0){
+                                    callback.onSuccess(data);
+                                }else {
+                                    callback.onError(errorCode,errorMsg);
+                                }
+                            }
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).on("game",new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                if (args==null || args.length==0){
+                    return;
+                }
+                LogUtils.Companion.d(TAG,"appCallback--");
+                for (Object obj: args){
+                    LogUtils.Companion.d(TAG,"appCallback-"+obj.toString());
+                    try {
+                        JSONObject response=new JSONObject(obj.toString());
+                        String method=null;
+                        int errorCode=0;
+                        String errorMsg=null;
+                        String msgId=null;
+                        JSONObject data =null;
+                        if (response.has("method")){
+                            method = response.getString("method");
+                        }
+                        if (response.has("errcode")){
+                            errorCode=response.getInt("errcode");
+                        }
+                        if (response.has("errmsg")){
+                            errorMsg=response.getString("errmsg");
+                        }
+                        if (response.has("id")){
+                            msgId = response.getString("id");
+                        }
+                        if (response.has("params")){
+                            data = response.getJSONObject("params");
+                        }
                         if(!TextUtils.isEmpty(method)){
                             dealWithMsgCase(method,data);
                         }else if (!TextUtils.isEmpty(msgId)){
@@ -197,7 +282,13 @@ public class GameSocketManager {
     private void dealWithMsgCase(String method,JSONObject data) {
         try {
             switch (method) {
+                case "on_room_user_list":
+                    if (gameManagerListener != null){
+                        gameManagerListener.onRoomUserAmountChanged(data);
+                    }
+                    break;
                 case "on_msg_notify":
+                case "on_message":
                     if (gameManagerListener != null) {
                         gameManagerListener.onIMNotify(data);
                     }
@@ -227,7 +318,7 @@ public class GameSocketManager {
                         gameManagerListener.onGameStart(data);
                     }
                     break;
-                case "on_game_over":
+                case "on_game_end":
                     if (gameManagerListener != null) {
                         gameManagerListener.onGameOver(data);
                     }
@@ -243,6 +334,7 @@ public class GameSocketManager {
                     }
                     break;
                 case "room_queue_kick_off":
+                case "on_queue_end":
                     if (gameManagerListener != null) {
                         gameManagerListener.onRoomQueueKickOff();
                     }
@@ -260,9 +352,9 @@ public class GameSocketManager {
                         gameManagerListener.onRoomQueueStatus(type == 0, queueNo, position);
                     }
                     break;
-                case "game_ready":
+                case "on_game_ready":
                     if (gameManagerListener != null) {
-                        gameManagerListener.onGameReady(data.getInt("time_left"));
+                        gameManagerListener.onGameReady(data.getInt("time"));
                     }
                     break;
                 case "on_game_countdown":
@@ -296,11 +388,13 @@ public class GameSocketManager {
                     }
                     break;
                 case "djiep_on_game_result":
+                case "on_game_result":
                     if (gameManagerListener != null) {
                         ((EpGameListener) gameManagerListener).onEpGameOver(data);
                     }
                     break;
                 case "djiep_on_event":
+                case "on_robot_event":
                     if (gameManagerListener != null) {
                         ((EpGameListener) gameManagerListener).onEpEvent(data);
                     }
@@ -355,6 +449,17 @@ public class GameSocketManager {
                         ((WcgameListener) gameManagerListener).onWcGameClearing(data);
                     }
                     break;
+                case "on_game_playing":
+                    if (gameManagerListener != null){
+                        gameManagerListener.onGamePlaying(data);
+                    }
+                    break;
+                case "on_queue":
+                    //排队中的回调
+                    if (gameManagerListener != null){
+                        gameManagerListener.onGameQueue(data);
+                    }
+                    break;
             }
         }catch (JSONException e){
             e.printStackTrace();
@@ -394,6 +499,9 @@ public class GameSocketManager {
                         @Override
                         public void call(Object... args) {
                             if (cb != null){
+                                if (args == null || args.length==0){
+                                    return;
+                                }
                                 LogUtils.Companion.d(TAG,"sendMessageCallback--"+args.length+args[0].toString());
                                 for (Object obj : args){
                                     try {

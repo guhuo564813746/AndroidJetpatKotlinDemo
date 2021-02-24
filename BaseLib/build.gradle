@@ -98,6 +98,9 @@ dependencies {
     //方法库依赖
     api ('com.blankj:utilcodex:1.30.6')
 
+    //相对布局
+    api 'androidx.percentlayout:percentlayout:1.0.0'
+
 //    SocketIO 依赖
     api('io.socket:socket.io-client:1.0.0') //最新 io.socket:socket.io-client:2.0.0
 

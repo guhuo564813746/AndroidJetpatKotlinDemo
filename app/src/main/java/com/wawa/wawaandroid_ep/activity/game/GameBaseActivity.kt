@@ -12,6 +12,7 @@ import com.wawa.baselib.utils.Utils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
+import com.wawa.baselib.utils.socketio.listener.EpGameListener
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener
 import com.wawa.wawaandroid_ep.BuildConfig
 import com.wawa.wawaandroid_ep.WawaApp
@@ -28,7 +29,7 @@ import org.json.JSONObject
  *作者：create by 张金 on 2021/2/3 14:23
  *邮箱：564813746@qq.com
  */
-abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameManagerListener{
+abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameManagerListener {
     private val TAG="GameBaseActivity"
     protected val compositeDisposable = CompositeDisposable()
     protected var gameVideoControlor: Fragment?=null
@@ -80,6 +81,8 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameMan
     private fun handleErrorRoomInfo(e: Throwable?){
 
     }
+
+
 
     override fun joinRoomSuccess() {
         LogUtils.d(TAG,"joinRoomSuccess")
@@ -137,6 +140,7 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameMan
         GameSocketManager.getInstance().sendMessage("app",data,object: GameSocketManager.Callback{
             override fun onSuccess(jsonStr: JSONObject?) {
                 LogUtils.d(TAG,"checkLoginSuccess")
+                joinRoom()
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {
@@ -145,6 +149,81 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameMan
                     //未登录，重新登陆
                     socketLogin()
                 }
+            }
+        })
+    }
+
+    fun joinRoom(){
+        var data=JSONObject()
+        var params=JSONObject()
+        data.put("id",GameSocketManager.generateId().toString())
+        data.put("method","join_room")
+        params.put("room_id",ROOM_ID?.toInt())
+        data.put("params",params)
+        GameSocketManager.getInstance().sendMessage("app",data, object: GameSocketManager.Callback{
+            override fun onSuccess(jsonStr: JSONObject?) {
+                LogUtils.d(TAG,"joinRoom_success")
+            }
+
+            override fun onError(errorCode: Int, errorMsg: String?) {
+                LogUtils.d(TAG,"joinRoom_error")
+            }
+        })
+    }
+
+    /*发送聊天信息*/
+    fun sendChatMsg(){
+
+    }
+
+    /*开始排队*/
+    fun joinQueue(){
+        var data=JSONObject()
+        data.put("id",GameSocketManager.generateId().toString())
+        data.put("method","join_queue")
+        GameSocketManager.getInstance().sendMessage("game",data,object: GameSocketManager.Callback{
+            override fun onSuccess(jsonStr: JSONObject?) {
+                LogUtils.d(TAG,"join_queue--success")
+
+            }
+
+            override fun onError(errorCode: Int, errorMsg: String?) {
+                LogUtils.d(TAG,"join_queue--falure")
+            }
+        })
+    }
+
+    /*退出排队*/
+    fun quitQueue(){
+        var data=JSONObject()
+        data.put("id",GameSocketManager.generateId().toString())
+        data.put("method","quit_queue")
+        GameSocketManager.getInstance().sendMessage("game",data,object: GameSocketManager.Callback{
+            override fun onSuccess(jsonStr: JSONObject?) {
+                LogUtils.d(TAG,"quit_queue--success")
+
+            }
+
+            override fun onError(errorCode: Int, errorMsg: String?) {
+                LogUtils.d(TAG,"quit_queue--falure")
+            }
+        })
+    }
+    /*开始游戏*/
+    abstract fun startGame()
+
+    fun endGame(){
+        var data=JSONObject()
+        data.put("id",GameSocketManager.generateId().toString())
+        data.put("method","quit_game")
+        GameSocketManager.getInstance().sendMessage("game",data,object: GameSocketManager.Callback{
+            override fun onSuccess(jsonStr: JSONObject?) {
+                LogUtils.d(TAG,"quit_game--success")
+
+            }
+
+            override fun onError(errorCode: Int, errorMsg: String?) {
+                LogUtils.d(TAG,"quit_game--falure")
             }
         })
     }
@@ -164,6 +243,7 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameMan
                 var  userPoints=jsonStr?.getInt("user_point")
                 baseGameViewModel.coin.set(userCoin.toString())
                 baseGameViewModel.points.set(userPoints.toString())
+                joinRoom()
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {
@@ -174,6 +254,8 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameMan
 
     override fun onRoomUserAmountChanged(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onRoomUserAmountChanged")
+        //处理房间人员信息
+
     }
 
     override fun onGameLockEnd(jsondata: JSONObject?) {
@@ -214,6 +296,14 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(),GameMan
 
     override fun websocketClosed() {
         LogUtils.d(TAG,"websocketClosed")
+    }
+
+    override fun onGamePlaying(jsonData: JSONObject?) {
+        LogUtils.d(TAG,"onGamePlaying")
+    }
+
+    override fun onGameQueue(jsonData: JSONObject?) {
+        LogUtils.d(TAG,"onGameQueue")
     }
 
     override fun onDestroy() {

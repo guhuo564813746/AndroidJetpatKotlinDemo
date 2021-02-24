@@ -132,4 +132,12 @@ public interface GameManagerListener {
      * 包机结束
      * */
     public void onOwnGameOver(JSONObject jsondata);
+
+    /*
+    * 游戏重连后状态是游戏中的状态
+    * */
+    void onGamePlaying(JSONObject jsonData);
+
+    /*游戏排队中*/
+    void onGameQueue(JSONObject jsonData);
 }

@@ -1,17 +1,22 @@
 package com.wawa.wawaandroid_ep.activity.viewmodule
 
+import android.util.Log
 import android.view.View
+import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.apollographql.apollo.RoomInfoQuery
+import com.wawa.baselib.utils.logutils.LogUtils
+import com.wawa.wawaandroid_ep.R
 
 /**
  *作者：create by 张金 on 2021/2/3 14:41
  *邮箱：564813746@qq.com
  */
 open class BaseGameViewModel : ViewModel(){
+    private val TAG="BaseGameViewModel"
     var userDataGroupVisibility = ObservableInt(View.VISIBLE)
     var fee = ObservableField("")
     var coin=ObservableField("")
@@ -23,4 +28,13 @@ open class BaseGameViewModel : ViewModel(){
     var countdownText = ObservableField<String>("")
     var countdownVisibility= ObservableInt(View.GONE)
     var roomInfoData=MutableLiveData<RoomInfoQuery.RoomList>()
+    var startGameBtnRes = ObservableField(R.drawable.btn_start_game)
+
+    init {
+        startGameBtnRes.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                LogUtils.d(TAG,"startGameBtnRes--")
+            }
+        })
+    }
 }
