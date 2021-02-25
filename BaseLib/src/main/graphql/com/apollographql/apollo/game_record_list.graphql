@@ -1,5 +1,5 @@
-query GameRecordList{
-  gameRecordList{
+query GameRecordList($index: Int!){
+  gameRecordList(index: $index){
     consumedCoin
     consumedPoint
     earnCoin

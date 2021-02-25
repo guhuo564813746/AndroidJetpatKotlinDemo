@@ -1,5 +1,5 @@
-query OrderList{
-  orderList{
+query OrderList($index: Int!){
+  orderList(index: $index){
     PayStatus
     addtime
     addtimeFormat

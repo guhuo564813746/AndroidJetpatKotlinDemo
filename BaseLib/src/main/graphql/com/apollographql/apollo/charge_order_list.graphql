@@ -1,5 +1,5 @@
-query ChargeOrderList{
-  chargeOrderList{
+query ChargeOrderList($index: Int!){
+  chargeOrderList(index: $index){
     chargeItem{
       ...chargeItemFragment
     }

@@ -1,5 +1,5 @@
-query UserCoinLogList{
-  userCoinLogList{
+query UserCoinLogList($index: Int!){
+  userCoinLogList(index: $index){
     action
     amount
     balance

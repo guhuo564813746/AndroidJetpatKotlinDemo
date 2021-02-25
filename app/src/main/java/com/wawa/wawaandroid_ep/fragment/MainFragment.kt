@@ -38,8 +38,8 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil
  */
 class MainFragment : BaseFragment<FragmentMainLayBinding>() {
     private lateinit var mainTabLay: TabLayout
-    val titles = mutableListOf<String>()
-    val fragments = mutableListOf<Fragment>()
+    var titles = mutableListOf<String>()
+    var fragments = mutableListOf<Fragment>()
     private val compositeDisposable = CompositeDisposable()
     val dataSource: BaseDataSource by lazy {
         (activity?.application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)

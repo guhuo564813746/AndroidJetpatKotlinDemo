@@ -1,10 +1,12 @@
 package com.wawa.wawaandroid_ep.activity.game
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView.EdgeEffectFactory.DIRECTION_LEFT
 import com.apollographql.apollo.RoomInfoQuery
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
@@ -13,7 +15,9 @@ import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
 import com.wawa.wawaandroid_ep.databinding.RobotGameActivityLayBinding
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
+import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.DrawableMenuLayout
+import com.wawa.wawaandroid_ep.view.RockerView
 import org.json.JSONObject
 
 /**
@@ -24,7 +28,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
     private val TAG = "RobotGameActivity"
 
     //Ep指令
-    private var goTopleftEp: String? = "chassis speed x 0.3 y 0.3 z 1;"
+    private var goTopleftEp: String = "chassis speed x 0.3 y 0.3 z 1;"
     private val goToprightEp = "chassis speed x -0.3 y 0.3 z 1;"
     private val stopEp = "chassis wheel w2 0 w1 0 w3 0 w4 0;"
     private val speedTopEp = "chassis speed x 0.3 y 0 z 1;"
@@ -54,12 +58,63 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
 
     override fun initView() {
         initGameMenuView()
+        initGameControlView()
 //        binding.streamReplaced
         baseGameViewModel.roomInfoData?.observe(this, Observer {
             initGameVideo(it)
         })
+
     }
 
+    fun initGameControlView(){
+        binding.btnFire.setOnClickListener {
+            operateRobot(fire)
+        }
+        binding.epRockerControl.setListener(object :RockerView.OnShakeListener{
+            override fun onFinish() {
+                LogUtils.d(TAG,"rockerControl--finish")
+                operateRobot(stopSpeed)
+            }
+
+            override fun direction(direction: RockerView.Direction?) {
+                dealWithControlAction(direction)
+            }
+
+            override fun onStart() {
+                LogUtils.d(TAG,"rockerControl--start")
+            }
+        })
+        binding.epButtonControl.setListener(object: ButtonControlPanel.OnTouchListener{
+            override fun onTouch(
+                view: View?,
+                direction: RockerView.Direction?,
+                event: MotionEvent?
+            ): Boolean {
+                when(event?.action){
+                    MotionEvent.ACTION_DOWN ->{
+                        dealWithControlAction(direction)
+                    }
+                    MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL->{
+                        operateRobot(gimbalStop)
+                    }
+                }
+                return true
+            }
+        })
+    }
+
+    fun dealWithControlAction(direction: RockerView.Direction?){
+        when(direction?.name){
+            "DIRECTION_LEFT"-> operateRobot(speedLeftEp)
+            "DIRECTION_RIGHT" -> operateRobot(speedRightEp)
+            "DIRECTION_UP" -> operateRobot(speedTopEp)
+            "DIRECTION_DOWN" -> operateRobot(speedDownEp)
+            "DIRECTION_UP_LEFT" -> operateRobot(goTopleftEp)
+            "DIRECTION_UP_RIGHT" -> operateRobot(goToprightEp)
+            "DIRECTION_DOWN_LEFT" -> operateRobot(goDownLeftEp)
+            "DIRECTION_DOWN_RIGHT" -> operateRobot(goDownRightEp)
+        }
+    }
     fun initGameMenuView() {
         var drawItemBeans = ArrayList<DrawableMenuLayout.DrawItemBean>()
         for (i in 1..3) {

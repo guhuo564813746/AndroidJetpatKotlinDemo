@@ -1,5 +1,5 @@
-query UserPointLogList{
-  userPointLogList{
+query UserPointLogList($index: Int!){
+  userPointLogList(index: $index){
     action
     amount
     balance
