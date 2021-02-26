@@ -1,29 +1,30 @@
 query RoomList($categoryId: Int!,$index: Int!){
   roomList(categoryId: $categoryId,index: $index){
-    RoomCategoryList
+    currentPage
+        list{
+            ...roomFragment
+        }
+        nextPage
+        perPage
+        total
+  }
+}
+
+fragment roomFragment on Room{
     deviceStatus
     display
-    gameStatus
+    liveStream{
+        ...liveStreamforGameFragment
+    }
     machine
     onlineNo
     onlineRoomId
     roomGameOption{
-      ...roomListGameOptionFragment
+        ...roomGameOptionFragment
     }
     roomId
     shortDesc
-    sortOrder
     status
     thumb
     title
-  }
-}
-
-fragment roomListGameOptionFragment on RoomGameOption{
-    coin2hardRatio
-    diamond2hardRatio
-    gameCurrency
-    gameResultCurrency
-    gameTime
-    score2hardRatio
 }

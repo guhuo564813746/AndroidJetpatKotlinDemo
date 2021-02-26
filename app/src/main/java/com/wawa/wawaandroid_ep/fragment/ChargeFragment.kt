@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import com.google.android.material.tabs.TabLayout
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
@@ -19,6 +17,11 @@ import com.wawa.wawaandroid_ep.fragment.viewmodule.ChargeFragmentViewModel
  *邮箱：564813746@qq.com
  */
 class ChargeFragment : BaseFragment<FragmentChargeLayBinding>(){
+    companion object{
+        val GOODS_TYPE_COIN = 0
+        val GOODS_TYPE_DIAMOND = 1
+        val BUNDLE_PARAMS_GOODS_TYPE = "BUNDLE_PARAMS_GOODS_TYPE"
+    }
     private lateinit var chargeTabLay: TabLayout
     var titles = mutableListOf<String>()
     var fragments = mutableListOf<Fragment>()
@@ -40,8 +43,15 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding>(){
     fun initChargeTab(){
         titles.add("Coin")
         titles.add("Diamond")
-        fragments.add(ChargeListFragment())
-        fragments.add(ChargeListFragment())
+        var mBundle = Bundle()
+        mBundle.putInt(BUNDLE_PARAMS_GOODS_TYPE, GOODS_TYPE_COIN)
+        var chargeCoinListFragment=ChargeListFragment()
+        var chargeDiamondListFragment=ChargeListFragment()
+        chargeCoinListFragment.arguments=mBundle
+        mBundle.putInt(BUNDLE_PARAMS_GOODS_TYPE, GOODS_TYPE_COIN)
+        chargeDiamondListFragment.arguments=mBundle
+        fragments.add(chargeCoinListFragment)
+        fragments.add(chargeDiamondListFragment)
         binding.viewPager.adapter=ChargeFragmentPagerAdapter(childFragmentManager)
         chargeTabLay=binding.tabLay.findViewById(R.id.main_slide_tab) as TabLayout
         chargeTabLay.setupWithViewPager(binding.viewPager)

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.EdgeEffectFactory.DIRECTION_LEFT
 import com.apollographql.apollo.RoomInfoQuery
 import com.wawa.baselib.utils.logutils.LogUtils
@@ -13,6 +14,7 @@ import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.EpGameListener
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
+import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.databinding.RobotGameActivityLayBinding
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
@@ -50,7 +52,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
     private val fire = "blaster fire;"
 
     val robotGameActivityViewModel: RobotGameViewModel by viewModels()
-
+    private var gameOnlineUserListAdapter: GameOnlineUserListAdapter?=null
 
     override fun initContentView(savedInstanceState: Bundle?): Int {
         return R.layout.robot_game_activity_lay
@@ -59,12 +61,27 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
     override fun initView() {
         initGameMenuView()
         initGameControlView()
+        initChatView()
+        initOnlineUserView()
 //        binding.streamReplaced
         baseGameViewModel.roomInfoData?.observe(this, Observer {
             initGameVideo(it)
         })
 
     }
+
+    fun initChatView(){
+
+    }
+
+    fun initOnlineUserView(){
+        binding.userList.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        if (gameOnlineUserListAdapter == null){
+            gameOnlineUserListAdapter= GameOnlineUserListAdapter(this,)
+        }
+        binding.userList.adapter=gameOnlineUserListAdapter
+    }
+
 
     fun initGameControlView(){
         binding.btnFire.setOnClickListener {
@@ -153,13 +170,13 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
 
     }
 
-    fun initGameVideo(data: RoomInfoQuery.RoomList) {
+    fun initGameVideo(data: RoomInfoQuery.List) {
         if (gameVideoControlor == null) {
             gameVideoControlor = DaniuGameVideoControlor()
             var bundle = Bundle()
             bundle.putString(
                 DaniuGameVideoControlor.MASTER_VIDEO_URL,
-                data.liveStream()?.get(0)?.fragments()?.liveStreamforGameFragment()?.liveRtmpUrl()
+                data?.fragments()?.roomFragment()?.liveStream()?.get(0)?.fragments()?.liveStreamforGameFragment()?.liveRtmpUrl()
             )
             bundle.putString(DaniuGameVideoControlor.SLAVE_VIDEO_URL, "")
             (gameVideoControlor as DaniuGameVideoControlor)?.arguments = bundle

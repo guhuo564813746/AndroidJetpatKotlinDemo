@@ -1,26 +1,23 @@
 query UserPointLogList($index: Int!){
   userPointLogList(index: $index){
+      currentPage
+      list{
+          ...userPointLogFragment
+      }
+      nextPage
+      perPage
+      total
+    }
+}
+
+fragment userPointLogFragment on UserPointLog{
     action
     amount
     balance
-    time
     timeFormat
+    title
     type
     user{
-      ...userFragment1
+        ...userFragment
     }
-  }
-}
-fragment userFragment1 on User{
-    avatar
-    avatarThumb
-    email
-    name
-    nickName
-    openId
-    password
-    phoneNo
-    signInType
-    status
-    userId
 }

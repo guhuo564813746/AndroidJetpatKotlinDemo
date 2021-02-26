@@ -1,31 +1,24 @@
 query OrderList($index: Int!){
   orderList(index: $index){
-    PayStatus
-    addtime
+    currentPage
+    list{
+        ...orderFragment
+    }
+    nextPage
+    perPage
+    total
+  }
+}
+fragment orderFragment on Order{
     addtimeFormat
     bizStatus
     fee
-    orderGoods{
-      ...orderGds
-    }
     orderId
     originPrice
+    payStatus
     payType
-    shippingStatus
     title
     tradeNo
-    uptime
     uptimeFormat
     userId
-    virtualGoods
-  }
-}
-fragment orderGds on OrderGoods{
-    amount
-    fee
-    name
-    orderGoodsId
-    originPrice
-    payProductId
-    virtualGoods
 }

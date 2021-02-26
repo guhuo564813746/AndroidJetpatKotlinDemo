@@ -1,26 +1,24 @@
 query UserCoinLogList($index: Int!){
   userCoinLogList(index: $index){
+      currentPage
+      list{
+        ...userCoinLogFragment
+      }
+      nextPage
+      perPage
+      total
+    }
+}
+
+fragment userCoinLogFragment on UserCoinLog{
     action
     amount
     balance
     time
     timeFormat
+    title
     type
     user{
-      ...userFragment2
+         ...userFragment
     }
-  }
-}
-fragment userFragment2 on User{
-    avatar
-    avatarThumb
-    email
-    name
-    nickName
-    openId
-    password
-    phoneNo
-    signInType
-    status
-    userId
 }

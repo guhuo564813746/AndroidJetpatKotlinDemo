@@ -27,7 +27,7 @@ open class BaseGameViewModel : ViewModel(){
     var gamePanelVisibility =ObservableInt(View.GONE)
     var countdownText = ObservableField<String>("")
     var countdownVisibility= ObservableInt(View.GONE)
-    var roomInfoData=MutableLiveData<RoomInfoQuery.RoomList>()
+    var roomInfoData=MutableLiveData<RoomInfoQuery.List>()
     var startGameBtnRes = ObservableField(R.drawable.btn_start_game)
 
     init {

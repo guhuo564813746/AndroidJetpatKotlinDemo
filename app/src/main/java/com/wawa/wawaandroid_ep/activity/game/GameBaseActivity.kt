@@ -70,7 +70,7 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameMa
         dataSource.getRoomInfoData(ROOM_ID!!.toInt())
     }
 
-    private fun handleSuccessRoomInfo(roomInfo: List<RoomInfoQuery.RoomList>){
+    private fun handleSuccessRoomInfo(roomInfo: List<RoomInfoQuery.List>){
         Log.d(TAG,"handleSuccessRoomInfo--"+roomInfo.size)
         if (!roomInfo.isNullOrEmpty()){
             baseGameViewModel.roomInfoData.value=roomInfo.get(0)

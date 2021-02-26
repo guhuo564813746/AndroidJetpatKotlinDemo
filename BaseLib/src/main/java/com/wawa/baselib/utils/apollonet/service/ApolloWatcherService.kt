@@ -34,7 +34,7 @@ class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloCl
 
     }
 
-    override fun getChargeOrderList() {
+    override fun getChargeOrderList(index: Int) {
 
     }
 
@@ -42,11 +42,11 @@ class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloCl
 
     }
 
-    override fun getGameRecordList() {
+    override fun getGameRecordList(index: Int) {
 
     }
 
-    override fun getOrderList() {
+    override fun getOrderList(index: Int) {
 
     }
 
@@ -54,15 +54,15 @@ class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloCl
 
     }
 
-    override fun getRoomList(categoryId: Int) {
+    override fun getRoomList(categoryId: Int,index: Int) {
 
     }
 
-    override fun getUserCoinLogList() {
+    override fun getUserCoinLogList(index: Int) {
 
     }
 
-    override fun getUserPointLogList() {
+    override fun getUserPointLogList(index: Int) {
 
     }
 

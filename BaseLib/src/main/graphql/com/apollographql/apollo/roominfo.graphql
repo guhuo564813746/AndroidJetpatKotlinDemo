@@ -1,21 +1,12 @@
 query RoomInfo($roomId: Int!){
   roomList(roomId: $roomId){
-    deviceStatus
-    display
-    gameStatus
-    liveStream{
-      ...liveStreamforGameFragment
+    currentPage
+    list{
+        ...roomFragment
     }
-    machine
-    onlineNo
-    onlineRoomId
-    roomGameOption{
-      ...roomGameOptionFragment
-    }
-    roomId
-    shortDesc
-    sortOrder
-    status
+    nextPage
+    perPage
+    total
   }
 }
 fragment liveStreamforGameFragment on LiveStream{

@@ -146,6 +146,7 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
     override fun initFragmentView() {
         Log.d(TAG,"initFragmentView--")
         masterLiveStreamUrl=arguments?.getString(MASTER_VIDEO_URL)
+//        masterLiveStreamUrl="rtmp://liveplay.wowgotcha.com/mlb/wowgotcha_500994_1"
         slaveLiveStreamUrl= arguments?.getString(SLAVE_VIDEO_URL)
         mSurfaceView=createSurfaceView()
         binding.flVideoStream.addView(mSurfaceView)

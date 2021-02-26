@@ -1,20 +1,24 @@
 query ChargeOrderList($index: Int!){
   chargeOrderList(index: $index){
-    chargeItem{
-      ...chargeItemFragment
+    currentPage
+    list{
+        ...chargeOrderFragment
     }
-    goods{
-      ...goodsFragment
+    nextPage
+    perPage
+    total
+  }
+}
+
+fragment chargeOrderFragment on ChargeOrder{
+    chargeItem{
+        ...chargeItemFragment
     }
     name
     orderGoods{
-      ...orderGoodsFragment
+        ...orderGoodsFragment
     }
-    orderId
-    user{
-      ...userFragment4
-    }
-  }
+
 }
 fragment chargeItemFragment on ChargeItem{
 

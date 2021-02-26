@@ -54,17 +54,16 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
 
     override fun initFragmentView() {
         MainViewModule.userData?.observe(this, Observer {
-            Log.d(TAG,"userData"+it.name()+it.phoneNo()+it.userId())
-            binding.tvMainUsername.text=it.nickName()
+            binding.tvMainUsername.text=it.fragments()?.userFragment()?.nickName()
             ImageLoader.with(activity)
-                .url(it.avatarThumb())
+                .url(it.fragments()?.userFragment()?.avatarThumb())
 //                .placeHolder(R.mipmap.ic_launcher)
                 .rectRoundCorner(ImageUtil.dip2px(30f), RoundedCornersTransformation.CornerType.ALL)
                 .into(binding.imMainHead2);
 
 //            glideManager?.displayImg()
-            Log.d(TAG,it.avatarThumb().toString())
-            mainFragmentViewModel.coins.set(it.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
+            Log.d(TAG,it.fragments()?.userFragment()?.avatarThumb().toString())
+            mainFragmentViewModel.coins.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
 //            mainFragmentViewModel.diamons.set(it.userAccount()?.fragments()?.userAcountFragment()?.)
 
 

@@ -39,12 +39,12 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getChargeOrderList() {
-        val chargeOrderListQuery=ChargeOrderListQuery()
+    override fun getChargeOrderList(index: Int) {
+        val chargeOrderListQuery=ChargeOrderListQuery(index)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(chargeOrderListQuery).await()
-                val chargeOrderList=response?.data?.chargeOrderList()?.filterNotNull().orEmpty()
+                val chargeOrderList=response?.data?.chargeOrderList()?.list()?.filterNotNull().orEmpty()
                 withContext(resultContext){
                     chargeOrderListSubject.onNext(chargeOrderList)
                 }
@@ -69,12 +69,12 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getGameRecordList() {
-        val gameRecordListQuery=GameRecordListQuery()
+    override fun getGameRecordList(index: Int) {
+        val gameRecordListQuery=GameRecordListQuery(index)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(gameRecordListQuery).await()
-                val gameRecordList=response?.data?.gameRecordList()?.filterNotNull().orEmpty()
+                val gameRecordList=response?.data?.gameRecordList()?.list()?.filterNotNull().orEmpty()
                 withContext(resultContext){
                     gameRecordListSubject.onNext(gameRecordList)
                 }
@@ -84,12 +84,12 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getOrderList() {
-        val orderListQuery=OrderListQuery()
+    override fun getOrderList(index: Int) {
+        val orderListQuery=OrderListQuery(index)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(orderListQuery).await()
-                val orderList=response?.data?.orderList()?.filterNotNull().orEmpty()
+                val orderList=response?.data?.orderList()?.list()?.filterNotNull().orEmpty()
                 withContext(resultContext){
                     orderListSubject.onNext(orderList)
                 }
@@ -114,12 +114,12 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getRoomList(categoryId: Int) {
-        val roomListQuery = RoomListQuery(categoryId)
+    override fun getRoomList(categoryId: Int,index: Int) {
+        val roomListQuery = RoomListQuery(categoryId,index)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(roomListQuery).await()
-                val roomList=response?.data?.roomList()?.filterNotNull().orEmpty()
+                val roomList=response?.data?.roomList()?.list()?.filterNotNull().orEmpty()
                 withContext(resultContext){
                     roomListSubject.onNext(roomList)
                 }
@@ -129,12 +129,12 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getUserCoinLogList() {
-        val userCoinLogListQuery=UserCoinLogListQuery()
+    override fun getUserCoinLogList(index: Int) {
+        val userCoinLogListQuery=UserCoinLogListQuery(index)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(userCoinLogListQuery).await()
-                val userCoinLogList=response?.data?.userCoinLogList()?.filterNotNull().orEmpty()
+                val userCoinLogList=response?.data?.userCoinLogList()?.list()?.filterNotNull().orEmpty()
                 withContext(resultContext){
                     userCoinLogListSubject.onNext(userCoinLogList)
                 }
@@ -144,12 +144,12 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getUserPointLogList() {
-        val userPointLogListQuery=UserPointLogListQuery()
+    override fun getUserPointLogList(index: Int) {
+        val userPointLogListQuery=UserPointLogListQuery(index)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(userPointLogListQuery).await()
-                val userPointLogList=response?.data?.userPointLogList()?.filterNotNull().orEmpty()
+                val userPointLogList=response?.data?.userPointLogList()?.list()?.filterNotNull().orEmpty()
                 withContext(resultContext){
                     userPointLogListSubject.onNext(userPointLogList)
                 }
@@ -181,7 +181,7 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(roomInfoQuery).await()
-                val roomInfo=response?.data?.roomList()?.filterNotNull().orEmpty()
+                val roomInfo=response?.data?.roomList()?.list()?.filterNotNull().orEmpty()
                 withContext(resultContext){
                     if (roomInfo.isNotEmpty()) {
                         roomInfoSubject.onNext(roomInfo)

@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class RoomListFragment : BaseFragment<RoomlistFmLayBinding>(){
     private val TAG="RoomListFragment"
+    private var mPage=1
     init {
         Log.d(TAG,"init")
     }
@@ -56,10 +57,10 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding>(){
                 .subscribe(this::handleErrorRoomList)
         compositeDisposable.add(successRoomListDispose)
         compositeDisposable.add(errorRoomListDispose)
-        categoryId?.let { (activity?.application as WawaApp).dataSource.getRoomList(it) }
+        categoryId?.let { (activity?.application as WawaApp).dataSource.getRoomList(it,mPage) }
     }
 
-    private fun handleSuccessRoomList(roomList: List<RoomListQuery.RoomList>){
+    private fun handleSuccessRoomList(roomList: List<RoomListQuery.List>){
         Log.d(TAG,"handleSuccessRoomList--"+roomList.size)
         if (roomList.size==0){
             return

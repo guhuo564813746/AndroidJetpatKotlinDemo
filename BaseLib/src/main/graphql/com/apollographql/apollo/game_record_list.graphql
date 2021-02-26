@@ -1,50 +1,18 @@
 query GameRecordList($index: Int!){
   gameRecordList(index: $index){
+    currentPage
+    perPage
+    list{
+        ...gameRecordFragment
+    }
+  }
+}
+
+fragment gameRecordFragment on GameRecord{
     consumedCoin
     consumedPoint
     earnCoin
     earnHardcoin
     earnPoint
-    endTime
-    endtimeFormat
-    gameRecordId
-    machine
-    room{
-        ...roomFragment
-    }
-    roomCover
     roomTitle
-    status
-    user{
-        ...userFragment3
-    }
-  }
-}
-fragment userFragment3 on User{
-    avatar
-    avatarThumb
-    email
-    name
-    nickName
-    openId
-    password
-    phoneNo
-    signInType
-    status
-    userId
-}
-fragment roomFragment on Room{
-    RoomCategoryList
-    deviceStatus
-    display
-    gameStatus
-    machine
-    onlineNo
-    onlineRoomId
-    roomId
-    shortDesc
-    sortOrder
-    status
-    thumb
-    title
 }

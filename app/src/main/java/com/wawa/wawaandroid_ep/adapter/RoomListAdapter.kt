@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.apollographql.apollo.RoomListQuery
 import com.apollographql.apollo.RoomListQuery.RoomList
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.wawaandroid_ep.R
@@ -21,7 +22,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation
  */
 class RoomListAdapter(
     private val mContext: Context,
-    private val roomLists: List<RoomList>?
+    private val roomLists: List<RoomListQuery.List>?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val TAG="RoomListAdapter"
     override fun onCreateViewHolder(
@@ -38,12 +39,11 @@ class RoomListAdapter(
         position: Int
     ) {
         val roomListViewHolder: RoomListViewHolder= holder as RoomListViewHolder
-        Log.d(TAG,roomLists?.get(position)?.thumb().toString())
-        roomListViewHolder.name.text=roomLists?.get(position)?.title().toString()
-        roomListViewHolder.shortDesc.text=roomLists?.get(position)?.shortDesc()
+        roomListViewHolder.name.text=roomLists?.get(position)?.fragments()?.roomFragment()?.title().toString()
+        roomListViewHolder.shortDesc.text=roomLists?.get(position)?.fragments()?.roomFragment()?.shortDesc()
 //        roomListViewHolder.coin.text=roomLists?.get(position)?.
         ImageLoader.with(mContext)
-            .url(roomLists?.get(position)?.thumb())
+            .url(roomLists?.get(position)?.fragments()?.roomFragment()?.thumb())
 //            .placeHolder(R.mipmap.ic_launcher)
             .rectRoundCorner(15, RoundedCornersTransformation.CornerType.TOP)
             .into(roomListViewHolder.img)
@@ -51,7 +51,7 @@ class RoomListAdapter(
             var bundle=Bundle()
             val roomItemInfo=roomLists?.get(position)
             Log.d(TAG,"ROOMINFO--"+roomItemInfo.toString())
-            bundle.putSerializable("ROOM_ID",roomItemInfo?.roomId())
+            bundle.putSerializable("ROOM_ID",roomItemInfo?.fragments()?.roomFragment()?.roomId())
             it.findNavController().navigate(R.id.robotActivity,bundle)
         }
 

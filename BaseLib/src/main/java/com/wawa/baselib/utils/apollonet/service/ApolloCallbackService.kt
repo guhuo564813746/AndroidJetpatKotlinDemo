@@ -36,7 +36,7 @@ class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloC
         apolloClient.query(bannerListQuery).enqueue(callback)
     }
 
-    override fun getChargeOrderList() {
+    override fun getChargeOrderList(index: Int) {
 
     }
 
@@ -44,11 +44,11 @@ class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloC
 
     }
 
-    override fun getGameRecordList() {
+    override fun getGameRecordList(index: Int) {
 
     }
 
-    override fun getOrderList() {
+    override fun getOrderList(index: Int) {
 
     }
 
@@ -56,15 +56,15 @@ class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloC
 
     }
 
-    override fun getRoomList(categoryId: Int) {
+    override fun getRoomList(categoryId: Int,index: Int) {
 
     }
 
-    override fun getUserCoinLogList() {
+    override fun getUserCoinLogList(index: Int) {
 
     }
 
-    override fun getUserPointLogList() {
+    override fun getUserPointLogList(index: Int) {
 
     }
 
