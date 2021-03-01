@@ -3,6 +3,7 @@ package com.wawa.wawaandroid_ep.activity.game
 import android.os.Build.HOST
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.wawa.baselib.utils.socketio.listener.GameManagerListener
 import com.wawa.wawaandroid_ep.BuildConfig
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
+import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import com.wawa.wawaandroid_ep.commen.Comen
 import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
@@ -33,6 +35,8 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameMa
     private val TAG="GameBaseActivity"
     protected val compositeDisposable = CompositeDisposable()
     protected var gameVideoControlor: Fragment?=null
+    protected var gameOnlineUserListAdapter: GameOnlineUserListAdapter?=null
+    protected var booleanShowChat=true
     protected val baseGameViewModel: BaseGameViewModel by viewModels()
     protected val dataSource: BaseDataSource by lazy {
         (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
@@ -90,6 +94,7 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameMa
 
     override fun onGameOver(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameOver")
+        setGameOverStatus()
     }
 
     override fun onLiveStreamChanged(jsondata: JSONObject?) {
@@ -264,6 +269,7 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameMa
 
     override fun onGameStart(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameStart")
+        setGameStartStatus()
     }
 
     override fun onGameCountdown(jsondata: JSONObject?) {
@@ -311,4 +317,13 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameMa
         compositeDisposable.dispose()
     }
 
+    fun setGameStartStatus(){
+        baseGameViewModel.gamePanelVisibility.set(View.VISIBLE)
+        baseGameViewModel.guestPanelVisibility.set(View.GONE)
+    }
+
+    fun setGameOverStatus(){
+        baseGameViewModel.gamePanelVisibility.set(View.GONE)
+        baseGameViewModel.guestPanelVisibility.set(View.VISIBLE)
+    }
 }

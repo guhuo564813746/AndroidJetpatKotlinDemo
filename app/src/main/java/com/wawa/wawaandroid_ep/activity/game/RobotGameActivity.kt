@@ -1,5 +1,8 @@
 package com.wawa.wawaandroid_ep.activity.game
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -7,20 +10,25 @@ import androidx.activity.viewModels
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.EdgeEffectFactory.DIRECTION_LEFT
 import com.apollographql.apollo.RoomInfoQuery
+import com.blankj.utilcode.util.SizeUtils
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.EpGameListener
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
+import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
 import com.wawa.wawaandroid_ep.databinding.RobotGameActivityLayBinding
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.DrawableMenuLayout
 import com.wawa.wawaandroid_ep.view.RockerView
 import org.json.JSONObject
+import java.lang.reflect.Type
+
 
 /**
  *作者：create by 张金 on 2021/2/3 14:27
@@ -50,9 +58,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
     private val stopSpeed = "chassis speed x 0 y 0 z 0;"
     private val fire_num = "blaster bead 2;"
     private val fire = "blaster fire;"
-
     val robotGameActivityViewModel: RobotGameViewModel by viewModels()
-    private var gameOnlineUserListAdapter: GameOnlineUserListAdapter?=null
 
     override fun initContentView(savedInstanceState: Bundle?): Int {
         return R.layout.robot_game_activity_lay
@@ -71,13 +77,45 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
     }
 
     fun initChatView(){
+        binding.rlChatTag.setOnClickListener {
+            if (booleanShowChat){
+                hideChatView()
+            }else{
+                showChatView()
+            }
+        }
+    }
 
+    fun showChatView(){
+        ObjectAnimator.ofFloat(binding.rlChat,"translationX",SizeUtils.dp2px(0f).toFloat()).apply{
+            duration=500
+            addListener(object : AnimatorListenerAdapter(){
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    booleanShowChat=true
+                }
+            })
+            start()
+        }
+    }
+
+    fun hideChatView(){
+        ObjectAnimator.ofFloat(binding.rlChat,"translationX",SizeUtils.dp2px(-200f).toFloat()).apply{
+            duration=500
+            addListener(object : AnimatorListenerAdapter(){
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    booleanShowChat=false
+                }
+            })
+            start()
+        }
     }
 
     fun initOnlineUserView(){
         binding.userList.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         if (gameOnlineUserListAdapter == null){
-            gameOnlineUserListAdapter= GameOnlineUserListAdapter(this,)
+            gameOnlineUserListAdapter= GameOnlineUserListAdapter(this,ArrayList())
         }
         binding.userList.adapter=gameOnlineUserListAdapter
     }
@@ -219,6 +257,17 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
         LogUtils.d(TAG, "onGameReady")
         if (timeLeft == 9) {
             startGame()
+        }
+    }
+
+    override fun onRoomUserAmountChanged(jsondata: JSONObject?) {
+        super.onRoomUserAmountChanged(jsondata)
+        var gson=Gson()
+        var gameRoomUsers: GameRoomUsers?=null
+        val type: Type = object : TypeToken<GameRoomUsers?>() {}.type
+        gameRoomUsers=gson.fromJson(jsondata?.toString(),GameRoomUsers::class.java)
+        if (gameRoomUsers != null){
+            LogUtils.d(TAG,"onRoomUserAmountChanged--")
         }
     }
 
