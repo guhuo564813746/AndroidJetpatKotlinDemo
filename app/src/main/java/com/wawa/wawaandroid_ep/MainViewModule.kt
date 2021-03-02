@@ -8,12 +8,13 @@ import com.apollographql.apollo.UserQuery
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
+import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 
 /**
  *作者：create by 张金 on 2021/1/14 16:43
  *邮箱：564813746@qq.com
  */
-class MainViewModule : ViewModel(){
+class MainViewModule : BaseVM(){
     companion object{
         val TAG="MainViewModule"
          var userData=MutableLiveData<UserQuery.User>()

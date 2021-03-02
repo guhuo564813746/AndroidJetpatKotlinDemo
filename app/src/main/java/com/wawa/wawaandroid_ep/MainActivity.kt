@@ -22,9 +22,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
     private lateinit var navBottom: BottomNavigationView
-    val mainViewModel: MainViewModule by viewModels()
     private val compositeDisposable = CompositeDisposable()
     val dataSource: BaseDataSource by lazy {
         (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
@@ -52,14 +51,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.mineFragment -> Log.d(TAG,"mine")
             }
         }
-        mainViewModel.isShowBottom.observe(this, Observer {
+        viewModel.isShowBottom.observe(this, Observer {
             if (it){
                 navBottom.visibility=View.VISIBLE
             }else{
                 navBottom.visibility=View.GONE
             }
         })
-        mainViewModel.isUserLogined.observe(this, Observer {
+        viewModel.isUserLogined.observe(this, Observer {
             Log.d(TAG,"isUserLogined"+it.toString())
             if (it){
 //                GraphqlRemoteDataSource().initTokenAndUid(Utils.readToken(),Utils.readUid())
@@ -73,11 +72,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         })
         if (!TextUtils.isEmpty(Utils.readUid()) && !TextUtils.isEmpty(Utils.readToken())){
-            mainViewModel.isShowBottom.postValue(true)
-            mainViewModel.isUserLogined.postValue(true)
+            viewModel.isShowBottom.postValue(true)
+            viewModel.isUserLogined.postValue(true)
         }else{
-            mainViewModel.isShowBottom.postValue(false)
-            mainViewModel.isUserLogined.postValue(false)
+            viewModel.isShowBottom.postValue(false)
+            viewModel.isUserLogined.postValue(false)
         }
     }
 
@@ -108,6 +107,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onDestroy()
         compositeDisposable.dispose()
 
+    }
+
+    override fun initVariableId(): Int {
+       return BR.viewModel
+    }
+
+    override fun initViewModel(): MainViewModule {
+        val mainViewModel: MainViewModule by viewModels()
+        return mainViewModel
     }
 
 }

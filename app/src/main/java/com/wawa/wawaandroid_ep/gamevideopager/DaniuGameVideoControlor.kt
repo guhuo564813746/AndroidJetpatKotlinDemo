@@ -10,6 +10,7 @@ import com.daniulive.smartplayer.SmartPlayerJniV2
 import com.eventhandle.NTSmartEventCallbackV2
 import com.eventhandle.NTSmartEventID
 import com.videoengine.NTRenderer
+import com.wawa.wawaandroid_ep.BR
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.databinding.DaniuGamevideoFmLayBinding
 import com.wawa.wawaandroid_ep.gamevideopager.viewmodel.DaniuGameVideoViewModel
@@ -18,14 +19,13 @@ import com.wawa.wawaandroid_ep.gamevideopager.viewmodel.DaniuGameVideoViewModel
  *作者：create by 张金 on 2021/2/5 14:18
  *邮箱：564813746@qq.com
  */
-class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBinding>() ,SurfaceHolder.Callback{
+class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBinding,DaniuGameVideoViewModel>() ,SurfaceHolder.Callback{
     companion object{
         val MASTER_VIDEO_URL="MASTER_VIDEO_URL"
         val SLAVE_VIDEO_URL="SLAVE_VIDEO_URL"
     }
     private val TAG="DaniuGameVideoControlor"
     private val playBuffer = 0 // 默认0ms
-    private val daniuGameVideoViewModel: DaniuGameVideoViewModel by viewModels()
     private  var mSurfaceView: SurfaceView?=null
     private  var mSlaveSurfaceView: SurfaceView?=null
     private   var masterPlayer: SmartPlayerJniV2?=null
@@ -373,6 +373,15 @@ class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBindin
             }
         }
         Log.i(TAG, "NTSmartEventCallbackV2: $player_event")
+    }
+
+    override fun initVariableId(): Int {
+        return BR.viewModel
+    }
+
+    override fun initViewModel(): DaniuGameVideoViewModel {
+        val daniuGameVideoViewModel: DaniuGameVideoViewModel by viewModels()
+        return daniuGameVideoViewModel
     }
 
 }

@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.EpGameListener
+import com.wawa.wawaandroid_ep.BR
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
@@ -34,7 +35,7 @@ import java.lang.reflect.Type
  *作者：create by 张金 on 2021/2/3 14:27
  *邮箱：564813746@qq.com
  */
-class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGameListener {
+class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGameViewModel>(), EpGameListener {
     private val TAG = "RobotGameActivity"
 
     //Ep指令
@@ -58,7 +59,6 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
     private val stopSpeed = "chassis speed x 0 y 0 z 0;"
     private val fire_num = "blaster bead 2;"
     private val fire = "blaster fire;"
-    val robotGameActivityViewModel: RobotGameViewModel by viewModels()
 
     override fun initContentView(savedInstanceState: Bundle?): Int {
         return R.layout.robot_game_activity_lay
@@ -70,7 +70,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
         initChatView()
         initOnlineUserView()
 //        binding.streamReplaced
-        baseGameViewModel.roomInfoData?.observe(this, Observer {
+        viewModel.roomInfoData?.observe(this, Observer {
             initGameVideo(it)
         })
 
@@ -288,6 +288,15 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding>(), EpGam
                     LogUtils.d(TAG, "startgame--falure" + errorMsg)
                 }
             })
+    }
+
+    override fun initVariableId(): Int {
+        return BR.viewModel
+    }
+
+    override fun initViewModel(): RobotGameViewModel {
+        val robotGameActivityViewModel: RobotGameViewModel by viewModels()
+        return robotGameActivityViewModel
     }
 
 

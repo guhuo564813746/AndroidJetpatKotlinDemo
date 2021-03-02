@@ -3,16 +3,20 @@ package com.wawa.wawaandroid_ep.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.BannerListQuery
 import com.apollographql.apollo.RoomListQuery
+import com.wawa.wawaandroid_ep.BR
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.RoomListAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
+import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 import com.wawa.wawaandroid_ep.databinding.RoomlistFmLayBinding
+import com.wawa.wawaandroid_ep.fragment.viewmodule.RoomListFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -21,7 +25,7 @@ import io.reactivex.schedulers.Schedulers
  *作者：create by 张金 on 2021/2/1 16:38
  *邮箱：564813746@qq.com
  */
-class RoomListFragment : BaseFragment<RoomlistFmLayBinding>(){
+class RoomListFragment : BaseFragment<RoomlistFmLayBinding, RoomListFragmentViewModel>(){
     private val TAG="RoomListFragment"
     private var mPage=1
     init {
@@ -87,6 +91,15 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding>(){
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.dispose()
+    }
+
+    override fun initVariableId(): Int {
+        return BR.viewModel
+    }
+
+    override fun initViewModel(): RoomListFragmentViewModel {
+        val roomListFragmentViewModel: RoomListFragmentViewModel by viewModels()
+        return roomListFragmentViewModel
     }
 
 }

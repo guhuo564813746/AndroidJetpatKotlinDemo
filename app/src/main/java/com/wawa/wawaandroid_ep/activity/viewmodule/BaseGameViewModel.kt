@@ -10,12 +10,13 @@ import androidx.lifecycle.ViewModel
 import com.apollographql.apollo.RoomInfoQuery
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.R
+import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 
 /**
  *作者：create by 张金 on 2021/2/3 14:41
  *邮箱：564813746@qq.com
  */
-open class BaseGameViewModel : ViewModel(){
+open class BaseGameViewModel : BaseVM(){
     private val TAG="BaseGameViewModel"
     var userDataGroupVisibility = ObservableInt(View.VISIBLE)
     var fee = ObservableField("")

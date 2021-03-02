@@ -4,6 +4,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
 //    id 'com.apollographql.android'
     id 'com.apollographql.apollo'
+    id 'kotlin-kapt'
 }
 
 def buildDaniuJniLibs(){
@@ -14,6 +15,10 @@ android {
     compileSdkVersion 30
     buildFeatures {
         dataBinding = true
+    }
+
+    kapt {
+        generateStubs = true
     }
 
     defaultConfig {
@@ -61,6 +66,12 @@ android {
 }
 
 dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //版本要与gradle版本一致
+    kapt  "com.android.databinding:compiler:4.1.1"
+
     //添加lombok 插件依赖
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'

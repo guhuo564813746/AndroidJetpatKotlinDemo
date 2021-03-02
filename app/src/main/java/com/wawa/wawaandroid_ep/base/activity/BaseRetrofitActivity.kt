@@ -1,3 +1,4 @@
+/*
 package com.wawa.wawaandroid_ep.base.activity
 
 import android.app.ProgressDialog
@@ -11,10 +12,12 @@ import com.wawa.baselib.utils.net.viewmodule.IUIActionEventObserver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
+*/
 /**
  *作者：create by 张金 on 2021/1/18 17:27
  *邮箱：564813746@qq.com
- */
+ *//*
+
 abstract open class BaseRetrofitActivity<VB : ViewDataBinding> : BaseActivity<VB>(),IUIActionEventObserver{
     protected var loadDialog: ProgressDialog?=null
 
@@ -59,4 +62,4 @@ abstract open class BaseRetrofitActivity<VB : ViewDataBinding> : BaseActivity<VB
         dismissLoading()
     }
 
-}
+}*/

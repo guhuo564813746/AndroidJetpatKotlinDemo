@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.apollographql.apollo.RoomInfoQuery
 import com.apollographql.apollo.RoomListQuery
 import com.wawa.baselib.utils.Utils
@@ -20,6 +21,7 @@ import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
+import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 import com.wawa.wawaandroid_ep.commen.Comen
 import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,17 +33,15 @@ import org.json.JSONObject
  *作者：create by 张金 on 2021/2/3 14:23
  *邮箱：564813746@qq.com
  */
-abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameManagerListener {
+abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : BaseActivity<V,VM>(), GameManagerListener {
     private val TAG="GameBaseActivity"
     protected val compositeDisposable = CompositeDisposable()
     protected var gameVideoControlor: Fragment?=null
     protected var gameOnlineUserListAdapter: GameOnlineUserListAdapter?=null
     protected var booleanShowChat=true
-    protected val baseGameViewModel: BaseGameViewModel by viewModels()
     protected val dataSource: BaseDataSource by lazy {
         (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
     }
-
     var ROOM_ID: String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +77,7 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameMa
     private fun handleSuccessRoomInfo(roomInfo: List<RoomInfoQuery.List>){
         Log.d(TAG,"handleSuccessRoomInfo--"+roomInfo.size)
         if (!roomInfo.isNullOrEmpty()){
-            baseGameViewModel.roomInfoData.value=roomInfo.get(0)
+            viewModel.roomInfoData.value=roomInfo.get(0)
         }
 
     }
@@ -246,8 +246,8 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameMa
                 LogUtils.d(TAG,"gameLogin--success")
                 var userCoin=jsonStr?.getInt("user_coin")
                 var  userPoints=jsonStr?.getInt("user_point")
-                baseGameViewModel.coin.set(userCoin.toString())
-                baseGameViewModel.points.set(userPoints.toString())
+                viewModel.coin.set(userCoin.toString())
+                viewModel.points.set(userPoints.toString())
                 joinRoom()
             }
 
@@ -318,12 +318,12 @@ abstract class GameBaseActivity<V : ViewDataBinding> : BaseActivity<V>(), GameMa
     }
 
     fun setGameStartStatus(){
-        baseGameViewModel.gamePanelVisibility.set(View.VISIBLE)
-        baseGameViewModel.guestPanelVisibility.set(View.GONE)
+        viewModel.gamePanelVisibility.set(View.VISIBLE)
+        viewModel.guestPanelVisibility.set(View.GONE)
     }
 
     fun setGameOverStatus(){
-        baseGameViewModel.gamePanelVisibility.set(View.GONE)
-        baseGameViewModel.guestPanelVisibility.set(View.VISIBLE)
+        viewModel.gamePanelVisibility.set(View.GONE)
+        viewModel.guestPanelVisibility.set(View.VISIBLE)
     }
 }

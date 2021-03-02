@@ -15,6 +15,7 @@ import com.wawa.baselib.utils.Utils
 import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
 import com.wawa.baselib.utils.net.viewmodule.BaseViewModule
 import com.wawa.wawaandroid_ep.WawaApp
+import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseViewModel
 import com.wawa.wawaandroid_ep.httpcore.bean.ForecastsBean
 import com.wawa.wawaandroid_ep.utils.loginutils.WechatUtils
@@ -23,7 +24,7 @@ import com.wawa.wawaandroid_ep.utils.loginutils.WechatUtils
  *作者：create by 张金 on 2021/1/20 10:21
  *邮箱：564813746@qq.com
  */
-class LoginViewModel : ViewModel(){
+class LoginViewModel : BaseVM(){
 
     val loginData=MutableLiveData<ForecastsBean>()
     val isLoginSuccess=MutableLiveData<Boolean>()

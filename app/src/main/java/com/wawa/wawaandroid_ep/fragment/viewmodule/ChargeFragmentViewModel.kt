@@ -11,12 +11,13 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
 import com.wawa.wawaandroid_ep.WawaApp
+import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 
 /**
  *作者：create by 张金 on 2021/1/25 11:10
  *邮箱：564813746@qq.com
  */
-class ChargeFragmentViewModel : ViewModel(){
+class ChargeFragmentViewModel : BaseVM(){
     var coin=ObservableField("0")
     var diamond = ObservableField("0")
     private val chargeList: MutableLiveData<List<ChargeItemListQuery.ChargeItemList>> by lazy {

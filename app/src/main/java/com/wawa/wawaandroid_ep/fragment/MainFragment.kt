@@ -18,6 +18,7 @@ import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.glide.GlideManager
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
+import com.wawa.wawaandroid_ep.BR
 import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.WawaApp
@@ -36,7 +37,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil
  *作者：create by 张金 on 2021/1/13 18:08
  *邮箱：564813746@qq.com
  */
-class MainFragment : BaseFragment<FragmentMainLayBinding>() {
+class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>() {
     private lateinit var mainTabLay: TabLayout
     var titles = mutableListOf<String>()
     var fragments = mutableListOf<Fragment>()
@@ -47,7 +48,7 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
     companion object{
         val TAG="MainFragment"
     }
-    val mainFragmentViewModel: MainFragmentViewModel by viewModels()
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_main_lay
     }
@@ -63,7 +64,7 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
 
 //            glideManager?.displayImg()
             Log.d(TAG,it.fragments()?.userFragment()?.avatarThumb().toString())
-            mainFragmentViewModel.coins.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
+            viewModel.coins.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
 //            mainFragmentViewModel.diamons.set(it.userAccount()?.fragments()?.userAcountFragment()?.)
 
 
@@ -162,6 +163,15 @@ class MainFragment : BaseFragment<FragmentMainLayBinding>() {
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.dispose()
+    }
+
+    override fun initVariableId(): Int {
+        return BR.viewModel
+    }
+
+    override fun initViewModel(): MainFragmentViewModel {
+        val mainFragmentViewModel: MainFragmentViewModel by viewModels()
+        return mainFragmentViewModel
     }
 
 }

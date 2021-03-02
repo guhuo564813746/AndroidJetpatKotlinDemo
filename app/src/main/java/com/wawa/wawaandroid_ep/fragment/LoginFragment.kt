@@ -13,6 +13,7 @@ import androidx.databinding.Observable
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import com.wawa.wawaandroid_ep.BR
 import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
@@ -26,11 +27,10 @@ import com.wowgotcha.robot.wxapi.WXEntryActivity.WXLOGIN_ACTION
  *作者：create by 张金 on 2021/1/14 15:36
  *邮箱：564813746@qq.com
  */
-class LoginFragment : BaseFragment<FragmentLoginLayBinding>() {
+class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
     companion object{
         private val TAG: String ="LoginFragment"
     }
-    private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var wechatUtils: WechatUtils
     private lateinit var loginDialog: PhoneLoginDialog
     override fun getLayoutId(): Int {
@@ -44,7 +44,7 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding>() {
 
             }
             .setConfirmOnClickListener { v, phoneNum, code ->
-                loginViewModel.phoneLogin("13311111111", "Panda_Game")
+                viewModel.phoneLogin("13311111111", "Panda_Game")
             }
             .create()
         val backPressCallback=requireActivity().onBackPressedDispatcher.addCallback (this){
@@ -63,21 +63,21 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding>() {
         binding.btnPhoneShow.setOnClickListener{
             loginDialog.show()
         }
-        loginViewModel.isL.addOnPropertyChangedCallback(object :Observable.OnPropertyChangedCallback(){
+        viewModel.isL.addOnPropertyChangedCallback(object :Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (loginViewModel.isL.get()){
+                if (viewModel.isL.get()){
                     Log.d("isL","true")
                 }
             }
 
         })
 
-        loginViewModel.isLoginSuccess.observe(this){
+        viewModel.isLoginSuccess.observe(this){
             if(it){
                 Log.d("isLoginSuccess","true")
                 loginDialog?.dismiss()
-                (activity as MainActivity).mainViewModel.isShowBottom.postValue(true)
-                (activity as MainActivity).mainViewModel.isUserLogined.postValue(true)
+                (activity as MainActivity).viewModel.isShowBottom.postValue(true)
+                (activity as MainActivity).viewModel.isUserLogined.postValue(true)
                 findNavController().navigate(R.id.chargeFragment)
             }
         }
@@ -93,11 +93,20 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding>() {
                 val wxCode: String? = intent.getStringExtra("wxCode")
                 //微信登陆
                 if (!TextUtils.isEmpty(wxCode)) {
-                    loginViewModel.wxLogin(wxCode?:"")
+                    viewModel.wxLogin(wxCode?:"")
                 } else {
                     Toast.makeText(activity,"wechat auth failed",Toast.LENGTH_SHORT).show()
                 }
             }
         }
+    }
+
+    override fun initVariableId(): Int {
+        return BR.viewModel
+    }
+
+    override fun initViewModel(): LoginViewModel {
+        val loginViewModel: LoginViewModel by viewModels()
+        return loginViewModel
     }
 }

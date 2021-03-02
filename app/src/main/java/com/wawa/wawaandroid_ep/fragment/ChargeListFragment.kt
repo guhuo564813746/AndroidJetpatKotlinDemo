@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.apollographql.apollo.ChargeItemListQuery
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.logutils.LogUtils
+import com.wawa.wawaandroid_ep.BR
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.charge.ChargeDialogAdapter
@@ -19,9 +20,8 @@ import io.reactivex.schedulers.Schedulers
  *作者：create by 张金 on 2021/1/29 11:28
  *邮箱：564813746@qq.com
  */
-class ChargeListFragment : BaseFragment<ChargeListFmLayBinding>() {
+class ChargeListFragment : BaseFragment<ChargeListFmLayBinding,ChargeItemViewModel>() {
     private val TAG="ChargeListFragment"
-    val chargeItemViewModel: ChargeItemViewModel by viewModels()
     var chargeItemType=ChargeFragment.GOODS_TYPE_COIN
     private var chargeDialogAdapter: ChargeDialogAdapter?= null
     private val chargeDataDisposable = CompositeDisposable()
@@ -70,6 +70,15 @@ class ChargeListFragment : BaseFragment<ChargeListFmLayBinding>() {
 
     fun handleErrorChargeItem(e: Throwable?){
         LogUtils.d(TAG,"handleErrorChargeItem--"+e?.message)
+    }
+
+    override fun initVariableId(): Int {
+        return BR.viewModel
+    }
+
+    override fun initViewModel(): ChargeItemViewModel {
+        val chargeItemViewModel: ChargeItemViewModel by viewModels()
+        return chargeItemViewModel
     }
 
 }
