@@ -24,6 +24,23 @@
             app:destination="@+id/mainFragment"/>
     </fragment>
 
+    <fragment android:id="@+id/settingFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.SettingFragment"
+        android:label="设置">
+    </fragment>
+    <fragment android:id="@+id/userRecordFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.RecordListFragment"
+        android:label="账单记录">
+    </fragment>
+    <fragment android:id="@+id/chooseLanguageFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.ChooseLanguageFragment"
+        android:label="选择语言">
+    </fragment>
+    <fragment android:id="@+id/profileFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.ProfileFragment"
+        android:label="个人信息"></fragment>
+
+
     <activity android:id="@+id/robotActivity"
         android:name="com.wawa.wawaandroid_ep.activity.game.RobotGameActivity">
     </activity>

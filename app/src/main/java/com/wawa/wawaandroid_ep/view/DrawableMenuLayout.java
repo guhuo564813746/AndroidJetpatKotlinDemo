@@ -5,11 +5,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -19,14 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.blankj.utilcode.util.ScreenUtils;
 import com.wawa.baselib.R;
-import com.wawa.baselib.utils.Utils;
 import com.wawa.baselib.utils.logutils.LogUtils;
 
 import java.util.List;
-
-import static com.blankj.utilcode.util.SizeUtils.dp2px;
 
 /**
  * 作者：create by 张金 on 2021/2/23 14:27

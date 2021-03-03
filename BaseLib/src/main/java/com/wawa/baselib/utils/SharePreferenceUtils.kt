@@ -7,7 +7,7 @@ import android.content.SharedPreferences
  *作者：create by 张金 on 2021/1/6 11:03
  *邮箱：564813746@qq.com
  */
-class Utils {
+class SharePreferenceUtils {
     companion object{
 
         @JvmStatic
@@ -21,6 +21,14 @@ class Utils {
         private val USER_DATA: String="USER_DATA"
         val TOKEN: String="TOKEN"
         val UID: String ="UID"
+        val BGM="bgm"
+        val BGM_LIVE = "live_bgm"
+        val BGM_GAME = "bgm_game"
+        val BGM_KEY = "bgm_key"
+        val PLAYER_OPENGL = "PLAYER_OPENGL"
+        val VIDEO_PLAYER = "VIDEO_PLAYER"
+        val WIFI_SET="WIFI_SET"
+        val LOCALE_LAN="LOCALE_LAN"
         public lateinit var  sPUser: SharedPreferences
         public fun initSp(context: Context){
             sPUser=context?.getSharedPreferences(USER_DATA,Context.MODE_PRIVATE) ?: return
@@ -46,6 +54,29 @@ class Utils {
         fun readUid(): String?{
             return sPUser.getString(UID,"")
         }
+
+        fun saveSwitch(tag:String,switch: Boolean){
+            with(sPUser.edit()){
+                putBoolean(tag,switch)
+                apply()
+            }
+        }
+
+        fun getSwitch(tag: String): Boolean{
+            return sPUser.getBoolean(tag,false)
+        }
+
+        fun saveStr(tag: String,content: String?){
+            with(sPUser.edit()){
+                putString(tag,content)
+                apply()
+            }
+        }
+
+        fun getStr(tag: String): String?{
+            return sPUser.getString(tag,(if(tag.equals(LOCALE_LAN)) LanguageUtils.getCurLanguage() else ""))
+        }
+
         /* Share 保存-- end*/
 
     }

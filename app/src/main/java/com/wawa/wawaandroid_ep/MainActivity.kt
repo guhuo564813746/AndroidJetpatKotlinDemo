@@ -1,21 +1,17 @@
 package com.wawa.wawaandroid_ep
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
-import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.apollographql.apollo.UserQuery
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.wawa.baselib.utils.Utils
+import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
-import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import com.wawa.wawaandroid_ep.databinding.ActivityMainBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +19,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
-    private lateinit var navBottom: BottomNavigationView
+    lateinit var navBottom: BottomNavigationView
     private val compositeDisposable = CompositeDisposable()
     val dataSource: BaseDataSource by lazy {
         (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
@@ -65,13 +61,13 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
                 setUpDataSource()
                 navControlor.navigate(R.id.mainFragment)
             }else{
-                Utils.saveToken("")
-                Utils.saveUid("")
+                SharePreferenceUtils.saveToken("")
+                SharePreferenceUtils.saveUid("")
                 //跳转登陆逻辑
                 navControlor.navigate(R.id.loginFragment)
             }
         })
-        if (!TextUtils.isEmpty(Utils.readUid()) && !TextUtils.isEmpty(Utils.readToken())){
+        if (!TextUtils.isEmpty(SharePreferenceUtils.readUid()) && !TextUtils.isEmpty(SharePreferenceUtils.readToken())){
             viewModel.isShowBottom.postValue(true)
             viewModel.isUserLogined.postValue(true)
         }else{

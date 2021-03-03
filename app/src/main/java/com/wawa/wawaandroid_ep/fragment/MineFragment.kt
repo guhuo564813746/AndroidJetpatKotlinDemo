@@ -1,10 +1,14 @@
 package com.wawa.wawaandroid_ep.fragment
 
+import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.UserQuery
 import com.wawa.baselib.utils.apollonet.BaseDataSource
+import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.BR
+import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.MineFragmentListAdapter
@@ -20,7 +24,8 @@ import io.reactivex.schedulers.Schedulers
  *作者：create by 张金 on 2021/1/14 11:33
  *邮箱：564813746@qq.com
  */
-class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(){
+class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(),View.OnClickListener{
+    private val TAG="MineFragment"
     private val compositeDisposable = CompositeDisposable()
     private val dataSource: BaseDataSource by lazy {
         (activity?.application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
@@ -29,7 +34,15 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
         return R.layout.fragment_mine_lay
     }
 
+    override fun onResume() {
+        super.onResume()
+        LogUtils.d(TAG,"onResume---")
+        (activity as MainActivity).navBottom.visibility=View.VISIBLE
+    }
+
+
     override fun initFragmentView() {
+        LogUtils.d(TAG,"initFragmentView---")
         //initview
         binding.lvMineset.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         val mineChargeBean=MineListBean()
@@ -39,10 +52,29 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
         mineSetBean.title="设置"
         mineSetBean.itemImSrc=R.mipmap.game_icon_setting
         var mineList= listOf<MineListBean>(mineChargeBean,mineSetBean)
-        binding.lvMineset.adapter= activity?.let { MineFragmentListAdapter(it,mineList) }
-
+        binding.lvMineset.adapter= MineFragmentListAdapter(this,mineList)
+        initViewListener()
         //initdata
         initMineData()
+    }
+
+    fun initViewListener(){
+        binding.imBarSet1.setOnClickListener(this)
+        binding.rlHead.setOnClickListener(this)
+        binding.tvNickname.setOnClickListener(this)
+        binding.tvUserid.setOnClickListener(this)
+        binding.tvLevelName.setOnClickListener(this)
+        binding.editUserinfo.setOnClickListener(this)
+        binding.imUserlevel.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.im_bar_set_1 -> goSettingPage(v)
+            R.id.rl_Head,R.id.tv_nickname
+                ,R.id.tv_userid,R.id.edit_userinfo -> goProfilePage(v)
+            R.id.tv_level_name,R.id.im_userlevel -> goLevelPage(v)
+        }
     }
 
     fun initMineData(){
@@ -74,21 +106,26 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
 
     }
 
-    fun goSettingPage(){
-
+    fun goSettingPage(view: View){
+        (activity as MainActivity).navBottom.visibility=View.GONE
+        findNavController().navigate(R.id.settingFragment)
     }
 
-    fun goProfilePage(){
-
+    fun goProfilePage(view: View){
+        (activity as MainActivity).navBottom.visibility=View.GONE
+        findNavController().navigate(R.id.profileFragment)
     }
 
-    fun goLevelPage(){
-
+    fun goLevelPage(view: View){
+        (activity as MainActivity).navBottom.visibility=View.GONE
+//        findNavController().navigate(R.id.)
     }
 
-    fun goRecordListPage(){
-
+    fun goRecordListPage(view: View){
+        (activity as MainActivity).navBottom.visibility=View.GONE
+        findNavController().navigate(R.id.userRecordFragment)
     }
+
     override fun initVariableId(): Int {
         return BR.viewModel
     }

@@ -3,6 +3,7 @@ package com.wawa.wawaandroid_ep.fragment
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -18,10 +19,8 @@ import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.glide.GlideManager
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.MainViewModule
-import com.wawa.wawaandroid_ep.R
-import com.wawa.wawaandroid_ep.WawaApp
+import com.wawa.baselib.utils.logutils.LogUtils
+import com.wawa.wawaandroid_ep.*
 import com.wawa.wawaandroid_ep.adapter.ImageAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.databinding.FragmentMainLayBinding
@@ -51,6 +50,12 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_main_lay
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LogUtils.d(TAG,"onResume---")
+        (activity as MainActivity).navBottom.visibility=View.VISIBLE
     }
 
     override fun initFragmentView() {

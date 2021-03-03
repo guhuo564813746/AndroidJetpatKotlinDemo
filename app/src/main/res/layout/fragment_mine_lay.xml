@@ -70,8 +70,7 @@
                         android:id="@+id/tv_nickname"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:text="@{viewModel.userName}"
-                        android:onClick="goProfilePage"/>
+                        android:text="@{viewModel.userName}" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,8 +79,7 @@
                         android:textColor="@color/white"
                         android:layout_below="@+id/tv_nickname"
                         android:layout_alignLeft="@+id/tv_nickname"
-                        android:text="@{viewModel.userId}"
-                        android:onClick="goProfilePage"/>
+                        android:text="@{viewModel.userId}" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
@@ -96,8 +94,7 @@
                         android:id="@+id/tv_level_name"
                         android:text="@{viewModel.userLevel}"
                         android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:onClick="goLevelPage"/>
+                        android:paddingRight="5dp" />
                     <View
                         android:layout_width="16dp"
                         android:layout_height="16dp"
@@ -105,8 +102,7 @@
                         android:layout_toRightOf="@+id/tv_nickname"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="81dp"
-                        android:background="@mipmap/icon_bianji_new"
-                        android:onClick="goProfilePage"/>
+                        android:background="@mipmap/icon_bianji_new" />
                     <ImageView
                         android:layout_width="98dp"
                         android:layout_height="76dp"
@@ -215,8 +211,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:id="@+id/im_bar_set_1"
-                        android:paddingLeft="21dp"
-                        android:onClick="goSettingPage"/>
+                        android:paddingLeft="21dp" />
                 </RelativeLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

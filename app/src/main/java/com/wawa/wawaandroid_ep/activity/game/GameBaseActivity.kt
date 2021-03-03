@@ -1,29 +1,22 @@
 package com.wawa.wawaandroid_ep.activity.game
 
-import android.os.Build.HOST
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.apollographql.apollo.RoomInfoQuery
-import com.apollographql.apollo.RoomListQuery
-import com.wawa.baselib.utils.Utils
+import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
-import com.wawa.baselib.utils.socketio.listener.EpGameListener
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener
 import com.wawa.wawaandroid_ep.BuildConfig
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
-import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 import com.wawa.wawaandroid_ep.commen.Comen
-import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -238,8 +231,8 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         var data= JSONObject()
         data.put("id",GameSocketManager.generateId().toString())
         data.put("method","login")
-        params.put("user_id",Utils.readUid()?.toInt())
-        params.put("token",Utils.readToken())
+        params.put("user_id",SharePreferenceUtils.readUid()?.toInt())
+        params.put("token",SharePreferenceUtils.readToken())
         data.put("params",params)
         GameSocketManager.getInstance().sendMessage("app",data,object: GameSocketManager.Callback{
             override fun onSuccess(jsonStr: JSONObject?) {

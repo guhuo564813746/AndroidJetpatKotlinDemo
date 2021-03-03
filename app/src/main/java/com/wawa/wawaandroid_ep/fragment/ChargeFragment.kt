@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
+import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.BR
+import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.databinding.FragmentChargeLayBinding
@@ -18,6 +20,7 @@ import com.wawa.wawaandroid_ep.fragment.viewmodule.ChargeFragmentViewModel
  *邮箱：564813746@qq.com
  */
 class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewModel>(){
+    private val TAG = "ChargeFragment"
     companion object{
         val GOODS_TYPE_COIN = 0
         val GOODS_TYPE_DIAMOND = 1
@@ -34,6 +37,12 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadChargeList()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LogUtils.d(TAG,"onResume---")
+        (activity as MainActivity).navBottom.visibility=View.VISIBLE
     }
 
     override fun initFragmentView() {
