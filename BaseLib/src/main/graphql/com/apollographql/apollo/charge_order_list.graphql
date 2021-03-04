@@ -11,13 +11,12 @@ query ChargeOrderList($index: Int!){
 }
 
 fragment chargeOrderFragment on ChargeOrder{
-    chargeItem{
-        ...chargeItemFragment
-    }
+
     name
-    orderGoods{
-        ...orderGoodsFragment
+    order{
+        ...orderFragment
     }
+
 
 }
 fragment chargeItemFragment on ChargeItem{
@@ -33,7 +32,6 @@ fragment goodsFragment on Goods{
     GoogleProductId
     Price
     Status
-    appleProductId
     coverUrl
     detailDesc
     goodsId
@@ -57,18 +55,8 @@ fragment orderGoodsFragment on OrderGoods{
     originPrice
     payProductId
     virtualGoods
+    goods{
+        ...goodsFragment
+    }
 
-}
-fragment userFragment4 on User{
-    avatar
-    avatarThumb
-    email
-    name
-    nickName
-    openId
-    password
-    phoneNo
-    signInType
-    status
-    userId
 }

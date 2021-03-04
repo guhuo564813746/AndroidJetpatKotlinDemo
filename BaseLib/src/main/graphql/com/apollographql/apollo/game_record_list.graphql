@@ -15,4 +15,5 @@ fragment gameRecordFragment on GameRecord{
     earnHardcoin
     earnPoint
     roomTitle
+    timeFormat
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="40dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_recordtitle"
+        android:textColor="#181818"
+        android:textSize="14sp"
+        android:layout_marginRight="85dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginLeft="15dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_recordtime"
+        android:layout_below="@+id/tv_recordtitle"
+        android:layout_alignLeft="@+id/tv_recordtitle"
+        android:textSize="12sp"
+        android:textColor="#999999"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textColor="#3678EB"
+        android:textSize="14sp"
+        android:id="@+id/tv_record_num"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_record_righttips"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        android:layout_below="@+id/tv_record_num"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

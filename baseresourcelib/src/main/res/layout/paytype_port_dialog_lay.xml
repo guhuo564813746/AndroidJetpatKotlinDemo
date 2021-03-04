@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="290dp"
+        android:layout_height="400dp"
+        android:background="@mipmap/im_paydialog_portbg">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:id="@+id/tv_paytips"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8.5dp"
+            android:layout_marginRight="7.5dp"
+            android:padding="7.5dp"
+            android:src="@mipmap/im_white_cancel"
+            android:id="@+id/im_cancelpay" />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:text="@string/CHARGE_SUBMIT"
+            android:textColor="@color/white"
+            android:background="@drawable/blue_15_cornors_bg"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:id="@+id/tv_paybuynow"/>
+
+        <RelativeLayout
+            android:layout_width="250dp"
+            android:layout_height="245dp"
+            android:layout_marginBottom="68dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/pay_dialog_select_bg">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:textColor="@color/light_black"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="19dp"
+                android:id="@+id/tv_paytype_tips"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_paytype_tips"
+                android:id="@+id/lv_paytypeitem" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</FrameLayout>

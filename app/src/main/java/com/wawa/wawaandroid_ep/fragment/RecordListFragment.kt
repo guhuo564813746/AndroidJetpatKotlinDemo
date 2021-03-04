@@ -1,5 +1,6 @@
 package com.wawa.wawaandroid_ep.fragment
 
+import android.os.Bundle
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -18,7 +19,7 @@ import com.wawa.wawaandroid_ep.fragment.viewmodule.RecordListFragmentViewModel
  */
 class RecordListFragment : BaseFragment<UserRecordLayBinding,RecordListFragmentViewModel>(){
     private var mTitles: List<String> = listOf()
-    private val mFragments: List<Fragment> = listOf()
+    private var mFragments: List<Fragment> = listOf()
 
     override fun initVariableId(): Int {
         return BR.viewModel
@@ -48,9 +49,31 @@ class RecordListFragment : BaseFragment<UserRecordLayBinding,RecordListFragmentV
             java.lang.String.format(
                 resources.getString(R.string.tx_coinsRecord),
                 "游戏币"
-            ),getString(R.string.tx_diamonRecord),getString(R.string.tx_rechargeRecord))
-        for (i in 0..3){
-
+            )/*,getString(R.string.tx_diamonRecord)*/,getString(R.string.tx_rechargeRecord))
+        for (i in 0..2){
+            when(i){
+                0 ->{
+                    var gameRecordFragment=RecordListItemFragment()
+                    var bundle=Bundle()
+                    bundle.putString(RecordListItemFragment.TAG,RecordListItemFragment.GAME_RECORD)
+                    gameRecordFragment.arguments=bundle
+                    mFragments+=gameRecordFragment
+                }
+                1->{
+                    var coinRecordFragment=RecordListItemFragment()
+                    var bundle=Bundle()
+                    bundle.putString(RecordListItemFragment.TAG,RecordListItemFragment.COINS_RECORD)
+                    coinRecordFragment.arguments=bundle
+                    mFragments+=coinRecordFragment
+                }
+                2 ->{
+                    var chargeRecordFragment=RecordListItemFragment()
+                    var bundle=Bundle()
+                    bundle.putString(RecordListItemFragment.TAG,RecordListItemFragment.CHARGE_RECORD)
+                    chargeRecordFragment.arguments=bundle
+                    mFragments+=chargeRecordFragment
+                }
+            }
         }
     }
 

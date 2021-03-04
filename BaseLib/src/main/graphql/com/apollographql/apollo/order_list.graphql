@@ -21,4 +21,7 @@ fragment orderFragment on Order{
     tradeNo
     uptimeFormat
     userId
+    orderGoods{
+        ...orderGoodsFragment
+    }
 }
