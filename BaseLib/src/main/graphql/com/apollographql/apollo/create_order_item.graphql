@@ -1,0 +1,15 @@
+
+mutation CreateOrderItem($chargeItemId: Int!,$payType: Int!){
+  createChargeOrder(chargeItemId: $chargeItemId, payType: $payType){
+    addtimeFormat
+    bizStatus
+    fee
+    orderGoods{
+        ...orderGoodsFragment
+    }
+    orderId
+    payStatus
+    payTradeNo
+    payType
+  }
+}

@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.multidex.MultiDex
 import com.apollographql.apollo.ApolloAndroidLogger
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.UserQuery
 import com.apollographql.apollo.api.Operation
 import com.apollographql.apollo.api.ResponseField
 import com.apollographql.apollo.api.cache.http.HttpCachePolicy

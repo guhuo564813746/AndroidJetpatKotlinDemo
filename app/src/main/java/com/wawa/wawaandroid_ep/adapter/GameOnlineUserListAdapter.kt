@@ -8,15 +8,18 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.SizeUtils
+import com.wawa.baselib.utils.glide.loader.ImageLoader
+import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 /**
  *作者：create by 张金 on 2021/2/26 17:27
  *邮箱：564813746@qq.com
  */
 class GameOnlineUserListAdapter(private val context: Context
-                                ,private val list: List<GameRoomUsers>) : RecyclerView.Adapter<GameOnlineUserListAdapter.GameOnlineUserViewHolder>(){
+                                ,var list: List<GameRoomUsers.UserListBean>) : RecyclerView.Adapter<GameOnlineUserListAdapter.GameOnlineUserViewHolder>(){
 
 
 
@@ -43,10 +46,15 @@ class GameOnlineUserListAdapter(private val context: Context
             lp.setMargins(SizeUtils.dp2px(-10f), 0, 0, 0)
         }
         holder.itemView.setLayoutParams(lp)
+        ImageLoader.with(context)
+            .url(list.get(position).avatar)
+            .asCircle()
+//            .rectRoundCorner(ImageUtil.dip2px(30f), RoundedCornersTransformation.CornerType.ALL)
+            .into(holder.imHead)
     }
 
     inner class GameOnlineUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        private lateinit var imHead: ImageView
+        lateinit var imHead: ImageView
         init {
             imHead=itemView.findViewById(R.id.imHead)
         }

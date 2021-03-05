@@ -92,7 +92,8 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
     }
 
     private fun handleSuccessUserData(userData: UserQuery.User){
-        MainViewModule.userData.value=userData
+        MainViewModule.mutableLiveuserData.value=userData
+        MainViewModule.userData=userData
     }
 
     private fun handleErrorUserData(error: Throwable?){

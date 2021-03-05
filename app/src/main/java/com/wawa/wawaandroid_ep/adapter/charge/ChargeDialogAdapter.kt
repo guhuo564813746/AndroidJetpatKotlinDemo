@@ -15,16 +15,16 @@ import androidx.annotation.NonNull
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.ChargeItemListQuery
+import com.wawa.baselib.utils.pay.PayManager
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.fragment.ChargeFragment
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ChargeDialogAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChargeDialogAdapter(context: Context,private val payManager: PayManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var chargeList: List<ChargeItemListQuery.ChargeItemList> = ArrayList()
     private val layoutInflater: LayoutInflater
     private val mContext: Context
-
     //item 的显示类型，1为熊猫币，2为砖石
     var listType: Int = ChargeFragment.GOODS_TYPE_COIN
     init {
@@ -553,6 +553,22 @@ class ChargeDialogAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.
                     }
                     if (listType == ChargeFragment.GOODS_TYPE_DIAMOND) {
                         //跳转充值砖石
+
+                    }
+                    chargeList.get(adapterPosition).goods()?.let {
+                        chargeList.get(adapterPosition).chargeItemId()?.let { it1 ->
+                            payManager.showPayTypeDialog(
+                                it, it1,
+                                object:PayManager.PayCallback{
+                                    override fun paySuccess() {
+                                        TODO("Not yet implemented")
+                                    }
+
+                                    override fun payErr() {
+                                        TODO("Not yet implemented")
+                                    }
+                                })
+                        }
                     }
                 }
             })

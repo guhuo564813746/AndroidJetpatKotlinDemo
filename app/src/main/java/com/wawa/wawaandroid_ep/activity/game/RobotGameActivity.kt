@@ -65,6 +65,9 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     override fun initView() {
+        binding.streamReplaced.setOnClickListener {
+            switchShowUserData()
+        }
         initGameMenuView()
         initGameControlView()
         initChatView()
@@ -72,8 +75,36 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 //        binding.streamReplaced
         viewModel.roomInfoData?.observe(this, Observer {
             initGameVideo(it)
+            var gameConsumeType=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.gameCurrency()
+            var coinsExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.coin2hardRatio()
+            var diamonsExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.diamond2hardRatio()
+            var scoresExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.score2hardRatio()
+            gameConsumeType?.let { gameCurrency=it }
+            when(gameConsumeType){
+                CONSUME_TYPE_COIN ->{
+                    coinsExchange?.let {
+                        coin2hardRatio=it.toFloat()
+                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),coin2hardRatio.toString()))
+                    }
+                }
+                CONSUNE_TYPE_POINT ->{
+                    scoresExchange?.let {
+                        score2hardRatio=it.toFloat()
+                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),score2hardRatio.toString()))
+                    }
+                }
+            }
+
         })
 
+    }
+
+    fun switchShowUserData(){
+        if (viewModel.userDataGroupVisibility.get()==View.GONE){
+            viewModel.userDataGroupVisibility.set(View.VISIBLE)
+        }else{
+            viewModel.userDataGroupVisibility.set(View.GONE)
+        }
     }
 
     fun initChatView(){
@@ -246,48 +277,75 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
     override fun onEpEvent(msg: JSONObject?) {
         LogUtils.d(TAG, "onEpEvent")
+        runOnUiThread{
+
+        }
     }
 
     override fun onEpGameOver(msg: JSONObject?) {
         LogUtils.d(TAG, "onEpGameOver")
+        runOnUiThread{
+
+        }
     }
 
     override fun onGameReady(timeLeft: Int) {
         super.onGameReady(timeLeft)
         LogUtils.d(TAG, "onGameReady")
-        if (timeLeft == 9) {
-            startGame()
+        runOnUiThread{
+            if (timeLeft == 9) {
+                startGame()
+            }
+        }
+    }
+
+    override fun onIMNotify(jsondata: JSONObject?) {
+        super.onIMNotify(jsondata)
+        runOnUiThread{
+
         }
     }
 
     override fun onRoomUserAmountChanged(jsondata: JSONObject?) {
         super.onRoomUserAmountChanged(jsondata)
-        var gson=Gson()
-        var gameRoomUsers: GameRoomUsers?=null
-        val type: Type = object : TypeToken<GameRoomUsers?>() {}.type
-        gameRoomUsers=gson.fromJson(jsondata?.toString(),GameRoomUsers::class.java)
-        if (gameRoomUsers != null){
-            LogUtils.d(TAG,"onRoomUserAmountChanged--")
+        runOnUiThread{
+            var gson=Gson()
+            var gameRoomUsers: GameRoomUsers?=null
+            val type: Type = object : TypeToken<GameRoomUsers?>() {}.type
+            gameRoomUsers=gson.fromJson(jsondata?.toString(),GameRoomUsers::class.java)
+            if (gameRoomUsers != null){
+                LogUtils.d(TAG,"onRoomUserAmountChanged--")
+                if (gameRoomUsers.user_list.size>4){
+                    gameOnlineUserListAdapter?.list=gameRoomUsers.user_list.subList(0,3)
+                    gameOnlineUserListAdapter?.notifyDataSetChanged()
+                }else{
+                    gameOnlineUserListAdapter?.list=gameRoomUsers.user_list
+                    gameOnlineUserListAdapter?.notifyDataSetChanged()
+                }
+                binding.userTotal.setText("${gameRoomUsers.user_list.size} Online")
+            }
         }
     }
 
     override fun startGame() {
-        var data = JSONObject()
-        data.put("id", GameSocketManager.generateId().toString())
-        data.put("method", "start_game")
-        GameSocketManager.getInstance()
-            .sendMessage("game", data, object : GameSocketManager.Callback {
-                override fun onSuccess(jsonStr: JSONObject?) {
-                    LogUtils.d(TAG, "startgame--success")
-                    //发个指令测试
-                    val ep = "robot mode gimbal_lead;"
-                    operateRobot(ep)
-                }
+        runOnUiThread{
+            var data = JSONObject()
+            data.put("id", GameSocketManager.generateId().toString())
+            data.put("method", "start_game")
+            GameSocketManager.getInstance()
+                .sendMessage("game", data, object : GameSocketManager.Callback {
+                    override fun onSuccess(jsonStr: JSONObject?) {
+                        LogUtils.d(TAG, "startgame--success")
+                        //发个指令测试
+                        val ep = "robot mode gimbal_lead;"
+                        operateRobot(ep)
+                    }
 
-                override fun onError(errorCode: Int, errorMsg: String?) {
-                    LogUtils.d(TAG, "startgame--falure" + errorMsg)
-                }
-            })
+                    override fun onError(errorCode: Int, errorMsg: String?) {
+                        LogUtils.d(TAG, "startgame--falure" + errorMsg)
+                    }
+                })
+        }
     }
 
     override fun initVariableId(): Int {

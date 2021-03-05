@@ -43,7 +43,7 @@ class ChargeListFragment : BaseFragment<ChargeListFmLayBinding,ChargeItemViewMod
         binding.recyclerView.layoutManager=
             GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
         if (chargeDialogAdapter == null){
-            chargeDialogAdapter= activity?.let { ChargeDialogAdapter(it) }
+            activity?.let { chargeDialogAdapter= ChargeDialogAdapter(it,(parentFragment as ChargeFragment).payManager) }
         }
         binding.recyclerView.adapter=chargeDialogAdapter
     }

@@ -4,19 +4,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.viewpager.widget.PagerAdapter
 import com.apollographql.apollo.BannerListQuery
 import com.apollographql.apollo.RoomCategoryListQuery
 import com.google.android.material.tabs.TabLayout
 import com.to.aboomy.pager2banner.IndicatorView
 import com.to.aboomy.pager2banner.ScaleInTransformer
 import com.wawa.baselib.utils.apollonet.BaseDataSource
-import com.wawa.baselib.utils.glide.GlideManager
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.baselib.utils.logutils.LogUtils
@@ -59,7 +56,7 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
     }
 
     override fun initFragmentView() {
-        MainViewModule.userData?.observe(this, Observer {
+        MainViewModule.mutableLiveuserData?.observe(this, Observer {
             binding.tvMainUsername.text=it.fragments()?.userFragment()?.nickName()
             ImageLoader.with(activity)
                 .url(it.fragments()?.userFragment()?.avatarThumb())
@@ -162,7 +159,6 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
     private fun handleErrorBannerList(error: Throwable?){
         Log.d(TAG,"handleErrorBannerList--")
     }
-
 
 
     override fun onDestroy() {

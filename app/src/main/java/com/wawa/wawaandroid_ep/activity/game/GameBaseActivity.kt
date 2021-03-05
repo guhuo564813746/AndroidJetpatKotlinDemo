@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.apollographql.apollo.RoomInfoQuery
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
@@ -12,6 +13,7 @@ import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener
 import com.wawa.wawaandroid_ep.BuildConfig
+import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
@@ -27,11 +29,20 @@ import org.json.JSONObject
  *邮箱：564813746@qq.com
  */
 abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : BaseActivity<V,VM>(), GameManagerListener {
+    companion object{
+        val CONSUME_TYPE_COIN=1
+        val CONSUNE_TYPE_POINT=2
+    }
     private val TAG="GameBaseActivity"
     protected val compositeDisposable = CompositeDisposable()
     protected var gameVideoControlor: Fragment?=null
     protected var gameOnlineUserListAdapter: GameOnlineUserListAdapter?=null
     protected var booleanShowChat=true
+    var gameCurrency: Int=CONSUME_TYPE_COIN
+    var gameResultCurrency: Int=CONSUME_TYPE_COIN
+    var coin2hardRatio: Float=0f
+    var diamond2hardRatio: Float=0f
+    var score2hardRatio: Float=0f
     protected val dataSource: BaseDataSource by lazy {
         (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
     }
@@ -50,6 +61,10 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     fun initRoomData(){
+        MainViewModule.mutableLiveuserData?.observe(this, Observer {
+            viewModel.coin.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
+        })
+        MainViewModule.mutableLiveuserData.value=MainViewModule.userData
         if (ROOM_ID.isNullOrEmpty()){
             return
         }
@@ -87,43 +102,72 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     override fun onGameOver(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameOver")
-        setGameOverStatus()
+        runOnUiThread{
+            setGameOverStatus()
+        }
     }
 
     override fun onLiveStreamChanged(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onLiveStreamChanged")
+        runOnUiThread{
+
+        }
     }
 
     override fun onIMNotify(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onIMNotify")
+        runOnUiThread{
+
+        }
     }
 
     override fun onGameLockCountDowned(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameLockCountDowned")
+        runOnUiThread{
+
+        }
     }
 
     override fun onConnectError(t: Throwable?) {
         LogUtils.d(TAG,"onConnectError")
+        runOnUiThread{
+
+        }
     }
 
     override fun onRoomQueueKickOff() {
         LogUtils.d(TAG,"onRoomQueueKickOff")
+        runOnUiThread{
+
+        }
     }
 
     override fun onOwnGameOver(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onOwnGameOver")
+        runOnUiThread{
+
+        }
     }
 
     override fun onDisconnect(reason: JSONObject?) {
         LogUtils.d(TAG,"onDisconnect")
+        runOnUiThread{
+
+        }
     }
 
     override fun onOwnGameStart(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onOwnGameStart")
+        runOnUiThread{
+
+        }
     }
 
     override fun joinRoomError(errcode: Int, errmsg: String?) {
         LogUtils.d(TAG,"joinRoomError")
+        runOnUiThread{
+
+        }
     }
 
     override fun onConnect() {
@@ -253,56 +297,93 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onRoomUserAmountChanged(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onRoomUserAmountChanged")
         //处理房间人员信息
+        runOnUiThread{
 
+        }
     }
 
     override fun onGameLockEnd(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameLockEnd")
+        runOnUiThread{
+
+        }
     }
 
     override fun onGameStart(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameStart")
-        setGameStartStatus()
+        runOnUiThread{
+            setGameStartStatus()
+        }
     }
 
     override fun onGameCountdown(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameCountdown")
+        runOnUiThread{
+
+        }
     }
 
     override fun onRoomQueueStatus(isPublic: Boolean, queueNo: Int, position: Int) {
         LogUtils.d(TAG,"onRoomQueueStatus")
+        runOnUiThread{
+
+        }
     }
 
     override fun onGameLockStart(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameLockStart")
+        runOnUiThread{
+
+        }
     }
 
     override fun onRoomKickOff() {
         LogUtils.d(TAG,"onRoomKickOff")
+        runOnUiThread{
+
+        }
     }
 
     override fun onMarqueeMsgNotify(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onMarqueeMsgNotify")
+        runOnUiThread{
+
+        }
     }
 
     override fun onGameReconnect(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameReconnect")
+        runOnUiThread{
+
+        }
     }
 
     override fun onGameReady(timeLeft: Int) {
         LogUtils.d(TAG,"onGameReady")
+        runOnUiThread{
+
+        }
     }
 
     override fun websocketClosed() {
         LogUtils.d(TAG,"websocketClosed")
+        runOnUiThread{
+
+        }
     }
 
     override fun onGamePlaying(jsonData: JSONObject?) {
         LogUtils.d(TAG,"onGamePlaying")
+        runOnUiThread{
+
+        }
     }
 
     override fun onGameQueue(jsonData: JSONObject?) {
         LogUtils.d(TAG,"onGameQueue")
+        runOnUiThread{
+
+        }
     }
 
     override fun onDestroy() {

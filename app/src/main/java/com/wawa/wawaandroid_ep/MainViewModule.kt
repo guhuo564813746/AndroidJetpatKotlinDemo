@@ -17,7 +17,8 @@ import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 class MainViewModule : BaseVM(){
     companion object{
         val TAG="MainViewModule"
-         var userData=MutableLiveData<UserQuery.User>()
+        var mutableLiveuserData=MutableLiveData<UserQuery.User>()
+        var userData: UserQuery.User?= null
     }
     val isShowBottom=MutableLiveData<Boolean>()
     val isUserLogined=MutableLiveData<Boolean>()
@@ -26,19 +27,4 @@ class MainViewModule : BaseVM(){
 
     }
 
-    fun getUserData(){
-        val userDataQuery= UserQuery()
-        WawaApp.apolloClient
-            .query(userDataQuery)
-            .enqueue(object : ApolloCall.Callback<UserQuery.Data>(){
-                override fun onFailure(e: ApolloException) {
-                    Log.d(TAG,e.message.toString())
-                }
-
-                override fun onResponse(response: Response<UserQuery.Data>) {
-
-                }
-            })
-
-    }
 }

@@ -8,9 +8,11 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.wawa.baselib.utils.logutils.LogUtils
+import com.wawa.baselib.utils.pay.PayManager
 import com.wawa.wawaandroid_ep.BR
 import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.R
+import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.databinding.FragmentChargeLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.ChargeFragmentViewModel
@@ -29,7 +31,7 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
     private lateinit var chargeTabLay: TabLayout
     var titles = mutableListOf<String>()
     var fragments = mutableListOf<Fragment>()
-
+    lateinit var payManager: PayManager
     override fun getLayoutId(): Int {
         return R.layout.fragment_charge_lay
     }
@@ -46,6 +48,8 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
     }
 
     override fun initFragmentView() {
+        activity?.let { payManager=PayManager(it,WawaApp.apolloClient) }
+        lifecycle.addObserver(payManager)
         initChargeTab()
     }
 
@@ -78,6 +82,11 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
         override fun getPageTitle(position: Int): CharSequence? {
             return titles?.get(position)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LogUtils.d(TAG,"onDestroy--")
     }
 
     override fun initVariableId(): Int {

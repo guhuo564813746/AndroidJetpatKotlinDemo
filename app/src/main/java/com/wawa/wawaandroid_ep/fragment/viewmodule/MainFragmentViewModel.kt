@@ -9,6 +9,6 @@ import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
  *邮箱：564813746@qq.com
  */
 class MainFragmentViewModel : BaseVM(){
-    var diamons = ObservableField("")
+    var diamons = ObservableField("0")
     var coins = ObservableField("")
 }

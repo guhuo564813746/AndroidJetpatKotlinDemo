@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.UserQuery
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.MainActivity
-import com.wawa.wawaandroid_ep.R
-import com.wawa.wawaandroid_ep.WawaApp
+import com.wawa.wawaandroid_ep.*
 import com.wawa.wawaandroid_ep.adapter.MineFragmentListAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.bean.mine.MineListBean
@@ -93,6 +90,8 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
 
     fun handleSuccessUserInfo(userData: UserQuery.User){
         if (userData != null){
+            MainViewModule.mutableLiveuserData.value=userData
+            MainViewModule.userData=userData
             viewModel.coins.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
             viewModel.scores.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.point().toString())
             viewModel.diamons.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
