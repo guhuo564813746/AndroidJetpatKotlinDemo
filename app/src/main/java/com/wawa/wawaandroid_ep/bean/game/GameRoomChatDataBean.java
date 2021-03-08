@@ -13,7 +13,7 @@ public class GameRoomChatDataBean {
      * user_nickname : 玩家1
      * msg_list : [{"type":1,"timestamp":1611398160,"body":{"text":"hello world"}},{"type":1,"timestamp":1611398165,"body":{"text":"hello robot!"}}]
      */
-
+    public static final int CONTENT_TEXT=1;
     private int user_id;
     private String user_nickname;
     private List<MsgListBean> msg_list;

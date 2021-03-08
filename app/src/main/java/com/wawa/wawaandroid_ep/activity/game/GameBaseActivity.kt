@@ -14,9 +14,11 @@ import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener
 import com.wawa.wawaandroid_ep.BuildConfig
 import com.wawa.wawaandroid_ep.MainViewModule
+import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
+import com.wawa.wawaandroid_ep.adapter.LiveChatListAdapter
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import com.wawa.wawaandroid_ep.commen.Comen
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -38,6 +40,13 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     protected var gameVideoControlor: Fragment?=null
     protected var gameOnlineUserListAdapter: GameOnlineUserListAdapter?=null
     protected var booleanShowChat=true
+    val GAME_STATUS_EMPTY=1
+    val GAME_STATUS_QUEUE=2
+    val GAME_STATUS_PLAYING=3
+    val GAME_STATUS_ENDING=4
+    val GAME_STATUS_PREQUEUE=5
+    var mGameStatus: Int=GAME_STATUS_EMPTY
+    var chatListAdapter: LiveChatListAdapter?= null
     var gameCurrency: Int=CONSUME_TYPE_COIN
     var gameResultCurrency: Int=CONSUME_TYPE_COIN
     var coin2hardRatio: Float=0f
@@ -100,6 +109,10 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         LogUtils.d(TAG,"joinRoomSuccess")
     }
 
+    override fun onGameResult(jsonData: JSONObject?) {
+        LogUtils.d(TAG,"onGameResult--${jsonData?.toString()}")
+    }
+
     override fun onGameOver(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameOver")
         runOnUiThread{
@@ -138,7 +151,8 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onRoomQueueKickOff() {
         LogUtils.d(TAG,"onRoomQueueKickOff")
         runOnUiThread{
-
+            mGameStatus=GAME_STATUS_EMPTY
+            viewModel.startGameBtnRes.set(R.drawable.btn_start_game)
         }
     }
 
@@ -226,7 +240,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         GameSocketManager.getInstance().sendMessage("game",data,object: GameSocketManager.Callback{
             override fun onSuccess(jsonStr: JSONObject?) {
                 LogUtils.d(TAG,"join_queue--success")
-
+                setGameQueueStatus()
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {
@@ -243,7 +257,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         GameSocketManager.getInstance().sendMessage("game",data,object: GameSocketManager.Callback{
             override fun onSuccess(jsonStr: JSONObject?) {
                 LogUtils.d(TAG,"quit_queue--success")
-
+                setGameOverStatus()
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {
@@ -361,9 +375,18 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGameReady(timeLeft: Int) {
         LogUtils.d(TAG,"onGameReady")
         runOnUiThread{
+            when(mGameStatus){
+                GAME_STATUS_EMPTY,GAME_STATUS_PREQUEUE ->{
 
+                }
+                GAME_STATUS_QUEUE->{
+                    showGameReadyDialog(timeLeft)
+                }
+            }
         }
     }
+
+    abstract fun showGameReadyDialog(timeLeft: Int)
 
     override fun websocketClosed() {
         LogUtils.d(TAG,"websocketClosed")
@@ -382,7 +405,39 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGameQueue(jsonData: JSONObject?) {
         LogUtils.d(TAG,"onGameQueue")
         runOnUiThread{
+            var type=jsonData?.getInt("type")
+            var queueTotal=jsonData?.getInt("queue_total")
+            var queuePosition=jsonData?.getInt("queue_position")
+            when(type){
+                0->{
+                    //全局
+                    queueTotal?.let { if (it > 0){
+                        if (mGameStatus==GAME_STATUS_EMPTY){
+                            viewModel.startGameBtnRes.set(R.drawable.pre_game_bg)
+                        }
+                        viewModel.queueCount.set(getString(R.string.cur_queue)+it)
+                    }else{
+                        viewModel.queueCount.set("")
+                        if (mGameStatus==GAME_STATUS_EMPTY){
+                            viewModel.startGameBtnRes.set(R.drawable.btn_start_game)
+                        }
+                    }
+                    }
 
+                }
+                1->{
+                    //排队中的玩家
+//                viewModel.startGameBtnRes.set(R.drawable.btn_cancel_game)
+                    queuePosition?.let {
+                        if (it >0){
+                            viewModel.queueCount.set(getString(R.string.brefore_queue)+it)
+                        }else{
+                            viewModel.queueCount.set("")
+                        }
+                    }
+
+                }
+            }
         }
     }
 
@@ -391,12 +446,24 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         compositeDisposable.dispose()
     }
 
+    fun setGameQueueStatus(){
+        mGameStatus=GAME_STATUS_QUEUE
+        viewModel.startGameBtnRes.set(R.drawable.btn_cancel_game)
+    }
+
+    fun setGameResultStatus(){
+        mGameStatus=GAME_STATUS_ENDING
+    }
+
     fun setGameStartStatus(){
+        mGameStatus=GAME_STATUS_PLAYING
         viewModel.gamePanelVisibility.set(View.VISIBLE)
         viewModel.guestPanelVisibility.set(View.GONE)
     }
 
     fun setGameOverStatus(){
+        mGameStatus=GAME_STATUS_EMPTY
+        viewModel.startGameBtnRes.set(R.drawable.btn_start_game)
         viewModel.gamePanelVisibility.set(View.GONE)
         viewModel.guestPanelVisibility.set(View.VISIBLE)
     }

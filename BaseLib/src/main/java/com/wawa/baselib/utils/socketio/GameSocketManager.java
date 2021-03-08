@@ -390,7 +390,7 @@ public class GameSocketManager {
                 case "djiep_on_game_result":
                 case "on_game_result":
                     if (gameManagerListener != null) {
-                        ((EpGameListener) gameManagerListener).onEpGameOver(data);
+                        gameManagerListener.onGameResult(data);
                     }
                     break;
                 case "djiep_on_event":

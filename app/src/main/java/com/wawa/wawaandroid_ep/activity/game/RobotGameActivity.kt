@@ -14,6 +14,7 @@ import com.apollographql.apollo.RoomInfoQuery
 import com.blankj.utilcode.util.SizeUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.wawa.baselib.utils.dialog.GameReadyDialog
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.EpGameListener
@@ -21,12 +22,15 @@ import com.wawa.wawaandroid_ep.BR
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
+import com.wawa.wawaandroid_ep.adapter.LiveChatListAdapter
+import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
 import com.wawa.wawaandroid_ep.databinding.RobotGameActivityLayBinding
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.DrawableMenuLayout
 import com.wawa.wawaandroid_ep.view.RockerView
+import com.wawa.wawaandroid_ep.view.recycleview.NoAlphaItemAnimator
 import org.json.JSONObject
 import java.lang.reflect.Type
 
@@ -35,8 +39,9 @@ import java.lang.reflect.Type
  *作者：create by 张金 on 2021/2/3 14:27
  *邮箱：564813746@qq.com
  */
-class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGameViewModel>(), EpGameListener {
+class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGameViewModel>(), EpGameListener,GameReadyDialog.GameReadyInterface {
     private val TAG = "RobotGameActivity"
+    private var gameReadyDialog: GameReadyDialog?=null
 
     //Ep指令
     private var goTopleftEp: String = "chassis speed x 0.3 y 0.3 z 1;"
@@ -108,6 +113,12 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     fun initChatView(){
+        binding.chatList.setHasFixedSize(true)
+        binding.chatList.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.chatList.itemAnimator
+        chatListAdapter= LiveChatListAdapter(this)
+        binding.chatList.itemAnimator=NoAlphaItemAnimator()
+        binding.chatList.adapter=chatListAdapter
         binding.rlChatTag.setOnClickListener {
             if (booleanShowChat){
                 hideChatView()
@@ -224,8 +235,17 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
     fun btnStartGame(view: View) {
 //        startGame()
-        joinQueue()
+        when(mGameStatus){
+            GAME_STATUS_EMPTY,GAME_STATUS_PREQUEUE->{
+                joinQueue()
+            }
+            GAME_STATUS_QUEUE->{
+                quitQueue()
+            }
+        }
+
     }
+
 
     fun openSet() {
 
@@ -236,7 +256,28 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     fun quitGameRoom() {
+        when(mGameStatus){
+            GAME_STATUS_PLAYING ->{
+                var data = JSONObject()
+                data.put("id", GameSocketManager.generateId().toString())
+                data.put("method", "quit_game")
+                GameSocketManager.getInstance()
+                    .sendMessage("game", data, object : GameSocketManager.Callback {
+                        override fun onSuccess(jsonStr: JSONObject?) {
+                            LogUtils.d(TAG, "quitgame--success")
+                            //发个指令测试
 
+                        }
+
+                        override fun onError(errorCode: Int, errorMsg: String?) {
+                            LogUtils.d(TAG, "quitgame--falure" + errorMsg)
+                        }
+                    })
+            }
+            else ->{
+
+            }
+        }
     }
 
     fun initGameVideo(data: RoomInfoQuery.List) {
@@ -293,16 +334,20 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         super.onGameReady(timeLeft)
         LogUtils.d(TAG, "onGameReady")
         runOnUiThread{
-            if (timeLeft == 9) {
-                startGame()
-            }
+
         }
     }
 
     override fun onIMNotify(jsondata: JSONObject?) {
         super.onIMNotify(jsondata)
+        LogUtils.d(TAG,"onIMNotify--")
+        var gson=Gson()
+        var gameRoomChatDataBean:GameRoomChatDataBean?= null
+        gameRoomChatDataBean=gson.fromJson(jsondata?.toString(),GameRoomChatDataBean::class.java)
         runOnUiThread{
-
+            if (gameRoomChatDataBean != null){
+                chatListAdapter?.insertItem(gameRoomChatDataBean.msg_list)
+            }
         }
     }
 
@@ -355,6 +400,26 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     override fun initViewModel(): RobotGameViewModel {
         val robotGameActivityViewModel: RobotGameViewModel by viewModels()
         return robotGameActivityViewModel
+    }
+
+    override fun showGameReadyDialog(timeLeft: Int) {
+        //显示游戏准备弹窗
+        if (gameReadyDialog == null){
+            gameReadyDialog= GameReadyDialog()
+        }
+        gameReadyDialog?.gameReadyInterface=this
+        gameReadyDialog?.showDialog(supportFragmentManager,"GameReadyDialog")
+        gameReadyDialog?.setTimes(timeLeft)
+    }
+
+    override fun continuteGame() {
+        startGame()
+        gameReadyDialog=null
+    }
+
+    override fun cancelGame() {
+        quitQueue()
+        gameReadyDialog=null
     }
 
 

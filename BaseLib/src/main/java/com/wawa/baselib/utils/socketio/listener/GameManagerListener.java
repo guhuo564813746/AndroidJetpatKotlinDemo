@@ -85,6 +85,11 @@ public interface GameManagerListener {
      */
     public void onGameReady(int timeLeft);
 
+    /*
+    * 游戏结果回调
+    * */
+    void onGameResult(JSONObject jsonData);
+
     /**
      * 游戏倒计时
      * @param timeLeft 游戏剩余时间
