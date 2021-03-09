@@ -9,16 +9,20 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.RoomInfoQuery
 import com.blankj.utilcode.util.SizeUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.wawa.baselib.utils.dialog.GameOperationDialog
 import com.wawa.baselib.utils.dialog.GameReadyDialog
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.EpGameListener
 import com.wawa.wawaandroid_ep.BR
+import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
@@ -89,13 +93,13 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
                 CONSUME_TYPE_COIN ->{
                     coinsExchange?.let {
                         coin2hardRatio=it.toFloat()
-                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),coin2hardRatio.toString()))
+                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),coin2hardRatio.toInt().toString()))
                     }
                 }
                 CONSUNE_TYPE_POINT ->{
                     scoresExchange?.let {
                         score2hardRatio=it.toFloat()
-                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),score2hardRatio.toString()))
+                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),score2hardRatio.toInt().toString()))
                     }
                 }
             }
@@ -252,6 +256,12 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     fun openGameDesc() {
+        var operationDialog=GameOperationDialog()
+        var bundle=Bundle()
+        bundle.putString(GameOperationDialog.DIALOG_TITLE,getString(R.string.tx_owngamerules_tips))
+        bundle.putString(GameOperationDialog.DIALOG_URL,MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.robotGameRuleUrl())
+        operationDialog.arguments=bundle
+        operationDialog.showDialog(supportFragmentManager,"GameOperationDialog")
 
     }
 
@@ -271,6 +281,9 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
                         override fun onError(errorCode: Int, errorMsg: String?) {
                             LogUtils.d(TAG, "quitgame--falure" + errorMsg)
+                            runOnUiThread {
+                                ToastUtils.showShort(errorMsg)
+                            }
                         }
                     })
             }
@@ -388,6 +401,10 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
                     override fun onError(errorCode: Int, errorMsg: String?) {
                         LogUtils.d(TAG, "startgame--falure" + errorMsg)
+                        runOnUiThread {
+                            ToastUtils.showShort(errorMsg)
+                            setGameOverStatus()
+                        }
                     }
                 })
         }

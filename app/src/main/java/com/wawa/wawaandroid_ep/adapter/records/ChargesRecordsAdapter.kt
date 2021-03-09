@@ -42,10 +42,10 @@ class ChargesRecordsAdapter(
     override fun onBindViewHolder(holder: ChargeRecordsViewHolder, position: Int) {
         holder.tvRecordtitle.setText(list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.title())
         holder.tvRecordtime.setText(list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.uptimeFormat())
-        var virtualGoodsType=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.goodsFragment()?.virtualGoodsType()
-        var virtualGoods=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.goodsFragment()?.virtualGoods()
-        var virtualGoodsAmount=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.goodsFragment()?.virtualGoodsAmount()
-        var virtualGoodsGiveAmount=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.goodsFragment()?.virtualGoodsGiveAmount()
+        var virtualGoodsType=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.chargeGoodsFields()?.virtualGoodsType()
+        var virtualGoods=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.chargeGoodsFields()?.virtualGoods()
+        var virtualGoodsAmount=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.chargeGoodsFields()?.virtualGoodsAmount()
+        var virtualGoodsGiveAmount=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.chargeGoodsFields()?.virtualGoodsGiveAmount()
         var goodsTips=""
         virtualGoods?.let {
             if (virtualGoods==1){

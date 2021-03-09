@@ -16,6 +16,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.ChargeItemListQuery
 import com.wawa.baselib.utils.pay.PayManager
+import com.wawa.wawaandroid_ep.MainActivity
+import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.fragment.ChargeFragment
 import java.util.*
@@ -268,11 +270,11 @@ class ChargeDialogAdapter(context: Context,private val payManager: PayManager) :
             // 英文的系统显示美金
             if (Locale.getDefault().getLanguage().startsWith("zh")) {
                 holder.tv_paycount.setText(
-                    chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.Price().toString()
+                    chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.price().toString()
                 )
             } else {
                 holder.tv_paycount.setText(
-                    chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.Price().toString()
+                    chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.price().toString()
                 )
             }
            /* if (App.getInstance().getAppChannel().equals("coinpusher_google")) {
@@ -286,7 +288,7 @@ class ChargeDialogAdapter(context: Context,private val payManager: PayManager) :
         } else if (listType == ChargeFragment.GOODS_TYPE_DIAMOND) {
             //显示砖石的item
             val diamenGive: Int = 0
-            val price: Double? = chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.Price()
+            val price: Double? = chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.price()
 //            val originPirce: Float = chargeList[position].getOrigin_price().toFloat()
             if (isFirst == 1) {
                 //首充
@@ -481,7 +483,7 @@ class ChargeDialogAdapter(context: Context,private val payManager: PayManager) :
             // 英文的系统显示美金
             if (Locale.getDefault().getLanguage().startsWith("zh")) {
                 holder.tv_paycount.setText(
-                    chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.Price().toString()
+                    chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.price().toString()
                     /*String.format(
                         WordUtil.getString(R.string.price),
                         chargeList[position].getMoney()
@@ -489,7 +491,7 @@ class ChargeDialogAdapter(context: Context,private val payManager: PayManager) :
                 )
             } else {
                 holder.tv_paycount.setText(
-                    chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.Price().toString()
+                    chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.price().toString()
                 )
             }
             /*if (App.getInstance().getAppChannel().equals("coinpusher_google")) {
@@ -560,8 +562,10 @@ class ChargeDialogAdapter(context: Context,private val payManager: PayManager) :
                             payManager.showPayTypeDialog(
                                 it, it1,
                                 object:PayManager.PayCallback{
-                                    override fun paySuccess() {
-                                        TODO("Not yet implemented")
+                                    override fun paySuccess(payType: Int) {
+                                        if (payType== PayManager.PAYTYPE_ZFB_H5){
+                                            (mContext as MainActivity).setUpDataSource()
+                                        }
                                     }
 
                                     override fun payErr() {

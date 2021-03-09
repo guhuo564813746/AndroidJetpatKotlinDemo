@@ -1,0 +1,13 @@
+
+query ConfigData{
+  config{
+    page{
+        ...pageOptionFragment
+    }
+  }
+}
+
+fragment pageOptionFragment on PageOption{
+    robotGameRuleUrl
+    userAgreementUrl
+}

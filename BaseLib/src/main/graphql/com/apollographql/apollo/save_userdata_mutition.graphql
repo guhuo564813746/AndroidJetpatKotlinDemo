@@ -1,0 +1,9 @@
+mutation UserEdit($email: String!,$phoneNo: String!,$nickName: String!,$avatar: String!){
+  userEdit(email: $email, phoneNo: $phoneNo, nickName: $nickName,avatar: $avatar){
+    avatar
+    avatarThumb
+    name
+    nickName
+    phoneNo
+  }
+}

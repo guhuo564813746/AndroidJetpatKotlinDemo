@@ -88,4 +88,8 @@ class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloC
 
     }
 
+    override fun getConfigData() {
+        TODO("Not yet implemented")
+    }
+
 }

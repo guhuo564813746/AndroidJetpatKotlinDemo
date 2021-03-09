@@ -12,9 +12,9 @@ query ChargeItemList{
 }
 
 fragment chargeGoodsFields on Goods{
-    GoogleProductId
-    Price
-    Status
+    googleProductId
+    price
+    status
     coverUrl
     detailDesc
     goodsId

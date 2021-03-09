@@ -79,4 +79,8 @@ class ApolloRxService(apolloClient: ApolloClient,
 
     }
 
+    override fun getConfigData() {
+        TODO("Not yet implemented")
+    }
+
 }

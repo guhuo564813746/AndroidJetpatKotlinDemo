@@ -1,0 +1,8 @@
+
+mutation UploadUserAvatar($file: Upload!){
+  uploadUserAvatar(file: $file){
+    fileName
+    size
+    url
+  }
+}

@@ -8,7 +8,9 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.apollographql.apollo.ConfigDataQuery
 import com.apollographql.apollo.UserQuery
+import com.blankj.utilcode.util.ToastUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
@@ -74,9 +76,30 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
             viewModel.isShowBottom.postValue(false)
             viewModel.isUserLogined.postValue(false)
         }
+        initConfigData()
     }
 
-    private fun setUpDataSource(){
+    fun initConfigData(){
+        val successConfigDataDp=dataSource.configData
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleSuccessConfigData)
+        val errorConfigDataDp=dataSource.error
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleErrorData)
+        compositeDisposable.add(successConfigDataDp)
+        compositeDisposable.add(errorConfigDataDp)
+        dataSource.getConfigData()
+    }
+
+    fun handleSuccessConfigData(data: ConfigDataQuery.Config){
+        data?.let {
+            MainViewModule.configData=data
+        }
+    }
+
+     fun setUpDataSource(){
         val successUserDisposable=dataSource.userData
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -85,7 +108,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
         val errorUserDisposable=dataSource.error
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleErrorUserData)
+            .subscribe(this::handleErrorData)
         compositeDisposable.add(successUserDisposable)
         compositeDisposable.add(errorUserDisposable)
         dataSource.getUserData()
@@ -96,8 +119,11 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
         MainViewModule.userData=userData
     }
 
-    private fun handleErrorUserData(error: Throwable?){
-        Log.d(TAG,"handleErrorUserData--")
+    private fun handleErrorData(error: Throwable?){
+        Log.d(TAG,"handleErrorData--")
+        runOnUiThread {
+            ToastUtils.showShort(error?.message)
+        }
     }
 
     override fun onDestroy() {

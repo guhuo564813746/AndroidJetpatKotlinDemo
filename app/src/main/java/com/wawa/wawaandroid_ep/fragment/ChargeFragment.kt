@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayout
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.pay.PayManager
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.MainActivity
-import com.wawa.wawaandroid_ep.R
-import com.wawa.wawaandroid_ep.WawaApp
+import com.wawa.wawaandroid_ep.*
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.databinding.FragmentChargeLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.ChargeFragmentViewModel
@@ -48,6 +46,10 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
     }
 
     override fun initFragmentView() {
+        MainViewModule.mutableLiveuserData?.observe(this, Observer {
+            viewModel.coin.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
+            viewModel.diamond.set("0")
+        })
         activity?.let { payManager=PayManager(it,WawaApp.apolloClient) }
         lifecycle.addObserver(payManager)
         initChargeTab()

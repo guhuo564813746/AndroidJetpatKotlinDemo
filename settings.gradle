@@ -1,3 +1,4 @@
+include ':imagepicker'
 include ':magicindicator'
 include ':BaseLib'
 include ':baseresourcelib'

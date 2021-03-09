@@ -1,15 +1,16 @@
 
 mutation CreateOrderItem($chargeItemId: Int!,$payType: Int!){
   createChargeOrder(chargeItemId: $chargeItemId, payType: $payType){
-    addtimeFormat
-    bizStatus
-    fee
-    orderGoods{
-        ...orderGoodsFragment
+    order{
+        ...orderFragment
     }
-    orderId
-    payStatus
-    payTradeNo
-    payType
+    payParams{
+        ...payParamsFragment
+    }
+
   }
+}
+
+fragment payParamsFragment on PayParams{
+    payRedirectUrl
 }

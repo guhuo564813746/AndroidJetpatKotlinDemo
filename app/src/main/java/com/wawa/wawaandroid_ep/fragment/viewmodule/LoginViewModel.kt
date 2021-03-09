@@ -32,10 +32,10 @@ class LoginViewModel : BaseVM(){
                 }
 
                 override fun onResponse(response: Response<UserLoginByPhoneMutation.Data>) {
-                    Log.d("phoneLogin",response.data()?.userLoginByPhone()?.accessToken().toString()
-                            +"--"+response.data()?.userLoginByPhone()?.userId())
-                    val token=response.data()?.userLoginByPhone()?.accessToken().toString()
-                    val uid=response.data()?.userLoginByPhone()?.userId().toString()
+                    Log.d("phoneLogin",response.data?.userLoginByPhone()?.accessToken().toString()
+                            +"--"+response.data?.userLoginByPhone()?.userId())
+                    val token=response.data?.userLoginByPhone()?.accessToken().toString()
+                    val uid=response.data?.userLoginByPhone()?.userId().toString()
                     SharePreferenceUtils.saveToken(token)
                     SharePreferenceUtils.saveUid(uid)
                     if (token.isNotBlank() && uid.isNotBlank()){

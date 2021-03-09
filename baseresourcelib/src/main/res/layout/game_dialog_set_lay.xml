@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"></LinearLayout>-->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="420dp"
+        android:layout_height="278dp"
+        android:background="@mipmap/im_game_set_bg">
+        <ImageView
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:src="@mipmap/im_lans_game_cancel"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="19dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/im_gameset_cancel" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_toStartOf="@+id/im_gameset_cancel"
+            android:layout_alignBottom="@+id/im_gameset_cancel"
+            android:layout_marginRight="34dp"
+            android:id="@+id/lansgame_settab"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/lansgame_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lansgame_settab" />
+
+
+    </RelativeLayout>
+
+</layout>

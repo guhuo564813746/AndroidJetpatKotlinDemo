@@ -3,10 +3,12 @@ package com.wawa.wawaandroid_ep.activity.game
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.apollographql.apollo.RoomInfoQuery
+import com.blankj.utilcode.util.ToastUtils
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.logutils.LogUtils
@@ -201,6 +203,9 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
             override fun onError(errorCode: Int, errorMsg: String?) {
                 LogUtils.d(TAG,"checkLoginErr"+errorCode)
+                runOnUiThread{
+                    ToastUtils.showShort(errorMsg)
+                }
                 if (errorCode==Comen.TOKEN_ERR){
                     //未登录，重新登陆
                     socketLogin()
@@ -223,6 +228,10 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
             override fun onError(errorCode: Int, errorMsg: String?) {
                 LogUtils.d(TAG,"joinRoom_error")
+                runOnUiThread {
+                    ToastUtils.showShort(errorMsg)
+                }
+
             }
         })
     }
@@ -245,6 +254,10 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
             override fun onError(errorCode: Int, errorMsg: String?) {
                 LogUtils.d(TAG,"join_queue--falure")
+                runOnUiThread {
+                    ToastUtils.showShort(errorMsg)
+                    setGameOverStatus()
+                }
             }
         })
     }
@@ -262,6 +275,9 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
             override fun onError(errorCode: Int, errorMsg: String?) {
                 LogUtils.d(TAG,"quit_queue--falure")
+                runOnUiThread {
+                    ToastUtils.showShort(errorMsg)
+                }
             }
         })
     }
@@ -280,6 +296,9 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
             override fun onError(errorCode: Int, errorMsg: String?) {
                 LogUtils.d(TAG,"quit_game--falure")
+                runOnUiThread {
+                    ToastUtils.showShort(errorMsg)
+                }
             }
         })
     }
@@ -304,6 +323,9 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
             override fun onError(errorCode: Int, errorMsg: String?) {
                 LogUtils.d(TAG,"gameLogin--falure")
+                runOnUiThread {
+                    ToastUtils.showShort(errorMsg)
+                }
             }
         })
     }

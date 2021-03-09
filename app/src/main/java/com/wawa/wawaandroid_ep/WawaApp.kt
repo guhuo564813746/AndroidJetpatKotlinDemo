@@ -95,8 +95,8 @@ class WawaApp : Application(){
 
         ApolloClient.builder()
             .serverUrl(baseUrl)
-            .normalizedCache(sqlNormalizedCacheFactory, cacheKeyResolver)
-            .httpCache(ApolloHttpCache(cacheStore, logger))
+//            .normalizedCache(sqlNormalizedCacheFactory, cacheKeyResolver)
+//            .httpCache(ApolloHttpCache(cacheStore, logger))
             .defaultHttpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
             .okHttpClient(okHttpClient)
             .build()

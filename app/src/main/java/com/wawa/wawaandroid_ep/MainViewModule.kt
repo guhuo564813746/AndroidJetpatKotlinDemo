@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.apollographql.apollo.ApolloCall
+import com.apollographql.apollo.ConfigDataQuery
 import com.apollographql.apollo.UserQuery
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
@@ -19,6 +20,7 @@ class MainViewModule : BaseVM(){
         val TAG="MainViewModule"
         var mutableLiveuserData=MutableLiveData<UserQuery.User>()
         var userData: UserQuery.User?= null
+        var configData: ConfigDataQuery.Config?= null
     }
     val isShowBottom=MutableLiveData<Boolean>()
     val isUserLogined=MutableLiveData<Boolean>()

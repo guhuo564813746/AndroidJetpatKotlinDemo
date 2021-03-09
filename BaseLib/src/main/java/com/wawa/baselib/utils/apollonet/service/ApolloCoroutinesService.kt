@@ -193,4 +193,21 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
+    override fun getConfigData() {
+        val configQuery=ConfigDataQuery()
+        job=CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(configQuery).await()
+                val config=response?.data?.config()
+                withContext(resultContext){
+                    config?.let {
+                        configDataSubject.onNext(config)
+                    }
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
+    }
+
 }

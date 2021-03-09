@@ -30,6 +30,7 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     protected val userPointLogListSubject: PublishSubject<List<UserPointLogListQuery.List>> = PublishSubject.create()
     protected val userDataSubject: PublishSubject<UserQuery.User> = PublishSubject.create()
     protected val roomInfoSubject: PublishSubject<List<RoomInfoQuery.List>> = PublishSubject.create()
+    protected val configDataSubject: PublishSubject<ConfigDataQuery.Config> = PublishSubject.create()
 
     val bannerList: Observable<List<BannerListQuery.BannerList>> =bannerListSubject.hide()
     val chargeOrderList: Observable<List<ChargeOrderListQuery.List>> = chargeOrderListSubject.hide()
@@ -42,6 +43,7 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     val userPointLogList: Observable<List<UserPointLogListQuery.List>> =userPointLogListSubject.hide()
     val userData: Observable<UserQuery.User> = userDataSubject.hide()
     val roomInfo: Observable<List<RoomInfoQuery.List>> = roomInfoSubject.hide()
+    val configData: Observable<ConfigDataQuery.Config> =configDataSubject.hide()
 
     abstract fun  getBannerList(categoryId: Int)
     abstract fun getChargeOrderList(index: Int)
@@ -54,5 +56,5 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     abstract fun getUserPointLogList(index: Int)
     abstract fun getUserData()
     abstract fun getRoomInfoData(roodId: Int)
-
+    abstract fun getConfigData()
 }

@@ -34,4 +34,7 @@
 
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+# apollo upload file
+-keep class * implements com.apollographql.apollo.api.InputType { *; }
+
 

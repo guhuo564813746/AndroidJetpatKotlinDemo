@@ -40,7 +40,6 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
-                android:onClick="chooseImg"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/ic_person"/>
         </RelativeLayout>

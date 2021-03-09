@@ -189,7 +189,7 @@
                     android:clickable="false"
                     android:scaleType="fitXY"
                     android:alpha="0.9"
-                    android:src="@drawable/btn_start_game"
+                    android:src="@{viewModel.startGameBtnRes}"
                     android:onClick="btnStartGame"/>
 
                 <TextView

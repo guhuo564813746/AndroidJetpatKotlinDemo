@@ -6,6 +6,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.UserQuery
 import com.wawa.baselib.utils.apollonet.BaseDataSource
+import com.wawa.baselib.utils.glide.loader.ImageLoader
+import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.*
 import com.wawa.wawaandroid_ep.adapter.MineFragmentListAdapter
@@ -16,6 +18,7 @@ import com.wawa.wawaandroid_ep.fragment.viewmodule.MineFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 /**
  *作者：create by 张金 on 2021/1/14 11:33
@@ -92,6 +95,11 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
         if (userData != null){
             MainViewModule.mutableLiveuserData.value=userData
             MainViewModule.userData=userData
+            ImageLoader.with(activity)
+                .url(userData?.fragments()?.userFragment()?.avatarThumb())
+//                .placeHolder(R.mipmap.ic_launcher)
+                .rectRoundCorner(ImageUtil.dip2px(30f), RoundedCornersTransformation.CornerType.ALL)
+                .into(binding.imHead);
             viewModel.coins.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
             viewModel.scores.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.point().toString())
             viewModel.diamons.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
