@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollographql.apollo.BannerListQuery;
+import com.robotwar.app.R;
 import com.wawa.baselib.utils.glide.GlideManager;
 import com.wawa.baselib.utils.glide.loader.ImageLoader;
 import com.wawa.baselib.utils.glide.utils.ImageUtil;
-import com.wawa.wawaandroid_ep.R;
 
 import java.util.List;
 

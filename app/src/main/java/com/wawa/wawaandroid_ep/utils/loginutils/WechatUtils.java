@@ -4,11 +4,11 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.robotwar.app.BuildConfig;
+import com.robotwar.app.R;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.wawa.wawaandroid_ep.BuildConfig;
-import com.wawa.wawaandroid_ep.R;
 
 /**
  * 作者：create by 张金 on 2020/12/30 18:07
@@ -22,7 +22,7 @@ public class WechatUtils {
     public WechatUtils(Context context){
         this.mContext=context;
         appId= BuildConfig.WX_APPID;
-        mApi = WXAPIFactory.createWXAPI(mContext, appId);
+        mApi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), appId,true);
         mApi.registerApp(appId);
         Log.d(TAG,appId+"");
     }

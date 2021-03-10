@@ -39,7 +39,8 @@
     <fragment android:id="@+id/profileFragment"
         android:name="com.wawa.wawaandroid_ep.fragment.ProfileFragment"
         android:label="个人信息"></fragment>
-
+    <activity android:id="@+id/wxentryActivity"
+        android:name="com.robotwar.app.wxapi.WXEntryActivity"/>
 
     <activity android:id="@+id/robotActivity"
         android:name="com.wawa.wawaandroid_ep.activity.game.RobotGameActivity">

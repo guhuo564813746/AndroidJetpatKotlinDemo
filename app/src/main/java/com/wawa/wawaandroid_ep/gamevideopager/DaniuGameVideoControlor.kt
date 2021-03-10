@@ -9,10 +9,10 @@ import androidx.fragment.app.viewModels
 import com.daniulive.smartplayer.SmartPlayerJniV2
 import com.eventhandle.NTSmartEventCallbackV2
 import com.eventhandle.NTSmartEventID
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.DaniuGamevideoFmLayBinding
 import com.videoengine.NTRenderer
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.R
-import com.wawa.wawaandroid_ep.databinding.DaniuGamevideoFmLayBinding
 import com.wawa.wawaandroid_ep.gamevideopager.viewmodel.DaniuGameVideoViewModel
 
 /**

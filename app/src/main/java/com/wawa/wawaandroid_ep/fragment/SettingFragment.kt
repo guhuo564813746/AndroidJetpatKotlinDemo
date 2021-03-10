@@ -7,13 +7,13 @@ import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.blankj.utilcode.util.AppUtils
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.SettingFmLayBinding
 import com.wawa.baselib.utils.GlideCatchUtil
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.databinding.SettingFmLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.SettingFragmentViewModel
 
 /**
@@ -106,7 +106,11 @@ class SettingFragment : BaseFragment<SettingFmLayBinding,SettingFragmentViewMode
         when(view?.id){
             R.id.profile_layout ->{}
             R.id.btn_clear_cache ->{}
-            R.id.btn_logout -> {}
+            R.id.btn_logout -> {
+                SharePreferenceUtils.saveToken("")
+                SharePreferenceUtils.saveUid("")
+                findNavController().navigate(R.id.loginFragment)
+            }
             R.id.btn_choose_lan -> {
                 findNavController().navigate(R.id.chooseLanguageFragment)
             }

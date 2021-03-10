@@ -1,10 +1,14 @@
 package com.wawa.wawaandroid_ep.fragment
 
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.UserQuery
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.FragmentMineLayBinding
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
@@ -13,7 +17,6 @@ import com.wawa.wawaandroid_ep.*
 import com.wawa.wawaandroid_ep.adapter.MineFragmentListAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.bean.mine.MineListBean
-import com.wawa.wawaandroid_ep.databinding.FragmentMineLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.MineFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -43,6 +46,10 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
 
     override fun initFragmentView() {
         LogUtils.d(TAG,"initFragmentView---")
+        val backPressCallback=requireActivity().onBackPressedDispatcher.addCallback (this){
+            requireActivity().finish()
+        }
+        backPressCallback.isEnabled
         //initview
         binding.lvMineset.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         val mineChargeBean=MineListBean()

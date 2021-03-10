@@ -18,7 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.wawa.wawaandroid_ep.R;
+import com.robotwar.app.R;
 
 /**
  * Created by kqw on 2016/8/30.

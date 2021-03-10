@@ -19,12 +19,14 @@ class SharePreferenceUtils {
         * Share保存--start
         * */
         private val USER_DATA: String="USER_DATA"
+
+
         val TOKEN: String="TOKEN"
         val UID: String ="UID"
-        val BGM="bgm"
-        val BGM_LIVE = "live_bgm"
-        val BGM_GAME = "bgm_game"
-        val BGM_KEY = "bgm_key"
+        const val BGM="bgm"//背景音乐
+        const val BGM_LIVE = "live_bgm"//直播背景音乐
+        const val BGM_GAME = "bgm_game"//游戏音效
+        const val BGM_KEY = "bgm_key"//按键音效
         val PLAYER_OPENGL = "PLAYER_OPENGL"
         val VIDEO_PLAYER = "VIDEO_PLAYER"
         val WIFI_SET="WIFI_SET"

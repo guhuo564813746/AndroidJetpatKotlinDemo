@@ -3,14 +3,14 @@ package com.wawa.wawaandroid_ep.fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apollographql.apollo.ChargeItemListQuery
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.ChargeListFmLayBinding
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.charge.ChargeDialogAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.databinding.ChargeListFmLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.ChargeItemViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

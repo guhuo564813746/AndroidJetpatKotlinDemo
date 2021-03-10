@@ -3,7 +3,7 @@ package com.wawa.wawaandroid_ep.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.wawa.wawaandroid_ep.R;
+import com.robotwar.app.R;
 
 /**
  * @ProjectName: wawa-android

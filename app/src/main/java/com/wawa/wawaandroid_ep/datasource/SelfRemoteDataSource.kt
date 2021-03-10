@@ -1,9 +1,9 @@
 package com.wawa.wawaandroid_ep.datasource
 
 import android.widget.Toast
+import com.robotwar.app.BuildConfig
 import com.wawa.baselib.utils.net.datasource.RemoteExtendDataSource
 import com.wawa.baselib.utils.net.viewmodule.IUIActionEvent
-import com.wawa.wawaandroid_ep.BuildConfig
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.httpcore.apiservice.ApiService
 import com.wawa.wawaandroid_ep.httpcore.interceptor.FilterInterceptor

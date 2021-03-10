@@ -16,20 +16,23 @@ import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.RobotGameActivityLayBinding
+import com.wawa.baselib.utils.dialog.ConfirmDialogFatory
 import com.wawa.baselib.utils.dialog.GameOperationDialog
 import com.wawa.baselib.utils.dialog.GameReadyDialog
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.EpGameListener
-import com.wawa.wawaandroid_ep.BR
+
 import com.wawa.wawaandroid_ep.MainViewModule
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.activity.viewmodule.RobotGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.adapter.LiveChatListAdapter
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
-import com.wawa.wawaandroid_ep.databinding.RobotGameActivityLayBinding
+import com.wawa.wawaandroid_ep.dialog.GameSetDialog
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.DrawableMenuLayout
@@ -252,7 +255,8 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
 
     fun openSet() {
-
+        var gameSetDialog= GameSetDialog()
+        gameSetDialog.showDialog(supportFragmentManager,"GameSetDialog")
     }
 
     fun openGameDesc() {
@@ -266,31 +270,43 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     fun quitGameRoom() {
-        when(mGameStatus){
-            GAME_STATUS_PLAYING ->{
-                var data = JSONObject()
-                data.put("id", GameSocketManager.generateId().toString())
-                data.put("method", "quit_game")
-                GameSocketManager.getInstance()
-                    .sendMessage("game", data, object : GameSocketManager.Callback {
-                        override fun onSuccess(jsonStr: JSONObject?) {
-                            LogUtils.d(TAG, "quitgame--success")
-                            //发个指令测试
+        var quitDialog=ConfirmDialogFatory(getString(R.string.confirm),getString(R.string.cancel),getString(R.string.tip),getString(R.string.GAME_QUIT_CONFIRM))
+        quitDialog.dialogSelectInterface=object : ConfirmDialogFatory.DialogSelectInterface{
+            override fun onPositiveClick() {
+                quitDialog.dismissAllowingStateLoss()
+                when(mGameStatus){
+                    GAME_STATUS_PLAYING ->{
+                        var data = JSONObject()
+                        data.put("id", GameSocketManager.generateId().toString())
+                        data.put("method", "quit_game")
+                        GameSocketManager.getInstance()
+                            .sendMessage("game", data, object : GameSocketManager.Callback {
+                                override fun onSuccess(jsonStr: JSONObject?) {
+                                    LogUtils.d(TAG, "quitgame--success")
+                                    //发个指令测试
 
-                        }
+                                }
 
-                        override fun onError(errorCode: Int, errorMsg: String?) {
-                            LogUtils.d(TAG, "quitgame--falure" + errorMsg)
-                            runOnUiThread {
-                                ToastUtils.showShort(errorMsg)
-                            }
-                        }
-                    })
+                                override fun onError(errorCode: Int, errorMsg: String?) {
+                                    LogUtils.d(TAG, "quitgame--falure" + errorMsg)
+                                    runOnUiThread {
+                                        ToastUtils.showShort(errorMsg)
+                                    }
+                                }
+                            })
+                    }
+                    else ->{
+                        finish()
+                    }
+                }
             }
-            else ->{
 
+            override fun onNegativeClick() {
+                quitDialog.dismissAllowingStateLoss()
             }
+
         }
+        quitDialog.showConfirmDialog(supportFragmentManager)
     }
 
     fun initGameVideo(data: RoomInfoQuery.List) {
@@ -426,7 +442,9 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         }
         gameReadyDialog?.gameReadyInterface=this
         gameReadyDialog?.showDialog(supportFragmentManager,"GameReadyDialog")
-        gameReadyDialog?.setTimes(timeLeft)
+        if(gameReadyDialog!!.isAdded){
+            gameReadyDialog?.setTimes(timeLeft)
+        }
     }
 
     override fun continuteGame() {

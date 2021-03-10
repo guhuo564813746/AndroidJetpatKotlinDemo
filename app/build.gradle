@@ -21,8 +21,17 @@ android {
         generateStubs = true
     }
 
+    signingConfigs {
+        debugSigningConfig {
+            storeFile file("../keystore/robotwarapp.keystore")
+            storePassword "robot@0304"
+            keyAlias "robotwarapp"
+            keyPassword "robot@0304"
+        }
+    }
+
     defaultConfig {
-        applicationId "com.wowgotcha.robot"
+        applicationId "com.robotwar.app"
 //        applicationId "com.wowgotcha.wawa"
         minSdkVersion 21
         targetSdkVersion 30
@@ -34,6 +43,7 @@ android {
         buildConfigField "String", "HOST", '"http://robot.t.seafarer.me"'
         buildConfigField "String", "WX_APPID", '"wxcba967814b417cb3"' //wawa: wx0c0bd85e2edb9f75  robot: wxcba967814b417cb3
         buildConfigField "String", "WX_SECREAT", '"1c9e485a2e8dcbdbf3a07a25e2b61edb"'
+
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
 //            abiFilters 'arm64-v8a'//,'x86'
@@ -42,6 +52,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debugSigningConfig
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

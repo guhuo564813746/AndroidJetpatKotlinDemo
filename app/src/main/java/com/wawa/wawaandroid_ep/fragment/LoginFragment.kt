@@ -7,21 +7,21 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.databinding.Observable
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.wawa.wawaandroid_ep.BR
+import com.blankj.utilcode.util.ToastUtils
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.FragmentLoginLayBinding
+import com.robotwar.app.wxapi.WXEntryActivity.WXLOGIN_ACTION
 import com.wawa.wawaandroid_ep.MainActivity
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.databinding.FragmentLoginLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.LoginViewModel
 import com.wawa.wawaandroid_ep.utils.loginutils.PhoneLoginDialog
 import com.wawa.wawaandroid_ep.utils.loginutils.WechatUtils
-import com.wowgotcha.robot.wxapi.WXEntryActivity.WXLOGIN_ACTION
 
 /**
  *作者：create by 张金 on 2021/1/14 15:36
@@ -44,7 +44,15 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
 
             }
             .setConfirmOnClickListener { v, phoneNum, code ->
-                viewModel.phoneLogin("13311111111", "Panda_Game")
+
+                if (phoneNum.isNullOrEmpty()){
+                    ToastUtils.showShort(getString(R.string.please_input_phone_num))
+                }else if (code.isNullOrEmpty()){
+                    ToastUtils.showShort(getString(R.string.please_input_validate_code))
+                }else{
+                    viewModel.phoneLogin(phoneNum, code)
+                }
+
             }
             .create()
         val backPressCallback=requireActivity().onBackPressedDispatcher.addCallback (this){
@@ -53,15 +61,31 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
         backPressCallback.isEnabled
     }
 
+    fun isAgreeCheck(): Boolean{
+        var isCheck=binding.checkboxAgreement.isChecked
+        return isCheck
+    }
+
 
     override fun initFragmentView() {
+        activity?.findViewById<View>(R.id.view_main_bg)?.visibility=View.GONE
+        binding.tvLoginTips.setText(
+            String.format(resources.getString(R.string.LOGIN_NEW_USER_GIFT),getString(R.string.COIN)))
         wechatUtils= WechatUtils(activity)
         binding.btnWx.setOnClickListener {
             Log.d(TAG,"wxLogin--")
-            wechatUtils.wxLogin()
+            if (!isAgreeCheck()){
+                ToastUtils.showShort(getString(R.string.user_service_terms))
+            }else{
+                wechatUtils.wxLogin()
+            }
         }
         binding.btnPhoneShow.setOnClickListener{
-            loginDialog.show()
+            if (!isAgreeCheck()){
+                ToastUtils.showShort(getString(R.string.user_service_terms))
+            }else{
+                loginDialog.show()
+            }
         }
         viewModel.isL.addOnPropertyChangedCallback(object :Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -73,12 +97,14 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
         })
 
         viewModel.isLoginSuccess.observe(this){
-            if(it){
-                Log.d("isLoginSuccess","true")
-                loginDialog?.dismiss()
-                (activity as MainActivity).viewModel.isShowBottom.postValue(true)
-                (activity as MainActivity).viewModel.isUserLogined.postValue(true)
-                findNavController().navigate(R.id.chargeFragment)
+            activity?.runOnUiThread{
+                if (it){
+                    Log.d("isLoginSuccess","true")
+                    loginDialog?.dismiss()
+                    (activity as MainActivity).viewModel.isShowBottom.postValue(true)
+                    (activity as MainActivity).viewModel.isUserLogined.postValue(true)
+                    findNavController().navigate(R.id.chargeFragment)
+                }
             }
         }
     }
@@ -92,11 +118,14 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
             if (!TextUtils.isEmpty(action) && action == WXLOGIN_ACTION) {
                 val wxCode: String? = intent.getStringExtra("wxCode")
                 //微信登陆
-                if (!TextUtils.isEmpty(wxCode)) {
+                wxCode?.let {
+                    viewModel.wxLogin(wxCode)
+                }
+                /*if (!TextUtils.isEmpty(wxCode)) {
                     viewModel.wxLogin(wxCode?:"")
                 } else {
                     Toast.makeText(activity,"wechat auth failed",Toast.LENGTH_SHORT).show()
-                }
+                }*/
             }
         }
     }

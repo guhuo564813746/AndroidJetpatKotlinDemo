@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.ChooseLanguageLayBinding
 import com.wawa.baselib.utils.LanguageUtils
 import com.wawa.baselib.utils.SharePreferenceUtils
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.adapter.ChooseLanguageAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.databinding.ChooseLanguageLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.ChooseLanguageViewModel
 import java.util.*
 

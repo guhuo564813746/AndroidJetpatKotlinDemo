@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.wawa.wawaandroid_ep.R
+import com.robotwar.app.R
 import com.wawa.wawaandroid_ep.bean.mine.MineListBean
 import com.wawa.wawaandroid_ep.fragment.MineFragment
 

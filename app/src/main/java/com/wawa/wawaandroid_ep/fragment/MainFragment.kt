@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
@@ -11,6 +12,9 @@ import androidx.lifecycle.Observer
 import com.apollographql.apollo.BannerListQuery
 import com.apollographql.apollo.RoomCategoryListQuery
 import com.google.android.material.tabs.TabLayout
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.FragmentMainLayBinding
 import com.to.aboomy.pager2banner.IndicatorView
 import com.to.aboomy.pager2banner.ScaleInTransformer
 import com.wawa.baselib.utils.apollonet.BaseDataSource
@@ -20,7 +24,6 @@ import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.*
 import com.wawa.wawaandroid_ep.adapter.ImageAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.databinding.FragmentMainLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.MainFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -56,6 +59,10 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
     }
 
     override fun initFragmentView() {
+        val backPressCallback=requireActivity().onBackPressedDispatcher.addCallback (this){
+            requireActivity().finish()
+        }
+        backPressCallback.isEnabled
         MainViewModule.mutableLiveuserData?.observe(this, Observer {
             binding.tvMainUsername.text=it.fragments()?.userFragment()?.nickName()
             ImageLoader.with(activity)

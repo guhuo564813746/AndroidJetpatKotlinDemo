@@ -15,10 +15,10 @@ import androidx.annotation.NonNull
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.ChargeItemListQuery
+import com.robotwar.app.R
 import com.wawa.baselib.utils.pay.PayManager
 import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.MainViewModule
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.fragment.ChargeFragment
 import java.util.*
 import kotlin.collections.ArrayList

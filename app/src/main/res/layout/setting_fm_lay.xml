@@ -30,7 +30,6 @@
             android:layout_height="50dp"
             android:layout_below="@+id/view_head"
             android:background="@color/white"
-            android:onClick="settingClick"
             android:visibility="gone">
 
             <TextView
@@ -235,7 +234,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/bgm_key"
             android:background="@color/white"
-            >
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -277,7 +276,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/wifi_set"
             android:background="@color/white"
-            >
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -318,7 +317,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/player_opengl"
             android:background="@color/white"
-            >
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -360,7 +359,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/video_player"
             android:background="@color/white"
-            android:onClick="settingClick"
+            android:visibility="gone"
             >
 
             <TextView
@@ -407,7 +406,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn_choose_lan"
             android:background="@color/white"
-            android:onClick="settingClick"
+            android:visibility="gone"
             >
 
             <TextView
@@ -446,7 +445,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn_clear_cache"
             android:background="@color/white"
-            android:onClick="settingClick"
+            android:visibility="gone"
             >
 
             <TextView
@@ -475,7 +474,6 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/blue_20_cornors_bg"
             android:gravity="center"
-            android:onClick="settingClick"
             android:text="@string/logout"
             android:textColor="@color/white"
             android:textSize="15sp"

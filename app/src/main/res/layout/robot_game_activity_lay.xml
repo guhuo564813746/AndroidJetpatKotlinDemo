@@ -133,7 +133,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="0dp"
-            android:id="@+id/rl_chat">
+            android:id="@+id/rl_chat"
+            android:visibility="gone">
             <RelativeLayout
                 android:layout_width="200dp"
                 android:layout_height="match_parent"

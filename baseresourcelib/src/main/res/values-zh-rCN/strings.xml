@@ -4,7 +4,7 @@
     <string name="app_name">熊猫抓抓</string>
     <string name="COIN_VERTICAL">熊\n猫\n币</string>
     <!--    <string name="COIN_VERTICAL">达\n人\n币</string>-->
-    <string name="COIN">熊猫币</string>
+    <string name="COIN">游戏币</string>
     <!--    <string name="COIN">达人币</string>-->
     <string name="LOGIN_NEW_USER_GIFT">新用户微信登录送50%1$s</string>
     <!--    <string name="LOGIN_NEW_USER_GIFT">新用户微信登录送50达人币</string>-->

@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.SizeUtils
+import com.robotwar.app.R
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 

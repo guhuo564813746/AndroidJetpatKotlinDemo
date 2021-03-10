@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.wawa.wawaandroid_ep.R
+import com.robotwar.app.R
 import com.wawa.wawaandroid_ep.adapter.LiveChatListAdapter.Vh
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.utils.stringutils.TextRender

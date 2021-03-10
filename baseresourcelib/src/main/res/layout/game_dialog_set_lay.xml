@@ -3,13 +3,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"></LinearLayout>-->
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:binding="http://schemas.android.com/apk/res-auto">
-
-    <RelativeLayout
-        android:layout_width="420dp"
-        android:layout_height="278dp"
-        android:background="@mipmap/im_game_set_bg">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="420dp"
+    android:layout_height="278dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/im_game_set_bg">
         <ImageView
             android:layout_width="29dp"
             android:layout_height="29dp"
@@ -26,7 +24,8 @@
             android:layout_toStartOf="@+id/im_gameset_cancel"
             android:layout_alignBottom="@+id/im_gameset_cancel"
             android:layout_marginRight="34dp"
-            android:id="@+id/lansgame_settab"/>
+            android:id="@+id/lansgame_settab"
+            app:tabSelectedTextColor="@color/white"/>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/lansgame_pager"
@@ -36,5 +35,3 @@
 
 
     </RelativeLayout>
-
-</layout>

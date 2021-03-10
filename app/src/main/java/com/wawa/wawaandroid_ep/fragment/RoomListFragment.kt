@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.BannerListQuery
 import com.apollographql.apollo.RoomListQuery
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.R
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.RoomlistFmLayBinding
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.RoomListAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
-import com.wawa.wawaandroid_ep.databinding.RoomlistFmLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.RoomListFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

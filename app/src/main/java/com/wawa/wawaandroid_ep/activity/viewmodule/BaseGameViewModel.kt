@@ -8,8 +8,8 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.apollographql.apollo.RoomInfoQuery
+import com.robotwar.app.R
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 
 /**

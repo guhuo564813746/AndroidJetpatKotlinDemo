@@ -2,17 +2,20 @@ package com.wawa.wawaandroid_ep.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayout
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.FragmentChargeLayBinding
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.pay.PayManager
 import com.wawa.wawaandroid_ep.*
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.databinding.FragmentChargeLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.ChargeFragmentViewModel
 
 /**
@@ -46,6 +49,11 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
     }
 
     override fun initFragmentView() {
+        val backPressCallback=requireActivity().onBackPressedDispatcher.addCallback (this){
+            requireActivity().finish()
+        }
+        backPressCallback.isEnabled
+
         MainViewModule.mutableLiveuserData?.observe(this, Observer {
             viewModel.coin.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
             viewModel.diamond.set("0")

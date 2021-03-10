@@ -12,8 +12,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.RoomListQuery
 import com.apollographql.apollo.RoomListQuery.RoomList
+import com.robotwar.app.R
 import com.wawa.baselib.utils.glide.loader.ImageLoader
-import com.wawa.wawaandroid_ep.R
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 /**

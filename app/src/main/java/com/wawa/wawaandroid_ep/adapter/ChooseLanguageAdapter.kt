@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.robotwar.app.R
 import com.wawa.baselib.utils.SharePreferenceUtils
-import com.wawa.wawaandroid_ep.R
 
 /**
  *作者：create by 张金 on 2021/3/3 15:24

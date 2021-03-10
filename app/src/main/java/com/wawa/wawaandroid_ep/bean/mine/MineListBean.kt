@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.bean.mine
 
-import com.wawa.wawaandroid_ep.R
+import com.robotwar.app.R
+
 
 /**
  *作者：create by 张金 on 2021/3/2 15:10

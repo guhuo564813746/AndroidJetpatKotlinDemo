@@ -76,13 +76,15 @@
                     android:layout_height="64dp"
                     android:src="@mipmap/im_facebook_login"
                     android:layout_marginLeft="20dp"
-                    android:id="@+id/btn_facebook"/>
+                    android:id="@+id/btn_facebook"
+                    android:visibility="gone"/>
                 <ImageView
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:id="@+id/bt_google_login"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/google_login_bt_bg"/>
+                    android:src="@drawable/google_login_bt_bg"
+                    android:visibility="gone"/>
                 <!--            android:src="@mipmap/im_googlepay_tag"-->
             </LinearLayout>
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.ChargeOrderListQuery
-import com.wawa.wawaandroid_ep.R
+import com.robotwar.app.R
 
 /**
  *作者：create by 张金 on 2021/3/4 10:33

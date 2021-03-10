@@ -7,10 +7,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
-import com.wawa.wawaandroid_ep.BR
-import com.wawa.wawaandroid_ep.R
+import com.robotwar.app.BR
+import com.robotwar.app.R
+import com.robotwar.app.databinding.UserRecordLayBinding
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.databinding.UserRecordLayBinding
 import com.wawa.wawaandroid_ep.fragment.viewmodule.RecordListFragmentViewModel
 
 /**

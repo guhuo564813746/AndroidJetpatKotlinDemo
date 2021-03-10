@@ -23,7 +23,7 @@ class LoginViewModel : BaseVM(){
     val isLoginSuccess=MutableLiveData<Boolean>()
     val isL=ObservableBoolean(false)
     fun phoneLogin(phoneNum: String,code: String){
-        val userLoginByPhone=UserLoginByPhoneMutation(phoneNum,code)
+        val userLoginByPhone=UserLoginByPhoneMutation(phoneNum,"Panda_Game")
         WawaApp.apolloClient
             .mutate(userLoginByPhone)
             .enqueue(object: ApolloCall.Callback<UserLoginByPhoneMutation.Data>(){
@@ -32,14 +32,13 @@ class LoginViewModel : BaseVM(){
                 }
 
                 override fun onResponse(response: Response<UserLoginByPhoneMutation.Data>) {
-                    Log.d("phoneLogin",response.data?.userLoginByPhone()?.accessToken().toString()
-                            +"--"+response.data?.userLoginByPhone()?.userId())
+                    Log.d("phoneLogin",response?.toString())
                     val token=response.data?.userLoginByPhone()?.accessToken().toString()
                     val uid=response.data?.userLoginByPhone()?.userId().toString()
-                    SharePreferenceUtils.saveToken(token)
-                    SharePreferenceUtils.saveUid(uid)
-                    if (token.isNotBlank() && uid.isNotBlank()){
+                    if (!token.isNullOrEmpty() && !uid.isNullOrEmpty()){
                         Log.d("tokenandUidIsBlank","true")
+                        SharePreferenceUtils.saveToken(token)
+                        SharePreferenceUtils.saveUid(uid)
                         isLoginSuccess.postValue(true)
                         isL.set(true)
                     }
@@ -58,6 +57,17 @@ class LoginViewModel : BaseVM(){
 
                 override fun onResponse(response: Response<UserLoginByWechatMutation.Data>) {
                     Log.d("wxLogintest",response.toString())
+                    val token=response?.data?.userLoginByWechat()?.accessToken()
+                    val uid=response?.data?.userLoginByWechat()?.userId()
+                    token?.let {
+                        SharePreferenceUtils.saveToken(it)
+                    }
+                    uid?.let {
+                        SharePreferenceUtils.saveUid(it.toString())
+                    }
+                    if (!token.isNullOrEmpty() && !uid.toString().isNullOrEmpty()){
+                        isLoginSuccess.postValue(true)
+                    }
                 }
             })
     }

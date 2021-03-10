@@ -8,7 +8,7 @@ import android.text.style.ForegroundColorSpan;
 
 import androidx.core.content.ContextCompat;
 
-import com.wawa.wawaandroid_ep.R;
+import com.robotwar.app.R;
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean;
 
 public class TextRender {

@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.apollographql.apollo.RoomInfoQuery
 import com.blankj.utilcode.util.ToastUtils
+import com.robotwar.app.BuildConfig
+import com.robotwar.app.R
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener
-import com.wawa.wawaandroid_ep.BuildConfig
 import com.wawa.wawaandroid_ep.MainViewModule
-import com.wawa.wawaandroid_ep.R
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
@@ -204,7 +204,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
             override fun onError(errorCode: Int, errorMsg: String?) {
                 LogUtils.d(TAG,"checkLoginErr"+errorCode)
                 runOnUiThread{
-                    ToastUtils.showShort(errorMsg)
+//                    ToastUtils.showShort(errorMsg)
                 }
                 if (errorCode==Comen.TOKEN_ERR){
                     //未登录，重新登陆
