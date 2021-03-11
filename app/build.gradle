@@ -22,8 +22,8 @@ android {
     }
 
     signingConfigs {
-        debugSigningConfig {
-            storeFile file("../keystore/robotwarapp.keystore")
+        debug {
+            storeFile file('D:\\AndroidXMZZPj\\WawaAndroidEpPj\\wawaRobot\\AndroidJetpatKotlinDemo\\keystore\\robotwarapp.keystore')
             storePassword "robot@0304"
             keyAlias "robotwarapp"
             keyPassword "robot@0304"
@@ -41,8 +41,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BaseURL",'"http://robot.t.seafarer.me/api/v1/"'
         buildConfigField "String", "HOST", '"http://robot.t.seafarer.me"'
-        buildConfigField "String", "WX_APPID", '"wxcba967814b417cb3"' //wawa: wx0c0bd85e2edb9f75  robot: wxcba967814b417cb3
-        buildConfigField "String", "WX_SECREAT", '"1c9e485a2e8dcbdbf3a07a25e2b61edb"'
+        buildConfigField "String", "WX_APPID", '"wxd0c6dbd5e99c284c"' //wawa: wx0c0bd85e2edb9f75  robot: wxcba967814b417cb3
+        buildConfigField "String", "WX_SECREAT", '"14f0800449710f7f5f4445de9a5ddbd0"'
 
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -57,7 +57,7 @@ android {
             shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debugSigningConfig
+            signingConfig signingConfigs.debug
         }
 
         release {
@@ -80,6 +80,10 @@ android {
         }
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     
 }
 

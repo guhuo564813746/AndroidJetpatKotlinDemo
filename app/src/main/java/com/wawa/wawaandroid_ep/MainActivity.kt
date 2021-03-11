@@ -17,6 +17,7 @@ import com.robotwar.app.R
 import com.robotwar.app.databinding.ActivityMainBinding
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
+import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -103,6 +104,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
     }
 
      fun setUpDataSource(){
+         LogUtils.d(TAG,"setUpDataSource--")
         val successUserDisposable=dataSource.userData
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -118,6 +120,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
     }
 
     private fun handleSuccessUserData(userData: UserQuery.User){
+        LogUtils.d(TAG,"handleSuccessUserData--${userData.toString()}")
         MainViewModule.mutableLiveuserData.value=userData
         MainViewModule.userData=userData
     }

@@ -75,7 +75,7 @@ class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloCl
     }
 
     override fun getConfigData() {
-        TODO("Not yet implemented")
+
     }
 
     private fun <T : Operation.Data> createCallback(onResponse: (response: Response<T>) -> Unit) =

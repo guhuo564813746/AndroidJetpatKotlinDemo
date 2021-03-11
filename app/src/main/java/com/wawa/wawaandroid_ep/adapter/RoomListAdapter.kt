@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.apollographql.apollo.GameRecordListQuery
 import com.apollographql.apollo.RoomListQuery
 import com.apollographql.apollo.RoomListQuery.RoomList
 import com.robotwar.app.R
@@ -21,9 +22,9 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation
  * 邮箱：564813746@qq.com
  */
 class RoomListAdapter(
-    private val mContext: Context,
-    private val roomLists: List<RoomListQuery.List>?
+    private val mContext: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    var roomLists: List<RoomListQuery.List>?= listOf()
     private val TAG="RoomListAdapter"
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -41,7 +42,7 @@ class RoomListAdapter(
         val roomListViewHolder: RoomListViewHolder= holder as RoomListViewHolder
         roomListViewHolder.name.text=roomLists?.get(position)?.fragments()?.roomFragment()?.title().toString()
         roomListViewHolder.shortDesc.text=roomLists?.get(position)?.fragments()?.roomFragment()?.shortDesc()
-//        roomListViewHolder.coin.text=roomLists?.get(position)?.
+        roomListViewHolder.coin.text=roomLists?.get(position)?.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.coin2hardRatio()?.toInt().toString()
         ImageLoader.with(mContext)
             .url(roomLists?.get(position)?.fragments()?.roomFragment()?.thumb())
 //            .placeHolder(R.mipmap.ic_launcher)

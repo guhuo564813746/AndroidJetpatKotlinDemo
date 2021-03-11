@@ -196,7 +196,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
             ): Boolean {
                 when(event?.action){
                     MotionEvent.ACTION_DOWN ->{
-                        dealWithControlAction(direction)
+                        dealWithBtControlAction(direction)
                     }
                     MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL->{
                         operateRobot(gimbalStop)
@@ -205,6 +205,15 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
                 return true
             }
         })
+    }
+
+    fun dealWithBtControlAction(direction: RockerView.Direction?){
+        when(direction?.name){
+            "DIRECTION_LEFT"-> operateRobot(gimbalLeft)
+            "DIRECTION_RIGHT" -> operateRobot(gimbalRight)
+            "DIRECTION_UP" -> operateRobot(gimbalUp)
+            "DIRECTION_DOWN" -> operateRobot(gimbalDown)
+        }
     }
 
     fun dealWithControlAction(direction: RockerView.Direction?){

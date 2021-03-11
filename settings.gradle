@@ -1,3 +1,4 @@
+include ':testapp'
 include ':imagepicker'
 include ':magicindicator'
 include ':BaseLib'

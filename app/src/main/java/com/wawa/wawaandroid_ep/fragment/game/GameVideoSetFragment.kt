@@ -1,5 +1,8 @@
 package com.wawa.wawaandroid_ep.fragment.game
 
+import androidx.fragment.app.viewModels
+import com.robotwar.app.BR
+import com.robotwar.app.R
 import com.robotwar.app.databinding.LansgameVideoSetBinding
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.game.GameVidioSetFragmentViewModel
@@ -10,18 +13,19 @@ import com.wawa.wawaandroid_ep.fragment.viewmodule.game.GameVidioSetFragmentView
  */
 class GameVideoSetFragment : BaseFragment<LansgameVideoSetBinding,GameVidioSetFragmentViewModel>(){
     override fun initVariableId(): Int {
-        TODO("Not yet implemented")
+        return BR.viewModel
     }
 
     override fun initViewModel(): GameVidioSetFragmentViewModel {
-        TODO("Not yet implemented")
+        val gameVideoSetFragmentViewModel: GameVidioSetFragmentViewModel by viewModels()
+        return gameVideoSetFragmentViewModel
     }
 
     override fun getLayoutId(): Int {
-        TODO("Not yet implemented")
+        return R.layout.lansgame_video_set
     }
 
     override fun initFragmentView() {
-        TODO("Not yet implemented")
+
     }
 }

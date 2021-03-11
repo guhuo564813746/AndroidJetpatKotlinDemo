@@ -1,6 +1,6 @@
 
-mutation CreateOrderItem($chargeItemId: Int!,$payType: Int!){
-  createChargeOrder(chargeItemId: $chargeItemId, payType: $payType){
+mutation CreateOrderItem($chargeItemId: Int!,$payType: Int!,$sandbox: Boolean!){
+  createChargeOrder(chargeItemId: $chargeItemId, payType: $payType,sandbox: $sandbox){
     order{
         ...orderFragment
     }

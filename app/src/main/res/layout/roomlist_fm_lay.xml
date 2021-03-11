@@ -14,20 +14,17 @@
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">-->
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!--<include
-                android:id="@+id/no_data"
-                layout="@layout/view_home_no_data"
-                android:visibility="gone"
-                />
-
             <include
-                android:id="@+id/load_failure"
-                layout="@layout/view_home_load_failure"
-                android:visibility="gone"
-                />-->
+                android:id="@+id/no_data"
+                layout="@layout/page_err_lay"
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lv_rooms"
@@ -35,6 +32,7 @@
                 android:layout_height="match_parent"
                 android:overScrollMode="never"/>
         </RelativeLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
         <!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
     </LinearLayout>
 </layout>

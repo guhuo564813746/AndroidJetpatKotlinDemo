@@ -569,7 +569,7 @@ class ChargeDialogAdapter(context: Context,private val payManager: PayManager) :
                                     }
 
                                     override fun payErr() {
-                                        TODO("Not yet implemented")
+
                                     }
                                 })
                         }

@@ -1,11 +1,24 @@
 query User{
   user{
-      ...userFragment
+              avatar
+              avatarThumb
+              email
+              name
+              nickName
+              openId
+              password
+              phoneNo
+              signInType
+              status
+              userAccount{
+                  ...userAcountFragment
+              }
+              userId
   }
 }
 
 fragment userFragment on User{
-    avatar
+        avatar
         avatarThumb
         email
         name

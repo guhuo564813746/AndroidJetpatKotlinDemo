@@ -12,6 +12,8 @@ import com.wawa.baselib.R
  */
 class LoadingDialogManager {
     companion object{
+        var loadingDialog: Dialog?=null
+
         fun loadBigDialog(
             context: Context,
             text: String
@@ -25,7 +27,16 @@ class LoadingDialogManager {
                     dialog.findViewById<View>(R.id.text) as TextView
                 titleView.text = text
             }
-            return dialog
+            loadingDialog=dialog
+            return loadingDialog
+        }
+
+        fun dismissLoading(){
+            loadingDialog?.let {
+                if (it.isShowing){
+                    it.dismiss()
+                }
+            }
         }
     }
 }

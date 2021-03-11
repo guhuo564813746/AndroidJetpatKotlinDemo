@@ -64,7 +64,7 @@ class PayManager(private val context: Context,
     }
 
     fun creatOrder(payType: Int){
-        val mutation=CreateOrderItemMutation(chargeItemId,payType)
+        val mutation=CreateOrderItemMutation(chargeItemId,payType,true)
         apolloClient.mutate(mutation)
             .enqueue(object: ApolloCall.Callback<CreateOrderItemMutation.Data>(){
                 override fun onFailure(e: ApolloException) {

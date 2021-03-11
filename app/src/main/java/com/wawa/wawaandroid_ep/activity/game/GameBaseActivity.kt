@@ -73,7 +73,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     fun initRoomData(){
         MainViewModule.mutableLiveuserData?.observe(this, Observer {
-            viewModel.coin.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
+            viewModel.coin.set(it?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
         })
         MainViewModule.mutableLiveuserData.value=MainViewModule.userData
         if (ROOM_ID.isNullOrEmpty()){
@@ -118,7 +118,13 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGameOver(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameOver")
         runOnUiThread{
-            setGameOverStatus()
+            var player=jsondata?.getJSONObject("player")
+            var userId=player?.getInt("user_id")
+            userId?.let {
+                if (it.toString().equals(MainViewModule.userData?.userId())){
+                    setGameOverStatus()
+                }
+            }
         }
     }
 
@@ -348,7 +354,13 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGameStart(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameStart")
         runOnUiThread{
-            setGameStartStatus()
+            var player=jsondata?.getJSONObject("player")
+            var userId=player?.getInt("user_id")
+            userId?.let {
+                if (it.toString().equals(MainViewModule.userData?.userId())){
+                    setGameStartStatus()
+                }
+            }
         }
     }
 

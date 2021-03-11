@@ -1,6 +1,7 @@
 package com.wawa.baselib.utils.apollonet
 
 import com.apollographql.apollo.*
+import com.wawa.baselib.utils.dialog.LoadingDialogManager
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
@@ -18,7 +19,6 @@ import io.reactivex.subjects.PublishSubject
 abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     protected val exceptionSubject: PublishSubject<Throwable> = PublishSubject.create()
     val error: Observable<Throwable> = exceptionSubject.hide()
-
     protected val bannerListSubject: PublishSubject<List<BannerListQuery.BannerList>> = PublishSubject.create()
     protected val chargeOrderListSubject: PublishSubject<List<ChargeOrderListQuery.List>> = PublishSubject.create()
     protected val chargeItemListSubject: PublishSubject<List<ChargeItemListQuery.ChargeItemList>> = PublishSubject.create()
@@ -57,4 +57,6 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     abstract fun getUserData()
     abstract fun getRoomInfoData(roodId: Int)
     abstract fun getConfigData()
+
+
 }

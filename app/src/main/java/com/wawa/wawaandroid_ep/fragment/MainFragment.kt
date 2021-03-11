@@ -1,5 +1,6 @@
 package com.wawa.wawaandroid_ep.fragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.viewpager2.widget.ViewPager2
 import com.apollographql.apollo.BannerListQuery
 import com.apollographql.apollo.RoomCategoryListQuery
 import com.google.android.material.tabs.TabLayout
@@ -22,6 +24,7 @@ import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.*
+import com.wawa.wawaandroid_ep.activity.web.WebActivity
 import com.wawa.wawaandroid_ep.adapter.ImageAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.MainFragmentViewModel
@@ -40,6 +43,8 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
     private lateinit var mainTabLay: TabLayout
     var titles = mutableListOf<String>()
     var fragments = mutableListOf<Fragment>()
+    var curTab=0
+    var curBannerPos=0
     private val compositeDisposable = CompositeDisposable()
     val dataSource: BaseDataSource by lazy {
         (activity?.application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
@@ -59,21 +64,35 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
     }
 
     override fun initFragmentView() {
+        mainTabLay=binding.tabLay2.findViewById(R.id.main_slide_tab) as TabLayout
+        mainTabLay.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.let { curTab=it.position }
+            }
+        })
         val backPressCallback=requireActivity().onBackPressedDispatcher.addCallback (this){
             requireActivity().finish()
         }
         backPressCallback.isEnabled
         MainViewModule.mutableLiveuserData?.observe(this, Observer {
-            binding.tvMainUsername.text=it.fragments()?.userFragment()?.nickName()
+            binding.tvMainUsername.text=it?.nickName()
             ImageLoader.with(activity)
-                .url(it.fragments()?.userFragment()?.avatarThumb())
+                .url(it?.avatarThumb())
 //                .placeHolder(R.mipmap.ic_launcher)
                 .rectRoundCorner(ImageUtil.dip2px(30f), RoundedCornersTransformation.CornerType.ALL)
                 .into(binding.imMainHead2);
 
 //            glideManager?.displayImg()
-            Log.d(TAG,it.fragments()?.userFragment()?.avatarThumb().toString())
-            viewModel.coins.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
+            Log.d(TAG,it?.avatarThumb().toString())
+            viewModel.coins.set(it?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
 //            mainFragmentViewModel.diamons.set(it.userAccount()?.fragments()?.userAcountFragment()?.)
 
 
@@ -136,8 +155,10 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
                 }
 
             }
-        mainTabLay=binding.tabLay2.findViewById(R.id.main_slide_tab) as TabLayout
         mainTabLay.setupWithViewPager(binding.mainViewpager)
+        binding.imRefresh.setOnClickListener {
+            (fragments.get(curTab) as RoomListFragment).reFreshPage()
+        }
     }
 
     private fun handleSuccessBannerList(bannerList: List<BannerListQuery.BannerList>){
@@ -153,10 +174,32 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
             .setIndicatorSelectorColor(Color.WHITE)
         val imageAdapter=ImageAdapter(activity,bannerList)
         binding.mainBanner.setIndicator(indicator).adapter=imageAdapter
+        binding.mainBanner.setOuterPageChangeListener(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                curBannerPos=position
+            }
+        })
+        binding.mainBanner.setOnClickListener {
+            goWebPage(bannerList)
+        }
 
 
     }
 
+    fun goWebPage(bannerList: List<BannerListQuery.BannerList>){
+        activity?.let {
+            bannerList?.let {
+                if (bannerList.size > 0){
+                    var intent=Intent()
+                    intent.setClass(requireActivity(),WebActivity::class.java)
+                    intent.putExtra(WebActivity.WEB_TITLE,bannerList?.get(curBannerPos)?.name())
+                    intent.putExtra(WebActivity.WEB_URL,bannerList?.get(curBannerPos)?.url())
+                    startActivity(intent)
+                }
+            }
+        }
+    }
 
     private fun handleErrorRoomCategoryList(error: Throwable?){
         Log.d(TAG,"handleErrorRoomCategoryList--")

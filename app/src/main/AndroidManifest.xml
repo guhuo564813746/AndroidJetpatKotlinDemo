@@ -22,13 +22,13 @@
         android:name="com.wawa.wawaandroid_ep.WawaApp"
         android:networkSecurityConfig="@xml/network_security_config">
 
-        <meta-data
+        <!--<meta-data
             android:name="wxAppId"
             android:value="wxcba967814b417cb3" />
 
         <meta-data
             android:name="wxAppSecret"
-            android:value="1c9e485a2e8dcbdbf3a07a25e2b61edb"/>
+            android:value="1c9e485a2e8dcbdbf3a07a25e2b61edb"/>-->
 
         <activity android:name="com.wawa.wawaandroid_ep.MainActivity"
             android:theme="@style/startpageTheme">
@@ -55,6 +55,9 @@
 
         <activity android:name="com.wawa.wawaandroid_ep.activity.game.RobotGameActivity"
             android:screenOrientation="landscape"
+            android:theme="@style/fullscreenTheme"/>
+
+        <activity android:name="com.wawa.wawaandroid_ep.activity.web.WebActivity"
             android:theme="@style/fullscreenTheme"/>
         
     </application>

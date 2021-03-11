@@ -18,6 +18,8 @@ import com.robotwar.app.R
 import com.robotwar.app.databinding.FragmentLoginLayBinding
 import com.robotwar.app.wxapi.WXEntryActivity.WXLOGIN_ACTION
 import com.wawa.wawaandroid_ep.MainActivity
+import com.wawa.wawaandroid_ep.MainViewModule
+import com.wawa.wawaandroid_ep.activity.web.WebActivity
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.LoginViewModel
 import com.wawa.wawaandroid_ep.utils.loginutils.PhoneLoginDialog
@@ -68,6 +70,9 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
 
 
     override fun initFragmentView() {
+        binding.textAgreement.setOnClickListener {
+            goAgreeMentWebPage()
+        }
         activity?.findViewById<View>(R.id.view_main_bg)?.visibility=View.GONE
         binding.tvLoginTips.setText(
             String.format(resources.getString(R.string.LOGIN_NEW_USER_GIFT),getString(R.string.COIN)))
@@ -106,6 +111,16 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
                     findNavController().navigate(R.id.chargeFragment)
                 }
             }
+        }
+    }
+
+    fun goAgreeMentWebPage(){
+        activity?.let {
+            var intent=Intent()
+            intent.setClass(it,WebActivity::class.java)
+            intent.putExtra(WebActivity.WEB_TITLE,getString(R.string.user_service_terms))
+            intent.putExtra(WebActivity.WEB_URL,MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.userAgreementUrl())
+            startActivity(intent)
         }
     }
 

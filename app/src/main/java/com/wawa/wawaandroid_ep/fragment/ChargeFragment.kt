@@ -55,7 +55,7 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
         backPressCallback.isEnabled
 
         MainViewModule.mutableLiveuserData?.observe(this, Observer {
-            viewModel.coin.set(it.fragments()?.userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
+            viewModel.coin.set(it?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
             viewModel.diamond.set("0")
         })
         activity?.let { payManager=PayManager(it,WawaApp.apolloClient) }
@@ -65,7 +65,7 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
 
     fun initChargeTab(){
         titles.add("Coin")
-        titles.add("Diamond")
+//        titles.add("Diamond")
         var mBundle = Bundle()
         mBundle.putInt(BUNDLE_PARAMS_GOODS_TYPE, GOODS_TYPE_COIN)
         var chargeCoinListFragment=ChargeListFragment()
@@ -74,7 +74,7 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
         mBundle.putInt(BUNDLE_PARAMS_GOODS_TYPE, GOODS_TYPE_COIN)
         chargeDiamondListFragment.arguments=mBundle
         fragments.add(chargeCoinListFragment)
-        fragments.add(chargeDiamondListFragment)
+//        fragments.add(chargeDiamondListFragment)
         binding.viewPager.adapter=ChargeFragmentPagerAdapter(childFragmentManager)
         chargeTabLay=binding.tabLay.findViewById(R.id.main_slide_tab) as TabLayout
         chargeTabLay.setupWithViewPager(binding.viewPager)

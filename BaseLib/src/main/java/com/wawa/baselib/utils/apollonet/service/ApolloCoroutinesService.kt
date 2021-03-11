@@ -3,6 +3,7 @@ package com.wawa.baselib.utils.apollonet.service
 import com.apollographql.apollo.*
 import com.apollographql.apollo.coroutines.await
 import com.wawa.baselib.utils.apollonet.BaseDataSource
+import com.wawa.baselib.utils.logutils.LogUtils
 import kotlinx.coroutines.*
 import kotlin.Exception
 import kotlin.coroutines.CoroutineContext
@@ -23,7 +24,7 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
                               private val resultContext: CoroutineContext = Dispatchers.Main) : BaseDataSource(apolloClient) {
 
     private var job: Job?=null
-
+    private val TAG="ApolloCoroutinesService"
     override fun getBannerList(categoryId: Int) {
         val bannerListQuery: BannerListQuery= BannerListQuery(categoryId)
         job= CoroutineScope(processContext).launch {
@@ -115,6 +116,7 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
     }
 
     override fun getRoomList(categoryId: Int,index: Int) {
+        LogUtils.d(TAG,"getRoomList")
         val roomListQuery = RoomListQuery(categoryId,index)
         job= CoroutineScope(processContext).launch {
             try {

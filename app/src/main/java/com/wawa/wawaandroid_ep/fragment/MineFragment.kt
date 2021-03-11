@@ -103,16 +103,16 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
             MainViewModule.mutableLiveuserData.value=userData
             MainViewModule.userData=userData
             ImageLoader.with(activity)
-                .url(userData?.fragments()?.userFragment()?.avatarThumb())
+                .url(userData?.avatarThumb())
 //                .placeHolder(R.mipmap.ic_launcher)
                 .rectRoundCorner(ImageUtil.dip2px(30f), RoundedCornersTransformation.CornerType.ALL)
                 .into(binding.imHead);
-            viewModel.coins.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
-            viewModel.scores.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.point().toString())
-            viewModel.diamons.set(userData.fragments().userFragment()?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
-            viewModel.userId.set(userData.fragments().userFragment().userId())
-            viewModel.userLevel.set(userData.fragments().userFragment().name())
-            viewModel.userName.set(userData.fragments().userFragment().nickName())
+            viewModel.coins.set(userData?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
+            viewModel.scores.set(userData?.userAccount()?.fragments()?.userAcountFragment()?.point().toString())
+            viewModel.diamons.set(userData?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
+            viewModel.userId.set(userData?.userId())
+            viewModel.userLevel.set(userData?.name())
+            viewModel.userName.set(userData?.nickName())
         }
     }
 

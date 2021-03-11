@@ -23,6 +23,7 @@ import com.github.dhaval2404.imagepicker.listener.DismissListener
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.ProfileFmLayBinding
+import com.wawa.baselib.utils.dialog.LoadingDialogManager
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.baselib.utils.logutils.LogUtils
@@ -66,9 +67,9 @@ class ProfileFragment : BaseFragment<ProfileFmLayBinding,ProfileFragmentViewMode
             findNavController().popBackStack()
         }
         tvTitle.setText(getString(R.string.profile_edit))
-        binding.etName.setText(MainViewModule.userData?.fragments()?.userFragment()?.nickName())
-        binding.tvNickname.setText(MainViewModule.userData?.fragments()?.userFragment()?.nickName())
-        avatarUrl=MainViewModule.userData?.fragments()?.userFragment()?.avatarThumb()
+        binding.etName.setText(MainViewModule.userData?.nickName())
+        binding.tvNickname.setText(MainViewModule.userData?.nickName())
+        avatarUrl=MainViewModule.userData?.avatarThumb()
         ImageLoader.with(activity)
             .url(avatarUrl)
 //                .placeHolder(R.mipmap.ic_launcher)
@@ -111,17 +112,19 @@ class ProfileFragment : BaseFragment<ProfileFmLayBinding,ProfileFragmentViewMode
 
     fun saveUserData(){
         var nickName=binding.etName.text.toString().trim()
-        var saveUserMutation=UserEditMutation(MainViewModule.userData?.fragments()?.userFragment()?.email().toString(),MainViewModule.userData?.fragments()?.userFragment()?.phoneNo().toString(),nickName,avatarUrl.toString())
+        var saveUserMutation=UserEditMutation(MainViewModule.userData?.email().toString(),MainViewModule.userData?.phoneNo().toString(),nickName,avatarUrl.toString())
         WawaApp.apolloClient.mutate(saveUserMutation)
             .enqueue(object: ApolloCall.Callback<UserEditMutation.Data>(){
                 override fun onFailure(e: ApolloException) {
                     activity?.runOnUiThread {
                         ToastUtils.showShort(e?.message)
+                        LoadingDialogManager.dismissLoading()
                     }
                 }
 
                 override fun onResponse(response: Response<UserEditMutation.Data>) {
                     activity?.runOnUiThread {
+                        LoadingDialogManager.dismissLoading()
                         binding.tvNickname.setVisibility(View.VISIBLE)
                         binding.tvNickname.setText(response?.data?.userEdit()?.nickName())
                         binding.etName.setVisibility(View.GONE)
@@ -132,6 +135,7 @@ class ProfileFragment : BaseFragment<ProfileFmLayBinding,ProfileFragmentViewMode
     }
 
     fun clickSave(){
+        activity?.let { LoadingDialogManager.loadBigDialog(it,getString(R.string.loading))?.show() }
         if (uploadImg){
             upLoadImg()
         }else{

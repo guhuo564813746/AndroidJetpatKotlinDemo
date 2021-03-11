@@ -45,4 +45,6 @@
     <activity android:id="@+id/robotActivity"
         android:name="com.wawa.wawaandroid_ep.activity.game.RobotGameActivity">
     </activity>
+    <activity android:id="@+id/webactivity"
+        android:name="com.wawa.wawaandroid_ep.activity.web.WebActivity"/>
 </navigation>
