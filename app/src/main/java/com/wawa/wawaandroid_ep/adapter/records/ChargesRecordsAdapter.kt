@@ -40,37 +40,32 @@ class ChargesRecordsAdapter(
     }
 
     override fun onBindViewHolder(holder: ChargeRecordsViewHolder, position: Int) {
-        holder.tvRecordtitle.setText(list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.title())
-        holder.tvRecordtime.setText(list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.uptimeFormat())
-        var virtualGoodsType=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.chargeGoodsFields()?.virtualGoodsType()
-        var virtualGoods=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.chargeGoodsFields()?.virtualGoods()
-        var virtualGoodsAmount=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.chargeGoodsFields()?.virtualGoodsAmount()
-        var virtualGoodsGiveAmount=list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.orderGoods()?.fragments()?.orderGoodsFragment()?.goods()?.fragments()?.chargeGoodsFields()?.virtualGoodsGiveAmount()
+        holder.tvRecordtitle.setText(list?.get(position)?.name())
+        holder.tvRecordtime.setText(list?.get(position)?.order()?.addtimeFormat())
+        var virtualGoodsType=list?.get(position)?.goods()?.virtualGoodsType()
+        var virtualGoodsAmount=list?.get(position)?.goods()?.virtualGoodsAmount()
+        var virtualGoodsGiveAmount=list?.get(position)?.goods()?.virtualGoodsGiveAmount()
         var goodsTips=""
-        virtualGoods?.let {
-            if (virtualGoods==1){
-                virtualGoodsType?.let {
-                    if (virtualGoodsType == 1){
-                        goodsTips="+ ${virtualGoodsAmount?.let { 
-                            if (virtualGoodsGiveAmount != null){
-                                it+virtualGoodsGiveAmount
-                            }else{
-                                it   
-                            }
-                        }} Coins"
-                    }else if (virtualGoodsType == 2){
-                        goodsTips="+${virtualGoodsAmount?.let {
-                            if (virtualGoodsGiveAmount != null){
-                                it+virtualGoodsGiveAmount
-                            }else{
-                                it
-                            }
-                        }} Points"
+        virtualGoodsType?.let {
+            if (virtualGoodsType == 1){
+                goodsTips="+ ${virtualGoodsAmount?.let {
+                    if (virtualGoodsGiveAmount != null){
+                        it+virtualGoodsGiveAmount
+                    }else{
+                        it
                     }
-                }
+                }} Coins"
+            }else if (virtualGoodsType == 2){
+                goodsTips="+${virtualGoodsAmount?.let {
+                    if (virtualGoodsGiveAmount != null){
+                        it+virtualGoodsGiveAmount
+                    }else{
+                        it
+                    }
+                }} Points"
             }
         }
         holder.tvRecordNum.setText(goodsTips)
-        holder.tvRecordRighttips.setText(list?.get(position)?.fragments()?.chargeOrderFragment()?.order()?.fragments()?.orderFragment()?.fee()?.toString())
+        holder.tvRecordRighttips.setText(list?.get(position)?.order()?.fee()?.toString())
     }
 }

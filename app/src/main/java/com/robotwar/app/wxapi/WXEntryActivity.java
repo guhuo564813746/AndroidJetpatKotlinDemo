@@ -108,7 +108,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 Intent wxLoginCodeIntent=new Intent();
                 wxLoginCodeIntent.putExtra("wxCode",code);
                 wxLoginCodeIntent.setAction(WXLOGIN_ACTION);
-                LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(wxLoginCodeIntent);
+                sendBroadcast(wxLoginCodeIntent);
+                finish();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
             case BaseResp.ErrCode.ERR_USER_CANCEL:

@@ -73,7 +73,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     fun initRoomData(){
         MainViewModule.mutableLiveuserData?.observe(this, Observer {
-            viewModel.coin.set(it?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
+            viewModel.coin.set(it?.userAccount()?.coin().toString())
         })
         MainViewModule.mutableLiveuserData.value=MainViewModule.userData
         if (ROOM_ID.isNullOrEmpty()){
@@ -319,7 +319,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         data.put("params",params)
         GameSocketManager.getInstance().sendMessage("app",data,object: GameSocketManager.Callback{
             override fun onSuccess(jsonStr: JSONObject?) {
-                LogUtils.d(TAG,"gameLogin--success")
+                LogUtils.d(TAG,"gameLogin--success $jsonStr")
                 var userCoin=jsonStr?.getInt("user_coin")
                 var  userPoints=jsonStr?.getInt("user_point")
                 viewModel.coin.set(userCoin.toString())

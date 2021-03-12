@@ -1,11 +1,13 @@
 package com.wawa.wawaandroid_ep.fragment
 
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.robotwar.app.BR
 import com.robotwar.app.R
@@ -36,7 +38,11 @@ class RecordListFragment : BaseFragment<UserRecordLayBinding,RecordListFragmentV
 
     override fun initFragmentView() {
         initData()
-        val title=binding.viewTitle.findViewById<TextView>(R.id.title)
+        var title=binding.viewTitle.findViewById<TextView>(R.id.title)
+        var imBack=binding.viewTitle.findViewById<ImageView>(R.id.im_back)
+        imBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
         title.setText(getString(R.string.tv_myorder))
         val slideTab=binding.viewSliding.findViewById<TabLayout>(R.id.main_slide_tab)
         binding.vpUserRecord.adapter=RecordPageAdapter(childFragmentManager)

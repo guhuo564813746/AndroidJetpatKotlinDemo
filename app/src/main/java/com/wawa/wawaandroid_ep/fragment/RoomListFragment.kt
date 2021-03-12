@@ -17,6 +17,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import com.wawa.baselib.utils.apollonet.BaseDataSource
+import com.wawa.baselib.utils.dialog.LoadingDialogManager
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.RoomListAdapter
@@ -89,6 +90,7 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding, RoomListFragmentView
 
     private fun handleSuccessRoomList(roomList: List<RoomListQuery.List>){
         Log.d(TAG,"handleSuccessRoomList--"+roomList.size)
+        LoadingDialogManager.dismissLoading()
         if (mPage==1){
             if (binding.refreshLayout.isRefreshing){
                 binding.refreshLayout.finishRefresh()
@@ -121,6 +123,7 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding, RoomListFragmentView
 
     private fun handleErrorRoomList(e:Throwable?){
         Log.d(TAG,"handleErrorRoomList--")
+        LoadingDialogManager.dismissLoading()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -151,6 +154,10 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding, RoomListFragmentView
 
     fun reFreshPage(){
         LogUtils.d(TAG,"reFreshPage--")
+
+        activity?.let {
+            LoadingDialogManager.loadBigDialog(it,getString(R.string.loading))?.show()
+        }
         mPage=1
         setUpRoomListDataSource()
     }

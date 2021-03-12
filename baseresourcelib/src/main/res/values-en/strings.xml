@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_label">MoeMoe - Real Claw Machine</string><!--Coin Master - Real Coin Pusher Machine-->
+    <string name="app_label">Crane-Game-CrabCrab</string><!--Coin Master - Real Coin Pusher Machine-->
     <string name="app_name">Coin Machine<!--MoeMoe - Real Claw Machine--></string><!--Coin Master-->
     <string name="COIN">Coins</string>
     <string name="LOGIN_NEW_USER_GIFT">50 Free %1$s for New Users</string>

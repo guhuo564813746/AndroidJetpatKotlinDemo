@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.robotwar.app.R;
 import com.wawa.baselib.utils.glide.GlideManager;
 import com.wawa.baselib.utils.glide.loader.ImageLoader;
 import com.wawa.baselib.utils.glide.utils.ImageUtil;
+import com.wawa.wawaandroid_ep.activity.web.WebActivity;
 
 import java.util.List;
 
@@ -46,11 +48,25 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 //                .placeHolder(R.mipmap.ic_launcher)
                 .rectRoundCorner(ImageUtil.dip2px(5f), RoundedCornersTransformation.CornerType.ALL)
                 .into(imageViewHolder.imBanner);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goWebPage(bannerLists.get(position));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return bannerLists==null?0:bannerLists.size();
+    }
+
+    public void goWebPage(BannerListQuery.BannerList bean){
+        Intent intent=new Intent();
+        intent.setClass(context, WebActivity.class);
+        intent.putExtra(WebActivity.Companion.getWEB_TITLE(),bean.name());
+        intent.putExtra(WebActivity.Companion.getWEB_URL(),bean.url());
+        context.startActivity(intent);
     }
 
     private class ImageViewHolder extends RecyclerView.ViewHolder{

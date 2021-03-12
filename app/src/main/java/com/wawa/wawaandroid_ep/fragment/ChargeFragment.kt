@@ -55,7 +55,7 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
         backPressCallback.isEnabled
 
         MainViewModule.mutableLiveuserData?.observe(this, Observer {
-            viewModel.coin.set(it?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString())
+            viewModel.coin.set(it?.userAccount()?.coin().toString())
             viewModel.diamond.set("0")
         })
         activity?.let { payManager=PayManager(it,WawaApp.apolloClient) }

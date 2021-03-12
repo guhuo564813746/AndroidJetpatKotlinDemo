@@ -44,7 +44,6 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
     var titles = mutableListOf<String>()
     var fragments = mutableListOf<Fragment>()
     var curTab=0
-    var curBannerPos=0
     private val compositeDisposable = CompositeDisposable()
     val dataSource: BaseDataSource by lazy {
         (activity?.application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
@@ -92,7 +91,7 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
 
 //            glideManager?.displayImg()
             Log.d(TAG,it?.avatarThumb().toString())
-            viewModel.coins.set(it?.userAccount()?.fragments()?.userAcountFragment()?.coin().toString()+"")
+            viewModel.coins.set(it?.userAccount()?.coin().toString()+"")
 //            mainFragmentViewModel.diamons.set(it.userAccount()?.fragments()?.userAcountFragment()?.)
 
 
@@ -174,32 +173,9 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
             .setIndicatorSelectorColor(Color.WHITE)
         val imageAdapter=ImageAdapter(activity,bannerList)
         binding.mainBanner.setIndicator(indicator).adapter=imageAdapter
-        binding.mainBanner.setOuterPageChangeListener(object : ViewPager2.OnPageChangeCallback(){
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                curBannerPos=position
-            }
-        })
-        binding.mainBanner.setOnClickListener {
-            goWebPage(bannerList)
-        }
-
 
     }
 
-    fun goWebPage(bannerList: List<BannerListQuery.BannerList>){
-        activity?.let {
-            bannerList?.let {
-                if (bannerList.size > 0){
-                    var intent=Intent()
-                    intent.setClass(requireActivity(),WebActivity::class.java)
-                    intent.putExtra(WebActivity.WEB_TITLE,bannerList?.get(curBannerPos)?.name())
-                    intent.putExtra(WebActivity.WEB_URL,bannerList?.get(curBannerPos)?.url())
-                    startActivity(intent)
-                }
-            }
-        }
-    }
 
     private fun handleErrorRoomCategoryList(error: Throwable?){
         Log.d(TAG,"handleErrorRoomCategoryList--")

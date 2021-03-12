@@ -44,9 +44,9 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
             Log.d(TAG,"isUserLogined"+it.toString())
             if (it){
 //                GraphqlRemoteDataSource().initTokenAndUid(Utils.readToken(),Utils.readUid())
-                setUpDataSource()
-                navControlor.navigate(R.id.mainFragment)
                 binding.viewMainBg.visibility=View.GONE
+                navControlor.navigate(R.id.mainFragment)
+                setUpDataSource()
             }else{
                 SharePreferenceUtils.saveToken("")
                 SharePreferenceUtils.saveUid("")

@@ -141,7 +141,7 @@ class RecordListItemFragment : BaseFragment<RecordlistitemFmLayBinding,RecordLis
     }
 
     fun handleSuccessGameRecords(list: List<GameRecordListQuery.List>){
-        LogUtils.d(TAG,"handleSuccessGameRecords--${list.size}")
+        LogUtils.d(TAG,"handleSuccessGameRecords--${list?.toString()}")
         if (mPage==1){
             if (binding.refreshLayout.isRefreshing){
                 binding.refreshLayout.finishRefresh()
@@ -206,6 +206,7 @@ class RecordListItemFragment : BaseFragment<RecordlistitemFmLayBinding,RecordLis
     }
 
     fun handleSuccessChargeRecords(list: List<ChargeOrderListQuery.List>){
+        LogUtils.d(TAG,"handleSuccessChargeRecords--${list?.toString()}")
         if (mPage==1){
             if (binding.refreshLayout.isRefreshing){
                 binding.refreshLayout.finishRefresh()

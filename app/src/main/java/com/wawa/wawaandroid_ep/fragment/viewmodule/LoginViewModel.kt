@@ -8,7 +8,9 @@ import com.apollographql.apollo.UserLoginByPhoneMutation
 import com.apollographql.apollo.UserLoginByWechatMutation
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.blankj.utilcode.util.ToastUtils
 import com.wawa.baselib.utils.SharePreferenceUtils
+import com.wawa.baselib.utils.apollonet.MutationCallback
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 import com.wawa.wawaandroid_ep.httpcore.bean.ForecastsBean
@@ -49,14 +51,16 @@ class LoginViewModel : BaseVM(){
         val userLoginByWechat=UserLoginByWechatMutation(code)
         WawaApp.apolloClient
             .mutate(userLoginByWechat)
-            .enqueue(object: ApolloCall.Callback<UserLoginByWechatMutation.Data>(){
+            .enqueue(object: MutationCallback<UserLoginByWechatMutation.Data>(){
 
                 override fun onFailure(e: ApolloException) {
+                    super.onFailure(e)
                     Log.d("wxLogintest",e.message.toString())
+
                 }
 
                 override fun onResponse(response: Response<UserLoginByWechatMutation.Data>) {
-                    Log.d("wxLogintest",response.toString())
+                    super.onResponse(response)
                     val token=response?.data?.userLoginByWechat()?.accessToken()
                     val uid=response?.data?.userLoginByWechat()?.userId()
                     token?.let {
@@ -67,6 +71,13 @@ class LoginViewModel : BaseVM(){
                     }
                     if (!token.isNullOrEmpty() && !uid.toString().isNullOrEmpty()){
                         isLoginSuccess.postValue(true)
+                    }
+                    response?.errors?.size.let {
+                        if (it != null) {
+                            if (it > 0){
+                                ToastUtils.showShort(response?.errors?.get(0)?.message)
+                            }
+                        }
                     }
                 }
             })

@@ -18,6 +18,7 @@ import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.robotwar.app.R
 import com.scwang.smart.refresh.footer.BallPulseFooter
 import com.scwang.smart.refresh.header.BezierRadarHeader
+import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle
 import com.wawa.baselib.utils.SharePreferenceUtils
@@ -47,7 +48,7 @@ class WawaApp : Application(){
     }
 
     private val baseUrl = "http://robot.t.seafarer.me/api/v1/graphql"
-    private val apolloClient: ApolloClient by lazy {
+    private lateinit var apolloClient: ApolloClient /*by lazy {
         val logInterceptor = HttpLoggingInterceptor(
             object : HttpLoggingInterceptor.Logger {
                 override fun log(message: String) {
@@ -62,12 +63,12 @@ class WawaApp : Application(){
 //                    .addHeader("Authorization", "bearer ${BuildConfig.GITHUB_OAUTH_TOKEN}")
                     .header("X-ENV", "APP")
                     .header("X-APP-SYSTEM", "Android")
-                    .header("X-APP-VERSION", "1")
+//                    .header("X-APP-VERSION", "1")
                     .header("X-APP-ASHOP-ID", "0")
-                    .header("X-APP-CHANNEL", "sansung")
+//                    .header("X-APP-CHANNEL", "sansung")
                     .header("Accept-Language", "en") //LanguageUtils
-                    .header("X-USER-ID", "3")
-                    .header("X-ACCESS-TOKEN", "4dd088a4bf4f2c407718d36aa33e6874ead4d9e0")
+//                    .header("X-USER-ID", "3")
+//                    .header("X-ACCESS-TOKEN", "4dd088a4bf4f2c407718d36aa33e6874ead4d9e0")
                     .build()
 
                 chain.proceed(request)
@@ -101,6 +102,43 @@ class WawaApp : Application(){
             .defaultHttpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
             .okHttpClient(okHttpClient)
             .build()
+    }*/
+
+    fun refreshApolloClient(){
+        val logInterceptor = HttpLoggingInterceptor(
+            object : HttpLoggingInterceptor.Logger {
+                override fun log(message: String) {
+                    Log.d("OkHttp", message)
+                }
+            }
+        ).apply { level = HttpLoggingInterceptor.Level.BODY }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addNetworkInterceptor { chain ->
+                val request = chain.request().newBuilder()
+//                    .addHeader("Authorization", "bearer ${BuildConfig.GITHUB_OAUTH_TOKEN}")
+                    .header("X-ENV", "APP")
+                    .header("X-APP-SYSTEM", "Android")
+//                    .header("X-APP-VERSION", "1")
+                    .header("X-APP-ASHOP-ID", "0")
+//                    .header("X-APP-CHANNEL", "sansung")
+                    .header("Accept-Language", "en") //LanguageUtils
+                    .header("X-USER-ID", SharePreferenceUtils.readUid())
+                    .header("X-ACCESS-TOKEN", SharePreferenceUtils.readToken())
+                    .build()
+
+                chain.proceed(request)
+            }
+            .addInterceptor(logInterceptor)
+            .build()
+
+        apolloClient=ApolloClient.builder()
+            .serverUrl(baseUrl)
+//            .normalizedCache(sqlNormalizedCacheFactory, cacheKeyResolver)
+//            .httpCache(ApolloHttpCache(cacheStore, logger))
+            .defaultHttpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
+            .okHttpClient(okHttpClient)
+            .build()
     }
 
     override fun onCreate() {
@@ -108,6 +146,7 @@ class WawaApp : Application(){
         lContext=this
         MultiDex.install(lContext)
         SharePreferenceUtils.initSp(this)
+        refreshApolloClient()
         initRefreshLayoutConfig()
         
     }
@@ -115,9 +154,10 @@ class WawaApp : Application(){
     fun initRefreshLayoutConfig(){
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-            layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white) //全局设置主题颜色
-            val header= BezierRadarHeader(context)
-            header.setEnableHorizontalDrag(true)
+            layout.setPrimaryColorsId(R.color.white, android.R.color.black) //全局设置主题颜色
+//            val header= BezierRadarHeader(context)
+            ClassicsHeader(context)
+//            header.setEnableHorizontalDrag(true)
 //            ClassicsHeader(context) //.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
         }
         //设置全局的Footer构建器

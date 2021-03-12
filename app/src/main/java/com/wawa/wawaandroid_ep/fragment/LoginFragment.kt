@@ -3,6 +3,7 @@ package com.wawa.wawaandroid_ep.fragment
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -16,9 +17,12 @@ import com.blankj.utilcode.util.ToastUtils
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.FragmentLoginLayBinding
+import com.robotwar.app.wxapi.WXEntryActivity
 import com.robotwar.app.wxapi.WXEntryActivity.WXLOGIN_ACTION
+import com.wawa.baselib.utils.dialog.LoadingDialogManager
 import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.MainViewModule
+import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.web.WebActivity
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.LoginViewModel
@@ -33,6 +37,7 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
     companion object{
         private val TAG: String ="LoginFragment"
     }
+    private lateinit var loginReceiver: LoginBroarcastReceiver
     private lateinit var wechatUtils: WechatUtils
     private lateinit var loginDialog: PhoneLoginDialog
     override fun getLayoutId(): Int {
@@ -70,6 +75,8 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
 
 
     override fun initFragmentView() {
+        loginReceiver=LoginBroarcastReceiver()
+        activity?.registerReceiver(loginReceiver,IntentFilter(WXEntryActivity.WXLOGIN_ACTION))
         binding.textAgreement.setOnClickListener {
             goAgreeMentWebPage()
         }
@@ -105,10 +112,12 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
             activity?.runOnUiThread{
                 if (it){
                     Log.d("isLoginSuccess","true")
-                    loginDialog?.dismiss()
+                    if (loginDialog?.isShowing){
+                        loginDialog?.dismiss()
+                    }
+                    (activity?.application as WawaApp).refreshApolloClient()
                     (activity as MainActivity).viewModel.isShowBottom.postValue(true)
                     (activity as MainActivity).viewModel.isUserLogined.postValue(true)
-                    findNavController().navigate(R.id.chargeFragment)
                 }
             }
         }
@@ -130,10 +139,13 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
             intent: Intent
         ) {
             val action = intent.action
-            if (!TextUtils.isEmpty(action) && action == WXLOGIN_ACTION) {
+            if (!TextUtils.isEmpty(action) && action.equals(WXLOGIN_ACTION) ) {
                 val wxCode: String? = intent.getStringExtra("wxCode")
                 //微信登陆
                 wxCode?.let {
+                    activity?.let {
+                        LoadingDialogManager.loadBigDialog(it,getString(R.string.login_ing))
+                    }
                     viewModel.wxLogin(wxCode)
                 }
                 /*if (!TextUtils.isEmpty(wxCode)) {
@@ -152,5 +164,10 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
     override fun initViewModel(): LoginViewModel {
         val loginViewModel: LoginViewModel by viewModels()
         return loginViewModel
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.unregisterReceiver(loginReceiver)
     }
 }

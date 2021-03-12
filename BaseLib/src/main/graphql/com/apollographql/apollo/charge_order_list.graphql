@@ -2,7 +2,16 @@ query ChargeOrderList($index: Int!){
   chargeOrderList(index: $index){
     currentPage
     list{
-        ...chargeOrderFragment
+        goods{
+            virtualGoodsAmount
+            virtualGoodsGiveAmount
+            virtualGoodsType
+        }
+        name
+        order{
+                addtimeFormat
+                fee
+             }
     }
     nextPage
     perPage
@@ -10,35 +19,35 @@ query ChargeOrderList($index: Int!){
   }
 }
 
-fragment chargeOrderFragment on ChargeOrder{
-
+fragment chargeOrderPage on ChargeOrder{
     name
     order{
-        ...orderFragment
-    }
-
+        ...chargeOrderFragment
+        }
 
 }
+
+fragment chargeOrderFragment on Order{
+    addtimeFormat
+                fee
+}
 fragment chargeItemFragment on ChargeItem{
-
     chargeItemId
-    name
-    shortDesc
-    sortOrder
-    status
-
+                name
+                shortDesc
+                sortOrder
+                status
 }
 
 fragment orderGoodsFragment on OrderGoods{
     amount
-    fee
-    name
-    orderGoodsId
-    originPrice
-    payProductId
-    virtualGoods
-    goods{
-        ...chargeGoodsFields
-    }
-
+                fee
+                name
+                orderGoodsId
+                originPrice
+                payProductId
+                virtualGoods
+                goods{
+                    ...chargeGoodsFields
+                }
 }

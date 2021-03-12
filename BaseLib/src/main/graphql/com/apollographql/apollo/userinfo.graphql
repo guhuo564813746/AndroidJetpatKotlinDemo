@@ -11,7 +11,19 @@ query User{
               signInType
               status
               userAccount{
-                  ...userAcountFragment
+                  adminChargeMoney
+                  chargeMoney
+                  coin
+                  consumedCoin
+                  consumedPoint
+                  earnCoin
+                  earnPoint
+                  lastConsumeCoinTime
+                  lastConsumePointTime
+                  lastEarnCoinTime
+                  lastEarnPointTime
+                  point
+                  userId
               }
               userId
   }
@@ -29,7 +41,19 @@ fragment userFragment on User{
         signInType
         status
         userAccount{
-            ...userAcountFragment
+                adminChargeMoney
+                chargeMoney
+                coin
+                consumedCoin
+                consumedPoint
+                earnCoin
+                earnPoint
+                lastConsumeCoinTime
+                lastConsumePointTime
+                lastEarnCoinTime
+                lastEarnPointTime
+                point
+                userId
         }
         userId
 }
