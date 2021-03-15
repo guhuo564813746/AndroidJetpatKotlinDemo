@@ -67,7 +67,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/profile_layout"
             android:background="@color/white"
-            >
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -445,7 +445,7 @@
             android:layout_height="50dp"
             android:layout_below="@id/btn_clear_cache"
             android:background="@color/white"
-            android:visibility="gone"
+            android:visibility="visible"
             >
 
             <TextView

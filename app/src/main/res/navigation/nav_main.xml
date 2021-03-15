@@ -15,7 +15,14 @@
     <fragment
         android:id="@+id/mineFragment"
         android:name="com.wawa.wawaandroid_ep.fragment.MineFragment"
-        android:label="MineFragment" />
+        android:label="MineFragment" >
+        <action android:id="@+id/settingAction"
+            app:destination="@+id/settingFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@android:anim/slide_in_left"/>
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.wawa.wawaandroid_ep.fragment.LoginFragment"
@@ -27,6 +34,7 @@
     <fragment android:id="@+id/settingFragment"
         android:name="com.wawa.wawaandroid_ep.fragment.SettingFragment"
         android:label="设置">
+
     </fragment>
     <fragment android:id="@+id/userRecordFragment"
         android:name="com.wawa.wawaandroid_ep.fragment.RecordListFragment"

@@ -36,6 +36,7 @@ import com.wawa.wawaandroid_ep.dialog.GameSetDialog
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.DrawableMenuLayout
+import com.wawa.wawaandroid_ep.view.RobotControlerView
 import com.wawa.wawaandroid_ep.view.RockerView
 import com.wawa.wawaandroid_ep.view.recycleview.NoAlphaItemAnimator
 import org.json.JSONObject
@@ -188,26 +189,39 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
                 LogUtils.d(TAG,"rockerControl--start")
             }
         })
-        binding.epButtonControl.setListener(object: ButtonControlPanel.OnTouchListener{
-            override fun onTouch(
-                view: View?,
-                direction: RockerView.Direction?,
-                event: MotionEvent?
-            ): Boolean {
-                when(event?.action){
-                    MotionEvent.ACTION_DOWN ->{
-                        dealWithBtControlAction(direction)
-                    }
-                    MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL->{
-                        operateRobot(gimbalStop)
-                    }
-                }
-                return true
+        binding.epButtonControl.mOnShakeListener=object: RobotControlerView.OnShakeListener {
+            override fun onStart() {
+                LogUtils.d(TAG,"epButtonControl--start")
             }
-        })
+
+            override fun direction(direction: RobotControlerView.Direction?) {
+                direction?.let {
+                    dealWithBtControlAction(it)
+                }
+            }
+
+            override fun onFinish() {
+                operateRobot(gimbalStop)
+            }
+            /* override fun onTouch(
+                 view: View?,
+                 direction: RockerView.Direction?,
+                 event: MotionEvent?
+             ): Boolean {
+                 when (event?.action) {
+                     MotionEvent.ACTION_DOWN -> {
+                         dealWithBtControlAction(direction)
+                     }
+                     MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                         operateRobot(gimbalStop)
+                     }
+                 }
+                 return true
+             }*/
+        }
     }
 
-    fun dealWithBtControlAction(direction: RockerView.Direction?){
+    fun dealWithBtControlAction(direction: RobotControlerView.Direction?){
         when(direction?.name){
             "DIRECTION_LEFT"-> operateRobot(gimbalLeft)
             "DIRECTION_RIGHT" -> operateRobot(gimbalRight)
@@ -322,10 +336,15 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         if (gameVideoControlor == null) {
             gameVideoControlor = DaniuGameVideoControlor()
             var bundle = Bundle()
-            bundle.putString(
-                DaniuGameVideoControlor.MASTER_VIDEO_URL,
-                data?.fragments()?.roomFragment()?.liveStream()?.get(0)?.fragments()?.liveStreamforGameFragment()?.liveRtmpUrl()
-            )
+            data?.fragments()?.roomFragment()?.liveStream()?.let {
+                if (it.size >0){
+                    bundle.putString(
+                        DaniuGameVideoControlor.MASTER_VIDEO_URL,
+                        it.get(0)?.fragments()?.liveStreamforGameFragment()?.liveRtmpUrl()
+                        )
+
+                }
+            }
             bundle.putString(DaniuGameVideoControlor.SLAVE_VIDEO_URL, "")
             (gameVideoControlor as DaniuGameVideoControlor)?.arguments = bundle
 //        mLiveGameController.setLiveStreamUrl(mLiveBean.liveStreamV2List.get(streamDefaultQuility).liveRtmpUrl, null);

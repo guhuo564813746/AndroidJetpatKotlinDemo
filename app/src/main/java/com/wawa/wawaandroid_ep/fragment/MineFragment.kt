@@ -54,10 +54,10 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
         binding.lvMineset.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         val mineChargeBean=MineListBean()
         mineChargeBean.title="账单"
-        mineChargeBean.itemImSrc=R.mipmap.game_icon_setting
+        mineChargeBean.itemImSrc=R.mipmap.icon_zhangdan
         val mineSetBean=MineListBean()
         mineSetBean.title="设置"
-        mineSetBean.itemImSrc=R.mipmap.game_icon_setting
+        mineSetBean.itemImSrc=R.mipmap.setting
         var mineList= listOf<MineListBean>(mineChargeBean,mineSetBean)
         binding.lvMineset.adapter= MineFragmentListAdapter(this,mineList)
         initViewListener()

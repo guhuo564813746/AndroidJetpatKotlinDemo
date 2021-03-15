@@ -14,6 +14,7 @@ import com.blankj.utilcode.util.SizeUtils
 import com.wawa.baselib.R
 import com.wawa.baselib.utils.dialog.adapter.PayTypeListAdapter
 import com.wawa.baselib.utils.logutils.LogUtils
+import com.wawa.baselib.utils.pay.PayManager
 
 /**
  *作者：create by 张金 on 2021/3/4 17:46
@@ -24,7 +25,6 @@ class PayTypeDialog(
     ) : DialogFragment(){
     val TAG="PayTypeDialog"
     lateinit var adapter: PayTypeListAdapter
-    lateinit var list: List<Int>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,9 +36,6 @@ class PayTypeDialog(
         return view
     }
 
-    fun initPayTypeList(): List<Int>{
-        return listOf(5)
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = activity?.let { Dialog(it, R.style.dialog) }
@@ -62,7 +59,6 @@ class PayTypeDialog(
         }
     }
     fun initView(view: View){
-        list=initPayTypeList()
         val lvPaytypeitem=view.findViewById<RecyclerView>(R.id.lv_paytypeitem)
         val tvPaytips=view.findViewById<TextView>(R.id.tv_paytips)
         val imCancelpay=view.findViewById<ImageView>(R.id.im_cancelpay)
@@ -72,7 +68,7 @@ class PayTypeDialog(
         lvPaytypeitem.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
 
         activity?.let {
-            adapter=PayTypeListAdapter(it, listOf(5))
+            adapter=PayTypeListAdapter(it, listOf(PayManager.PAYTYPE_ZFB_H5,PayManager.PAYTYPE_ALIPAY))
             lvPaytypeitem.adapter=adapter }
         tvPaytips.setText(payGoods.fragments()?.chargeGoodsFields()?.name())
         tvPaytypeTips.setText(payGoods.fragments()?.chargeGoodsFields()?.detailDesc())
@@ -84,7 +80,9 @@ class PayTypeDialog(
         }
         tvPaybuynow.setOnClickListener {
             if (callback != null){
-                callback.payTypeConfirm(list.get(adapter.curPos))
+                adapter?.list?.let {
+                    callback.payTypeConfirm(it.get(adapter.curPos))
+                }
             }
             dismissAllowingStateLoss()
         }

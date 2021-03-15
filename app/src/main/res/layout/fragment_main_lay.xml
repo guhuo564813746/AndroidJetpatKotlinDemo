@@ -158,20 +158,20 @@
                                 android:clipChildren="false">
                                 <com.to.aboomy.pager2banner.Banner
                                     android:layout_width="match_parent"
-                                    android:layout_height="135dp"
+                                    android:layout_height="140dp"
                                     android:id="@+id/main_banner"
                                     android:layout_centerHorizontal="true"
                                     android:clipChildren="false"
                                     android:layout_marginLeft="23dp"
                                     android:layout_marginRight="23dp"
                                     />
-                                <ImageView
+                                <!--<ImageView
                                     android:layout_width="66dp"
                                     android:layout_height="55dp"
                                     android:layout_alignParentBottom="true"
                                     android:src="@mipmap/icon_welcome_back_panda"
-                                    android:scaleType="centerCrop"/>
-                                <RelativeLayout
+                                    android:scaleType="centerCrop"/>-->
+                                <!--<RelativeLayout
                                     android:layout_width="278dp"
                                     android:layout_height="19dp"
                                     android:layout_marginLeft="50dp"
@@ -193,7 +193,7 @@
                                         android:layout_alignParentRight="true"
                                         android:layout_marginRight="5dp"
                                         android:visibility="gone"/>
-                                </RelativeLayout>
+                                </RelativeLayout>-->
                             </RelativeLayout>
                             <androidx.recyclerview.widget.RecyclerView
                                 android:layout_width="match_parent"

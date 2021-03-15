@@ -22,8 +22,17 @@ buildscript {
     }
 }
 
+/*repositories {
+    flatDir {
+        dirs 'libs' //,'../gamesimulator/libs'
+    }
+}*/
 allprojects {
     repositories {
+        // 添加下面的内容
+        /*flatDir {
+            dirs 'libs'
+        }*/
         mavenCentral()
         google()
         jcenter()

@@ -14,17 +14,18 @@
             android:layout_height="198dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:src="@mipmap/bg_login_footer"
             android:scaleType="fitXY"
             />
+<!--        android:src="@mipmap/bg_login_footer"-->
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="292dp"
             android:layout_height="292dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="75dp"
-            android:src="@mipmap/bg_login_logo"
-            />
+            android:src="@mipmap/ic_launcher_round"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

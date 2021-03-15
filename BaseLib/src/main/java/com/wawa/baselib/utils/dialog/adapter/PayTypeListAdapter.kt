@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.wawa.baselib.utils.pay.PayManager
 import com.wawa.baseresourcelib.R
 
 
@@ -14,10 +15,7 @@ import com.wawa.baseresourcelib.R
  *作者：create by 张金 on 2021/3/4 18:21
  *邮箱：564813746@qq.com
  */
-class PayTypeListAdapter(private val context: Context,private val list: List<Int>) : RecyclerView.Adapter<PayTypeListAdapter.PayTypeListViewHolder>() {
-    companion object{
-        val PAYTYPE_ZFB_H5=5
-    }
+class PayTypeListAdapter(private val context: Context,var  list: List<Int>) : RecyclerView.Adapter<PayTypeListAdapter.PayTypeListViewHolder>() {
     var curPos=0
     inner class PayTypeListViewHolder(view: View) : RecyclerView.ViewHolder(view){
         lateinit var imPaytypeChoice: ImageView
@@ -27,6 +25,10 @@ class PayTypeListAdapter(private val context: Context,private val list: List<Int
             imPaytypeChoice=itemView.findViewById(R.id.im_paytype_choice)
             imPaytypetips=itemView.findViewById(R.id.im_paytypetips)
             tvPaytypetips=itemView.findViewById(R.id.tv_paytypetips)
+            itemView.setOnClickListener {
+                curPos=adapterPosition
+                notifyDataSetChanged()
+            }
         }
     }
 
@@ -46,10 +48,16 @@ class PayTypeListAdapter(private val context: Context,private val list: List<Int
             holder.imPaytypeChoice.visibility=View.GONE
         }
         when(list.get(position)){
-            PAYTYPE_ZFB_H5 ->{
+            PayManager.PAYTYPE_ZFB_H5 ->{
+                holder.imPaytypetips.setImageResource(R.mipmap.im_payzfbtag)
+                holder.tvPaytypetips.setText(context.getString(R.string.ali_pay)+"_H5")
+            }
+
+            PayManager.PAYTYPE_ALIPAY ->{
                 holder.imPaytypetips.setImageResource(R.mipmap.im_payzfbtag)
                 holder.tvPaytypetips.setText(context.getString(R.string.ali_pay))
             }
+
         }
 
     }

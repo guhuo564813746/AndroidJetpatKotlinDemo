@@ -15,8 +15,10 @@ import com.apollographql.apollo.CreateOrderItemMutation
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.blankj.utilcode.util.ToastUtils
+import com.wawa.baselib.R
 import com.wawa.baselib.utils.dialog.PayTypeDialog
 import com.wawa.baselib.utils.logutils.LogUtils
+import com.wawa.baselib.utils.pay.alipay.AliPayTask
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
@@ -29,6 +31,7 @@ class PayManager(private val context: Context,
                  private val apolloClient: ApolloClient
                  ) : PayTypeDialog.PayTypeCallback, LifecycleObserver {
     companion object{
+        val PAYTYPE_ALIPAY=1
         val PAYTYPE_ZFB_H5=5
     }
     val TAG="PayManager"
@@ -74,14 +77,31 @@ class PayManager(private val context: Context,
 
                 override fun onResponse(response: Response<CreateOrderItemMutation.Data>) {
                     LogUtils.d(TAG,"creatOrder_onResponse_${response.toString()}")
+                    response?.errors?.size?.let{
+                        if (it >0){
+                            ToastUtils.showShort(response?.errors?.get(0)?.message)
+                            return
+                        }
+                    }
                     when(payType){
-                        5->{
+                        PAYTYPE_ZFB_H5->{
                             //H5支付
                             var payRedirectUrl: String?=response.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.payRedirectUrl()
                             payRedirectUrl.let {
                                 go2H5_ZFB_pay(it)
                             }
                         }
+                        PAYTYPE_ALIPAY->{
+                            //原生支付宝
+                            var aliPayTask=AliPayTask(context)
+                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.alipaySignedString()
+                            payInfo?.let {
+                                aliPayTask.invokeAliPay(it,callback)
+                                return
+                            }
+                            ToastUtils.showShort(context.getString(R.string.post_fee_pay_failed))
+                        }
+
                     }
                 }
             })

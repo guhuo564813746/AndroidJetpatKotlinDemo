@@ -33,7 +33,7 @@ android {
         }
         debug {
             signingConfig signingConfigs.debug
-            debuggable true
+//            debuggable true
         }
     }
     compileOptions {
@@ -43,14 +43,26 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        dataBinding true
+    }
+
 }
+
+repositories {
+    flatDir {
+        dirs 'libs' //,'../gamesimulator/libs'
+    }
+}
+
 
 dependencies {
     def nav_version = "2.3.2"
     def apollo_version="2.5.2"
     //以下为分包依赖
     def adapterVersion = 'v1.2.3'
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //lifecycle
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     //navigation
@@ -123,6 +135,9 @@ dependencies {
     api  'com.scwang.smart:refresh-header-classics:2.0.3'//经典刷新头
     api  'com.scwang.smart:refresh-header-material:2.0.3'    //谷歌刷新头
     api  'com.scwang.smart:refresh-header-radar:2.0.3'       //雷达刷新头
+
+    // 支付宝
+    implementation (name: 'alipaySdk-15.6.8-20191021122455-noUtdid', ext: 'aar')
 
     //图片选择器
     api project(path: ':imagepicker')

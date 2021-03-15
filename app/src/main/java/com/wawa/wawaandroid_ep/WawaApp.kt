@@ -21,6 +21,7 @@ import com.scwang.smart.refresh.header.BezierRadarHeader
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle
+import com.wawa.baselib.utils.LanguageUtils
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.apollonet.service.ApolloCallbackService
@@ -41,14 +42,15 @@ class WawaApp : Application(){
 
     companion object{
         lateinit var  lContext: Context
-        var apolloClient: ApolloClient=GraphqlRemoteDataSource.apolloClient
+//        var apolloClient: ApolloClient=GraphqlRemoteDataSource.apolloClient
+        lateinit var apolloClient: ApolloClient
     }
     val dataSource: BaseDataSource by lazy {
         getDataSource(ServiceTypes.COROUTINES)
     }
 
     private val baseUrl = "http://robot.t.seafarer.me/api/v1/graphql"
-    private lateinit var apolloClient: ApolloClient /*by lazy {
+    /*by lazy {
         val logInterceptor = HttpLoggingInterceptor(
             object : HttpLoggingInterceptor.Logger {
                 override fun log(message: String) {
@@ -122,7 +124,7 @@ class WawaApp : Application(){
 //                    .header("X-APP-VERSION", "1")
                     .header("X-APP-ASHOP-ID", "0")
 //                    .header("X-APP-CHANNEL", "sansung")
-                    .header("Accept-Language", "en") //LanguageUtils
+                    .header("Accept-Language", SharePreferenceUtils.getStr(SharePreferenceUtils.LOCALE_LAN)) //LanguageUtils
                     .header("X-USER-ID", SharePreferenceUtils.readUid())
                     .header("X-ACCESS-TOKEN", SharePreferenceUtils.readToken())
                     .build()

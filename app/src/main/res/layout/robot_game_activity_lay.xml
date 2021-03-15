@@ -25,14 +25,14 @@
             android:layout_marginLeft="30dp"
             android:id="@+id/ep_rocker_control"
             android:visibility="@{viewModel.gamePanelVisibility}"/>
-        <com.wawa.wawaandroid_ep.view.ButtonControlPanel
+        <com.wawa.wawaandroid_ep.view.RobotControlerView
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:id="@+id/ep_button_control"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
-            android:visibility="@{viewModel.gamePanelVisibility}"/>
+            android:visibility="@{viewModel.gamePanelVisibility}"
+            android:background="#12000000"/>
 
         <RelativeLayout
             android:id="@+id/user_data_group"

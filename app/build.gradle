@@ -8,7 +8,8 @@ plugins {
 }
 
 def buildDaniuJniLibs(){
-    return "daniuLicenseJniLibs"
+//    return "daniuLicenseJniLibs"
+    return "disneyDaniuLicenseJniLibs"
 }
 
 android {
@@ -76,7 +77,8 @@ android {
 
     sourceSets{
         main{
-            jniLibs.srcDirs = ['daniuLicenseJniLibs']
+//            jniLibs.srcDirs = ['daniuLicenseJniLibs']
+            jniLibs.srcDirs = ['disneyDaniuLicenseJniLibs']
         }
     }
 
@@ -85,6 +87,12 @@ android {
         abortOnError false
     }
     
+}
+
+repositories {
+    flatDir {
+        dirs 'libs' ,'../BaseLib/libs'
+    }
 }
 
 dependencies {
