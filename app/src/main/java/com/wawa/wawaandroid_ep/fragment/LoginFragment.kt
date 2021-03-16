@@ -99,14 +99,6 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
                 loginDialog.show()
             }
         }
-        viewModel.isL.addOnPropertyChangedCallback(object :Observable.OnPropertyChangedCallback(){
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (viewModel.isL.get()){
-                    Log.d("isL","true")
-                }
-            }
-
-        })
 
         viewModel.isLoginSuccess.observe(this){
             activity?.runOnUiThread{
@@ -116,7 +108,6 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
                         loginDialog?.dismiss()
                     }
                     (activity?.application as WawaApp).refreshApolloClient()
-                    (activity as MainActivity).viewModel.isShowBottom.postValue(true)
                     (activity as MainActivity).viewModel.isUserLogined.postValue(true)
                 }
             }

@@ -65,6 +65,7 @@ class RecordListItemFragment : BaseFragment<RecordlistitemFmLayBinding,RecordLis
     }
 
     override fun initFragmentView() {
+        mPage=1
         arguments?.let { recordItemType= requireArguments().getString(TAG,GAME_RECORD) }
         binding.refreshLayout.setOnRefreshListener(this)
         binding.refreshLayout.setOnLoadMoreListener(this)

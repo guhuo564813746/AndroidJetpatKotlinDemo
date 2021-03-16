@@ -44,13 +44,13 @@ class CoinsRecordsAdapter(
         holder.tvRecordRighttips.setText("Coins")
         holder.tvRecordtitle.setText(list?.get(position)?.fragments()?.userCoinLogFragment()?.title())
         holder.tvRecordtime.setText(list?.get(position)?.fragments()?.userCoinLogFragment()?.timeFormat())
-        var action=list?.get(position)?.fragments()?.userCoinLogFragment()?.action()
+        var type=list?.get(position)?.fragments()?.userCoinLogFragment()?.type()
         var amount=list?.get(position)?.fragments()?.userCoinLogFragment()?.amount()
-        action?.let {
-            if (action==0){
-                holder.tvRecordNum.setText("-$amount")
-            }else{
+        type?.let {
+            if (it==1){
                 holder.tvRecordNum.setText("+$amount")
+            }else{
+                holder.tvRecordNum.setText("$amount")
             }
         }
     }

@@ -122,12 +122,12 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
 
     fun goSettingPage(view: View){
         (activity as MainActivity).navBottom.visibility=View.GONE
-        findNavController().navigate(R.id.settingFragment)
+        findNavController().navigate(R.id.settingAction)
     }
 
     fun goProfilePage(view: View){
         (activity as MainActivity).navBottom.visibility=View.GONE
-        findNavController().navigate(R.id.profileFragment)
+        findNavController().navigate(R.id.goProfileFragmentAction)
     }
 
     fun goLevelPage(view: View){
@@ -137,7 +137,7 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
 
     fun goRecordListPage(view: View){
         (activity as MainActivity).navBottom.visibility=View.GONE
-        findNavController().navigate(R.id.userRecordFragment)
+        findNavController().navigate(R.id.orderFragmentAction)
     }
 
     override fun initVariableId(): Int {

@@ -18,17 +18,34 @@
         android:label="MineFragment" >
         <action android:id="@+id/settingAction"
             app:destination="@+id/settingFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_out_right"
-            app:popExitAnim="@android:anim/slide_in_left"/>
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
+        <action android:id="@+id/orderFragmentAction"
+            app:destination="@+id/userRecordFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action android:id="@+id/goProfileFragmentAction"
+            app:destination="@+id/profileFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.wawa.wawaandroid_ep.fragment.LoginFragment"
         android:label="LoginFragment">
-        <action android:id="@+id/navto_MainFragment"
-            app:destination="@+id/mainFragment"/>
+        <action android:id="@+id/go2MainFragmentAction"
+            app:destination="@+id/mainFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
 
     <fragment android:id="@+id/settingFragment"
@@ -47,8 +64,8 @@
     <fragment android:id="@+id/profileFragment"
         android:name="com.wawa.wawaandroid_ep.fragment.ProfileFragment"
         android:label="个人信息"></fragment>
-    <activity android:id="@+id/wxentryActivity"
-        android:name="com.robotwar.app.wxapi.WXEntryActivity"/>
+   <!-- <activity android:id="@+id/wxentryActivity"
+        android:name="com.robotwar.app.wxapi.WXEntryActivity"/>-->
 
     <activity android:id="@+id/robotActivity"
         android:name="com.wawa.wawaandroid_ep.activity.game.RobotGameActivity">

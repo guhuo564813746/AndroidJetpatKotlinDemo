@@ -195,12 +195,14 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
             }
 
             override fun direction(direction: RobotControlerView.Direction?) {
+                LogUtils.d(TAG,"epButtonControl--direction")
                 direction?.let {
                     dealWithBtControlAction(it)
                 }
             }
 
             override fun onFinish() {
+                LogUtils.d(TAG,"epButtonControl_onFinish--")
                 operateRobot(gimbalStop)
             }
             /* override fun onTouch(
@@ -223,10 +225,22 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
     fun dealWithBtControlAction(direction: RobotControlerView.Direction?){
         when(direction?.name){
-            "DIRECTION_LEFT"-> operateRobot(gimbalLeft)
-            "DIRECTION_RIGHT" -> operateRobot(gimbalRight)
-            "DIRECTION_UP" -> operateRobot(gimbalUp)
-            "DIRECTION_DOWN" -> operateRobot(gimbalDown)
+            "DIRECTION_LEFT"-> {
+                LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_LEFT")
+                operateRobot(gimbalLeft)
+            }
+            "DIRECTION_RIGHT" -> {
+                LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_RIGHT")
+                operateRobot(gimbalRight)
+            }
+            "DIRECTION_UP" ->{
+                LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_UP")
+                operateRobot(gimbalUp)
+            }
+            "DIRECTION_DOWN" ->{
+                LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_DOWN")
+                operateRobot(gimbalDown)
+            }
         }
     }
 

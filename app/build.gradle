@@ -1,15 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'androidx.navigation.safeargs.kotlin'
+//    id 'androidx.navigation.safeargs.kotlin'
 //    id 'com.apollographql.android'
     id 'com.apollographql.apollo'
     id 'kotlin-kapt'
+    id "androidx.navigation.safeargs"
 }
 
 def buildDaniuJniLibs(){
-//    return "daniuLicenseJniLibs"
-    return "disneyDaniuLicenseJniLibs"
+    return "daniuLicenseJniLibs"
+//    return "disneyDaniuLicenseJniLibs"
 }
 
 android {
@@ -77,8 +78,8 @@ android {
 
     sourceSets{
         main{
-//            jniLibs.srcDirs = ['daniuLicenseJniLibs']
-            jniLibs.srcDirs = ['disneyDaniuLicenseJniLibs']
+            jniLibs.srcDirs = ['daniuLicenseJniLibs']
+//            jniLibs.srcDirs = ['disneyDaniuLicenseJniLibs']
         }
     }
 

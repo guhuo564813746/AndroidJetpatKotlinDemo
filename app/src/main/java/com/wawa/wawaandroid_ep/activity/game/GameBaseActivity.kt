@@ -94,7 +94,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     private fun handleSuccessRoomInfo(roomInfo: List<RoomInfoQuery.List>){
-        Log.d(TAG,"handleSuccessRoomInfo--"+roomInfo.size)
+        Log.d(TAG,"handleSuccessRoomInfo--"+roomInfo?.toString())
         if (!roomInfo.isNullOrEmpty()){
             viewModel.roomInfoData.value=roomInfo.get(0)
         }

@@ -46,7 +46,6 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
 //                GraphqlRemoteDataSource().initTokenAndUid(Utils.readToken(),Utils.readUid())
                 binding.viewMainBg.visibility=View.GONE
                 navControlor.navigate(R.id.mainFragment)
-                setUpDataSource()
             }else{
                 SharePreferenceUtils.saveToken("")
                 SharePreferenceUtils.saveUid("")

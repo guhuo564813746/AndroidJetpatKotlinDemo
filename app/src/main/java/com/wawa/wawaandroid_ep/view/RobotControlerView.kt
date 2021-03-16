@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.robotwar.app.R
+import com.wawa.baselib.utils.logutils.LogUtils
 
 /**
  *作者：create by 张金 on 2021/3/15 14:33
@@ -115,20 +116,25 @@ class RobotControlerView( context: Context,
         val cy = measuredHeight / 2
         // 中心点
         // 中心点
-        mCenterPoint?.set(cx, cy)
     }
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN ->{
+                LogUtils.d(TAG,"onTouchEvent--ACTION_DOWN")
+                event?.let {
+                    mCenterPoint?.set(it.x.toInt(), it.y.toInt())
+                }
                 callbackStart()
             }
             MotionEvent.ACTION_MOVE->{
+                LogUtils.d(TAG,"onTouchEvent--ACTION_MOVE")
                 var moveX=event?.x
                 var moveY=event?.y
                 callbackMove(Point(moveX?.toInt(),moveY?.toInt()))
 
             }
             MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL ->{
+                LogUtils.d(TAG,"onTouchEvent--ACTION_UP")
                 callBackFinish()
             }
         }
@@ -145,30 +151,45 @@ class RobotControlerView( context: Context,
         var radian: Double=0.0
         var angle: Double=0.0
         mCenterPoint?.x?.let {
-            lenx=(movePoint.x-it) as Float
+            lenx=(movePoint.x-it).toFloat()
         }
         mCenterPoint?.y?.let {
-            lenY=(movePoint.y-it) as Float
+            lenY=(movePoint.y-it).toFloat()
         }
-        lenXY= Math.sqrt((lenx * lenx + lenY * lenY) as Double).toFloat()
+        lenXY= Math.sqrt((lenx * lenx + lenY * lenY).toDouble()).toFloat()
         mCenterPoint?.y?.let {
             radian=Math.acos(lenx / lenXY.toDouble()) * if (movePoint.y < it) -1 else 1
             angle=radian2Angle(radian)
         }
+        LogUtils.d(TAG,"angle--$angle radian--$radian")
         mOnAngleChangeListener?.angle(angle)
         mOnShakeListener?.let {
-            if (ANGLE_0 <= angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
+            if (ANGLE_0 < angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
                 // 右
-                it.direction(Direction.DIRECTION_RIGHT)
+                if (tempDirection != Direction.DIRECTION_RIGHT){
+                    it.direction(Direction.DIRECTION_RIGHT)
+                    tempDirection=Direction.DIRECTION_RIGHT
+                }
             } else if (ANGLE_ROTATE45_4D_OF_0P <= angle && ANGLE_ROTATE45_4D_OF_1P > angle) {
                 // 下
-                it.direction(Direction.DIRECTION_DOWN)
+                if (tempDirection != Direction.DIRECTION_DOWN){
+                    it.direction(Direction.DIRECTION_DOWN)
+                    tempDirection = Direction.DIRECTION_DOWN
+                }
+
             } else if (ANGLE_ROTATE45_4D_OF_1P <= angle && ANGLE_ROTATE45_4D_OF_2P > angle) {
                 // 左
-                it.direction(Direction.DIRECTION_LEFT)
+                if (tempDirection != Direction.DIRECTION_LEFT){
+                    it.direction(Direction.DIRECTION_LEFT)
+                    tempDirection=Direction.DIRECTION_LEFT
+                }
+
             } else if (ANGLE_ROTATE45_4D_OF_2P <= angle && ANGLE_ROTATE45_4D_OF_3P > angle) {
                 // 上
-                it.direction(Direction.DIRECTION_UP)
+                if (tempDirection != Direction.DIRECTION_UP){
+                    it.direction(Direction.DIRECTION_UP)
+                    tempDirection=Direction.DIRECTION_UP
+                }
             }
         }
 

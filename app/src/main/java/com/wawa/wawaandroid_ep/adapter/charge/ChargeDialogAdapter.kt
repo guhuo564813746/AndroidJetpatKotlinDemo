@@ -563,9 +563,7 @@ class ChargeDialogAdapter(context: Context,private val payManager: PayManager) :
                                 it, it1,
                                 object:PayManager.PayCallback{
                                     override fun paySuccess(payType: Int) {
-                                        if (payType== PayManager.PAYTYPE_ZFB_H5){
-                                            (mContext as MainActivity).setUpDataSource()
-                                        }
+                                        (mContext as MainActivity).setUpDataSource()
                                     }
 
                                     override fun payErr() {

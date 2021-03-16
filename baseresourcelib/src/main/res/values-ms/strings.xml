@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--马来西亚-->
-    <string name="app_label">Crane-Game-CrabCrab</string>
+    <string name="app_label">熊猫抓抓</string>
     <string name="app_name">熊猫抓抓</string>
     <string name="COIN_VERTICAL">Syiling Panda</string>
     <!--    <string name="COIN_VERTICAL">达\n人\n币</string>-->

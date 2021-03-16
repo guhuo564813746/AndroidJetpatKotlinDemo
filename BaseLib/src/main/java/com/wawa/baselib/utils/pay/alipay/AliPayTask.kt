@@ -2,7 +2,9 @@ package com.wawa.baselib.utils.pay.alipay
 
 import android.app.Activity
 import android.content.Context
+import com.alipay.sdk.app.EnvUtils
 import com.alipay.sdk.app.PayTask
+import com.wawa.baselib.BuildConfig
 import com.wawa.baselib.utils.pay.PayManager
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
@@ -22,6 +24,9 @@ class AliPayTask(private val context: Context) {
      * 调用支付宝sdk
      */
     fun invokeAliPay(mPayInfo: String,callback: PayManager.PayCallback) {
+        if (BuildConfig.DEBUG){
+            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
+        }
         Observable.create<Map<String, String>>( ObservableOnSubscribe<Map<String, String>> {  //沙盒环境
             //                EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
 
