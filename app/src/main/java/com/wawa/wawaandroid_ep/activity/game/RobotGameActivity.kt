@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.RoomInfoQuery
+import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.google.gson.Gson
@@ -50,23 +51,27 @@ import java.lang.reflect.Type
 class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGameViewModel>(), EpGameListener,GameReadyDialog.GameReadyInterface {
     private val TAG = "RobotGameActivity"
     private var gameReadyDialog: GameReadyDialog?=null
+    private var halfHeight=0
+    private var halfWidth=0
+    private var chassisSpeed=0.0
+    private var gimbalSpeed=0
 
     //Ep指令
-    private var goTopleftEp: String = "chassis speed x 0.3 y 0.3 z 1;"
-    private val goToprightEp = "chassis speed x -0.3 y 0.3 z 1;"
+    private var goTopleftEp: String = "chassis speed x $chassisSpeed y $chassisSpeed z 1;"
+    private val goToprightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
     private val stopEp = "chassis wheel w2 0 w1 0 w3 0 w4 0;"
-    private val speedTopEp = "chassis speed x 0.3 y 0 z 1;"
-    private val speedDownEp = "chassis speed x -0.3 y 0 z 1;"
-    private val speedLeftEp = "chassis speed x 0 y -0.3 z 1;"
-    private val speedRightEp = "chassis speed x 0 y 0.3 z 1;"
-    private val goDownLeftEp = "chassis speed x -0.3 y -0.3 z 1;"
-    private val goDownRightEp = "chassis speed x -0.3 y 0.3 z 1;"
+    private val speedTopEp = "chassis speed x $chassisSpeed y 0 z 1;"
+    private val speedDownEp = "chassis speed x -$chassisSpeed y 0 z 1;"
+    private val speedLeftEp = "chassis speed x 0 y -$chassisSpeed z 1;"
+    private val speedRightEp = "chassis speed x 0 y $chassisSpeed z 1;"
+    private val goDownLeftEp = "chassis speed x -$chassisSpeed y -$chassisSpeed z 1;"
+    private val goDownRightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
 
     //云台速度控制
-    private val gimbalUp = "gimbal speed p 60 y 0;"
-    private val gimbalDown = "gimbal speed p -60 y 0;"
-    private val gimbalLeft = "gimbal speed p 0 y -60;"
-    private val gimbalRight = "gimbal speed p 0 y 60;"
+    private val gimbalUp = "gimbal speed p $gimbalSpeed y 0;"
+    private val gimbalDown = "gimbal speed p -$gimbalSpeed y 0;"
+    private val gimbalLeft = "gimbal speed p 0 y -$gimbalSpeed;"
+    private val gimbalRight = "gimbal speed p 0 y $gimbalSpeed;"
     private val gimbalStop = "gimbal speed p 0 y 0;"
 
     private val stopSpeed = "chassis speed x 0 y 0 z 0;"
@@ -78,6 +83,9 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     override fun initView() {
+        halfHeight=ScreenUtils.getScreenHeight()/2
+        halfWidth=ScreenUtils.getScreenWidth()/4
+        binding.epButtonControl.layoutParams.width=ScreenUtils.getScreenWidth()/2
         binding.streamReplaced.setOnClickListener {
             switchShowUserData()
         }
@@ -181,7 +189,9 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
                 operateRobot(stopSpeed)
             }
 
-            override fun direction(direction: RockerView.Direction?) {
+            override fun direction(direction: RockerView.Direction?,distance: Int) {
+                LogUtils.d(TAG,"epRockerControl--distance--$distance")
+                chassisSpeed=distance/SizeUtils.dp2px(75f).toDouble()
                 dealWithControlAction(direction)
             }
 
@@ -194,10 +204,11 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
                 LogUtils.d(TAG,"epButtonControl--start")
             }
 
-            override fun direction(direction: RobotControlerView.Direction?) {
-                LogUtils.d(TAG,"epButtonControl--direction")
+            override fun direction(direction: RobotControlerView.Direction?,distance: Int) {
+                LogUtils.d(TAG,"epButtonControl--direction--distance--$distance")
+
                 direction?.let {
-                    dealWithBtControlAction(it)
+                    dealWithBtControlAction(it,distance)
                 }
             }
 
@@ -223,22 +234,26 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         }
     }
 
-    fun dealWithBtControlAction(direction: RobotControlerView.Direction?){
+    fun dealWithBtControlAction(direction: RobotControlerView.Direction?,distance: Int){
         when(direction?.name){
             "DIRECTION_LEFT"-> {
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_LEFT")
+                gimbalSpeed=360*(distance/halfWidth.toDouble()).toInt()
                 operateRobot(gimbalLeft)
             }
             "DIRECTION_RIGHT" -> {
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_RIGHT")
+                gimbalSpeed=360*(distance/halfWidth.toDouble()).toInt()
                 operateRobot(gimbalRight)
             }
             "DIRECTION_UP" ->{
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_UP")
+                gimbalSpeed=360*(distance/halfHeight.toDouble()).toInt()
                 operateRobot(gimbalUp)
             }
             "DIRECTION_DOWN" ->{
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_DOWN")
+                gimbalSpeed=360*(distance/halfHeight.toDouble()).toInt()
                 operateRobot(gimbalDown)
             }
         }

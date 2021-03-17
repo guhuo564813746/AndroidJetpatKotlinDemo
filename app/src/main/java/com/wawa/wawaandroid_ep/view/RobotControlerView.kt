@@ -167,27 +167,27 @@ class RobotControlerView( context: Context,
             if (ANGLE_0 < angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
                 // 右
                 if (tempDirection != Direction.DIRECTION_RIGHT){
-                    it.direction(Direction.DIRECTION_RIGHT)
+                    it.direction(Direction.DIRECTION_RIGHT,lenXY.toInt())
                     tempDirection=Direction.DIRECTION_RIGHT
                 }
             } else if (ANGLE_ROTATE45_4D_OF_0P <= angle && ANGLE_ROTATE45_4D_OF_1P > angle) {
                 // 下
                 if (tempDirection != Direction.DIRECTION_DOWN){
-                    it.direction(Direction.DIRECTION_DOWN)
+                    it.direction(Direction.DIRECTION_DOWN,lenXY.toInt())
                     tempDirection = Direction.DIRECTION_DOWN
                 }
 
             } else if (ANGLE_ROTATE45_4D_OF_1P <= angle && ANGLE_ROTATE45_4D_OF_2P > angle) {
                 // 左
                 if (tempDirection != Direction.DIRECTION_LEFT){
-                    it.direction(Direction.DIRECTION_LEFT)
+                    it.direction(Direction.DIRECTION_LEFT,lenXY.toInt())
                     tempDirection=Direction.DIRECTION_LEFT
                 }
 
             } else if (ANGLE_ROTATE45_4D_OF_2P <= angle && ANGLE_ROTATE45_4D_OF_3P > angle) {
                 // 上
                 if (tempDirection != Direction.DIRECTION_UP){
-                    it.direction(Direction.DIRECTION_UP)
+                    it.direction(Direction.DIRECTION_UP,lenXY.toInt())
                     tempDirection=Direction.DIRECTION_UP
                 }
             }
@@ -260,7 +260,7 @@ class RobotControlerView( context: Context,
          *
          * @param direction 方向
          */
-        fun direction(direction: Direction?)
+        fun direction(direction: Direction?,distance: Int)
 
         // 结束
         fun onFinish()

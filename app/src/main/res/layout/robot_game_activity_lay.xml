@@ -26,7 +26,7 @@
             android:id="@+id/ep_rocker_control"
             android:visibility="@{viewModel.gamePanelVisibility}"/>
         <com.wawa.wawaandroid_ep.view.RobotControlerView
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/ep_button_control"
             android:layout_alignParentRight="true"

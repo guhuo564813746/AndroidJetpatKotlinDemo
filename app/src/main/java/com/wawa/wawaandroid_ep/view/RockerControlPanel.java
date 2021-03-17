@@ -19,7 +19,6 @@ import com.robotwar.app.R;
  */
 public class RockerControlPanel extends RoomControlPanel {
     RockerView mBtnRocker;
-
     public RockerControlPanel(Context context){
         super(context);
     }
