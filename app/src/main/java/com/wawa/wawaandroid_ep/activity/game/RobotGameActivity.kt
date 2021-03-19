@@ -42,6 +42,8 @@ import com.wawa.wawaandroid_ep.view.RockerView
 import com.wawa.wawaandroid_ep.view.recycleview.NoAlphaItemAnimator
 import org.json.JSONObject
 import java.lang.reflect.Type
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 
 /**
@@ -53,25 +55,31 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     private var gameReadyDialog: GameReadyDialog?=null
     private var halfHeight=0
     private var halfWidth=0
-    private var chassisSpeed=0.0
-    private var gimbalSpeed=0
+    private var chassisSpeed="0.0"
+    private var gimbalSpeed="0"
+    private var rockerWidth=0.0
+
+    private var perDistance=SizeUtils.dp2px(75f)/5;
+    private var format= DecimalFormat("0.#")
+    private var gimbalWidthPerDistance=0.0
+    private var gimbalHeightPerDistance=0.0
+
 
     //Ep指令
     private var goTopleftEp: String = "chassis speed x $chassisSpeed y $chassisSpeed z 1;"
-    private val goToprightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
-    private val stopEp = "chassis wheel w2 0 w1 0 w3 0 w4 0;"
-    private val speedTopEp = "chassis speed x $chassisSpeed y 0 z 1;"
-    private val speedDownEp = "chassis speed x -$chassisSpeed y 0 z 1;"
-    private val speedLeftEp = "chassis speed x 0 y -$chassisSpeed z 1;"
-    private val speedRightEp = "chassis speed x 0 y $chassisSpeed z 1;"
-    private val goDownLeftEp = "chassis speed x -$chassisSpeed y -$chassisSpeed z 1;"
-    private val goDownRightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
+    private var goToprightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
+    private var speedTopEp = "chassis speed x $chassisSpeed y 0 z 1;"
+    private var speedDownEp = "chassis speed x -$chassisSpeed y 0 z 1;"
+    private var speedLeftEp = "chassis speed x 0 y -$chassisSpeed z 1;"
+    private var speedRightEp = "chassis speed x 0 y $chassisSpeed z 1;"
+    private var goDownLeftEp = "chassis speed x -$chassisSpeed y -$chassisSpeed z 1;"
+    private var goDownRightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
 
     //云台速度控制
-    private val gimbalUp = "gimbal speed p $gimbalSpeed y 0;"
-    private val gimbalDown = "gimbal speed p -$gimbalSpeed y 0;"
-    private val gimbalLeft = "gimbal speed p 0 y -$gimbalSpeed;"
-    private val gimbalRight = "gimbal speed p 0 y $gimbalSpeed;"
+    private var gimbalUp = "gimbal speed p $gimbalSpeed y 0;"
+    private var gimbalDown = "gimbal speed p -$gimbalSpeed y 0;"
+    private var gimbalLeft = "gimbal speed p 0 y -$gimbalSpeed;"
+    private var gimbalRight = "gimbal speed p 0 y $gimbalSpeed;"
     private val gimbalStop = "gimbal speed p 0 y 0;"
 
     private val stopSpeed = "chassis speed x 0 y 0 z 0;"
@@ -83,8 +91,13 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     override fun initView() {
+
+        format.roundingMode= RoundingMode.FLOOR
+        rockerWidth=SizeUtils.dp2px(75f).toDouble()
         halfHeight=ScreenUtils.getScreenHeight()/2
         halfWidth=ScreenUtils.getScreenWidth()/4
+        gimbalWidthPerDistance=halfWidth.toDouble()/3
+        gimbalHeightPerDistance=halfHeight.toDouble()/3
         binding.epButtonControl.layoutParams.width=ScreenUtils.getScreenWidth()/2
         binding.streamReplaced.setOnClickListener {
             switchShowUserData()
@@ -170,6 +183,25 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         }
     }
 
+    fun initSpeed(){
+        //Ep指令
+        goTopleftEp= "chassis speed x $chassisSpeed y $chassisSpeed z 1;"
+        goToprightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
+        speedTopEp = "chassis speed x $chassisSpeed y 0 z 1;"
+        speedDownEp = "chassis speed x -$chassisSpeed y 0 z 1;"
+        speedLeftEp = "chassis speed x 0 y -$chassisSpeed z 1;"
+        speedRightEp = "chassis speed x 0 y $chassisSpeed z 1;"
+        goDownLeftEp = "chassis speed x -$chassisSpeed y -$chassisSpeed z 1;"
+        goDownRightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
+
+        //云台速度控制
+        gimbalUp = "gimbal speed p $gimbalSpeed y 0;"
+        gimbalDown = "gimbal speed p -$gimbalSpeed y 0;"
+        gimbalLeft = "gimbal speed p 0 y -$gimbalSpeed;"
+        gimbalRight = "gimbal speed p 0 y $gimbalSpeed;"
+        LogUtils.d(TAG,"initSpeed--$goTopleftEp")
+    }
+
     fun initOnlineUserView(){
         binding.userList.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         if (gameOnlineUserListAdapter == null){
@@ -186,13 +218,49 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         binding.epRockerControl.setListener(object :RockerView.OnShakeListener{
             override fun onFinish() {
                 LogUtils.d(TAG,"rockerControl--finish")
-                operateRobot(stopSpeed)
+//                operateRobot(stopSpeed)
             }
 
             override fun direction(direction: RockerView.Direction?,distance: Int) {
-                LogUtils.d(TAG,"epRockerControl--distance--$distance")
-                chassisSpeed=distance/SizeUtils.dp2px(75f).toDouble()
-                dealWithControlAction(direction)
+
+                LogUtils.d(TAG,"epRockerControl--distance--$distance -- perDistance-- $perDistance")
+                if (Math.abs(distance-perDistance) ==0){
+                    LogUtils.d(TAG,"epRockerControl--direction1")
+                }else if (Math.abs(distance-2*perDistance)==0){
+                    LogUtils.d(TAG,"epRockerControl--direction2")
+                }else if (Math.abs(distance-3*perDistance)==0){
+                    LogUtils.d(TAG,"epRockerControl--direction3")
+                }else if (Math.abs(distance-4*perDistance)<perDistance/2){
+                    LogUtils.d(TAG,"epRockerControl--direction4")
+                }else if (Math.abs(distance-5*perDistance)<perDistance/2){
+                    LogUtils.d(TAG,"epRockerControl--direction5")
+                }
+                if (distance >= perDistance && distance < 2*perDistance  ){
+                    chassisSpeed=format.format(distance/rockerWidth)
+                    initSpeed()
+                    dealWithControlAction(direction)
+
+                }else if(distance >= 2*perDistance && distance <3*perDistance){
+
+                    chassisSpeed=format.format(distance/rockerWidth)
+                    initSpeed()
+                    dealWithControlAction(direction)
+                }else if (distance >= 3*perDistance && distance < 4*perDistance){
+                    chassisSpeed=format.format(distance/rockerWidth)
+                    initSpeed()
+                    dealWithControlAction(direction)
+                }else if(distance >=4*perDistance && distance < 5*perDistance){
+                    chassisSpeed=format.format(distance/rockerWidth)
+                    initSpeed()
+                    dealWithControlAction(direction)
+                }else if (distance >= 5*perDistance){
+                    chassisSpeed=format.format(distance/rockerWidth)
+                    initSpeed()
+                    dealWithControlAction(direction)
+                }
+
+
+//                dealWithControlAction(direction)
             }
 
             override fun onStart() {
@@ -238,23 +306,58 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         when(direction?.name){
             "DIRECTION_LEFT"-> {
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_LEFT")
-                gimbalSpeed=360*(distance/halfWidth.toDouble()).toInt()
-                operateRobot(gimbalLeft)
+
+                if (distance >= gimbalWidthPerDistance && distance < 2*gimbalWidthPerDistance){
+                    gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                    initSpeed()
+                    operateRobot(gimbalLeft)
+                }else if(distance >= 2*gimbalWidthPerDistance && distance <= 3*gimbalWidthPerDistance){
+                    gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                    initSpeed()
+                    operateRobot(gimbalLeft)
+                }
+
+
             }
             "DIRECTION_RIGHT" -> {
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_RIGHT")
-                gimbalSpeed=360*(distance/halfWidth.toDouble()).toInt()
-                operateRobot(gimbalRight)
+                if (distance >= gimbalWidthPerDistance && distance < 2*gimbalWidthPerDistance){
+                    gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                    initSpeed()
+                    operateRobot(gimbalRight)
+                }else if(distance >= 2*gimbalWidthPerDistance && distance <= 3*gimbalWidthPerDistance){
+                    gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                    initSpeed()
+                    operateRobot(gimbalRight)
+                }
             }
             "DIRECTION_UP" ->{
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_UP")
-                gimbalSpeed=360*(distance/halfHeight.toDouble()).toInt()
-                operateRobot(gimbalUp)
+                if (distance >= gimbalHeightPerDistance && distance < 2*gimbalHeightPerDistance){
+                    gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                    initSpeed()
+                    operateRobot(gimbalUp)
+                }else if(distance >= 2*gimbalHeightPerDistance && distance <= 3*gimbalHeightPerDistance){
+                    gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                    initSpeed()
+                    operateRobot(gimbalUp)
+                }
+//                gimbalSpeed=360*(distance/halfHeight.toDouble()).toInt()
+//                operateRobot(gimbalUp)
             }
             "DIRECTION_DOWN" ->{
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_DOWN")
-                gimbalSpeed=360*(distance/halfHeight.toDouble()).toInt()
-                operateRobot(gimbalDown)
+                if (distance >= gimbalHeightPerDistance && distance < 2*gimbalHeightPerDistance){
+                    gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                    initSpeed()
+                    operateRobot(gimbalDown)
+                }else if(distance >= 2*gimbalHeightPerDistance && distance <= 3*gimbalHeightPerDistance){
+                    gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                    initSpeed()
+                    operateRobot(gimbalDown)
+                }
+//                gimbalSpeed=360*(distance/halfHeight.toDouble()).toInt()
+//                operateRobot(gimbalDown)
             }
         }
     }

@@ -31,7 +31,7 @@ public class RockerControlPanel extends RoomControlPanel {
     protected void init(Context context, AttributeSet attrs) {
         super.init(context, attrs);
         mBtnRocker=findViewById(R.id.btn_rocker);
-        mBtnRocker.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
+        mBtnRocker.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_MOVE);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class RockerControlPanel extends RoomControlPanel {
         return R.layout.view_rocker_control_panel;
     }
     public RockerControlPanel setListener(RockerView.OnShakeListener listener) {
-        mBtnRocker.setOnShakeListener(RockerView.DirectionMode.DIRECTION_4_ROTATE_45, listener);
+        mBtnRocker.setOnShakeListener(RockerView.DirectionMode.DIRECTION_8, listener);
         return this;
     }
 }

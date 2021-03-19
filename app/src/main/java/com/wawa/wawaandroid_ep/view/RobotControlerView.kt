@@ -164,7 +164,21 @@ class RobotControlerView( context: Context,
         LogUtils.d(TAG,"angle--$angle radian--$radian")
         mOnAngleChangeListener?.angle(angle)
         mOnShakeListener?.let {
-            if (ANGLE_0 < angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
+
+            if (ANGLE_0 <= angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
+                // 右
+                mOnShakeListener!!.direction(Direction.DIRECTION_RIGHT, lenXY.toInt())
+            } else if (ANGLE_ROTATE45_4D_OF_0P <= angle && ANGLE_ROTATE45_4D_OF_1P > angle) {
+                // 下
+                mOnShakeListener!!.direction(Direction.DIRECTION_DOWN, lenXY.toInt())
+            } else if (ANGLE_ROTATE45_4D_OF_1P <= angle && ANGLE_ROTATE45_4D_OF_2P > angle) {
+                // 左
+                mOnShakeListener!!.direction(Direction.DIRECTION_LEFT, lenXY.toInt())
+            } else if (ANGLE_ROTATE45_4D_OF_2P <= angle && ANGLE_ROTATE45_4D_OF_3P > angle) {
+                // 上
+                mOnShakeListener!!.direction(Direction.DIRECTION_UP, lenXY.toInt())
+            }
+            /*if (ANGLE_0 < angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
                 // 右
                 if (tempDirection != Direction.DIRECTION_RIGHT){
                     it.direction(Direction.DIRECTION_RIGHT,lenXY.toInt())
@@ -190,7 +204,7 @@ class RobotControlerView( context: Context,
                     it.direction(Direction.DIRECTION_UP,lenXY.toInt())
                     tempDirection=Direction.DIRECTION_UP
                 }
-            }
+            }*/
         }
 
     }
