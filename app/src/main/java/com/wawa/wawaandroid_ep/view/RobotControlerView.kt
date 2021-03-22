@@ -115,14 +115,14 @@ class RobotControlerView( context: Context,
         val cx = measuredWidth / 2
         val cy = measuredHeight / 2
         // 中心点
-        // 中心点
+        mCenterPoint?.set(cx, cy);
     }
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN ->{
                 LogUtils.d(TAG,"onTouchEvent--ACTION_DOWN")
                 event?.let {
-                    mCenterPoint?.set(it.x.toInt(), it.y.toInt())
+//                    mCenterPoint?.set(it.x.toInt(), it.y.toInt())
                 }
                 callbackStart()
             }

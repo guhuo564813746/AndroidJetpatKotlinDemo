@@ -99,8 +99,8 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         rockerWidth=SizeUtils.dp2px(75f).toDouble()
         halfHeight=ScreenUtils.getScreenHeight()/2
         halfWidth=ScreenUtils.getScreenWidth()/4
-        gimbalWidthPerDistance=halfWidth.toDouble()/3
-        gimbalHeightPerDistance=halfHeight.toDouble()/3
+        gimbalWidthPerDistance=halfWidth.toDouble()/4
+        gimbalHeightPerDistance=halfHeight.toDouble()/4
         binding.epButtonControl.layoutParams.width=ScreenUtils.getScreenWidth()/2
         binding.streamReplaced.setOnClickListener {
             switchShowUserData()
@@ -222,7 +222,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
             override fun onFinish() {
                 LogUtils.d(TAG,"rockerControl--finish")
                 curRockerDistance=0
-//                operateRobot(stopSpeed)
+                operateRobot(stopSpeed)
             }
 
             override fun direction(direction: RockerView.Direction?,distance: Int) {
@@ -287,10 +287,11 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_LEFT")
                 if (Math.abs(distance-curBtControlorDisance) >= gimbalWidthPerDistance){
                     if (distance <= halfWidth){
-                        gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                        gimbalSpeed=(360*distance/halfWidth).toString()
                     }else{
                         gimbalSpeed="360"
                     }
+                    LogUtils.d(TAG,"gimbalSpeed-- $gimbalSpeed")
                     initSpeed()
                     operateRobot(gimbalLeft)
                     curBtControlorDisance=distance
@@ -299,22 +300,23 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
             }
             "DIRECTION_RIGHT" -> {
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_RIGHT")
-                if (Math.abs(distance-curBtControlorDisance) >= gimbalWidthPerDistance && distance <= halfWidth){
+
+                if (Math.abs(distance-curBtControlorDisance) >= gimbalWidthPerDistance){
                     if (distance <= halfWidth){
-                        gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                        gimbalSpeed=(360*distance/halfWidth).toString()
                     }else{
                         gimbalSpeed="360"
                     }
                     initSpeed()
-                    operateRobot(gimbalLeft)
+                    operateRobot(gimbalRight)
                     curBtControlorDisance=distance
                 }
             }
             "DIRECTION_UP" ->{
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_UP")
-                if (Math.abs(distance -curBtControlorDisance) >= gimbalHeightPerDistance && distance <= halfHeight){
+                if (Math.abs(distance -curBtControlorDisance) >= gimbalHeightPerDistance){
                     if (distance <= halfHeight){
-                        gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                        gimbalSpeed=(360*distance/halfHeight).toString()
                     }else{
                         gimbalSpeed="360"
                     }
@@ -327,14 +329,14 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
             }
             "DIRECTION_DOWN" ->{
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_DOWN")
-                if (Math.abs(distance -curBtControlorDisance) >= gimbalHeightPerDistance && distance <= halfHeight){
+                if (Math.abs(distance -curBtControlorDisance) >= gimbalHeightPerDistance){
                     if (distance <= halfHeight){
-                        gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                        gimbalSpeed=(360*distance/halfHeight).toString()
                     }else{
                         gimbalSpeed="360"
                     }
                     initSpeed()
-                    operateRobot(gimbalUp)
+                    operateRobot(gimbalDown)
                     curBtControlorDisance=distance
                 }
             }
