@@ -1,10 +1,15 @@
 package com.wawa.wawaandroid_ep
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.core.view.LayoutInflaterCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -95,6 +100,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
         compositeDisposable.add(errorConfigDataDp)
         dataSource.getConfigData()
     }
+
 
     fun handleSuccessConfigData(data: ConfigDataQuery.Config){
         data?.let {

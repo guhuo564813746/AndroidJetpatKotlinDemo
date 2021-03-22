@@ -23,8 +23,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
-            android:id="@+id/ep_rocker_control" />
-<!--        android:visibility="@{viewModel.gamePanelVisibility}"-->
+            android:id="@+id/ep_rocker_control"
+            android:visibility="@{viewModel.gamePanelVisibility}" />
         <com.wawa.wawaandroid_ep.view.RobotControlerView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

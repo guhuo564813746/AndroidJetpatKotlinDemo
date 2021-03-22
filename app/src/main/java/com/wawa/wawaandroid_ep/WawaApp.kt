@@ -2,6 +2,7 @@ package com.wawa.wawaandroid_ep
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Typeface
 import android.util.Log
 import androidx.multidex.MultiDex
 import com.apollographql.apollo.ApolloAndroidLogger
@@ -44,6 +45,7 @@ class WawaApp : Application(){
         lateinit var  lContext: Context
 //        var apolloClient: ApolloClient=GraphqlRemoteDataSource.apolloClient
         lateinit var apolloClient: ApolloClient
+        var mMainTypeface: Typeface?=null
     }
     val dataSource: BaseDataSource by lazy {
         getDataSource(ServiceTypes.COROUTINES)

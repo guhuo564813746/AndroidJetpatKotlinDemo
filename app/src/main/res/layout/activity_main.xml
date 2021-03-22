@@ -30,7 +30,10 @@
                 android:background="@color/white"
                 app:itemTextColor="@drawable/main_bottomnav_text_color"
                 app:menu="@menu/main_bottom_menu"
-                android:visibility="gone"/>
+                app:itemTextAppearanceActive="@style/BottomSelectedStyle"
+                app:itemTextAppearanceInactive="@style/BottomUnselectedStyle"
+                android:visibility="gone"
+                android:theme="@style/MyfontStyle"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.fragment
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import com.google.android.material.tabs.TabLayout
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.UserRecordLayBinding
+import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.RecordListFragmentViewModel
 
@@ -44,9 +46,27 @@ class RecordListFragment : BaseFragment<UserRecordLayBinding,RecordListFragmentV
             findNavController().popBackStack()
         }
         title.setText(getString(R.string.tv_myorder))
-        val slideTab=binding.viewSliding.findViewById<TabLayout>(R.id.main_slide_tab)
+        var slideTab=binding.viewSliding.findViewById<TabLayout>(R.id.main_slide_tab)
         binding.vpUserRecord.adapter=RecordPageAdapter(childFragmentManager)
         slideTab.tabMode=TabLayout.MODE_FIXED
+        slideTab.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.setCustomView(null)
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                var textView=TextView(activity)
+                textView.setTextSize( TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 16f, getResources().getDisplayMetrics()))
+                textView.setTextColor(resources.getColor(R.color.black))
+                textView.setTypeface(WawaApp.mMainTypeface)
+                textView.text=tab?.text
+                tab?.setCustomView(textView)
+            }
+        })
         slideTab.setupWithViewPager(binding.vpUserRecord)
     }
 

@@ -4,7 +4,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
@@ -13,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.apollographql.apollo.BannerListQuery
 import com.apollographql.apollo.RoomCategoryListQuery
+import com.blankj.utilcode.util.SizeUtils
 import com.google.android.material.tabs.TabLayout
 import com.robotwar.app.BR
 import com.robotwar.app.R
@@ -71,10 +74,16 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
+                tab?.setCustomView(null)
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
+                var textView=TextView(activity)
+                textView.setTextSize( TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 16f, getResources().getDisplayMetrics()))
+                textView.setTextColor(resources.getColor(R.color.black))
+                textView.setTypeface(WawaApp.mMainTypeface)
+                textView.text=tab?.text
+                tab?.setCustomView(textView)
                 tab?.let { curTab=it.position }
             }
         })

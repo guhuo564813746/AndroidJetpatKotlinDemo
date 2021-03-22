@@ -3,6 +3,8 @@ package com.wawa.wawaandroid_ep.activity.game
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -64,7 +66,8 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     private var gimbalWidthPerDistance=0.0
     private var gimbalHeightPerDistance=0.0
 
-
+    private var curRockerDistance=0
+    private var curBtControlorDisance=0
     //Ep指令
     private var goTopleftEp: String = "chassis speed x $chassisSpeed y $chassisSpeed z 1;"
     private var goToprightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
@@ -199,7 +202,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         gimbalDown = "gimbal speed p -$gimbalSpeed y 0;"
         gimbalLeft = "gimbal speed p 0 y -$gimbalSpeed;"
         gimbalRight = "gimbal speed p 0 y $gimbalSpeed;"
-        LogUtils.d(TAG,"initSpeed--$goTopleftEp")
+        LogUtils.d(TAG,"initSpeed--$goTopleftEp -- $gimbalUp")
     }
 
     fun initOnlineUserView(){
@@ -218,49 +221,24 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         binding.epRockerControl.setListener(object :RockerView.OnShakeListener{
             override fun onFinish() {
                 LogUtils.d(TAG,"rockerControl--finish")
+                curRockerDistance=0
 //                operateRobot(stopSpeed)
             }
 
             override fun direction(direction: RockerView.Direction?,distance: Int) {
 
                 LogUtils.d(TAG,"epRockerControl--distance--$distance -- perDistance-- $perDistance")
-                if (Math.abs(distance-perDistance) ==0){
-                    LogUtils.d(TAG,"epRockerControl--direction1")
-                }else if (Math.abs(distance-2*perDistance)==0){
-                    LogUtils.d(TAG,"epRockerControl--direction2")
-                }else if (Math.abs(distance-3*perDistance)==0){
-                    LogUtils.d(TAG,"epRockerControl--direction3")
-                }else if (Math.abs(distance-4*perDistance)<perDistance/2){
-                    LogUtils.d(TAG,"epRockerControl--direction4")
-                }else if (Math.abs(distance-5*perDistance)<perDistance/2){
-                    LogUtils.d(TAG,"epRockerControl--direction5")
-                }
-                if (distance >= perDistance && distance < 2*perDistance  ){
-                    chassisSpeed=format.format(distance/rockerWidth)
+                if (Math.abs(distance-curRockerDistance) >= perDistance ){
+                    if (distance <= rockerWidth){
+                        chassisSpeed=format.format(distance/rockerWidth)
+                    }else{
+                        chassisSpeed="1.0"
+                    }
                     initSpeed()
                     dealWithControlAction(direction)
-
-                }else if(distance >= 2*perDistance && distance <3*perDistance){
-
-                    chassisSpeed=format.format(distance/rockerWidth)
-                    initSpeed()
-                    dealWithControlAction(direction)
-                }else if (distance >= 3*perDistance && distance < 4*perDistance){
-                    chassisSpeed=format.format(distance/rockerWidth)
-                    initSpeed()
-                    dealWithControlAction(direction)
-                }else if(distance >=4*perDistance && distance < 5*perDistance){
-                    chassisSpeed=format.format(distance/rockerWidth)
-                    initSpeed()
-                    dealWithControlAction(direction)
-                }else if (distance >= 5*perDistance){
-                    chassisSpeed=format.format(distance/rockerWidth)
-                    initSpeed()
-                    dealWithControlAction(direction)
+                    curRockerDistance=distance
                 }
 
-
-//                dealWithControlAction(direction)
             }
 
             override fun onStart() {
@@ -282,6 +260,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
             override fun onFinish() {
                 LogUtils.d(TAG,"epButtonControl_onFinish--")
+                curBtControlorDisance=0
                 operateRobot(gimbalStop)
             }
             /* override fun onTouch(
@@ -306,58 +285,58 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         when(direction?.name){
             "DIRECTION_LEFT"-> {
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_LEFT")
-
-                if (distance >= gimbalWidthPerDistance && distance < 2*gimbalWidthPerDistance){
-                    gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                if (Math.abs(distance-curBtControlorDisance) >= gimbalWidthPerDistance){
+                    if (distance <= halfWidth){
+                        gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                    }else{
+                        gimbalSpeed="360"
+                    }
                     initSpeed()
                     operateRobot(gimbalLeft)
-                }else if(distance >= 2*gimbalWidthPerDistance && distance <= 3*gimbalWidthPerDistance){
-                    gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
-                    initSpeed()
-                    operateRobot(gimbalLeft)
+                    curBtControlorDisance=distance
                 }
-
 
             }
             "DIRECTION_RIGHT" -> {
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_RIGHT")
-                if (distance >= gimbalWidthPerDistance && distance < 2*gimbalWidthPerDistance){
-                    gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                if (Math.abs(distance-curBtControlorDisance) >= gimbalWidthPerDistance && distance <= halfWidth){
+                    if (distance <= halfWidth){
+                        gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
+                    }else{
+                        gimbalSpeed="360"
+                    }
                     initSpeed()
-                    operateRobot(gimbalRight)
-                }else if(distance >= 2*gimbalWidthPerDistance && distance <= 3*gimbalWidthPerDistance){
-                    gimbalSpeed=(360*(distance/halfWidth.toDouble()).toInt()).toString()
-                    initSpeed()
-                    operateRobot(gimbalRight)
+                    operateRobot(gimbalLeft)
+                    curBtControlorDisance=distance
                 }
             }
             "DIRECTION_UP" ->{
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_UP")
-                if (distance >= gimbalHeightPerDistance && distance < 2*gimbalHeightPerDistance){
-                    gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                if (Math.abs(distance -curBtControlorDisance) >= gimbalHeightPerDistance && distance <= halfHeight){
+                    if (distance <= halfHeight){
+                        gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                    }else{
+                        gimbalSpeed="360"
+                    }
                     initSpeed()
                     operateRobot(gimbalUp)
-                }else if(distance >= 2*gimbalHeightPerDistance && distance <= 3*gimbalHeightPerDistance){
-                    gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
-                    initSpeed()
-                    operateRobot(gimbalUp)
+                    curBtControlorDisance=distance
                 }
 //                gimbalSpeed=360*(distance/halfHeight.toDouble()).toInt()
 //                operateRobot(gimbalUp)
             }
             "DIRECTION_DOWN" ->{
                 LogUtils.d(TAG,"dealWithBtControlAction--DIRECTION_DOWN")
-                if (distance >= gimbalHeightPerDistance && distance < 2*gimbalHeightPerDistance){
-                    gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                if (Math.abs(distance -curBtControlorDisance) >= gimbalHeightPerDistance && distance <= halfHeight){
+                    if (distance <= halfHeight){
+                        gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
+                    }else{
+                        gimbalSpeed="360"
+                    }
                     initSpeed()
-                    operateRobot(gimbalDown)
-                }else if(distance >= 2*gimbalHeightPerDistance && distance <= 3*gimbalHeightPerDistance){
-                    gimbalSpeed=(360*(distance/halfHeight.toDouble()).toInt()).toString()
-                    initSpeed()
-                    operateRobot(gimbalDown)
+                    operateRobot(gimbalUp)
+                    curBtControlorDisance=distance
                 }
-//                gimbalSpeed=360*(distance/halfHeight.toDouble()).toInt()
-//                operateRobot(gimbalDown)
             }
         }
     }
@@ -463,6 +442,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         }
         quitDialog.showConfirmDialog(supportFragmentManager)
     }
+
 
     fun initGameVideo(data: RoomInfoQuery.List) {
         if (gameVideoControlor == null) {

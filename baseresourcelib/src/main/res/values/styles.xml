@@ -26,4 +26,24 @@
         <!--显示区域以外是否使用黑色半透明背景-->
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="BottomSelectedStyle">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="BottomUnselectedStyle">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TabTextStyle">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="MyfontStyle"
+        parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/myfont</item>
+    </style>
 </resources>

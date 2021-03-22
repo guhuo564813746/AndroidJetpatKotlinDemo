@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.robotwar.app.R
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 
 /**
@@ -13,6 +14,7 @@ import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 class SchemaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
+        setContentView(R.layout.schema_activity_lay)
         var data=intent.data
         Log.i("TAG", "host = ${data?.host} path = ${data?.path} query = ${data?.query}")
 //        val param = data?.getQueryParameter("goodsId")
