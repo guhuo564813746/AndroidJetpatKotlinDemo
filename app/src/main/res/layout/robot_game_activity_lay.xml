@@ -24,14 +24,14 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
             android:id="@+id/ep_rocker_control"
-            android:visibility="@{viewModel.gamePanelVisibility}" />
+            android:visibility="@{viewModel.gamePanelVisibility}"/> <!---->
         <com.wawa.wawaandroid_ep.view.RobotControlerView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/ep_button_control"
             android:layout_alignParentRight="true"
             android:background="#12000000"
-            android:visibility="@{viewModel.gamePanelVisibility}"/><!---->
+            android:visibility="@{viewModel.gamePanelVisibility}"/>  <!--   -->
 
         <RelativeLayout
             android:id="@+id/user_data_group"
@@ -223,7 +223,6 @@
             android:id="@+id/control_panel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:visibility="@{viewModel.gamePanelVisibility}">
 
 
@@ -280,15 +279,18 @@
                             android:src="@drawable/buyu_bg_btn_improve" />
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/btn_fire"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:alpha="0.7"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/whj_bg_btn_fire"
-                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/btn_fire"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:alpha="0.7"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/btn_fire_bg"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="50dp"/>
             </RelativeLayout>
 
             <TextView

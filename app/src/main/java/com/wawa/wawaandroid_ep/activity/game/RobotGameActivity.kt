@@ -136,6 +136,10 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
     }
 
+    override fun onBackPressed() {
+        quitGameRoom()
+    }
+
     fun switchShowUserData(){
         if (viewModel.userDataGroupVisibility.get()==View.GONE){
             viewModel.userDataGroupVisibility.set(View.VISIBLE)
@@ -188,8 +192,8 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
     fun initSpeed(){
         //Ep指令
-        goTopleftEp= "chassis speed x $chassisSpeed y $chassisSpeed z 1;"
-        goToprightEp = "chassis speed x -$chassisSpeed y $chassisSpeed z 1;"
+        goTopleftEp= "chassis speed x $chassisSpeed y -$chassisSpeed z 1;"
+        goToprightEp = "chassis speed x $chassisSpeed y $chassisSpeed z 1;"
         speedTopEp = "chassis speed x $chassisSpeed y 0 z 1;"
         speedDownEp = "chassis speed x -$chassisSpeed y 0 z 1;"
         speedLeftEp = "chassis speed x 0 y -$chassisSpeed z 1;"
@@ -345,14 +349,38 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
     fun dealWithControlAction(direction: RockerView.Direction?){
         when(direction?.name){
-            "DIRECTION_LEFT"-> operateRobot(speedLeftEp)
-            "DIRECTION_RIGHT" -> operateRobot(speedRightEp)
-            "DIRECTION_UP" -> operateRobot(speedTopEp)
-            "DIRECTION_DOWN" -> operateRobot(speedDownEp)
-            "DIRECTION_UP_LEFT" -> operateRobot(goTopleftEp)
-            "DIRECTION_UP_RIGHT" -> operateRobot(goToprightEp)
-            "DIRECTION_DOWN_LEFT" -> operateRobot(goDownLeftEp)
-            "DIRECTION_DOWN_RIGHT" -> operateRobot(goDownRightEp)
+            "DIRECTION_LEFT"-> {
+                LogUtils.d(TAG,"DIRECTION_LEFT--")
+                operateRobot(speedLeftEp)
+            }
+            "DIRECTION_RIGHT" -> {
+                LogUtils.d(TAG,"DIRECTION_RIGHT")
+                operateRobot(speedRightEp)
+            }
+            "DIRECTION_UP" -> {
+                LogUtils.d(TAG,"DIRECTION_UP")
+                operateRobot(speedTopEp)
+            }
+            "DIRECTION_DOWN" -> {
+                LogUtils.d(TAG,"DIRECTION_DOWN")
+                operateRobot(speedDownEp)
+            }
+            "DIRECTION_UP_LEFT" -> {
+                LogUtils.d(TAG,"DIRECTION_UP_LEFT")
+                operateRobot(goTopleftEp)
+            }
+            "DIRECTION_UP_RIGHT" -> {
+                LogUtils.d(TAG,"DIRECTION_UP_RIGHT")
+                operateRobot(goToprightEp)
+            }
+            "DIRECTION_DOWN_LEFT" -> {
+                LogUtils.d(TAG,"DIRECTION_DOWN_LEFT")
+                operateRobot(goDownLeftEp)
+            }
+            "DIRECTION_DOWN_RIGHT" -> {
+                LogUtils.d(TAG,"DIRECTION_DOWN_RIGHT")
+                operateRobot(goDownRightEp)
+            }
         }
     }
     fun initGameMenuView() {

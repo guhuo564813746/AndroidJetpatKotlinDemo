@@ -115,14 +115,14 @@ class RobotControlerView( context: Context,
         val cx = measuredWidth / 2
         val cy = measuredHeight / 2
         // 中心点
-        mCenterPoint?.set(cx, cy);
+//        mCenterPoint?.set(cx, cy);
     }
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN ->{
                 LogUtils.d(TAG,"onTouchEvent--ACTION_DOWN")
                 event?.let {
-//                    mCenterPoint?.set(it.x.toInt(), it.y.toInt())
+                    mCenterPoint?.set(it.x.toInt(), it.y.toInt())
                 }
                 callbackStart()
             }
@@ -165,7 +165,7 @@ class RobotControlerView( context: Context,
         mOnAngleChangeListener?.angle(angle)
         mOnShakeListener?.let {
 
-            if (ANGLE_0 <= angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
+            if (ANGLE_0 < angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
                 // 右
                 mOnShakeListener!!.direction(Direction.DIRECTION_RIGHT, lenXY.toInt())
             } else if (ANGLE_ROTATE45_4D_OF_0P <= angle && ANGLE_ROTATE45_4D_OF_1P > angle) {
