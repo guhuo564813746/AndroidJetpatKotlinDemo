@@ -31,13 +31,13 @@
             android:value="1c9e485a2e8dcbdbf3a07a25e2b61edb"/>-->
 
         <activity android:name="com.wawa.wawaandroid_ep.MainActivity"
-            android:theme="@style/startpageTheme">
+            android:theme="@style/startpageTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name="com.wawa.wawaandroid_ep.activity.SchemaActivity">
+
             <intent-filter>
                 <data android:scheme="robotwarapp"/>
                 <action android:name="android.intent.action.VIEW"/>

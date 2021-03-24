@@ -11,7 +11,7 @@
         android:layout_height="36dp"
         tl:tabMode="scrollable"
         android:theme="@style/MyfontStyle"
-        tl:tabTextAppearance="@style/TabTextStyle"/>
+        tl:tabTextAppearance="@style/TabTextStyle" />
 
    <!-- <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/main_slide_tab"
