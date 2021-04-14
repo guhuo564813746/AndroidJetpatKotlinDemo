@@ -25,7 +25,7 @@ class LoginViewModel : BaseVM(){
     val isLoginSuccess=MutableLiveData<Boolean>()
 
     fun phoneLogin(phoneNum: String,code: String){
-        val userLoginByPhone=UserLoginByPhoneMutation(phoneNum,"Panda_Game")
+        val userLoginByPhone=UserLoginByPhoneMutation(phoneNum,code)
         WawaApp.apolloClient
             .mutate(userLoginByPhone)
             .enqueue(object: ApolloCall.Callback<UserLoginByPhoneMutation.Data>(){

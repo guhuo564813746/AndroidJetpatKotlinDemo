@@ -58,7 +58,7 @@ class PayManager(private val context: Context,
 
     interface PayCallback{
         fun paySuccess(payType: Int)
-        fun payErr()
+        fun payErr(msg: String)
     }
 
     override fun payTypeConfirm(payType: Int) {
@@ -67,7 +67,7 @@ class PayManager(private val context: Context,
     }
 
     fun creatOrder(payType: Int){
-        val mutation=CreateOrderItemMutation(chargeItemId,payType,true)
+        val mutation=CreateOrderItemMutation(chargeItemId,payType)
         apolloClient.mutate(mutation)
             .enqueue(object: ApolloCall.Callback<CreateOrderItemMutation.Data>(){
                 override fun onFailure(e: ApolloException) {

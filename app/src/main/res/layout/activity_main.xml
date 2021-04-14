@@ -35,12 +35,21 @@
                 android:visibility="gone"
                 android:theme="@style/MyfontStyle"/>
         </LinearLayout>
-        <View
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/view_main_bg"
-            android:background="@mipmap/screen"
-            />
+            android:background="@color/white">
+            <ImageView
+                android:layout_width="292dp"
+                android:layout_height="292dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="75dp"
+                android:src="@mipmap/ic_launcher_round"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 

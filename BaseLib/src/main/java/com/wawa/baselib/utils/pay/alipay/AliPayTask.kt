@@ -25,7 +25,7 @@ class AliPayTask(private val context: Context) {
      */
     fun invokeAliPay(mPayInfo: String,callback: PayManager.PayCallback) {
         if (BuildConfig.DEBUG){
-            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
+//            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
         }
         Observable.create<Map<String, String>>( ObservableOnSubscribe<Map<String, String>> {  //沙盒环境
             //                EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
@@ -42,7 +42,7 @@ class AliPayTask(private val context: Context) {
                 if ("9000" == result["resultStatus"]) {
                     callback.paySuccess(PayManager.PAYTYPE_ALIPAY)
                 } else {
-                    callback.payErr()
+                    result["memo"]?.let { callback.payErr(it) }
                 }
 //                mActivity = null
             })

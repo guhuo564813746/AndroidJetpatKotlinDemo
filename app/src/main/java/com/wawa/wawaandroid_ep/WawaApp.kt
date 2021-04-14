@@ -51,7 +51,7 @@ class WawaApp : Application(){
         getDataSource(ServiceTypes.COROUTINES)
     }
 
-    private val baseUrl = "http://robot.t.seafarer.me/api/v1/graphql"
+    private val baseUrl = "https://app.robotwar.cc/api/v1/graphql"
     /*by lazy {
         val logInterceptor = HttpLoggingInterceptor(
             object : HttpLoggingInterceptor.Logger {

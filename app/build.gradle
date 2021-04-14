@@ -24,8 +24,8 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file('D:\\AndroidXMZZPj\\WawaAndroidEpPj\\wawaRobot\\AndroidJetpatKotlinDemo\\keystore\\robotwarapp.keystore')
+        release {
+            storeFile file('D:\\AndroidXMZZPj\\WawaAndroidEpPj\\wawaRobot\\RobotEpPj\\keystore\\robotwarapp.keystore')
             storePassword "robot@0304"
             keyAlias "robotwarapp"
             keyPassword "robot@0304"
@@ -38,11 +38,11 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "v1.0.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "BaseURL",'"http://robot.t.seafarer.me/api/v1/"'
-        buildConfigField "String", "HOST", '"http://robot.t.seafarer.me"'
+        buildConfigField "String", "BaseURL",'"https://app.robotwar.cc/api/v1/"'
+        buildConfigField "String", "HOST", '"https://app.robotwar.cc"'
         buildConfigField "String", "WX_APPID", '"wxd0c6dbd5e99c284c"' //wawa: wx0c0bd85e2edb9f75  robot: wxcba967814b417cb3
         buildConfigField "String", "WX_SECREAT", '"14f0800449710f7f5f4445de9a5ddbd0"'
 
@@ -59,12 +59,15 @@ android {
             shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
 
         release {
+            zipAlignEnabled true
+            shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -87,7 +90,17 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
-    
+
+    packagingOptions{
+//        exclude 'classes.dex'
+//        exclude '**.**'
+
+        doNotStrip "*/armeabi-v7a/*.so"
+        doNotStrip "*/x86/*.so"
+        doNotStrip "*/arm64-v8a/*.so"
+        doNotStrip "*/x86_64/*.so"
+        doNotStrip "armeabi.so"
+    }
 }
 
 repositories {

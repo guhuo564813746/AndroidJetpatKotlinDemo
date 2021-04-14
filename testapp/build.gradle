@@ -28,7 +28,7 @@ android {
             keyAlias "johnson-wawa"
             keyPassword "wawaji@0609"*/
 
-            storeFile file('D:\\AndroidXMZZPj\\WawaAndroidEpPj\\wawaRobot\\AndroidJetpatKotlinDemo\\keystore\\robotwarapp.keystore')
+            storeFile file('D:\\AndroidXMZZPj\\WawaAndroidEpPj\\wawaRobot\\RobotEpPj\\keystore\\robotwarapp.keystore')
             storePassword "robot@0304"
             keyAlias "robotwarapp"
             keyPassword "robot@0304"

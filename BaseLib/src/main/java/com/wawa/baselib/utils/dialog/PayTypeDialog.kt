@@ -68,7 +68,7 @@ class PayTypeDialog(
         lvPaytypeitem.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
 
         activity?.let {
-            adapter=PayTypeListAdapter(it, listOf(PayManager.PAYTYPE_ZFB_H5,PayManager.PAYTYPE_ALIPAY))
+            adapter=PayTypeListAdapter(it, listOf(PayManager.PAYTYPE_ALIPAY))
             lvPaytypeitem.adapter=adapter }
         tvPaytips.setText(payGoods.fragments()?.chargeGoodsFields()?.name())
         tvPaytypeTips.setText(payGoods.fragments()?.chargeGoodsFields()?.detailDesc())

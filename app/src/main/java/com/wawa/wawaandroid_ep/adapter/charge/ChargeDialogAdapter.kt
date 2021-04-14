@@ -15,6 +15,7 @@ import androidx.annotation.NonNull
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.ChargeItemListQuery
+import com.blankj.utilcode.util.ToastUtils
 import com.robotwar.app.R
 import com.wawa.baselib.utils.pay.PayManager
 import com.wawa.wawaandroid_ep.MainActivity
@@ -566,8 +567,8 @@ class ChargeDialogAdapter(context: Context,private val payManager: PayManager) :
                                         (mContext as MainActivity).setUpDataSource()
                                     }
 
-                                    override fun payErr() {
-
+                                    override fun payErr(msg: String) {
+                                        ToastUtils.showShort(msg)
                                     }
                                 })
                         }
