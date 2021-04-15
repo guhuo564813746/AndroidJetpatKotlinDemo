@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--印度尼西亚语-->
-    <string name="app_label">熊猫抓抓</string>
-    <string name="app_name">熊猫抓抓</string>
+    <string name="app_label">Crane Game CrabCrab</string>
+    <string name="app_name">机甲狮</string>
     <string name="COIN_VERTICAL">koin</string>
     <!--    <string name="COIN_VERTICAL">达\n人\n币</string>-->
     <string name="COIN">koin</string>

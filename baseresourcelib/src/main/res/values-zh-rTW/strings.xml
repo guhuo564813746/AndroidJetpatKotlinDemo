@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">熊貓抓抓</string>
-    <string name="app_label">熊猫抓抓</string><!--Crane-Game-CrabCrab-->
+    <string name="app_name">机甲狮</string>
+    <string name="app_label">Crane Game CrabCrab</string><!--Crane-Game-CrabCrab-->
     <string name="COIN">遊戲幣</string>
     <!--    <string name="COIN">達人幣</string>-->
     <string name="LOGIN_NEW_USER_GIFT">新用戶微信登錄送50%1$s</string>
