@@ -22,6 +22,8 @@ import com.google.gson.reflect.TypeToken
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.RobotGameActivityLayBinding
+import com.wawa.baselib.utils.SharePreferenceUtils
+import com.wawa.baselib.utils.SharePreferenceUtils.Companion.VIDEO_PLAYER
 import com.wawa.baselib.utils.dialog.ConfirmDialogFatory
 import com.wawa.baselib.utils.dialog.GameOperationDialog
 import com.wawa.baselib.utils.dialog.GameReadyDialog
@@ -36,7 +38,9 @@ import com.wawa.wawaandroid_ep.adapter.LiveChatListAdapter
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
 import com.wawa.wawaandroid_ep.dialog.GameSetDialog
+import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
+import com.wawa.wawaandroid_ep.gamevideopager.LiveGameFragment
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.DrawableMenuLayout
 import com.wawa.wawaandroid_ep.view.RobotControlerView
@@ -476,23 +480,29 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
 
     fun initGameVideo(data: RoomInfoQuery.List) {
         if (gameVideoControlor == null) {
-            gameVideoControlor = DaniuGameVideoControlor()
+            if (SharePreferenceUtils.getSwitch(VIDEO_PLAYER)){
+                gameVideoControlor=LiveGameFragment()
+            }else{
+                gameVideoControlor = DaniuGameVideoControlor()
+            }
             var bundle = Bundle()
             data?.fragments()?.roomFragment()?.liveStream()?.let {
                 if (it.size >0){
                     bundle.putString(
-                        DaniuGameVideoControlor.MASTER_VIDEO_URL,
+                        BaseGameVideoControlor.MASTER_VIDEO_URL,
                         it.get(0)?.fragments()?.liveStreamforGameFragment()?.liveRtmpUrl()
                         )
 
                 }
             }
-            bundle.putString(DaniuGameVideoControlor.SLAVE_VIDEO_URL, "")
-            (gameVideoControlor as DaniuGameVideoControlor)?.arguments = bundle
+            bundle.putString(BaseGameVideoControlor.SLAVE_VIDEO_URL, "")
+            gameVideoControlor?.arguments = bundle
 //        mLiveGameController.setLiveStreamUrl(mLiveBean.liveStreamV2List.get(streamDefaultQuility).liveRtmpUrl, null);
             var ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            ft.replace(R.id.stream_replaced, gameVideoControlor as DaniuGameVideoControlor)
-                .commitAllowingStateLoss()
+            gameVideoControlor?.let{
+                ft.replace(R.id.stream_replaced, it)
+                    .commitAllowingStateLoss()
+            }
         }
     }
 

@@ -20,18 +20,12 @@ import com.wawa.wawaandroid_ep.gamevideopager.viewmodel.DaniuGameVideoViewModel
  *邮箱：564813746@qq.com
  */
 class DaniuGameVideoControlor : BaseGameVideoControlor<DaniuGamevideoFmLayBinding,DaniuGameVideoViewModel>() ,SurfaceHolder.Callback{
-    companion object{
-        val MASTER_VIDEO_URL="MASTER_VIDEO_URL"
-        val SLAVE_VIDEO_URL="SLAVE_VIDEO_URL"
-    }
     private val TAG="DaniuGameVideoControlor"
     private val playBuffer = 0 // 默认0ms
     private  var mSurfaceView: SurfaceView?=null
     private  var mSlaveSurfaceView: SurfaceView?=null
     private   var masterPlayer: SmartPlayerJniV2?=null
     private   var slavePlayer: SmartPlayerJniV2?=null
-    private var masterLiveStreamUrl: String? = null
-    private var slaveLiveStreamUrl: String? = null
     private var isEnableHardwareRenderMode=false
     private var isPlaying = false
     private var playerHandle: Long = 0

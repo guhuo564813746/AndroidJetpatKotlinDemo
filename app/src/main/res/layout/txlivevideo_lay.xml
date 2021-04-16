@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.wawa.wawaandroid_ep.gamevideopager.viewmodel.TxLiveVideoControlorViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/root"
+        android:background="@color/textColor"
+        >
+
+        <!--
+        <com.tencent.ilivesdk.view.AVRootView
+            android:id="@+id/av_root_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" />
+            -->
+
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/master_live_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/slave_live_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:id="@+id/user_group"
+            android:layout_width="80dp"
+            android:layout_height="104dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <Space
+                android:id="@+id/user_group_space"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_alignParentTop="true" />
+
+            <com.tencent.rtmp.ui.TXCloudVideoView
+                android:id="@+id/player_live_video_view"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_below="@id/user_group_space"
+                android:visibility="invisible" />
+        </RelativeLayout>
+    </FrameLayout>
+</layout>

@@ -136,4 +136,6 @@ dependencies {
 //    api project(':baseresourcelib')
     //直播视频库
     api files(buildDaniuJniLibs() + '/smartavengine.jar')
+    implementation(name: 'LiteAVSDK_Smart_6.7.7754', ext: 'aar')
+    implementation(name: 'PandaSDK_1.7.1',ext: 'aar')
 }
