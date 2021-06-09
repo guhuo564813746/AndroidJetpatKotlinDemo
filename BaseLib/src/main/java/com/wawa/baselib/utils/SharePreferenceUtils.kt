@@ -27,6 +27,7 @@ class SharePreferenceUtils {
         const val BGM_LIVE = "live_bgm"//直播背景音乐
         const val BGM_GAME = "bgm_game"//游戏音效
         const val BGM_KEY = "bgm_key"//按键音效
+        const val LOGIN_AGREEMENT="LOGIN_AGREEMENT"
         val PLAYER_OPENGL = "PLAYER_OPENGL"
         val VIDEO_PLAYER = "VIDEO_PLAYER"
         val WIFI_SET="WIFI_SET"

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            android:layout_marginTop="32dp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"
+            android:onClick="back"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/icon_arrow_right"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:rotation="180"
+            android:visibility="visible"
+            android:id="@+id/im_title_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="#444444"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="34dp"
+            android:onClick="back"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_title_right"
+            android:textColor="@color/light_black"
+            android:textSize="14dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"
+            android:paddingTop="34dp"
+            android:visibility="gone"
+            android:paddingLeft="15dp"/>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars = "vertical"
+        />
+
+</LinearLayout>

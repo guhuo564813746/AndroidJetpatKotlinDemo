@@ -31,6 +31,7 @@
         <meta-data
             android:name="wxAppSecret"
             android:value="1c9e485a2e8dcbdbf3a07a25e2b61edb"/>-->
+        <meta-data android:name="APP_CHANNEL" android:value="qq"/>
 
         <activity android:name="com.wawa.wawaandroid_ep.MainActivity"
             android:theme="@style/startpageTheme"
@@ -66,6 +67,8 @@
         <activity android:name="com.wawa.wawaandroid_ep.activity.game.RobotGameActivity"
             android:screenOrientation="landscape"
             android:theme="@style/fullscreenTheme"/>
+        <activity android:name="com.wawa.wawaandroid_ep.activity.LongTextActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="com.wawa.wawaandroid_ep.activity.web.WebActivity"
             android:theme="@style/fullscreenTheme"/>

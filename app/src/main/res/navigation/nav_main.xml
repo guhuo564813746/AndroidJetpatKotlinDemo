@@ -72,4 +72,6 @@
     </activity>
     <activity android:id="@+id/webactivity"
         android:name="com.wawa.wawaandroid_ep.activity.web.WebActivity"/>
+    <activity android:id="@+id/robotGameActivity"
+        android:name="com.wawa.wawaandroid_ep.activity.LongTextActivity"/>
 </navigation>
