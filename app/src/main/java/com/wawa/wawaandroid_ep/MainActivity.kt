@@ -103,6 +103,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
 
 
     fun handleSuccessConfigData(data: ConfigDataQuery.Config){
+        Log.d("handleSuccessConfigData",data?.toString())
         data?.let {
             MainViewModule.configData=data
         }

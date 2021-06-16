@@ -192,6 +192,7 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
 
     fun goAgreeMentWebPage(){
         activity?.let {
+            Log.d("goAgreeMentWebPage",MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.userAgreementUrl().toString())
             var intent=Intent()
             intent.setClass(it,WebActivity::class.java)
             intent.putExtra(WebActivity.WEB_TITLE,getString(R.string.user_service_terms))

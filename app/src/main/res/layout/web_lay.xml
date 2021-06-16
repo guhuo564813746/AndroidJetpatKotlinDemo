@@ -7,13 +7,15 @@
     </data>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <include layout="@layout/base_title_lay"
             android:id="@+id/base_title_view"/>
         <WebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/web"/>
+            android:id="@+id/web"
+            android:layout_weight="1"/>
     </LinearLayout>
 
 </layout>

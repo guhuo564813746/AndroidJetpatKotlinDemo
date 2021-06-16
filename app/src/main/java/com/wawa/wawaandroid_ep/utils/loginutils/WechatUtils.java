@@ -30,13 +30,13 @@ public class WechatUtils {
     public void wxLogin(){
         // send oauth request
         Log.d(TAG,"wxLogin---");
-        if (!mApi.isWXAppInstalled()){
-            Toast.makeText(mContext, mContext.getString(R.string.tx_pls_install_wx_tips), Toast.LENGTH_SHORT).show();
-        }else {
+        try {
             final SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
             req.state = "wechat_sdk_demo_test";
             mApi.sendReq(req);
+        }catch (Exception e){
+            Toast.makeText(mContext, mContext.getString(R.string.tx_pls_install_wx_tips), Toast.LENGTH_SHORT).show();
         }
     }
 
