@@ -162,8 +162,6 @@
                                     android:id="@+id/main_banner"
                                     android:layout_centerHorizontal="true"
                                     android:clipChildren="false"
-                                    android:layout_marginLeft="23dp"
-                                    android:layout_marginRight="23dp"
                                     />
                                 <!--<ImageView
                                     android:layout_width="66dp"

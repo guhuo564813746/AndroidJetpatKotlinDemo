@@ -13,6 +13,7 @@ import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.MutationCallback
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
+import com.wawa.wawaandroid_ep.fragment.LoginFragment
 import com.wawa.wawaandroid_ep.httpcore.bean.ForecastsBean
 
 /**
@@ -54,7 +55,8 @@ class LoginViewModel : BaseVM(){
                 }
             })
     }
-    fun wxLogin(code: String){
+    fun  wxLogin(code: String){
+        Log.d("wxLogin--",code)
         val userLoginByWechat=UserLoginByWechatMutation(code)
         WawaApp.apolloClient
             .mutate(userLoginByWechat)

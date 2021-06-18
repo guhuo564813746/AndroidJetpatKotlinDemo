@@ -22,7 +22,7 @@ public class WechatUtils {
     public WechatUtils(Context context){
         this.mContext=context;
         appId= BuildConfig.WX_APPID;
-        mApi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), appId,true);
+        mApi = WXAPIFactory.createWXAPI(mContext, appId,false);
         mApi.registerApp(appId);
         Log.d(TAG,appId+"");
     }

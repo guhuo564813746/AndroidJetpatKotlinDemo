@@ -234,8 +234,12 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
         return loginViewModel
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity?.unregisterReceiver(loginReceiver)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        activity?.unregisterReceiver(loginReceiver)
     }
 }

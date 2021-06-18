@@ -97,6 +97,7 @@ class PayManager(private val context: Context,
                             var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.alipaySignedString()
                             payInfo?.let {
                                 aliPayTask.invokeAliPay(it,callback)
+//                                aliPayTask.invokeAliPayV1(it,callback)
                                 return
                             }
                             ToastUtils.showShort(context.getString(R.string.post_fee_pay_failed))

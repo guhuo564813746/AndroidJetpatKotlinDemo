@@ -33,7 +33,7 @@ class AliPayTask(private val context: Context) {
             val alipay = PayTask(context as Activity?)
             //执行支付，这是一个耗时操作，最后返回支付的结果，用handler发送到主线程
             val result: Map<String, String> =
-                alipay.payV2(mPayInfo, true)
+                alipay.payV2(mPayInfo, false)
             it.onNext(result)
             it.onComplete()
         }).subscribeOn(Schedulers.newThread())
@@ -43,6 +43,31 @@ class AliPayTask(private val context: Context) {
                     callback.paySuccess(PayManager.PAYTYPE_ALIPAY)
                 } else {
                     result["memo"]?.let { callback.payErr(it) }
+                }
+//                mActivity = null
+            })
+    }
+
+    fun invokeAliPayV1(mPayInfo: String,callback: PayManager.PayCallback) {
+        if (BuildConfig.DEBUG){
+//            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
+        }
+        Observable.create<String>( ObservableOnSubscribe<String> {  //沙盒环境
+            //                EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
+
+            val alipay = PayTask(context as Activity?)
+            //执行支付，这是一个耗时操作，最后返回支付的结果，用handler发送到主线程
+            val result: String =
+                alipay.pay(mPayInfo, false)
+            it.onNext(result)
+            it.onComplete()
+        }).subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(Consumer<String> { result ->
+                if ("9000".equals(result)) {
+                    callback.paySuccess(PayManager.PAYTYPE_ALIPAY)
+                } else {
+                    callback.payErr("pay failed")
                 }
 //                mActivity = null
             })

@@ -73,7 +73,7 @@ public void onShowMessageFromWXReq(WXMediaMessage msg) {
 
 }*/
 
-public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
+public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private IWXAPI api;
     private static final String TAG = "WXEntryActivity";
     public static final String WXLOGIN_ACTION="WXLOGIN_ACTION";

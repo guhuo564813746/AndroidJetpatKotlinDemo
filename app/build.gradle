@@ -14,7 +14,7 @@ def buildDaniuJniLibs(){
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildFeatures {
         dataBinding = true
     }
@@ -36,7 +36,7 @@ android {
         applicationId "com.robotwar.app"
 //        applicationId "com.wowgotcha.wawa"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 1
         versionName "v1.0.0"
         multiDexEnabled true
