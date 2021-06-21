@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.UserQuery
+import com.blankj.utilcode.util.BarUtils
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.FragmentMineLayBinding
@@ -147,5 +148,12 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
     override fun initViewModel(): MineFragmentViewModel {
         val mineFragmentViewModel: MineFragmentViewModel by viewModels()
         return mineFragmentViewModel
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        compositeDisposable?.let {
+            it.dispose()
+        }
     }
 }

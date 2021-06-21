@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.apollographql.apollo.BannerListQuery
 import com.apollographql.apollo.RoomCategoryListQuery
+import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.google.android.material.tabs.TabLayout
 import com.robotwar.app.BR
@@ -199,6 +200,10 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         compositeDisposable.dispose()
     }
 

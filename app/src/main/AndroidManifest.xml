@@ -68,10 +68,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/fullscreenTheme"/>
         <activity android:name="com.wawa.wawaandroid_ep.activity.LongTextActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name="com.wawa.wawaandroid_ep.activity.web.WebActivity"
-            android:theme="@style/fullscreenTheme"/>
+            android:theme="@style/startpageTheme"/>
         
     </application>
 

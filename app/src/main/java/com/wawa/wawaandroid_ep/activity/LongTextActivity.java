@@ -3,6 +3,7 @@ package com.wawa.wawaandroid_ep.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -63,6 +64,10 @@ public class LongTextActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         mTextView.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    public void back(View view){
+        finish();
     }
 
 

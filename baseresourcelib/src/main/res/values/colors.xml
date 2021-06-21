@@ -15,6 +15,7 @@
     <color name="TOP_NAV_BG">#fe406b</color>
 
     <!--自定义颜色-->
+    <color name="app_base_blue">#6278E1</color>
     <color name="global">#ff4f61</color>
     <color name="primary_translucent">#7fff4f61</color>
     <color name="background">#ffffff</color>

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.blankj.utilcode.util.BarUtils
 import com.google.android.material.tabs.TabLayout
 import com.robotwar.app.BR
 import com.robotwar.app.R
@@ -97,6 +98,11 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
     override fun onDestroy() {
         super.onDestroy()
         LogUtils.d(TAG,"onDestroy--")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
     }
 
     override fun initVariableId(): Int {

@@ -88,7 +88,11 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
         loginReceiver=LoginBroarcastReceiver()
         activity?.registerReceiver(loginReceiver,IntentFilter(WXEntryActivity.WXLOGIN_ACTION))
         binding.textAgreement.setOnClickListener {
-            goAgreeMentWebPage()
+            if (isNeed2Go2NativeUserAgreement()){
+                goAgreeMentNativePage()
+            }else{
+                goAgreeMentWebPage()
+            }
         }
         activity?.findViewById<View>(R.id.view_main_bg)?.visibility=View.GONE
         binding.tvLoginTips.setText(
@@ -130,7 +134,7 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
         }
         if (app_chanel!!.contains("qq")  || app_chanel!!.contains("huawei") || app_chanel!!.contains(
                 "wandoujia"
-            )
+            ) || app_chanel!!.contains("vivo")
         ) {
             if (!SharePreferenceUtils.getSwitch(SharePreferenceUtils.LOGIN_AGREEMENT)) {
                 val spStr = SpannableString(
@@ -145,19 +149,7 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
 //                        L.d("UserAgreementClick","6666");
 //                            val pageOptions: ConfigBean.PageOption =
 //                                App.getInstance().getConfigBean().getPageOptions()
-                            if (app_chanel!!.contains("vivo") || TextUtils.isEmpty(MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.userAgreementUrl())) {
-                                val intent = Intent(
-                                    activity,
-                                    LongTextActivity::class.java
-                                )
-                                intent.putExtra(
-                                    LongTextActivity.INTENT_TITLE,
-                                    getString(R.string.user_service_terms)
-                                )
-                                startActivity(intent)
-                                return
-                            }
-                            goAgreeMentWebPage()
+                            goAgreeMentNativePage()
                         }
 
                         override fun updateDrawState(ds: TextPaint) {
@@ -190,6 +182,15 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
         }
     }
 
+    fun isNeed2Go2NativeUserAgreement(): Boolean{
+        if (app_chanel!!.contains("qq")  || app_chanel!!.contains("huawei") || app_chanel!!.contains("wandoujia")
+            || app_chanel!!.contains("vivo") || TextUtils.isEmpty(MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.userAgreementUrl())){
+            return true
+        }else{
+            return false
+        }
+    }
+
     fun goAgreeMentWebPage(){
         activity?.let {
             Log.d("goAgreeMentWebPage",MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.userAgreementUrl().toString())
@@ -199,6 +200,18 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
             intent.putExtra(WebActivity.WEB_URL,MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.userAgreementUrl())
             startActivity(intent)
         }
+    }
+
+    fun goAgreeMentNativePage(){
+        val intent = Intent(
+            activity,
+            LongTextActivity::class.java
+        )
+        intent.putExtra(
+            LongTextActivity.INTENT_TITLE,
+            getString(R.string.user_service_terms)
+        )
+        startActivity(intent)
     }
 
     private inner class LoginBroarcastReceiver : BroadcastReceiver() {
