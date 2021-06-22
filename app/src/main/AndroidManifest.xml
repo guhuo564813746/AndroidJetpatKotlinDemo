@@ -33,7 +33,7 @@
             android:value="1c9e485a2e8dcbdbf3a07a25e2b61edb"/>-->
         <meta-data android:name="APP_CHANNEL" android:value="qq"/>
 
-        <activity android:name="com.wawa.wawaandroid_ep.MainActivity"
+        <activity android:name="com.wawa.wawaandroid_ep.activity.LauncherActivity"
             android:theme="@style/startpageTheme"
             android:exported="true">
             <intent-filter>
@@ -48,6 +48,13 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.wawa.wawaandroid_ep.activity.LoginActivity"
+            android:theme="@style/startpageTheme"/>
+
+        <activity android:name="com.wawa.wawaandroid_ep.MainActivity"
+            android:theme="@style/startpageTheme">
+        </activity>
+
 
         <activity android:name="com.robotwar.app.wxapi.WXEntryActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

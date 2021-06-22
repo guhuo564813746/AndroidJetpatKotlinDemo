@@ -24,6 +24,7 @@ class ChargeListFragment : BaseFragment<ChargeListFmLayBinding,ChargeItemViewMod
     private val TAG="ChargeListFragment"
     var chargeItemType=ChargeFragment.GOODS_TYPE_COIN
     private var chargeDialogAdapter: ChargeDialogAdapter?= null
+
     private val chargeDataDisposable = CompositeDisposable()
     private val dataSource: BaseDataSource by lazy {
         (activity?.application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
@@ -79,6 +80,11 @@ class ChargeListFragment : BaseFragment<ChargeListFmLayBinding,ChargeItemViewMod
     override fun initViewModel(): ChargeItemViewModel {
         val chargeItemViewModel: ChargeItemViewModel by viewModels()
         return chargeItemViewModel
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        chargeDataDisposable?.clear()
     }
 
 }

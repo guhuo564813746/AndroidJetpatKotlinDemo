@@ -1,5 +1,6 @@
 package com.wawa.wawaandroid_ep.fragmentv2.viewmodel
 
+import androidx.databinding.ObservableField
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 
 /**
@@ -7,4 +8,6 @@ import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
  *邮箱：564813746@qq.com
  */
 class ChargeFmV2ViewModel : BaseVM(){
+    var coin= ObservableField("0")
+    var diamond = ObservableField("0")
 }

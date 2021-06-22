@@ -1,5 +1,7 @@
 package com.wawa.wawaandroid_ep.fragment
 
+import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
@@ -15,6 +17,7 @@ import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.*
+import com.wawa.wawaandroid_ep.activity.LongTextActivity
 import com.wawa.wawaandroid_ep.adapter.MineFragmentListAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.bean.mine.MineListBean
@@ -59,7 +62,13 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
         val mineSetBean=MineListBean()
         mineSetBean.title="设置"
         mineSetBean.itemImSrc=R.mipmap.setting
-        var mineList= listOf<MineListBean>(mineChargeBean,mineSetBean)
+        val userAgreementBean= MineListBean()
+        val privacyBean= MineListBean()
+        userAgreementBean.title="《用户协议》"
+        userAgreementBean.itemImSrc=R.mipmap.setting
+        privacyBean.title="《隐私政策》"
+        privacyBean.itemImSrc=R.mipmap.setting
+        var mineList= listOf<MineListBean>(mineChargeBean,userAgreementBean,privacyBean,mineSetBean)
         binding.lvMineset.adapter= MineFragmentListAdapter(this,mineList)
         initViewListener()
         //initdata
@@ -100,6 +109,7 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
     }
 
     fun handleSuccessUserInfo(userData: UserQuery.User){
+        Log.d(TAG,"handleSuccessUserInfo--")
         if (userData != null){
             MainViewModule.mutableLiveuserData.value=userData
             MainViewModule.userData=userData
@@ -141,6 +151,7 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
         findNavController().navigate(R.id.orderFragmentAction)
     }
 
+
     override fun initVariableId(): Int {
         return BR.viewModel
     }
@@ -152,8 +163,9 @@ class MineFragment : BaseFragment<FragmentMineLayBinding,MineFragmentViewModel>(
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d(TAG,"onDestroyView--")
         compositeDisposable?.let {
-            it.dispose()
+            it.clear()
         }
     }
 }

@@ -2,6 +2,7 @@ package com.wawa.wawaandroid_ep.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
@@ -33,9 +34,10 @@ import java.io.InputStreamReader;
  */
 public class LongTextActivity extends AppCompatActivity {
     public static final String INTENT_TITLE = "BUNDLE_TITLE";
-    public static final String INTENT_TEXT_FILE = "BUNDLE_TEXT_FILE";
-    private static final String XMZZID="com.wowgotcha.wawa";
-    private static final String TBDRID="com.dakashi.wawa";
+    public static final String INTENT_CONTENT = "INTENT_CONTENT";
+    public static final String TYPE_PRIVACY_POLICY = "TYPE_PRIVACY_POLICY";
+    public static final String TYPE_USER_AGREEMENT="TYPE_USER_AGREEMENT";
+
     private TextView mTextView;
 
     @Override
@@ -46,11 +48,26 @@ public class LongTextActivity extends AppCompatActivity {
         mTextView=findViewById(R.id.text_view);
         Intent intent = getIntent();
         String title = intent.getStringExtra(INTENT_TITLE);
+        String contentType ="";
+        contentType = intent.getStringExtra(INTENT_CONTENT);
         String textFile = null;
-        String processName=getApplicationInfo().processName;
-        textFile="long_text/privacy.txt";
-        titleView.setText(title);
+        if (TextUtils.isEmpty(contentType)){
+            textFile="long_text/policy.txt";
+        }else {
+            switch (contentType){
+                case TYPE_PRIVACY_POLICY:
+                    textFile="long_text/privacy_policy.txt";
+                    break;
 
+                case TYPE_USER_AGREEMENT:
+                    textFile="long_text/userAgreement.txt";
+                    break;
+                default:
+                    textFile="long_text/policy.txt";
+                    break;
+            }
+        }
+        titleView.setText(title);
         try {
             InputStream inputStream = getAssets().open(textFile);
             BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));

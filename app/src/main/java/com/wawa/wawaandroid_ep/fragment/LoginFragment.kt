@@ -94,7 +94,6 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
                 goAgreeMentWebPage()
             }
         }
-        activity?.findViewById<View>(R.id.view_main_bg)?.visibility=View.GONE
         binding.tvLoginTips.setText(
             String.format(resources.getString(R.string.LOGIN_NEW_USER_GIFT),getString(R.string.COIN)))
         wechatUtils= WechatUtils(activity)
@@ -122,7 +121,9 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
                         loginDialog?.dismiss()
                     }
                     (activity?.application as WawaApp).refreshApolloClient()
-                    (activity as MainActivity).viewModel.isUserLogined.postValue(true)
+                    val mainIntent=Intent(activity,MainActivity::class.java)
+                    startActivity(mainIntent)
+                    activity?.finish()
                 }
             }
         }
@@ -136,49 +137,7 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
                 "wandoujia"
             ) || app_chanel!!.contains("vivo")
         ) {
-            if (!SharePreferenceUtils.getSwitch(SharePreferenceUtils.LOGIN_AGREEMENT)) {
-                val spStr = SpannableString(
-                    """
-                        请你务必谨慎阅读，充分理解“用户协议”和“隐私策略”各条款，包括但不限于：为了更好地使用登录、内容分享等服务，我们需要收集你的设备信息，操作日志等个人信息。你可以在“个人中心”中查看。
-                        你可阅读《用户协议》和《隐私策略》了解详细信息。如你同意，请点击“同意”开始接受我们的服务。
-                        """.trimIndent()
-                )
-                val userXY: ClickableSpan =
-                    object : ClickableSpan() {
-                        override fun onClick(view: View) {
-//                        L.d("UserAgreementClick","6666");
-//                            val pageOptions: ConfigBean.PageOption =
-//                                App.getInstance().getConfigBean().getPageOptions()
-                            goAgreeMentNativePage()
-                        }
 
-                        override fun updateDrawState(ds: TextPaint) {
-                            ds.color = Color.BLUE
-                            ds.isUnderlineText = false
-                        }
-                    }
-                spStr.setSpan(userXY, 97, 110, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                loginAgreementDialog = DialogUitl.confirmDialog(
-                    activity,
-                    "用户协议和隐私政策",
-                    spStr,
-                    "同意",
-                    "暂不使用",
-                    false,
-                    object : DialogUitl.Callback {
-                       override fun confirm(dialog: Dialog) {
-                            SharePreferenceUtils.saveSwitch(SharePreferenceUtils.LOGIN_AGREEMENT,true)
-                            binding.checkboxAgreement.setChecked(true)
-                            dialog.dismiss()
-                        }
-
-                        override fun cancel(dialog: Dialog) {
-                            activity?.finish()
-                            dialog.dismiss()
-                        }
-                    })
-                loginAgreementDialog!!.show()
-            }
         }
     }
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="60dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/white_10_corners_bg">
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:id="@+id/tv_charge_price"
+        android:textColor="#42270A"
+        android:textSize="16dp"
+        android:background="@mipmap/im_charge_price_bg"
+        android:gravity="center"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@mipmap/im_charge_tag"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/im_charge_tag"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:minWidth="30dp"
+        android:textColor="@color/white"
+        android:textSize="8dp"
+        android:gravity="center"
+        android:id="@+id/tv_charge_tag"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/im_charge_tag"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="85dp"
+        android:layout_centerVertical="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_charge_title"
+            android:textSize="14dp"
+            android:textColor="@color/light_black"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_charge_subtitle"
+            android:textSize="12dp"
+            android:textColor="#FF8A85"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="12dp"
+            android:autoSizeMinTextSize="2dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

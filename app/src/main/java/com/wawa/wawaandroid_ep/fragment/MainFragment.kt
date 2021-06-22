@@ -1,8 +1,14 @@
 package com.wawa.wawaandroid_ep.fragment
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -23,15 +29,18 @@ import com.robotwar.app.R
 import com.robotwar.app.databinding.FragmentMainLayBinding
 import com.to.aboomy.pager2banner.IndicatorView
 import com.to.aboomy.pager2banner.ScaleInTransformer
+import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.*
+import com.wawa.wawaandroid_ep.activity.LongTextActivity
 import com.wawa.wawaandroid_ep.activity.web.WebActivity
 import com.wawa.wawaandroid_ep.adapter.ImageAdapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.MainFragmentViewModel
+import com.wawa.wawaandroid_ep.utils.DialogUitl
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -64,6 +73,12 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
         super.onResume()
         LogUtils.d(TAG,"onResume---")
         (activity as MainActivity).navBottom.visibility=View.VISIBLE
+    }
+
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        Log.d(TAG,"setUserVisibleHint--"+isVisibleToUser)
     }
 
     override fun initFragmentView() {
@@ -109,6 +124,7 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
         })
         setUpBannerList()
         setUpRoomCategoryListDataSource()
+        (activity as MainActivity).showUserAgreementDialog()
     }
 
     private fun setUpBannerList(){
@@ -204,7 +220,7 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
 
     override fun onDestroyView() {
         super.onDestroyView()
-        compositeDisposable.dispose()
+        compositeDisposable?.clear()
     }
 
     override fun initVariableId(): Int {

@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.robotwar.app.R
+import com.wawa.wawaandroid_ep.MainActivity
+import com.wawa.wawaandroid_ep.activity.LongTextActivity
 import com.wawa.wawaandroid_ep.bean.mine.MineListBean
 import com.wawa.wawaandroid_ep.fragment.MineFragment
 
@@ -32,10 +34,20 @@ class MineFragmentListAdapter(private val fragment: MineFragment
         mineFragmentListViewHolder.icon.setImageResource(list.get(position).itemImSrc)
         mineFragmentListViewHolder.name.setText(list.get(position).title)
         holder.itemView.setOnClickListener {
-            if (position==0){
-                (fragment as MineFragment).goRecordListPage(it)
-            }else if (position ==1){
-                (fragment as MineFragment).goSettingPage(it)
+            when(position){
+                0 ->{
+                    (fragment as MineFragment).goRecordListPage(it)
+                }
+                1 ->{
+                    (fragment.activity as MainActivity).goAgreeMentNativePage(LongTextActivity.TYPE_USER_AGREEMENT)
+                }
+                2 ->{
+                    (fragment.activity as MainActivity).goAgreeMentNativePage(LongTextActivity.TYPE_PRIVACY_POLICY)
+                }
+                3 ->{
+                    (fragment as MineFragment).goSettingPage(it)
+                }
+
             }
         }
     }
