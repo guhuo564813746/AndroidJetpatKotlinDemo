@@ -95,6 +95,7 @@
             android:id="@+id/charge_slide_tab"
             android:layout_width="match_parent"
             android:layout_height="36dp"
+            android:layout_marginTop="10dp"
             app:tabMode="scrollable"
             android:theme="@style/MyfontStyle"
             app:tabTextAppearance="@style/TabTextStyle" />

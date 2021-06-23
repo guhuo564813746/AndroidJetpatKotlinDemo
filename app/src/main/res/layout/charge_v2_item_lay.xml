@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="60dp"
+    android:layout_width="match_parent" android:layout_height="70dp"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
-    android:background="@drawable/white_10_corners_bg">
+    android:background="@drawable/white_10_corners_bg"
+    android:layout_marginBottom="5dp">
     <TextView
         android:layout_width="60dp"
         android:layout_height="20dp"
@@ -59,5 +60,10 @@
             android:autoSizeMinTextSize="2dp"/>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#FBF8F3"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

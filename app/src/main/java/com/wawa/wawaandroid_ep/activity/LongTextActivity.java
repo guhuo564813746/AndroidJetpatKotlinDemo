@@ -52,7 +52,7 @@ public class LongTextActivity extends AppCompatActivity {
         contentType = intent.getStringExtra(INTENT_CONTENT);
         String textFile = null;
         if (TextUtils.isEmpty(contentType)){
-            textFile="long_text/policy.txt";
+            textFile="long_text/userAgreement.txt";
         }else {
             switch (contentType){
                 case TYPE_PRIVACY_POLICY:
@@ -63,7 +63,7 @@ public class LongTextActivity extends AppCompatActivity {
                     textFile="long_text/userAgreement.txt";
                     break;
                 default:
-                    textFile="long_text/policy.txt";
+                    textFile="long_text/userAgreement.txt";
                     break;
             }
         }

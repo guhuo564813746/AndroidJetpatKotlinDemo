@@ -25,6 +25,7 @@ fragment roomFragment on Room{
     roomId
     shortDesc
     status
+    gameStatus
     thumb
     title
 }

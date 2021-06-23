@@ -16,6 +16,7 @@
 
     <!--自定义颜色-->
     <color name="app_base_blue">#6278E1</color>
+    <color name="per_coins">#FF6660</color>
     <color name="global">#ff4f61</color>
     <color name="primary_translucent">#7fff4f61</color>
     <color name="background">#ffffff</color>

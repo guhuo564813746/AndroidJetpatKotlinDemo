@@ -62,7 +62,7 @@ dependencies {
     def nav_version = "2.3.2"
     def apollo_version="2.5.2"
     //以下为分包依赖
-    def adapterVersion = 'v1.2.3'
+    def adapterVersion = '1.2.4'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //lifecycle
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -145,7 +145,7 @@ dependencies {
 
     // new adpter supported
     //核心库
-//    implementation "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-core:$adapterVersion"
+    api "com.github.ibaozi-cn.RecyclerViewAdapter:adapter-core:$adapterVersion"
 //下面都是可选项
 
 //anko layout 扩展

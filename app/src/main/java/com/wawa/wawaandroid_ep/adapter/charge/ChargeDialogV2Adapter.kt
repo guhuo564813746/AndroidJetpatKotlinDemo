@@ -44,7 +44,14 @@ class ChargeDialogV2Adapter(context: Context, private val payManager: PayManager
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val chargeHolder: ChargeViewHolder=holder as ChargeViewHolder
+        bindViewHolder(chargeHolder,position)
+    }
+
+    private fun bindViewHolder(holder: ChargeViewHolder, position: Int){
+        holder.txChargeTitle.setText(chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.name())
+        holder.txChargePrice.setText("￥${chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.price().toString()}")
+        holder.txChargeSubTitle.setText(chargeList[position].goods()?.fragments()?.chargeGoodsFields()?.shortDesc())
     }
 
     private inner class ChargeViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -53,6 +60,7 @@ class ChargeDialogV2Adapter(context: Context, private val payManager: PayManager
         lateinit var txChargeSubTitle: TextView
         lateinit var txChargePrice: TextView
         init {
+            txChargeTag.visibility=View.GONE
             view.setOnClickListener {
                 chargeList.get(adapterPosition).goods()?.let {
                     chargeList.get(adapterPosition).chargeItemId()?.let { it1 ->

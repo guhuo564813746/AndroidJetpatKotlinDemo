@@ -146,7 +146,7 @@ class LoginFragment : BaseFragment<FragmentLoginLayBinding,LoginViewModel>() {
             || app_chanel!!.contains("vivo") || TextUtils.isEmpty(MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.userAgreementUrl())){
             return true
         }else{
-            return false
+            return true
         }
     }
 
