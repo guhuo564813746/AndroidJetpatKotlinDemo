@@ -74,6 +74,9 @@
         <activity android:name="com.wawa.wawaandroid_ep.activity.game.RobotGameActivity"
             android:screenOrientation="landscape"
             android:theme="@style/fullscreenTheme"/>
+        <activity android:name="com.wawa.wawaandroid_ep.activity.game.FishGameRoomActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/fullscreenTheme"/>
         <activity android:name="com.wawa.wawaandroid_ep.activity.LongTextActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>

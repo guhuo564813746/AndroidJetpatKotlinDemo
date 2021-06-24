@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import com.apollographql.apollo.RoomInfoQuery
 import com.blankj.utilcode.util.ToastUtils
@@ -23,6 +24,9 @@ import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.adapter.LiveChatListAdapter
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import com.wawa.wawaandroid_ep.commen.Comen
+import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
+import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
+import com.wawa.wawaandroid_ep.gamevideopager.LiveGameFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -91,6 +95,32 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         compositeDisposable.add(successRoomInfoDispose)
         compositeDisposable.add(errorRoomInfoDispose)
         dataSource.getRoomInfoData(ROOM_ID!!.toInt())
+    }
+
+    override fun initView() {
+        viewModel.roomInfoData?.observe(this, Observer {
+            initGameVideo(it)
+            var gameConsumeType=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.gameCurrency()
+            var coinsExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.coin2hardRatio()
+            var diamonsExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.diamond2hardRatio()
+            var scoresExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.score2hardRatio()
+            gameConsumeType?.let { gameCurrency=it }
+            when(gameConsumeType){
+                CONSUME_TYPE_COIN ->{
+                    coinsExchange?.let {
+                        coin2hardRatio=it.toFloat()
+                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),coin2hardRatio.toInt().toString()))
+                    }
+                }
+                CONSUNE_TYPE_POINT ->{
+                    scoresExchange?.let {
+                        score2hardRatio=it.toFloat()
+                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),score2hardRatio.toInt().toString()))
+                    }
+                }
+            }
+
+        })
     }
 
     private fun handleSuccessRoomInfo(roomInfo: List<RoomInfoQuery.List>){
@@ -500,5 +530,33 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         viewModel.startGameBtnRes.set(R.drawable.btn_start_game)
         viewModel.gamePanelVisibility.set(View.GONE)
         viewModel.guestPanelVisibility.set(View.VISIBLE)
+    }
+
+    fun initGameVideo(data: RoomInfoQuery.List) {
+        if (gameVideoControlor == null) {
+            if (SharePreferenceUtils.getSwitch(SharePreferenceUtils.VIDEO_PLAYER)){
+                gameVideoControlor= LiveGameFragment()
+            }else{
+                gameVideoControlor = DaniuGameVideoControlor()
+            }
+            var bundle = Bundle()
+            data?.fragments()?.roomFragment()?.liveStream()?.let {
+                if (it.size >0){
+                    bundle.putString(
+                        BaseGameVideoControlor.MASTER_VIDEO_URL,
+                        it.get(0)?.fragments()?.liveStreamforGameFragment()?.liveRtmpUrl()
+                    )
+
+                }
+            }
+            bundle.putString(BaseGameVideoControlor.SLAVE_VIDEO_URL, "")
+            gameVideoControlor?.arguments = bundle
+//        mLiveGameController.setLiveStreamUrl(mLiveBean.liveStreamV2List.get(streamDefaultQuility).liveRtmpUrl, null);
+            var ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+            gameVideoControlor?.let{
+                ft.replace(R.id.stream_replaced, it)
+                    .commitAllowingStateLoss()
+            }
+        }
     }
 }

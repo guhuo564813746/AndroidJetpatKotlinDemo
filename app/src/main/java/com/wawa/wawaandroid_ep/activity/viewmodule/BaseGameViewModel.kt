@@ -7,6 +7,7 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo.RoomInfoQuery
 import com.robotwar.app.R
 import com.wawa.baselib.utils.logutils.LogUtils
@@ -38,4 +39,10 @@ open class BaseGameViewModel : BaseVM(){
             }
         })
     }
+
+    override fun onCleared() {
+        super.onCleared()
+
+    }
+
 }

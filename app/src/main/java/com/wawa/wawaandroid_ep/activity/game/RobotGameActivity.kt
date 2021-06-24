@@ -98,7 +98,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     override fun initView() {
-
+        super.initView()
         format.roundingMode= RoundingMode.FLOOR
         rockerWidth=SizeUtils.dp2px(75f).toDouble()
         halfHeight=ScreenUtils.getScreenHeight()/2
@@ -114,29 +114,6 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         initChatView()
         initOnlineUserView()
 //        binding.streamReplaced
-        viewModel.roomInfoData?.observe(this, Observer {
-            initGameVideo(it)
-            var gameConsumeType=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.gameCurrency()
-            var coinsExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.coin2hardRatio()
-            var diamonsExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.diamond2hardRatio()
-            var scoresExchange=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.score2hardRatio()
-            gameConsumeType?.let { gameCurrency=it }
-            when(gameConsumeType){
-                CONSUME_TYPE_COIN ->{
-                    coinsExchange?.let {
-                        coin2hardRatio=it.toFloat()
-                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),coin2hardRatio.toInt().toString()))
-                    }
-                }
-                CONSUNE_TYPE_POINT ->{
-                    scoresExchange?.let {
-                        score2hardRatio=it.toFloat()
-                        viewModel.fee.set(java.lang.String.format("%s: %s",getString(R.string.this_time),score2hardRatio.toInt().toString()))
-                    }
-                }
-            }
-
-        })
 
     }
 
@@ -478,33 +455,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
 
-    fun initGameVideo(data: RoomInfoQuery.List) {
-        if (gameVideoControlor == null) {
-            if (SharePreferenceUtils.getSwitch(VIDEO_PLAYER)){
-                gameVideoControlor=LiveGameFragment()
-            }else{
-                gameVideoControlor = DaniuGameVideoControlor()
-            }
-            var bundle = Bundle()
-            data?.fragments()?.roomFragment()?.liveStream()?.let {
-                if (it.size >0){
-                    bundle.putString(
-                        BaseGameVideoControlor.MASTER_VIDEO_URL,
-                        it.get(0)?.fragments()?.liveStreamforGameFragment()?.liveRtmpUrl()
-                        )
 
-                }
-            }
-            bundle.putString(BaseGameVideoControlor.SLAVE_VIDEO_URL, "")
-            gameVideoControlor?.arguments = bundle
-//        mLiveGameController.setLiveStreamUrl(mLiveBean.liveStreamV2List.get(streamDefaultQuility).liveRtmpUrl, null);
-            var ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            gameVideoControlor?.let{
-                ft.replace(R.id.stream_replaced, it)
-                    .commitAllowingStateLoss()
-            }
-        }
-    }
 
     fun operateRobot(command: String) {
         var data = JSONObject()
