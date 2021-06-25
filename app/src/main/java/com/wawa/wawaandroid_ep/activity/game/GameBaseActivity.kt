@@ -21,7 +21,6 @@ import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.activity.viewmodule.BaseGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
-import com.wawa.wawaandroid_ep.adapter.LiveChatListAdapter
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import com.wawa.wawaandroid_ep.commen.Comen
 import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
@@ -52,7 +51,6 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     val GAME_STATUS_ENDING=4
     val GAME_STATUS_PREQUEUE=5
     var mGameStatus: Int=GAME_STATUS_EMPTY
-    var chatListAdapter: LiveChatListAdapter?= null
     var gameCurrency: Int=CONSUME_TYPE_COIN
     var gameResultCurrency: Int=CONSUME_TYPE_COIN
     var coin2hardRatio: Float=0f

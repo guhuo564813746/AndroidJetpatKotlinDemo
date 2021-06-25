@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.wawa.baselib.utils.baseadapter.BaseRecyclerViewAdapter
+import com.wawa.baselib.utils.baseadapter.BaseRecyclerViewModel
+import com.wawa.baselib.utils.baseadapter.BaseViewHolder
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 import kotlin.properties.Delegates
@@ -89,5 +93,11 @@ abstract class BaseActivity<V : ViewDataBinding,VM : BaseVM> : AppCompatActivity
             }
             view
         }
+    }
+
+    fun <VM : BaseRecyclerViewModel<*,BaseViewHolder>> RecyclerView.bindAdapter(listAdapter: BaseRecyclerViewAdapter<VM>
+                                                                                ,layoutManager: RecyclerView.LayoutManager?= null){
+        this.layoutManager=layoutManager
+        this.adapter=listAdapter
     }
 }

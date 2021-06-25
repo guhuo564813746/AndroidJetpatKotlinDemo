@@ -59,6 +59,7 @@ import java.text.DecimalFormat
 class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGameViewModel>(), EpGameListener,GameReadyDialog.GameReadyInterface {
     private val TAG = "RobotGameActivity"
     private var gameReadyDialog: GameReadyDialog?=null
+    var chatListAdapter: LiveChatListAdapter?= null
     private var halfHeight=0
     private var halfWidth=0
     private var chassisSpeed="0.0"

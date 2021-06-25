@@ -1,21 +1,29 @@
 package com.wawa.wawaandroid_ep.activity.game
 
 import android.os.Bundle
+import android.view.Gravity
+import android.widget.PopupWindow
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ToastUtils
+import com.coinhouse777.wawa.widget.popgame.GameSetGroupViewControlor
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.FishgameRoomActivityLayBinding
+import com.wawa.baselib.utils.AppUtils
+import com.wawa.baselib.utils.baseadapter.imp.ArrayListAdapter
 import com.wawa.baselib.utils.dialog.GameReadyDialog
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.wawaandroid_ep.activity.viewmodule.FishGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
+import com.wawa.wawaandroid_ep.bean.game.GameRoomChatItemBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
+import com.wawa.wawaandroid_ep.view.ViewUtils
+import com.wawa.wawaandroid_ep.view.popgame.PopGameItemBean
 import org.json.JSONObject
 import java.lang.reflect.Type
 
@@ -24,8 +32,11 @@ import java.lang.reflect.Type
  *邮箱：564813746@qq.com
  */
 class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, FishGameViewModel>() ,
-    GameReadyDialog.GameReadyInterface{
+    GameReadyDialog.GameReadyInterface , GameSetGroupViewControlor.GameViewClickCallback {
     val TAG="FishGameRoomActivity"
+    val chatAdapter= ArrayListAdapter<GameRoomChatItemBean>()
+    private  var popupGameSetWindow: PopupWindow?=null
+    var gameSetGroupViewControlor: GameSetGroupViewControlor?=null
 
     override fun startGame() {
         var data = JSONObject()
@@ -105,11 +116,39 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         initChatView()
         initOnlineUserView()
     }
+    fun showPopSet(){
+        popupGameSetWindow?.let {
+            if (it.isShowing){
+                it.dismiss()
+            }else{
+                it.showAsDropDown(binding.llGameMenu,0,AppUtils.dp2px(this,15f), Gravity.END)
+            }
+        }
+    }
     private fun initGameMenuView(){
+        val popGameList: MutableList<PopGameItemBean> = mutableListOf()
+        if (gameSetGroupViewControlor== null){
+            gameSetGroupViewControlor=GameSetGroupViewControlor(this,popGameList,this)
+        }else{
+            gameSetGroupViewControlor?.setPopGameSetListData(popGameList)
+        }
+        binding.llGameMenu.setOnClickListener {
+            showPopSet()
+        }
+        val popWidth=AppUtils.dp2px(this,40f)
+        val popHeight=AppUtils.dp2px(this,380f)
+        gameSetGroupViewControlor?.let {
+            popupGameSetWindow=ViewUtils(this).initPopupWindow(it.getPopDialog(), popWidth,popHeight,-1)
+            popupGameSetWindow?.setOutsideTouchable(false)
+            popupGameSetWindow?.setOnDismissListener {
 
+            }
+        }
     }
 
     private fun initChatView(){
+        val chatLayoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.lvGameNotes.bindAdapter(chatAdapter,chatLayoutManager)
 
     }
 
@@ -129,5 +168,12 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     override fun cancelGame() {
 
     }
+
+    override fun gameSetClick(pos: Int) {
+        when(pos){
+
+        }
+    }
+
 
 }

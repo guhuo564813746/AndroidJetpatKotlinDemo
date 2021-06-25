@@ -229,7 +229,6 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:id="@+id/spinner_gameset"
-                    app:onMultipleClick="@{viewModel.onClickCommand}"
                     android:background="@drawable/game_bg_menu"/>
             </LinearLayout>
 
