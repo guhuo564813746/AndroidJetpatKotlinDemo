@@ -1,5 +1,6 @@
 package com.wawa.wawaandroid_ep.adapter.viewmodel
 
+import com.robotwar.app.R
 import com.wawa.baselib.utils.baseadapter.imp.ArrayListAdapter
 import com.wawa.baselib.utils.baseadapter.imp.ArrayListViewModel
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatItemBean
@@ -9,11 +10,12 @@ import com.wawa.wawaandroid_ep.bean.game.GameRoomChatItemBean
  *邮箱：564813746@qq.com
  */
 class ChatItemViewMode : ArrayListViewModel<GameRoomChatItemBean>(){
+
     override fun onBindAdapter(adapter: ArrayListAdapter<GameRoomChatItemBean>) {
 
     }
 
     override fun getLayoutRes(): Int {
-
+        return R.layout.item_list_live_chat
     }
 }

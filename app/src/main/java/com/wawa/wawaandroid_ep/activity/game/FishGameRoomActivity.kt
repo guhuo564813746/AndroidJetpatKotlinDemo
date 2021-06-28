@@ -67,7 +67,8 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         gameRoomChatDataBean=gson.fromJson(jsondata?.toString(), GameRoomChatDataBean::class.java)
         runOnUiThread{
             if (gameRoomChatDataBean != null){
-                chatListAdapter?.insertItem(gameRoomChatDataBean.msg_list)
+
+//                chatListAdapter?.insertItem(gameRoomChatDataBean.msg_list)
             }
         }
     }

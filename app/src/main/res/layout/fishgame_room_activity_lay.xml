@@ -98,12 +98,105 @@
 
 
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:id="@+id/rl_guest"
+            android:layout_alignParentBottom="true"
+            android:visibility="@{viewModel.guestPanelVisibility}">
+            <RelativeLayout
+                android:id="@+id/btn_group"
+                android:layout_width="190dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="34dp"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/btn_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:src="@{viewModel.startGameBtnRes}" />
+                <!--                app:imageResource="@{viewModel.startBtnRes}"-->
+
+                <TextView
+                    android:id="@+id/queue_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="11dp"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:text="@={viewModel.queueCount}"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/coin_group"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:minWidth="254dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/half_alpha_black_14conors_bg"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
+                <TextView
+                    android:id="@+id/fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:gravity="end|center_vertical"
+                    android:text="@={viewModel.fee}"
+                    />
+                <TextView
+                    android:id="@+id/coin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:text="@={viewModel.coin}"
+                    android:layout_marginLeft="15dp"/>
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:gravity="start|center_vertical"
+                    android:text="0"
+                    android:layout_marginLeft="15dp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rl_gamecontrol"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:visibility="@{viewModel.gamePanelVisibility}">
+
+            <com.wawa.wawaandroid_ep.view.RobotControlerView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:id="@+id/fishing_controler"
+                android:background="#12000000"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
