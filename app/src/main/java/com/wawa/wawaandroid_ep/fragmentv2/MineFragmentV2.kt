@@ -17,6 +17,7 @@ import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.adapter.viewmodel.AppMenuListViewModel
+import com.wawa.wawaandroid_ep.adapter.viewmodel.AppMenuViewModel
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragmentv2.viewmodel.MineFmV2ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,7 +33,7 @@ class MineFragmentV2 : BaseFragment<MineFmV2LayBinding,MineFmV2ViewModel>(){
     var appMenuList1: List<PageOptionFragment.AppMenu> = mutableListOf()
     var appMenuList2: List<PageOptionFragment.AppMenu> = mutableListOf()
     var appMenuList3: List<PageOptionFragment.AppMenu> = mutableListOf()
-    val appMenuAdapter= ArrayListAdapter<List<PageOptionFragment.AppMenu>>()
+    val appMenuAdapter= ArrayListAdapter<PageOptionFragment.AppMenu>()
     override fun initVariableId(): Int {
         return BR.viewModel
     }
@@ -76,7 +77,7 @@ class MineFragmentV2 : BaseFragment<MineFmV2LayBinding,MineFmV2ViewModel>(){
                 appMenuList2=it.subList(3,4)
                 appMenuList3=it.subList(5,it.size-1)
             }
-            if (appMenuList1.size > 0){
+            /*if (appMenuList1.size > 0){
                 val appMenuListViewModel= AppMenuListViewModel()
                 appMenuListViewModel.model=appMenuList1
                 appMenuAdapter.add(0,appMenuListViewModel)
@@ -90,6 +91,11 @@ class MineFragmentV2 : BaseFragment<MineFmV2LayBinding,MineFmV2ViewModel>(){
                 val appMenuListViewModel= AppMenuListViewModel()
                 appMenuListViewModel.model=appMenuList3
                 appMenuAdapter.add(2,appMenuListViewModel)
+            }*/
+            for (i in 0..(it.size-1)){
+                val appMenuViewModule= AppMenuViewModel()
+                appMenuViewModule.model=it.get(i)
+                appMenuAdapter.add(i,appMenuViewModule)
             }
 
         }
