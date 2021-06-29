@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.wawa.baselib.utils.logutils.LogUtils;
 import com.wawa.baselib.utils.socketio.listener.BroadcastListener;
 import com.wawa.baselib.utils.socketio.listener.EpGameListener;
+import com.wawa.baselib.utils.socketio.listener.FishGameListener;
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener;
 import com.wawa.baselib.utils.socketio.listener.OnlineGameListener;
 import com.wawa.baselib.utils.socketio.listener.WawaGameListener;
@@ -458,6 +459,11 @@ public class GameSocketManager {
                     //排队中的回调
                     if (gameManagerListener != null){
                         gameManagerListener.onGameQueue(data);
+                    }
+                    break;
+                case "on_fishing_prize":
+                    if (gameManagerListener != null){
+                        ((FishGameListener)gameManagerListener).onFishPrize(data);
                     }
                     break;
             }

@@ -386,18 +386,6 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         }
     }
 
-    fun btnStartGame(view: View) {
-//        startGame()
-        when(mGameStatus){
-            GAME_STATUS_EMPTY,GAME_STATUS_PREQUEUE->{
-                joinQueue()
-            }
-            GAME_STATUS_QUEUE->{
-                quitQueue()
-            }
-        }
-
-    }
 
 
     fun openSet() {

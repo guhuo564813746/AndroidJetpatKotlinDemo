@@ -18,12 +18,12 @@ class ViewAdapter {
      * onClickCommand 绑定的命令,
      * isThrottleFirst 是否开启防止过快点击
      */
-    @BindingAdapter(value = ["onClickCommand", "isThrottleFirst"], requireAll = false)
+    /*@BindingAdapter(value = ["onClickCommand", "isThrottleFirst"], requireAll = false)
     fun onClickCommand(
         view: View?,
         isThrottleFirst: Boolean
     ) {
 
-    }
+    }*/
 
 }

@@ -60,6 +60,10 @@ class ChargeDialogV2Adapter(context: Context, private val payManager: PayManager
         lateinit var txChargeSubTitle: TextView
         lateinit var txChargePrice: TextView
         init {
+            txChargeTag=view.findViewById(R.id.tv_charge_tag)
+            txChargeTitle=view.findViewById(R.id.tv_charge_title)
+            txChargeSubTitle=view.findViewById(R.id.tv_charge_subtitle)
+            txChargePrice=view.findViewById(R.id.tv_charge_price)
             txChargeTag.visibility=View.GONE
             view.setOnClickListener {
                 chargeList.get(adapterPosition).goods()?.let {

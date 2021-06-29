@@ -6,11 +6,13 @@
     android:background="@drawable/white_10_corners_bg"
     android:layout_marginBottom="5dp">
     <TextView
-        android:layout_width="60dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/tv_charge_price"
         android:textColor="#42270A"
         android:textSize="16dp"

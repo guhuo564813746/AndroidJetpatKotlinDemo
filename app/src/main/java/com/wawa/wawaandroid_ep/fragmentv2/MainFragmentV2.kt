@@ -7,12 +7,16 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.activity.addCallback
+import androidx.databinding.ObservableArrayList
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.BannerListQuery
+import com.apollographql.apollo.ConfigDataQuery
 import com.apollographql.apollo.RoomCategoryListQuery
+import com.apollographql.apollo.fragment.PageOptionFragment
 import com.blankj.utilcode.util.BarUtils
 import com.google.android.material.tabs.TabLayout
 import com.robotwar.app.BR
@@ -21,6 +25,8 @@ import com.robotwar.app.databinding.MainFmV2LayBinding
 import com.to.aboomy.pager2banner.IndicatorView
 import com.to.aboomy.pager2banner.ScaleInTransformer
 import com.wawa.baselib.utils.apollonet.BaseDataSource
+import com.wawa.baselib.utils.baseadapter.imp.ArrayListAdapter
+import com.wawa.baselib.utils.baseadapter.imp.ArrayListViewModel
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.glide.utils.ImageUtil
 import com.wawa.baselib.utils.logutils.LogUtils
@@ -28,6 +34,7 @@ import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.ImageAdapter
+import com.wawa.wawaandroid_ep.adapter.viewmodel.NavItemViewModel
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.MainFragment
 import com.wawa.wawaandroid_ep.fragment.RoomListFragment
@@ -44,6 +51,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil
  */
 class MainFragmentV2 : BaseFragment<MainFmV2LayBinding,MainFmV2ViewModel>(){
     val TAG="MainFragmentV2"
+    val navListAdapter=ArrayListAdapter<PageOptionFragment.HomeMenu>()
     var titles = mutableListOf<String>()
     var fragments = mutableListOf<Fragment>()
     var curTab=0
@@ -111,9 +119,26 @@ class MainFragmentV2 : BaseFragment<MainFmV2LayBinding,MainFmV2ViewModel>(){
 
 
         })
+        initNavListView()
         setUpBannerList()
         setUpRoomCategoryListDataSource()
         (activity as MainActivity).showUserAgreementDialog()
+    }
+
+    fun initNavListView(){
+        val navLayoutManager=LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+        binding.lvMainTopNavigation.bindAdapter(navListAdapter,navLayoutManager)
+        MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.homeMenu()?.let {
+            if (it.size >0){
+                val navlist=ObservableArrayList<ArrayListViewModel<PageOptionFragment.HomeMenu>>()
+                for (i in it){
+                    val homeModel=NavItemViewModel()
+                    homeModel.model=i
+                    navlist.add(homeModel)
+                }
+                navListAdapter.addAllData(navlist)
+            }
+        }
     }
 
     private fun setUpBannerList(){

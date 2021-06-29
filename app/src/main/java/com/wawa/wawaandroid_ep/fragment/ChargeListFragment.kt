@@ -2,6 +2,7 @@ package com.wawa.wawaandroid_ep.fragment
 
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.ChargeItemListQuery
 import com.robotwar.app.BR
 import com.robotwar.app.R
@@ -10,8 +11,10 @@ import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.charge.ChargeDialogAdapter
+import com.wawa.wawaandroid_ep.adapter.charge.ChargeDialogV2Adapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.ChargeItemViewModel
+import com.wawa.wawaandroid_ep.fragmentv2.ChargeFragmentV2
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -24,7 +27,7 @@ class ChargeListFragment : BaseFragment<ChargeListFmLayBinding,ChargeItemViewMod
     private val TAG="ChargeListFragment"
     var chargeItemType=ChargeFragment.GOODS_TYPE_COIN
     private var chargeDialogAdapter: ChargeDialogAdapter?= null
-
+    private var chargeDialogV2Adapter: ChargeDialogV2Adapter?= null
     private val chargeDataDisposable = CompositeDisposable()
     private val dataSource: BaseDataSource by lazy {
         (activity?.application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
@@ -34,9 +37,20 @@ class ChargeListFragment : BaseFragment<ChargeListFmLayBinding,ChargeItemViewMod
     }
 
     override fun initFragmentView() {
-        initChargeItemView()
+        initChargeListView()
         chargeItemType= arguments?.getInt(ChargeFragment.BUNDLE_PARAMS_GOODS_TYPE,ChargeFragment.GOODS_TYPE_COIN)!!
         initChargeData()
+    }
+
+    fun initChargeListView(){
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager= LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+        if (chargeDialogV2Adapter == null){
+            activity?.let {
+                chargeDialogV2Adapter= ChargeDialogV2Adapter(it,(parentFragment as ChargeFragmentV2).payManager)
+            }
+        }
+        binding.recyclerView.adapter=chargeDialogV2Adapter
     }
 
     fun initChargeItemView(){
@@ -65,8 +79,9 @@ class ChargeListFragment : BaseFragment<ChargeListFmLayBinding,ChargeItemViewMod
     }
 
     fun handleSuccessChargeItem(chargeItemList: List<ChargeItemListQuery.ChargeItemList>){
-        chargeDialogAdapter?.listType=chargeItemType
-        chargeDialogAdapter?.setData(chargeItemList)
+        chargeDialogV2Adapter?.listType=chargeItemType
+        chargeDialogV2Adapter?.setData(chargeItemList)
+
     }
 
     fun handleErrorChargeItem(e: Throwable?){

@@ -8,6 +8,19 @@ query ConfigData{
 }
 
 fragment pageOptionFragment on PageOption{
+    appMenu{
+        ...appMenu
+    }
+    homeMenu{
+        ...appMenu
+    }
     robotGameRuleUrl
     userAgreementUrl
+}
+
+fragment appMenu on AppMenu{
+    name
+    thumb
+    type
+    url
 }

@@ -118,7 +118,8 @@
                     android:clickable="false"
                     android:scaleType="fitXY"
                     android:adjustViewBounds="true"
-                    android:src="@{viewModel.startGameBtnRes}" />
+                    android:src="@{viewModel.startGameBtnRes}"
+                    android:onClick="btnStartGame"/>
                 <!--                app:imageResource="@{viewModel.startBtnRes}"-->
 
                 <TextView

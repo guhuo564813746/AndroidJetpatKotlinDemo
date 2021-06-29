@@ -53,7 +53,9 @@ class RoomListAdapter(
             val roomItemInfo=roomLists?.get(position)
             Log.d(TAG,"ROOMINFO--"+roomItemInfo.toString())
             bundle.putSerializable("ROOM_ID",roomItemInfo?.fragments()?.roomFragment()?.roomId())
-            it.findNavController().navigate(R.id.robotActivity,bundle)
+            roomLists?.get(position)?.fragments()?.roomFragment()?.machine()?.rawValue()
+//            it.findNavController().navigate(R.id.robotActivity,bundle)
+            it.findNavController().navigate(R.id.fishGameRoomActivity,bundle)
         }
 
     }

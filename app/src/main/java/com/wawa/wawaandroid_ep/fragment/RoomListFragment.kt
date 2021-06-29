@@ -89,7 +89,7 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding, RoomListFragmentView
     }
 
     private fun handleSuccessRoomList(roomList: List<RoomListQuery.List>){
-        Log.d(TAG,"handleSuccessRoomList--"+roomList.size)
+        Log.d(TAG,"handleSuccessRoomList--"+roomList.toString())
         LoadingDialogManager.dismissLoading()
         if (mPage==1){
             if (binding.refreshLayout.isRefreshing){
@@ -115,7 +115,7 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding, RoomListFragmentView
             }
             if (roomList==null || roomList?.size==0){
                 Toast.makeText(activity,"no more data", Toast.LENGTH_SHORT).show()
-                binding.refreshLayout.setNoMoreData(true)
+                binding.refreshLayout.finishLoadMoreWithNoMoreData()
             }
         }
 

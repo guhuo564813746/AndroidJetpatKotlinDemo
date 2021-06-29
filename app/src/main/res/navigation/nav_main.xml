@@ -6,15 +6,15 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.wawa.wawaandroid_ep.fragment.MainFragment"
+        android:name="com.wawa.wawaandroid_ep.fragmentv2.MainFragmentV2"
         android:label="MainFragment" />
     <fragment
         android:id="@+id/chargeFragment"
-        android:name="com.wawa.wawaandroid_ep.fragment.ChargeFragment"
+        android:name="com.wawa.wawaandroid_ep.fragmentv2.ChargeFragmentV2"
         android:label="ChargeFragment" />
     <fragment
         android:id="@+id/mineFragment"
-        android:name="com.wawa.wawaandroid_ep.fragment.MineFragment"
+        android:name="com.wawa.wawaandroid_ep.fragmentv2.MineFragmentV2"
         android:label="MineFragment" >
         <action android:id="@+id/settingAction"
             app:destination="@+id/settingFragment"

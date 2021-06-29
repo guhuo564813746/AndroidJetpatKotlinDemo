@@ -21,6 +21,8 @@ class MainViewModule : BaseVM(){
         var mutableLiveuserData=MutableLiveData<UserQuery.User>()
         var userData: UserQuery.User?= null
         var configData: ConfigDataQuery.Config?= null
+
+
     }
     val isShowBottom=MutableLiveData<Boolean>()
     val isUserLogined=MutableLiveData<Boolean>()

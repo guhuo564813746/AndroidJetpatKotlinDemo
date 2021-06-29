@@ -275,6 +275,19 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     }
 
+    fun btnStartGame(view: View) {
+//        startGame()
+        when(mGameStatus){
+            GAME_STATUS_EMPTY,GAME_STATUS_PREQUEUE->{
+                joinQueue()
+            }
+            GAME_STATUS_QUEUE->{
+                quitQueue()
+            }
+        }
+
+    }
+
     /*开始排队*/
     fun joinQueue(){
         var data=JSONObject()

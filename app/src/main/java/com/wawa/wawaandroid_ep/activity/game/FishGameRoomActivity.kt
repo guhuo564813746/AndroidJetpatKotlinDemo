@@ -46,7 +46,6 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
             .sendMessage("game", data, object : GameSocketManager.Callback {
                 override fun onSuccess(jsonStr: JSONObject?) {
                     LogUtils.d(TAG, "startgame--success")
-
                 }
 
                 override fun onError(errorCode: Int, errorMsg: String?) {
@@ -75,6 +74,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
 
     override fun onRoomUserAmountChanged(jsondata: JSONObject?) {
         super.onRoomUserAmountChanged(jsondata)
+        LogUtils.d(TAG,"onRoomUserAmountChanged--")
         runOnUiThread{
             var gson= Gson()
             var gameRoomUsers: GameRoomUsers?=null
