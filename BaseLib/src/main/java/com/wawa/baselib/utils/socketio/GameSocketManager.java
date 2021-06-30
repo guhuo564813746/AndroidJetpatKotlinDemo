@@ -396,7 +396,7 @@ public class GameSocketManager {
                     break;
                 case "djiep_on_event":
                 case "on_robot_event":
-                    if (gameManagerListener != null) {
+                    if (gameManagerListener != null && gameManagerListener instanceof EpGameListener) {
                         ((EpGameListener) gameManagerListener).onEpEvent(data);
                     }
                     break;
@@ -462,8 +462,13 @@ public class GameSocketManager {
                     }
                     break;
                 case "on_fishing_prize":
-                    if (gameManagerListener != null){
+                    if (gameManagerListener != null && gameManagerListener instanceof FishGameListener){
                         ((FishGameListener)gameManagerListener).onFishPrize(data);
+                    }
+                    break;
+                case "on_hook":
+                    if (gameManagerListener != null && gameManagerListener instanceof FishGameListener){
+                        ((FishGameListener)gameManagerListener).onHook(data);
                     }
                     break;
             }

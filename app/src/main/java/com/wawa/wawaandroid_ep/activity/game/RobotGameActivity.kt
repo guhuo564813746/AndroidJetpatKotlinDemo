@@ -465,6 +465,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
             })
     }
 
+
     override fun onEpEvent(msg: JSONObject?) {
         LogUtils.d(TAG, "onEpEvent")
         runOnUiThread{
@@ -521,30 +522,6 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         }
     }
 
-    override fun startGame() {
-        runOnUiThread{
-            var data = JSONObject()
-            data.put("id", GameSocketManager.generateId().toString())
-            data.put("method", "start_game")
-            GameSocketManager.getInstance()
-                .sendMessage("game", data, object : GameSocketManager.Callback {
-                    override fun onSuccess(jsonStr: JSONObject?) {
-                        LogUtils.d(TAG, "startgame--success")
-                        //发个指令测试
-                        val ep = "robot mode gimbal_lead;"
-                        operateRobot(ep)
-                    }
-
-                    override fun onError(errorCode: Int, errorMsg: String?) {
-                        LogUtils.d(TAG, "startgame--falure" + errorMsg)
-                        runOnUiThread {
-                            ToastUtils.showShort(errorMsg)
-                            setGameOverStatus()
-                        }
-                    }
-                })
-        }
-    }
 
     override fun initVariableId(): Int {
         return BR.viewModel
@@ -575,6 +552,23 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     override fun cancelGame() {
         quitQueue()
         gameReadyDialog=null
+    }
+
+    override fun gameStartBtnBg(): Int {
+        return R.drawable.btn_start_game
+    }
+
+    override fun gameCancelBtnBg(): Int {
+        return R.drawable.btn_cancel_game
+    }
+
+    override fun gameQueueBtnBg(): Int {
+        return R.drawable.pre_game_bg
+    }
+
+    override fun initStartGame() {
+        val ep = "robot mode gimbal_lead;"
+        operateRobot(ep)
     }
 
 

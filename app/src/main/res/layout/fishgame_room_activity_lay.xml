@@ -188,15 +188,44 @@
             android:layout_alignParentBottom="true"
             android:visibility="@{viewModel.gamePanelVisibility}">
 
-            <com.wawa.wawaandroid_ep.view.RobotControlerView
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.wawa.wawaandroid_ep.view.RobotControlerView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/canmera_controler"
+                    android:background="#12000000"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/canmera_controler"
+                    android:id="@+id/btn_camera_zoom_out"
+                    />
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/canmera_controler"
+                    android:id="@+id/camera_zoom_in"
+                    android:layout_marginLeft="50dp"/>
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/camera_tag"
+                    android:layout_toRightOf="@+id/canmera_controler"
+                    android:layout_alignBottom="@+id/canmera_controler"
+                    android:onClick="showCameraControler"/>
+            </RelativeLayout>
+
+            <com.wawa.wawaandroid_ep.view.RockerControlPanel
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="15dp"
-                android:id="@+id/fishing_controler"
-                android:background="#12000000"/>
+                android:id="@+id/fishing_controler" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -209,7 +238,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
-                android:id="@+id/tv_game_tigan"/>
+                android:id="@+id/tv_game_tigan"
+                android:onClick="finishHook"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -221,7 +251,8 @@
                 android:layout_toLeftOf="@+id/tv_game_tigan"
                 android:layout_marginRight="15dp"
                 android:padding="4dp"
-                android:text="抛杆"/>
+                android:text="抛杆"
+                android:onClick="casting"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -257,7 +288,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_above="@+id/tv_game_shouxian"
                 android:layout_marginRight="2dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:onClick="addBait"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -269,7 +301,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_above="@+id/tv_game_shanger"
                 android:layout_marginBottom="10dp"
-                android:layout_marginRight="2dp"/>
+                android:layout_marginRight="2dp"
+                android:onClick="unload"/>
 
         </RelativeLayout>
 
@@ -323,7 +356,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:id="@+id/spinner_gameset"
-                    android:background="@drawable/game_bg_menu"/>
+                    android:background="@mipmap/icon_set"/>
             </LinearLayout>
 
         </RelativeLayout>

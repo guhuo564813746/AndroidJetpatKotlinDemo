@@ -56,6 +56,8 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     var coin2hardRatio: Float=0f
     var diamond2hardRatio: Float=0f
     var score2hardRatio: Float=0f
+    var queueTotal: Int=0
+    var queuePosition: Int=0
     protected val dataSource: BaseDataSource by lazy {
         (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
     }
@@ -164,7 +166,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     override fun onIMNotify(jsondata: JSONObject?) {
-        LogUtils.d(TAG,"onIMNotify")
+        LogUtils.d(TAG,"onIMNotify"+jsondata?.toString())
         runOnUiThread{
 
         }
@@ -188,7 +190,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         LogUtils.d(TAG,"onRoomQueueKickOff")
         runOnUiThread{
             mGameStatus=GAME_STATUS_EMPTY
-            viewModel.startGameBtnRes.set(R.drawable.btn_start_game)
+            viewModel.startGameBtnRes.set(gameStartBtnBg())
         }
     }
 
@@ -329,7 +331,31 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         })
     }
     /*开始游戏*/
-    abstract fun startGame()
+    fun startGame() {
+        runOnUiThread{
+            var data = JSONObject()
+            data.put("id", GameSocketManager.generateId().toString())
+            data.put("method", "start_game")
+            GameSocketManager.getInstance()
+                .sendMessage("game", data, object : GameSocketManager.Callback {
+                    override fun onSuccess(jsonStr: JSONObject?) {
+                        LogUtils.d(TAG, "startgame--success")
+                        //发个指令测试
+                        initStartGame()
+                    }
+
+                    override fun onError(errorCode: Int, errorMsg: String?) {
+                        LogUtils.d(TAG, "startgame--falure" + errorMsg)
+                        runOnUiThread {
+                            ToastUtils.showShort(errorMsg)
+                            setGameOverStatus()
+                        }
+                    }
+                })
+        }
+    }
+
+    abstract fun initStartGame()
 
     fun endGame(){
         var data=JSONObject()
@@ -481,20 +507,24 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         LogUtils.d(TAG,"onGameQueue")
         runOnUiThread{
             var type=jsonData?.getInt("type")
-            var queueTotal=jsonData?.getInt("queue_total")
-            var queuePosition=jsonData?.getInt("queue_position")
+            jsonData?.getInt("queue_total")?.let {
+                queueTotal=it
+            }
+            jsonData?.getInt("queue_position")?.let {
+                queuePosition=it
+            }
             when(type){
                 0->{
                     //全局
                     queueTotal?.let { if (it > 0){
                         if (mGameStatus==GAME_STATUS_EMPTY){
-                            viewModel.startGameBtnRes.set(R.drawable.pre_game_bg)
+                            viewModel.startGameBtnRes.set(gameQueueBtnBg())
                         }
                         viewModel.queueCount.set(getString(R.string.cur_queue)+it)
                     }else{
                         viewModel.queueCount.set("")
                         if (mGameStatus==GAME_STATUS_EMPTY){
-                            viewModel.startGameBtnRes.set(R.drawable.btn_start_game)
+                            viewModel.startGameBtnRes.set(gameStartBtnBg())
                         }
                     }
                     }
@@ -523,7 +553,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     fun setGameQueueStatus(){
         mGameStatus=GAME_STATUS_QUEUE
-        viewModel.startGameBtnRes.set(R.drawable.btn_cancel_game)
+        viewModel.startGameBtnRes.set(gameCancelBtnBg())
     }
 
     fun setGameResultStatus(){
@@ -538,7 +568,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     fun setGameOverStatus(){
         mGameStatus=GAME_STATUS_EMPTY
-        viewModel.startGameBtnRes.set(R.drawable.btn_start_game)
+        viewModel.startGameBtnRes.set(gameStartBtnBg())
         viewModel.gamePanelVisibility.set(View.GONE)
         viewModel.guestPanelVisibility.set(View.VISIBLE)
     }
@@ -570,4 +600,8 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
             }
         }
     }
+
+    abstract fun gameStartBtnBg(): Int
+    abstract fun gameCancelBtnBg(): Int
+    abstract fun gameQueueBtnBg(): Int
 }

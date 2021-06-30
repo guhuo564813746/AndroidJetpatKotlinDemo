@@ -14,6 +14,7 @@ public class GameRoomChatDataBean {
      * msg_list : [{"type":1,"timestamp":1611398160,"body":{"text":"hello world"}},{"type":1,"timestamp":1611398165,"body":{"text":"hello robot!"}}]
      */
     public static final int CONTENT_TEXT=1;
+    private int source;
     private int user_id;
     private String user_nickname;
     private List<MsgListBean> msg_list;
@@ -40,6 +41,14 @@ public class GameRoomChatDataBean {
 
     public void setMsg_list(List<MsgListBean> msg_list) {
         this.msg_list = msg_list;
+    }
+
+    public int getSource() {
+        return source;
+    }
+
+    public void setSource(int source) {
+        this.source = source;
     }
 
     public static class MsgListBean {

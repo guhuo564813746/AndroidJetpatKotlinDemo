@@ -7,15 +7,18 @@ import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.os.Build
+import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.TextAppearanceSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.DrawableUtils
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.RoomListQuery
 import com.blankj.utilcode.util.SpanUtils
@@ -32,7 +35,7 @@ import java.io.IOException
  */
 class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<RoomListV2Adapter.RoomListV2ViewHolder>(){
     var roomLists: List<RoomListQuery.List>?= mutableListOf()
-
+    val TAG="RoomListV2Adapter"
     inner class RoomListV2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         lateinit var img: ImageView
         lateinit var tvRoomStatus: TextView
@@ -64,7 +67,7 @@ class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<Ro
         ImageLoader.with(mContext)
             .url(roomLists?.get(position)?.fragments()?.roomFragment()?.thumb())
 //            .placeHolder(R.mipmap.ic_launcher)
-            .rectRoundCorner(15, RoundedCornersTransformation.CornerType.TOP)
+            .rectRoundCorner(5, RoundedCornersTransformation.CornerType.TOP)
             .into(holder.img)
         holder.name.text=roomLists?.get(position)?.fragments()?.roomFragment()?.title().toString()
         var roomStatus=0
@@ -80,7 +83,8 @@ class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<Ro
         val rightTopCornor= AppUtils.dp2px(mContext,10f)
         val leftBottomCornor=0
         val rightBottomCornor= AppUtils.dp2px(mContext,10f)
-        val cornors= floatArrayOf(leftTopCornor.toFloat(),rightTopCornor.toFloat(),leftBottomCornor.toFloat(),rightBottomCornor.toFloat())
+        val cornors= floatArrayOf(leftTopCornor.toFloat(),leftTopCornor.toFloat(),rightTopCornor.toFloat(),rightTopCornor.toFloat()
+            ,rightBottomCornor.toFloat(),rightBottomCornor.toFloat(),leftBottomCornor.toFloat(),leftBottomCornor.toFloat())
         statusBg.cornerRadii=cornors
         when(roomStatus){
             //下架
@@ -108,8 +112,8 @@ class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<Ro
                 statusBg.setColor(Color.parseColor("#FB6A6A"))
                 holder.tvRoomStatus.text="维修中"
             }
-
         }
+        holder.tvRoomStatus.background=statusBg
         val coinsPer=roomLists?.get(position)?.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.coin2hardRatio()?.toInt()
         val shortDescTips="$coinsPer 游戏币/次"
         val coinPerSS= SpannableStringBuilder()
@@ -119,7 +123,16 @@ class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<Ro
             colorList=mContext.getColorStateList(R.color.coins_colors)
         }
         coinPerSS.setSpan(TextAppearanceSpan("serif", Typeface.NORMAL,AppUtils.dp2px(mContext,16f),colorList,colorList),
-            0,coinsPer?.toString()?.length ?: 0, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+            0,coinsPer?.toString()?.length ?: 0, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         holder.shortDesc.text=coinPerSS
+        holder.itemView.setOnClickListener {
+            var bundle= Bundle()
+            val roomItemInfo=roomLists?.get(position)
+            Log.d(TAG,"ROOMINFO--"+roomItemInfo.toString())
+            bundle.putSerializable("ROOM_ID",roomItemInfo?.fragments()?.roomFragment()?.roomId())
+            roomLists?.get(position)?.fragments()?.roomFragment()?.machine()?.rawValue()
+//            it.findNavController().navigate(R.id.robotActivity,bundle)
+            it.findNavController().navigate(R.id.fishGameRoomActivity,bundle)
+        }
     }
 }

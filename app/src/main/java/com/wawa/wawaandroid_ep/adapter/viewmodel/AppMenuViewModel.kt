@@ -1,5 +1,6 @@
 package com.wawa.wawaandroid_ep.adapter.viewmodel
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import com.apollographql.apollo.fragment.PageOptionFragment
@@ -17,9 +18,13 @@ class AppMenuViewModel : ArrayListViewModel<PageOptionFragment.AppMenu>() {
     val TAG="AppMenuViewModel"
     override fun onBindAdapter(adapter: ArrayListAdapter<PageOptionFragment.AppMenu>) {
         var iconUrl: String?=null
+        var menuName: String?=""
         iconUrl=model?.fragments()?.appMenu()?.url()
+        menuName=model?.fragments()?.appMenu()?.name()
+        Log.d(TAG,"iconUrl--"+iconUrl +"menuName--"+menuName)
         viewHolder?.view?.let {
-            it.findViewById<TextView>(R.id.name).setText(model?.fragments()?.appMenu()?.name())
+            Log.d(TAG,"onBindAdapter--")
+            it.findViewById<TextView>(R.id.name).setText(menuName)
             iconUrl?.let {
                 ImageLoader.with(viewHolder?.view?.context)
                     .url(it)

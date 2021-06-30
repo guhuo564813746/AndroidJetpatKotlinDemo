@@ -15,6 +15,7 @@ abstract class BaseRecyclerViewAdapter<VM : BaseRecyclerViewModel<*,BaseViewHold
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+
         return BaseViewHolder(LayoutInflater.from(parent.context).inflate(layouts[viewType],parent,false))
     }
 
@@ -26,6 +27,7 @@ abstract class BaseRecyclerViewAdapter<VM : BaseRecyclerViewModel<*,BaseViewHold
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val  item=getItem(position)
+        item.viewHolder=holder
         item.onBindView(this)
     }
 

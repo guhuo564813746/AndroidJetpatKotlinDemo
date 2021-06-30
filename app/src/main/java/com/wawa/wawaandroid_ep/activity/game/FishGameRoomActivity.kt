@@ -2,6 +2,8 @@ package com.wawa.wawaandroid_ep.activity.game
 
 import android.os.Bundle
 import android.view.Gravity
+import android.view.MotionEvent
+import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,9 +21,12 @@ import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.wawaandroid_ep.activity.viewmodule.FishGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
+import com.wawa.wawaandroid_ep.adapter.viewmodel.ChatItemViewModel
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatItemBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
+import com.wawa.wawaandroid_ep.view.RobotControlerView
+import com.wawa.wawaandroid_ep.view.RockerView
 import com.wawa.wawaandroid_ep.view.ViewUtils
 import com.wawa.wawaandroid_ep.view.popgame.PopGameItemBean
 import org.json.JSONObject
@@ -32,31 +37,14 @@ import java.lang.reflect.Type
  *邮箱：564813746@qq.com
  */
 class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, FishGameViewModel>() ,
-    GameReadyDialog.GameReadyInterface , GameSetGroupViewControlor.GameViewClickCallback {
+    GameReadyDialog.GameReadyInterface , GameSetGroupViewControlor.GameViewClickCallback , View.OnTouchListener{
     val TAG="FishGameRoomActivity"
-    val chatAdapter= ArrayListAdapter<GameRoomChatItemBean>()
+    private var gameReadyDialog: GameReadyDialog?=null
+    val chatAdapter= ArrayListAdapter<GameRoomChatDataBean>()
     private  var popupGameSetWindow: PopupWindow?=null
     var gameSetGroupViewControlor: GameSetGroupViewControlor?=null
-
-    override fun startGame() {
-        var data = JSONObject()
-        data.put("id", GameSocketManager.generateId().toString())
-        data.put("method", "start_game")
-        GameSocketManager.getInstance()
-            .sendMessage("game", data, object : GameSocketManager.Callback {
-                override fun onSuccess(jsonStr: JSONObject?) {
-                    LogUtils.d(TAG, "startgame--success")
-                }
-
-                override fun onError(errorCode: Int, errorMsg: String?) {
-                    LogUtils.d(TAG, "startgame--falure" + errorMsg)
-                    runOnUiThread {
-                        ToastUtils.showShort(errorMsg)
-                        setGameOverStatus()
-                    }
-                }
-            })
-    }
+    var cameraDerection: RobotControlerView.Direction?=null
+    var fishingDerection: RockerView.Direction?= null
 
     override fun onIMNotify(jsondata: JSONObject?) {
         super.onIMNotify(jsondata)
@@ -66,7 +54,9 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         gameRoomChatDataBean=gson.fromJson(jsondata?.toString(), GameRoomChatDataBean::class.java)
         runOnUiThread{
             if (gameRoomChatDataBean != null){
-
+                val  chatItemViewModel = ChatItemViewModel()
+                chatItemViewModel.model=gameRoomChatDataBean
+                chatAdapter.add(chatItemViewModel)
 //                chatListAdapter?.insertItem(gameRoomChatDataBean.msg_list)
             }
         }
@@ -95,7 +85,15 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     }
 
     override fun showGameReadyDialog(timeLeft: Int) {
-
+        //显示游戏准备弹窗
+        if (gameReadyDialog == null){
+            gameReadyDialog= GameReadyDialog()
+        }
+        gameReadyDialog?.gameReadyInterface=this
+        gameReadyDialog?.showDialog(supportFragmentManager,"GameReadyDialog")
+        if(gameReadyDialog!!.isAdded){
+            gameReadyDialog?.setTimes(timeLeft)
+        }
     }
 
     override fun initVariableId(): Int {
@@ -116,6 +114,117 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         initGameMenuView()
         initChatView()
         initOnlineUserView()
+        initGameControler()
+    }
+
+    fun initGameControler(){
+        binding.tvGameFangxian.setOnTouchListener(this)
+        binding.tvGameShouxian.setOnTouchListener(this)
+        binding.btnCameraZoomOut.setOnTouchListener(this)
+        binding.cameraZoomIn.setOnTouchListener(this)
+        binding.canmeraControler.mOnShakeListener=object: RobotControlerView.OnShakeListener {
+            override fun onStart() {
+
+            }
+
+            override fun direction(direction: RobotControlerView.Direction?, distance: Int) {
+                cameraDerection=direction
+                when(cameraDerection?.name){
+                    "DIRECTION_LEFT" ->{
+                        controlCamera("left",1)
+                    }
+                    "DIRECTION_RIGHT" ->{
+                        controlCamera("right",1)
+                    }
+                    "DIRECTION_UP" ->{
+                        controlCamera("up",1)
+                    }
+                    "DIRECTION_DOWN" ->{
+                        controlCamera("down",1)
+                    }
+                }
+            }
+
+            override fun onFinish() {
+                when(cameraDerection?.name){
+                    "DIRECTION_LEFT" ->{
+                        controlCamera("left_r",1)
+                    }
+                    "DIRECTION_RIGHT" ->{
+                        controlCamera("right_r",1)
+                    }
+                    "DIRECTION_UP" ->{
+                        controlCamera("up_r",1)
+                    }
+                    "DIRECTION_DOWN" ->{
+                        controlCamera("down_r",1)
+                    }
+                }
+            }
+        }
+        binding.fishingControler.setListener(object : RockerView.OnShakeListener{
+            override fun onFinish() {
+                when(fishingDerection?.name){
+                    "DIRECTION_LEFT" ->{
+                        controlFishing("left_r")
+                    }
+                    "DIRECTION_RIGHT" ->{
+                        controlFishing("right_r")
+                    }
+                    "DIRECTION_UP" ->{
+                        controlFishing("up_r")
+                    }
+                    "DIRECTION_DOWN" ->{
+                        controlFishing("down_r")
+                    }
+                }
+            }
+
+            override fun direction(direction: RockerView.Direction?, distance: Int) {
+                fishingDerection=direction
+                when(fishingDerection?.name){
+                    "DIRECTION_LEFT" ->{
+                        controlFishing("left")
+                    }
+                    "DIRECTION_RIGHT" ->{
+                        controlFishing("right")
+                    }
+                    "DIRECTION_UP" ->{
+                        controlFishing("up")
+                    }
+                    "DIRECTION_DOWN" ->{
+                        controlFishing("down")
+                    }
+                }
+            }
+
+            override fun onStart() {
+
+            }
+        })
+    }
+
+    fun showCameraControler(view: View){
+        //显示摄像头设置
+    }
+
+    fun casting(view: View){
+        //抛杆
+        controlFishing("casting")
+    }
+
+    fun finishHook(view: View){
+        //提竿
+        controlFishing("finish_hook")
+    }
+
+    fun addBait(view: View){
+        //上饵
+        controlFishing("add_bait")
+    }
+    fun unload(view: View){
+        //摘鱼
+        controlFishing("unload")
     }
     fun showPopSet(){
         popupGameSetWindow?.let {
@@ -128,6 +237,20 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     }
     private fun initGameMenuView(){
         val popGameList: MutableList<PopGameItemBean> = mutableListOf()
+        for (i in 0..2){
+            val popGameItemBean=PopGameItemBean()
+            popGameItemBean.enableTab=true
+            popGameItemBean.imgRes=R.mipmap.game_icon_setting
+            when(i){
+                0 ->{
+
+                }
+                1 ->{
+
+                }
+            }
+            popGameList.add(popGameItemBean)
+        }
         if (gameSetGroupViewControlor== null){
             gameSetGroupViewControlor=GameSetGroupViewControlor(this,popGameList,this)
         }else{
@@ -150,7 +273,6 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     private fun initChatView(){
         val chatLayoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         binding.lvGameNotes.bindAdapter(chatAdapter,chatLayoutManager)
-
     }
 
     private fun initOnlineUserView(){
@@ -163,7 +285,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     }
 
     override fun continuteGame() {
-
+        startGame()
     }
 
     override fun cancelGame() {
@@ -174,6 +296,102 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         when(pos){
 
         }
+    }
+
+
+
+    override fun gameStartBtnBg(): Int {
+        return R.drawable.startgame_btn_bg
+    }
+
+    override fun gameCancelBtnBg(): Int {
+        return R.drawable.cancel_yuyue_btbg
+    }
+
+    override fun gameQueueBtnBg(): Int {
+        return R.drawable.gamequeue_btn_bg
+    }
+
+    override fun initStartGame() {
+
+    }
+
+    fun controlFishing(command: String){
+        var data = JSONObject()
+        var params = JSONObject()
+        data.put("id", GameSocketManager.generateId().toString())
+        data.put("method", "control")
+        params.put("operation", command)
+        data.put("params", params)
+        GameSocketManager.getInstance()
+            .sendMessage("game", data, object : GameSocketManager.Callback {
+                override fun onSuccess(jsonStr: JSONObject?) {
+                    LogUtils.d(TAG, "operateRobot_success")
+                }
+
+                override fun onError(errorCode: Int, errorMsg: String?) {
+                    LogUtils.d(TAG, "operateRobot_error")
+                }
+            })
+    }
+
+    fun controlCamera(command: String,cameraPos: Int){
+        var data = JSONObject()
+        var params = JSONObject()
+        data.put("id", GameSocketManager.generateId().toString())
+        data.put("method", "camera_control")
+        params.put("serial_no",cameraPos)
+        params.put("operation", command)
+        data.put("params", params)
+        GameSocketManager.getInstance()
+            .sendMessage("game", data, object : GameSocketManager.Callback {
+                override fun onSuccess(jsonStr: JSONObject?) {
+                    LogUtils.d(TAG, "operateRobot_success")
+                }
+
+                override fun onError(errorCode: Int, errorMsg: String?) {
+                    LogUtils.d(TAG, "operateRobot_error")
+                }
+            })
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        when(event?.action){
+            MotionEvent.ACTION_DOWN ->{
+                when(v?.id){
+                    R.id.tv_game_fangxian ->{
+                        controlFishing("increase_line")
+                    }
+                    R.id.tv_game_shouxian ->{
+                        controlFishing("decrease_line")
+                    }
+                    R.id.btn_camera_zoom_out ->{
+                        controlCamera("zoom_out",1)
+                    }
+                    R.id.camera_zoom_in ->{
+                        controlCamera("zoom_in",1)
+                    }
+
+                }
+            }
+            MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL ->{
+                when(v?.id){
+                    R.id.tv_game_fangxian ->{
+                        controlFishing("stop_line")
+                    }
+                    R.id.tv_game_shouxian ->{
+                        controlFishing("stop_line")
+                    }
+                    R.id.btn_camera_zoom_out ->{
+                        controlCamera("zoom_out_r",1)
+                    }
+                    R.id.camera_zoom_in ->{
+                        controlCamera("zoom_in_r",1)
+                    }
+                }
+            }
+        }
+        return true
     }
 
 

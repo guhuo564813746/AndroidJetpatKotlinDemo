@@ -30,7 +30,7 @@ open class BaseGameViewModel : BaseVM(){
     var countdownText = ObservableField<String>("")
     var countdownVisibility= ObservableInt(View.GONE)
     var roomInfoData=MutableLiveData<RoomInfoQuery.List>()
-    var startGameBtnRes = ObservableField(R.drawable.btn_start_game)
+    var startGameBtnRes = ObservableField<Int>()
 
     init {
         startGameBtnRes.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){

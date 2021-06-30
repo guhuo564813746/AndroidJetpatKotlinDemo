@@ -8,4 +8,5 @@ import org.json.JSONObject;
  */
 public interface FishGameListener extends GameManagerListener{
     void onFishPrize(JSONObject msg);
+    void onHook(JSONObject msg);
 }

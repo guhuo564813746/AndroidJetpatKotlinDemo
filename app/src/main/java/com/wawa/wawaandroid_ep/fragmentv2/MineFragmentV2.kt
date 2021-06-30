@@ -33,7 +33,7 @@ class MineFragmentV2 : BaseFragment<MineFmV2LayBinding,MineFmV2ViewModel>(){
     var appMenuList1: List<PageOptionFragment.AppMenu> = mutableListOf()
     var appMenuList2: List<PageOptionFragment.AppMenu> = mutableListOf()
     var appMenuList3: List<PageOptionFragment.AppMenu> = mutableListOf()
-    val appMenuAdapter= ArrayListAdapter<PageOptionFragment.AppMenu>()
+    val appMenuAdapter= ArrayListAdapter<List<PageOptionFragment.AppMenu>>()
     override fun initVariableId(): Int {
         return BR.viewModel
     }
@@ -70,14 +70,14 @@ class MineFragmentV2 : BaseFragment<MineFmV2LayBinding,MineFmV2ViewModel>(){
             if (it.size <=3){
                 appMenuList1=it
             }else if (it.size > 3 && it.size <=5){
-                appMenuList1=it.subList(0,2)
-                appMenuList2=it.subList(3,it.size-1)
+                appMenuList1=it.subList(0,3)
+                appMenuList2=it.subList(3,it.size)
             }else if(it.size > 5){
-                appMenuList1=it.subList(0,2)
-                appMenuList2=it.subList(3,4)
-                appMenuList3=it.subList(5,it.size-1)
+                appMenuList1=it.subList(0,3)
+                appMenuList2=it.subList(3,5)
+                appMenuList3=it.subList(5,it.size)
             }
-            /*if (appMenuList1.size > 0){
+            if (appMenuList1.size > 0){
                 val appMenuListViewModel= AppMenuListViewModel()
                 appMenuListViewModel.model=appMenuList1
                 appMenuAdapter.add(0,appMenuListViewModel)
@@ -91,12 +91,12 @@ class MineFragmentV2 : BaseFragment<MineFmV2LayBinding,MineFmV2ViewModel>(){
                 val appMenuListViewModel= AppMenuListViewModel()
                 appMenuListViewModel.model=appMenuList3
                 appMenuAdapter.add(2,appMenuListViewModel)
-            }*/
-            for (i in 0..(it.size-1)){
+            }
+            /*for (i in 0..(it.size-1)){
                 val appMenuViewModule= AppMenuViewModel()
                 appMenuViewModule.model=it.get(i)
                 appMenuAdapter.add(i,appMenuViewModule)
-            }
+            }*/
 
         }
 

@@ -72,6 +72,10 @@ class ArrayListAdapter<M> : BaseRecyclerViewAdapter<ArrayListViewModel<M>>(){
         observableDataList.add(index, element)
     }
 
+    fun add(element: ArrayListViewModel<M>){
+        observableDataList.add(element)
+    }
+
     fun set(index: Int,element: ArrayListViewModel<M>){
         observableDataList.set(index, element)
     }

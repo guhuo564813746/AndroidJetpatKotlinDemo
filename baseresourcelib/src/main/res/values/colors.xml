@@ -64,4 +64,9 @@
     <color name="ucrop_color_toolbar">@color/teal_500</color>
     <color name="ucrop_color_statusbar">@color/teal_700</color>
     <color name="ucrop_color_widget_active">@color/teal_500</color>
+<!--    msg-->
+    <color name="msg_tag_color">#FFF4F4</color>
+    <color name="msg_tag_bg_blue">#43ABFB</color>
+    <color name="msg_tag_bg_purple">#C039FF</color>
+    <color name="msg_tag_bg_yellow">#F68C37</color>
 </resources>

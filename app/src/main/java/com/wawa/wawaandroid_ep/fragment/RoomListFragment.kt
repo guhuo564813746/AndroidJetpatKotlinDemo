@@ -21,6 +21,7 @@ import com.wawa.baselib.utils.dialog.LoadingDialogManager
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.RoomListAdapter
+import com.wawa.wawaandroid_ep.adapter.v2.RoomListV2Adapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 import com.wawa.wawaandroid_ep.fragment.viewmodule.RoomListFragmentViewModel
@@ -42,7 +43,7 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding, RoomListFragmentView
     init {
         Log.d(TAG,"init")
     }
-    private lateinit var roomListAdapter: RoomListAdapter
+    private lateinit var roomListAdapter: RoomListV2Adapter
     private val compositeDisposable = CompositeDisposable()
     var categoryId: Int?=null
     override fun getLayoutId(): Int {
@@ -55,7 +56,7 @@ class RoomListFragment : BaseFragment<RoomlistFmLayBinding, RoomListFragmentView
         binding.refreshLayout.setOnLoadMoreListener(this)
         categoryId=arguments?.getInt("categoryId",0)
         binding.lvRooms.layoutManager=GridLayoutManager(activity,2,LinearLayoutManager.VERTICAL,false)
-        activity?.let { roomListAdapter=RoomListAdapter(it) }
+        activity?.let { roomListAdapter=RoomListV2Adapter(it) }
         binding.lvRooms.adapter= roomListAdapter
         setUpRoomListDataSource()
     }
