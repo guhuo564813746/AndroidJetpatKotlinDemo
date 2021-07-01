@@ -21,6 +21,7 @@ import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.wawaandroid_ep.activity.viewmodule.FishGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
+import com.wawa.wawaandroid_ep.adapter.viewmodel.ChatItemPlayerVM
 import com.wawa.wawaandroid_ep.adapter.viewmodel.ChatItemViewModel
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatItemBean
@@ -54,9 +55,17 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         gameRoomChatDataBean=gson.fromJson(jsondata?.toString(), GameRoomChatDataBean::class.java)
         runOnUiThread{
             if (gameRoomChatDataBean != null){
-                val  chatItemViewModel = ChatItemViewModel()
-                chatItemViewModel.model=gameRoomChatDataBean
-                chatAdapter.add(chatItemViewModel)
+                if (gameRoomChatDataBean.source ==1){
+                    //玩家
+                    val chatItemPlayerVM = ChatItemPlayerVM()
+                    chatItemPlayerVM.model=gameRoomChatDataBean
+                    chatAdapter.add(chatItemPlayerVM)
+                }else{
+                    val  chatItemViewModel = ChatItemViewModel()
+                    chatItemViewModel.model=gameRoomChatDataBean
+                    chatAdapter.add(chatItemViewModel)
+                }
+                binding.lvGameNotes.smoothScrollToPosition(chatAdapter.itemCount-1)
 //                chatListAdapter?.insertItem(gameRoomChatDataBean.msg_list)
             }
         }
@@ -115,7 +124,29 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         initChatView()
         initOnlineUserView()
         initGameControler()
+        for (i in 0..3){
+            val gameRoomChatDataBean=GameRoomChatDataBean()
+            gameRoomChatDataBean.user_nickname="test"
+            gameRoomChatDataBean.source=i
+            val bodyBean=GameRoomChatDataBean.MsgListBean()
+            val body=GameRoomChatDataBean.MsgListBean.BodyBean()
+            body.text="test msg content 开始加快建设深刻揭示了世界经济急急急 急急急就是斤斤计较急急急急急急急急急急急急急急急捐款活动介绍客户上课今后是否会回复"
+            bodyBean.body=body
+            gameRoomChatDataBean.msg_list= mutableListOf<GameRoomChatDataBean.MsgListBean>()
+            gameRoomChatDataBean.msg_list.add(bodyBean)
+            if (i==1){
+                val chatItemPlayerVM = ChatItemPlayerVM()
+                chatItemPlayerVM.model=gameRoomChatDataBean
+                chatAdapter.add(chatItemPlayerVM)
+            }else{
+                val  chatItemViewModel = ChatItemViewModel()
+                chatItemViewModel.model=gameRoomChatDataBean
+                chatAdapter.add(chatItemViewModel)
+            }
+
+        }
     }
+
 
     fun initGameControler(){
         binding.tvGameFangxian.setOnTouchListener(this)

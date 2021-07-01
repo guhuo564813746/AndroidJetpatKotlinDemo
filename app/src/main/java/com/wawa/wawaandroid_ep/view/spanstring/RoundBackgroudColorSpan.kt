@@ -18,7 +18,7 @@ class RoundBackgroudColorSpan(private val bgColor: Int,private val textColor: In
         end: Int,
         fm: Paint.FontMetricsInt?
     ): Int {
-        return paint.measureText(text, start, end) as Int + 60
+        return paint.measureText(text, start, end).toInt()  + 60
     }
 
     override fun draw(

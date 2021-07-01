@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="4dp"
-    android:textColor="#fff"
-    android:textSize="14sp"
-    android:gravity="center_vertical"
-    android:background="@drawable/corner8_80alpha_bg" />
+    android:orientation="vertical"
+    android:background="@drawable/corner8_80alpha_bg"
+    android:layout_marginTop="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:id="@+id/tv_msg_tag"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_msg_name"
+            android:layout_toRightOf="@+id/tv_msg_tag"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_msg_content1"
+            android:layout_toRightOf="@+id/tv_msg_name"
+            android:layout_centerVertical="true"
+            android:textSize="12dp"
+            android:textColor="@color/msg_tag_color"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:textColor="@color/msg_tag_color"
+        android:textSize="12sp"
+        android:id="@+id/tv_msg_content2"/>
+
+</LinearLayout>

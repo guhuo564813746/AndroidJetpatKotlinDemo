@@ -9,8 +9,8 @@ import android.view.View
  *邮箱：564813746@qq.com
  */
 class BitmapUtils() {
-    fun createViewBitmap(view: View): Bitmap{
-        val bitmap=Bitmap.createBitmap(view.width,view.height,Bitmap.Config.ARGB_8888)
+    fun createViewBitmap(view: View,width: Int,height: Int): Bitmap{
+        val bitmap=Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888)
         val canvas: Canvas= Canvas(bitmap)
         view.draw(canvas)
         return bitmap

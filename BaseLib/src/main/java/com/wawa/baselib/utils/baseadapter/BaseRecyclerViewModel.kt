@@ -1,5 +1,6 @@
 package com.wawa.baselib.utils.baseadapter
 
+import android.content.Context
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseRecyclerViewModel<M, VH : BaseViewHolder> {
     var model: M?=null
     var viewHolder: VH?= null
+    lateinit var mContext: Context
     abstract fun onBindView(adapter: RecyclerView.Adapter<VH> )
     fun getItemViewType(): Int{
         return getLayoutRes()

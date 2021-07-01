@@ -31,14 +31,17 @@ class ChatItemTagView(private val mContext: Context,private val chatItemTagBean:
         val imHeadbg: ImageView =tagView!!.findViewById(R.id.im_headbg)
         val imGamerHonorBg: ImageView= tagView!!.findViewById(R.id.im_gamer_honor_bg)
         tvGamerName.setText(chatItemTagBean.name)
-        ImageLoader.with(mContext)
-            .url(chatItemTagBean.imgUrl)
-            .placeHolder(R.color.white)
-            .rectRoundCorner(ImageUtil.dip2px(30f), RoundedCornersTransformation.CornerType.ALL)
-            .into(imHead)
-        ImageLoader.with(mContext)
-            .url(chatItemTagBean.imgHeaderBg)
-            .into(imHeadbg)
+//        ImageLoader.with(mContext)
+//            .url(chatItemTagBean.imgUrl)
+//            .placeHolder(R.color.white)
+//            .rectRoundCorner(ImageUtil.dip2px(30f), RoundedCornersTransformation.CornerType.ALL)
+//            .into(imHead)
+        imHead.setImageResource(R.mipmap.icon_zhangdan)
+        chatItemTagBean.imgHeaderBg?.let {
+            ImageLoader.with(mContext)
+                .url(it)
+                .into(imHeadbg)
+        }
         chatItemTagBean.honorBg?.let {
             ImageLoader.with(mContext)
                 .url(it)
@@ -47,12 +50,14 @@ class ChatItemTagView(private val mContext: Context,private val chatItemTagBean:
 
     }
 
-    fun getChatItemTagViewDrawable(): Drawable?{
+
+
+   /* fun getChatItemTagViewDrawable(): Drawable?{
         var tagDrawable: Drawable?= null
         tagView?.let {
             val bitMap=bitmapUtils.createViewBitmap(it)
             tagDrawable=BitmapDrawable(mContext.resources,bitMap)
         }
         return tagDrawable
-    }
+    }*/
 }

@@ -11,6 +11,9 @@ import com.wawa.baselib.utils.baseadapter.BaseViewHolder
 abstract class ArrayListViewModel<M> : BaseRecyclerViewModel<M,BaseViewHolder>(){
 
     override fun onBindView(adapter: RecyclerView.Adapter<BaseViewHolder>) {
+        viewHolder?.view?.let {
+            mContext=it.context
+        }
         onBindAdapter(adapter = adapter as ArrayListAdapter<M>)
     }
 
