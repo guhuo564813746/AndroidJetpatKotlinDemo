@@ -3,12 +3,14 @@ package com.wawa.wawaandroid_ep.adapter.viewmodel
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.apollographql.apollo.fragment.PageOptionFragment
 import com.robotwar.app.R
 import com.wawa.baselib.utils.baseadapter.imp.ArrayListAdapter
 import com.wawa.baselib.utils.baseadapter.imp.ArrayListViewModel
 import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.logutils.LogUtils
+import com.wawa.wawaandroid_ep.utils.GoPageUtils
 
 /**
  *作者：create by 张金 on 2021/6/29 15:09
@@ -33,6 +35,10 @@ class AppMenuViewModel : ArrayListViewModel<PageOptionFragment.AppMenu>() {
             it.setOnClickListener {
                 var modelType: String?=model?.fragments()?.appMenu()?.type()?.rawValue()
                 LogUtils.d(TAG,"ModelType--"+modelType)
+                model?.fragments()?.appMenu()?.let {
+                    GoPageUtils.goPage(mContext as AppCompatActivity,modelType,it.url(),it.name())
+                }
+
             }
         }
     }

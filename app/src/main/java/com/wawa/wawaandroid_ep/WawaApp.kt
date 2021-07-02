@@ -176,10 +176,17 @@ class WawaApp : Application(){
 
     fun getDataSource(serviceTypes: ServiceTypes = ServiceTypes.CALLBACK): BaseDataSource {
         return when (serviceTypes) {
-            ServiceTypes.CALLBACK -> ApolloCallbackService(apolloClient)
-            ServiceTypes.RX_JAVA -> ApolloRxService(apolloClient)
-            ServiceTypes.COROUTINES -> ApolloCoroutinesService(apolloClient)
-            ServiceTypes.WATCHER -> ApolloWatcherService(apolloClient)
+//            ServiceTypes.CALLBACK -> ApolloCallbackService(apolloClient)
+//            ServiceTypes.RX_JAVA -> ApolloRxService(apolloClient)
+            ServiceTypes.COROUTINES -> {
+                ApolloCoroutinesService(apolloClient)
+            }
+//            ServiceTypes.WATCHER -> {
+//                ApolloWatcherService(apolloClient)
+//            }
+            else -> {
+                ApolloCoroutinesService(apolloClient)
+            }
         }
     }
 

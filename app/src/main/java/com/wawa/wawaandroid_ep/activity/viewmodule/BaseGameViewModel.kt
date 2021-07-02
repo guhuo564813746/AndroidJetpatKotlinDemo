@@ -31,7 +31,8 @@ open class BaseGameViewModel : BaseVM(){
     var countdownVisibility= ObservableInt(View.GONE)
     var roomInfoData=MutableLiveData<RoomInfoQuery.List>()
     var startGameBtnRes = ObservableField<Int>()
-
+    var playerName=ObservableField("")
+    var playerHonnorName= ObservableField("")
     init {
         startGameBtnRes.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {

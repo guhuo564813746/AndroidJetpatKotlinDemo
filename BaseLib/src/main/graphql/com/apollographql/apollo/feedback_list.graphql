@@ -1,0 +1,22 @@
+query FeedBackList($index: Int!){
+    feedback(index: $index){
+        currentPage
+        list{
+            ...feedback
+        }
+        perPage
+        total
+    }
+}
+fragment feedback on Feedback{
+    content
+    feedbackId
+    gameRecordId
+    pictureList
+    replyTime
+    replyTimeFormat
+    status
+    user{
+        ...userFragment
+    }
+}

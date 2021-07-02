@@ -9,16 +9,21 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.baseadapter.BaseRecyclerViewAdapter
 import com.wawa.baselib.utils.baseadapter.BaseRecyclerViewModel
 import com.wawa.baselib.utils.baseadapter.BaseViewHolder
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlin.properties.Delegates
 
 /**
@@ -28,6 +33,12 @@ import kotlin.properties.Delegates
 abstract class BaseActivity<V : ViewDataBinding,VM : BaseVM> : AppCompatActivity() {
     protected lateinit var binding : V
     public lateinit var viewModel: VM
+    val apolloDataSource: BaseDataSource by lazy {
+        (application as WawaApp).getDataSource(WawaApp.ServiceTypes.COROUTINES)
+    }
+    val activityDisposible: CompositeDisposable by lazy {
+        CompositeDisposable()
+    }
     protected var viewModelId by Delegates.notNull<Int>()
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
@@ -43,11 +54,24 @@ abstract class BaseActivity<V : ViewDataBinding,VM : BaseVM> : AppCompatActivity
         binding.setVariable(viewModelId,viewModel)
         binding.lifecycleOwner=this
         initView()
+        dealNetError()
     }
     abstract fun initVariableId(): Int
     abstract fun initViewModel(): VM
     abstract fun initContentView(savedInstanceState: Bundle?): Int
     abstract fun initView()
+
+    fun dealNetError(){
+        val errorHandler=apolloDataSource.error
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleErrorInfo)
+        activityDisposible.add(errorHandler)
+    }
+
+    fun handleErrorInfo(e: Throwable?){
+        Toast.makeText(this,e?.message, Toast.LENGTH_SHORT).show()
+    }
 
 
    /* open fun <T : ViewModel?> createViewModel(

@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.UserQuery
 import com.apollographql.apollo.fragment.PageOptionFragment
@@ -64,6 +65,7 @@ class MineFragmentV2 : BaseFragment<MineFmV2LayBinding,MineFmV2ViewModel>(){
     }
     //初始化菜单列表
     fun initAppMenu(){
+        appMenuAdapter.clearData()
         val manager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         binding.lvMineset.bindAdapter(appMenuAdapter,manager)
         MainViewModule.configData?.page()?.fragments()?.pageOptionFragment()?.appMenu()?.let {
@@ -138,4 +140,5 @@ class MineFragmentV2 : BaseFragment<MineFmV2LayBinding,MineFmV2ViewModel>(){
             viewModel.userName.set(userData?.nickName())
         }
     }
+
 }

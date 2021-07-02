@@ -19,7 +19,7 @@ import com.wawa.baselib.utils.apollonet.BaseDataSource
  * @UpdateDate:     2021-01-31 11:45
  * @Version:        1.0
  */
-class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloClient){
+abstract class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloClient){
     override fun getBannerList(categoryId: Int) {
         val bannerListQuery=BannerListQuery(categoryId)
         val callback=object:  ApolloCall.Callback<BannerListQuery.Data>(){

@@ -2,6 +2,7 @@ package com.wawa.wawaandroid_ep.fragmentv2
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
@@ -89,6 +90,7 @@ class ChargeFragmentV2 : BaseFragment<ChargeFmV2LayBinding, ChargeFmV2ViewModel>
     }
 
     private fun dealBannerDataSuccess(bannerList: List<BannerListQuery.BannerList>){
+        Log.d(TAG,"dealBannerDataSuccess--"+bannerList.size+bannerList.toString())
         val indicator = IndicatorView(context)
             .setIndicatorColor(Color.DKGRAY)
             .setIndicatorSelectorColor(Color.WHITE)

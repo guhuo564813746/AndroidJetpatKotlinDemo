@@ -21,7 +21,7 @@ class MainViewModule : BaseVM(){
         var mutableLiveuserData=MutableLiveData<UserQuery.User>()
         var userData: UserQuery.User?= null
         var configData: ConfigDataQuery.Config?= null
-
+        var configMutableLiveData=MutableLiveData<ConfigDataQuery.Config>()
 
     }
     val isShowBottom=MutableLiveData<Boolean>()

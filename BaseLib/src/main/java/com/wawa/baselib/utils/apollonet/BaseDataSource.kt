@@ -31,6 +31,8 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     protected val userDataSubject: PublishSubject<UserQuery.User> = PublishSubject.create()
     protected val roomInfoSubject: PublishSubject<List<RoomInfoQuery.List>> = PublishSubject.create()
     protected val configDataSubject: PublishSubject<ConfigDataQuery.Config> = PublishSubject.create()
+    protected val feedbackListSubject: PublishSubject<FeedBackListQuery.Feedback> = PublishSubject.create()
+    protected val malfunctionListSubject: PublishSubject<MalfunctionListQuery.MalfunctionList> =PublishSubject.create()
 
     val bannerList: Observable<List<BannerListQuery.BannerList>> =bannerListSubject.hide()
     val chargeOrderList: Observable<List<ChargeOrderListQuery.List>> = chargeOrderListSubject.hide()
@@ -44,6 +46,8 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     val userData: Observable<UserQuery.User> = userDataSubject.hide()
     val roomInfo: Observable<List<RoomInfoQuery.List>> = roomInfoSubject.hide()
     val configData: Observable<ConfigDataQuery.Config> =configDataSubject.hide()
+    val feedbackList: Observable<FeedBackListQuery.Feedback> =feedbackListSubject.hide()
+    val malfunctionList: Observable<MalfunctionListQuery.MalfunctionList> = malfunctionListSubject.hide()
 
     abstract fun  getBannerList(categoryId: Int)
     abstract fun getChargeOrderList(index: Int)
@@ -57,6 +61,6 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     abstract fun getUserData()
     abstract fun getRoomInfoData(roodId: Int)
     abstract fun getConfigData()
-
-
+    abstract fun getMalfunctionList(machine: String,index: Int=1)
+    abstract fun getFeedbackList(index: Int)
 }

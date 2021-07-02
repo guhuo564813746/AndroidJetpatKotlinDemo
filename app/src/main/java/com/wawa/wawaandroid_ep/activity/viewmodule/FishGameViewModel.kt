@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.activity.viewmodule
 
 import android.view.View
+import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import com.robotwar.app.R
 
@@ -10,6 +11,7 @@ import com.robotwar.app.R
  */
 class FishGameViewModel : BaseGameViewModel(){
     var countdownImgVisibility=ObservableInt(View.GONE)
+    var fishOnPrizeTips=ObservableField("")
     init {
         startGameBtnRes.set(R.drawable.startgame_btn_bg)
     }

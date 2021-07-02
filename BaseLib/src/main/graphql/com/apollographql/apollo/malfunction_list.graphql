@@ -1,0 +1,15 @@
+query MalfunctionList($machine: String!,$index: Int!){
+    malfunctionList(machine: $machine,index: $index){
+        list{
+            ...malfunction
+        }
+    }
+}
+
+fragment malfunction on Malfunction{
+    machine
+    malfunctionId
+    sortOrder
+    title
+    type
+}

@@ -18,6 +18,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.view.LayoutInflaterCompat
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.apollographql.apollo.ConfigDataQuery
@@ -34,12 +35,14 @@ import com.wawa.wawaandroid_ep.activity.LoginActivity
 import com.wawa.wawaandroid_ep.activity.LongTextActivity
 import com.wawa.wawaandroid_ep.base.activity.BaseActivity
 import com.wawa.wawaandroid_ep.utils.DialogUitl
+import com.wawa.wawaandroid_ep.utils.GoPageUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
     lateinit var navBottom: BottomNavigationView
+    lateinit var  navControlor: NavController
     private var loginAgreementDialog: Dialog? = null
     private val compositeDisposable = CompositeDisposable()
     val dataSource: BaseDataSource by lazy {
@@ -55,7 +58,10 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
     override fun initView() {
         window.setBackgroundDrawableResource(R.color.white)
         val navHostFragment=supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
-        val navControlor=navHostFragment.navController
+        navControlor=navHostFragment.navController
+        MainViewModule.configMutableLiveData.observe(this,Observer{
+            MainViewModule.configData=it
+        })
         viewModel.isUserLogined.observe(this, Observer {
             Log.d(TAG,"isUserLogined"+it.toString())
             if (it){
@@ -120,7 +126,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
     fun handleSuccessConfigData(data: ConfigDataQuery.Config){
         Log.d("handleSuccessConfigData",data?.toString())
         data?.let {
-            MainViewModule.configData=data
+            MainViewModule.configMutableLiveData.value=data
         }
     }
 
@@ -242,6 +248,14 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
         )
         intent.putExtra(LongTextActivity.INTENT_CONTENT,type)
         startActivity(intent)
+    }
+
+    fun goPage(v: View){
+        when(v.id){
+            R.id.ll_users,R.id.rl_Head ->{
+                GoPageUtils.goPage(this,"profile","","")
+            }
+        }
     }
 
 }

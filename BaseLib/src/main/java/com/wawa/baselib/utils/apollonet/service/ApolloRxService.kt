@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers
  * @UpdateDate:     2021-01-31 12:15
  * @Version:        1.0
  */
-class ApolloRxService(apolloClient: ApolloClient,
+abstract class ApolloRxService(apolloClient: ApolloClient,
                       private val compositeDisposable: CompositeDisposable = CompositeDisposable(),
                       private val processScheduler: Scheduler = Schedulers.io(),
                       private val resultScheduler: Scheduler = AndroidSchedulers.mainThread()) : BaseDataSource(apolloClient){

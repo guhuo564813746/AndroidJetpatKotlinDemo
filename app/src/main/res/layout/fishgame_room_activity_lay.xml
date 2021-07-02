@@ -86,7 +86,53 @@
                 android:layout_marginTop="75dp"
                 android:layout_marginLeft="15dp"
                 android:id="@+id/rl_playerhead">
+                <FrameLayout
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
+                    android:id="@+id/fl_Head"
+                    android:layout_marginLeft="8dp">
 
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:id="@+id/im_Head"
+                        android:src="@drawable/white_circle_bg"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:scaleType="fitXY"
+                        android:layout_marginBottom="10dp"/>
+
+                    <ImageView
+                        android:layout_width="58dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/im_headbg"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:layout_gravity="center" />
+                </FrameLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="58dp"
+                    android:orientation="vertical"
+                    android:layout_toRightOf="@+id/fl_Head">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_playerName"
+                        android:text="@{viewModel.playerName}"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_playerHonnor"
+                        android:text="@{viewModel.playerHonnorName}"/>
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_fishtips"
+                    android:layout_below="@+id/fl_Head"
+                    android:layout_centerHorizontal="true"
+                    android:text="@{viewModel.fishOnPrizeTips}"/>
             </RelativeLayout>
             
             <androidx.recyclerview.widget.RecyclerView

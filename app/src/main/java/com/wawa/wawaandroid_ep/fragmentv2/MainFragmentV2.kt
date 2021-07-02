@@ -80,6 +80,10 @@ class MainFragmentV2 : BaseFragment<MainFmV2LayBinding,MainFmV2ViewModel>(){
     }
 
     override fun initFragmentView() {
+        MainViewModule.configMutableLiveData.observe(this,Observer{
+            MainViewModule.configData=it
+            initNavListView()
+        })
         (activity as MainActivity).setUpDataSource()
         binding.mainSlideTab.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -119,7 +123,7 @@ class MainFragmentV2 : BaseFragment<MainFmV2LayBinding,MainFmV2ViewModel>(){
 
 
         })
-        initNavListView()
+//        initNavListView()
         setUpBannerList()
         setUpRoomCategoryListDataSource()
         (activity as MainActivity).showUserAgreementDialog()

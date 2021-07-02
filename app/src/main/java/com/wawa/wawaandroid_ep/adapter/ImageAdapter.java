@@ -1,5 +1,6 @@
 package com.wawa.wawaandroid_ep.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollographql.apollo.BannerListQuery;
@@ -16,6 +18,7 @@ import com.wawa.baselib.utils.glide.GlideManager;
 import com.wawa.baselib.utils.glide.loader.ImageLoader;
 import com.wawa.baselib.utils.glide.utils.ImageUtil;
 import com.wawa.wawaandroid_ep.activity.web.WebActivity;
+import com.wawa.wawaandroid_ep.utils.GoPageUtils;
 
 import java.util.List;
 
@@ -24,9 +27,9 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 //或者使用其他三方框架，都是支持的，如：BRVAH
 public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context context;
+    private Activity context;
     private List<BannerListQuery.BannerList> bannerLists;
-    public ImageAdapter(Context context,List<BannerListQuery.BannerList> banners){
+    public ImageAdapter(Activity context,List<BannerListQuery.BannerList> banners){
         this.context=context;
         this.bannerLists=banners;
     }
@@ -51,7 +54,8 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goWebPage(bannerLists.get(position));
+//                goWebPage(bannerLists.get(position));
+                GoPageUtils.INSTANCE.goPage((AppCompatActivity) context,bannerLists.get(position).action(),bannerLists.get(position).url(),bannerLists.get(position).name());
             }
         });
     }

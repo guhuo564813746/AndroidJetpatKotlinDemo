@@ -149,6 +149,11 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
 
 
     fun initGameControler(){
+        binding.streamReplaced.setOnTouchListener { v, event ->
+            when(event.action){
+
+            }
+        }
         binding.tvGameFangxian.setOnTouchListener(this)
         binding.tvGameShouxian.setOnTouchListener(this)
         binding.btnCameraZoomOut.setOnTouchListener(this)

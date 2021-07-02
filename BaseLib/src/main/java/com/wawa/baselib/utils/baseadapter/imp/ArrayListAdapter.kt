@@ -83,4 +83,7 @@ class ArrayListAdapter<M> : BaseRecyclerViewAdapter<ArrayListViewModel<M>>(){
     fun removeAt(index: Int): ArrayListViewModel<M>{
         return observableDataList.removeAt(index)
     }
+    fun clearData(){
+        observableDataList.clear()
+    }
 }

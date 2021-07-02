@@ -21,7 +21,7 @@ import com.wawa.baselib.utils.apollonet.BaseDataSource
  * @UpdateDate:     2021-01-31 12:23
  * @Version:        1.0
  */
-class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloClient){
+abstract class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloClient){
     override fun getBannerList(categoryId: Int) {
         val bannerListQuery=BannerListQuery(categoryId)
         val callback=createCallback<BannerListQuery.Data> {
@@ -75,6 +75,14 @@ class ApolloWatcherService(apolloClient: ApolloClient) : BaseDataSource(apolloCl
     }
 
     override fun getConfigData() {
+
+    }
+
+    override fun getMalfunctionList(machine: String, index: Int) {
+
+    }
+
+    override fun getFeedbackList(index: Int) {
 
     }
 

@@ -212,4 +212,38 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
+    override fun getMalfunctionList(machine: String, index: Int) {
+        val malfunctionQuery=MalfunctionListQuery(machine,1)
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(malfunctionQuery).await()
+                val malfunctionList= response?.data?.malfunctionList()
+                withContext(resultContext){
+                    malfunctionList?.let {
+                        malfunctionListSubject.onNext(it)
+                    }
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
+    }
+
+    override fun getFeedbackList(index: Int) {
+        val feedBackQuery=FeedBackListQuery(index)
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(feedBackQuery).await()
+                val feedBackList= response?.data?.feedback()
+                withContext(resultContext){
+                    feedBackList?.let {
+                        feedbackListSubject.onNext(it)
+                    }
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
+    }
+
 }
