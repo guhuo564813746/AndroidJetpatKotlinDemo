@@ -145,7 +145,6 @@
                 android:layout_marginRight="15dp"/>
 
 
-        </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
@@ -231,41 +230,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/rl_gamecontrol"
-            android:layout_alignParentBottom="true"
             android:visibility="@{viewModel.gamePanelVisibility}">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <com.wawa.wawaandroid_ep.view.RobotControlerView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:id="@+id/canmera_controler"
-                    android:background="#12000000"/>
-                <View
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_above="@+id/canmera_controler"
-                    android:id="@+id/btn_camera_zoom_out"
-                    />
-                <View
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_above="@+id/canmera_controler"
-                    android:id="@+id/camera_zoom_in"
-                    android:layout_marginLeft="50dp"/>
-
-                <View
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/camera_tag"
-                    android:layout_toRightOf="@+id/canmera_controler"
-                    android:layout_alignBottom="@+id/canmera_controler"
-                    android:onClick="showCameraControler"/>
-            </RelativeLayout>
 
             <com.wawa.wawaandroid_ep.view.RockerControlPanel
                 android:layout_width="150dp"
@@ -275,82 +243,134 @@
                 android:layout_marginBottom="15dp"
                 android:id="@+id/fishing_controler" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_above="@+id/fishing_controler"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="-120dp"
+                android:id="@+id/rl_camera_container">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/rl_camera_controlor"
+                    android:padding="10dp"
+                    android:background="@drawable/half_alpha_black_14conors_bg"
+                    android:layout_alignParentBottom="true">
+
+                    <com.wawa.wawaandroid_ep.view.ButtonControlPanel
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/canmera_controler"
+                        android:background="#12000000"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"/>
+                    <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_above="@+id/canmera_controler"
+                        android:layout_centerHorizontal="true">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btn_camera_zoom_out"
+                            android:layout_weight="1"
+                            android:background="@mipmap/camera_zoom_out"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="5dp"/>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/camera_zoom_in"
+                            android:layout_weight="1"
+                            android:background="@mipmap/camera_zoom_in"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="0dp"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:id="@+id/camera_tag"
+                    android:layout_toRightOf="@+id/rl_camera_controlor"
+                    android:layout_alignBottom="@+id/rl_camera_controlor"
+                    android:onClick="showCameraControler"
+                    android:src="@mipmap/im_camera_controler_tag"/>
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:text="提杆"
-                android:textSize="16dp"
                 android:textColor="@color/white"
-                android:padding="8dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="15dp"
                 android:id="@+id/tv_game_tigan"
-                android:onClick="finishHook"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:onClick="finishHook"
+                android:background="@drawable/fishgame_tigan_bg"/>
+            <View
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:id="@+id/tv_game_paogan"
-                android:textColor="@color/white"
-                android:textSize="16dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="15dp"
                 android:layout_toLeftOf="@+id/tv_game_tigan"
                 android:layout_marginRight="15dp"
-                android:padding="4dp"
                 android:text="抛杆"
-                android:onClick="casting"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:onClick="casting"
+                android:background="@drawable/fishgame_paogan_bg"/>
+            <View
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:id="@+id/tv_game_shouxian"
-                android:textSize="16dp"
-                android:textColor="@color/white"
-                android:layout_alignParentRight="true"
-                android:layout_above="@+id/tv_game_tigan"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="20dp"
-                android:text="收线"
-                android:padding="4dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_game_fangxian"
-                android:padding="4dp"
-                android:text="放线"
-                android:textSize="16dp"
-                android:textColor="@color/white"
-                android:layout_toLeftOf="@+id/tv_game_shouxian"
+                android:layout_alignLeft="@+id/tv_game_paogan"
                 android:layout_above="@+id/tv_game_paogan"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="10dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="收线"
+                android:background="@drawable/fishgame_shouxian_bg"/>
+            <View
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/tv_game_fangxian"
+                android:text="放线"
+                android:textColor="@color/white"
+                android:layout_alignRight="@+id/tv_game_tigan"
+                android:layout_above="@+id/tv_game_tigan"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/fishgame_fangxian_bg"/>
+            <View
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:id="@+id/tv_game_shanger"
                 android:textSize="14dp"
                 android:textColor="@color/white"
                 android:text="上饵"
-                android:padding="4dp"
-                android:layout_alignParentRight="true"
-                android:layout_above="@+id/tv_game_shouxian"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="20dp"
-                android:onClick="addBait"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_game_fangxian"
+                android:layout_alignRight="@+id/tv_game_tigan"
+                android:layout_marginBottom="10dp"
+                android:onClick="addBait"
+                android:background="@drawable/fishgame_addfishfood_bg"/>
+            <View
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:text="摘鱼"
                 android:id="@+id/tv_game_getfish"
                 android:textColor="@color/white"
                 android:textSize="14dp"
-                android:padding="4dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignRight="@+id/tv_game_tigan"
                 android:layout_above="@+id/tv_game_shanger"
                 android:layout_marginBottom="10dp"
-                android:layout_marginRight="2dp"
-                android:onClick="unload"/>
+                android:onClick="unload"
+                android:background="@drawable/fishgame_getfish_bg"/>
 
         </RelativeLayout>
 
@@ -367,8 +387,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:onClick="back"
-                android:background="@mipmap/icon_arrow_right"
-                android:rotation="180"
+                android:background="@mipmap/im_gamefish_back"
                 android:layout_marginLeft="15dp"
                 android:layout_marginBottom="9dp"/>
 
@@ -404,10 +423,11 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:id="@+id/spinner_gameset"
-                    android:background="@mipmap/icon_set"/>
+                    android:background="@mipmap/im_game_menu"/>
             </LinearLayout>
 
         </RelativeLayout>
 
+    </RelativeLayout>
     </RelativeLayout>
 </layout>

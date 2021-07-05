@@ -3,6 +3,7 @@ package com.wawa.wawaandroid_ep.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import androidx.activity.viewModels
 import com.robotwar.app.BR
 import com.robotwar.app.R
@@ -46,6 +47,10 @@ class LauncherActivity : BaseActivity<LauncherActivityLayBinding,LauncherActivit
     override fun initViewModel(): LauncherActivityVm {
         val launcherActivityVm: LauncherActivityVm by viewModels()
         return launcherActivityVm
+    }
+
+    override fun back(view: View) {
+
     }
 
 

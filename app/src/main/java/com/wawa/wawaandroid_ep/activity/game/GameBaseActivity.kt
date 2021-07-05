@@ -358,22 +358,31 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     abstract fun initStartGame()
 
     fun endGame(){
-        var data=JSONObject()
-        data.put("id",GameSocketManager.generateId().toString())
-        data.put("method","quit_game")
-        GameSocketManager.getInstance().sendMessage("game",data,object: GameSocketManager.Callback{
-            override fun onSuccess(jsonStr: JSONObject?) {
-                LogUtils.d(TAG,"quit_game--success")
+        when(mGameStatus){
+            GAME_STATUS_PLAYING ->{
+                var data = JSONObject()
+                data.put("id", GameSocketManager.generateId().toString())
+                data.put("method", "quit_game")
+                GameSocketManager.getInstance()
+                    .sendMessage("game", data, object : GameSocketManager.Callback {
+                        override fun onSuccess(jsonStr: JSONObject?) {
+                            LogUtils.d(TAG, "quitgame--success")
+                            //发个指令测试
 
-            }
+                        }
 
-            override fun onError(errorCode: Int, errorMsg: String?) {
-                LogUtils.d(TAG,"quit_game--falure")
-                runOnUiThread {
-                    ToastUtils.showShort(errorMsg)
-                }
+                        override fun onError(errorCode: Int, errorMsg: String?) {
+                            LogUtils.d(TAG, "quitgame--falure" + errorMsg)
+                            runOnUiThread {
+                                ToastUtils.showShort(errorMsg)
+                            }
+                        }
+                    })
             }
-        })
+            else ->{
+                finish()
+            }
+        }
     }
 
     fun socketLogin(){
@@ -469,7 +478,8 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGameReconnect(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameReconnect")
         runOnUiThread{
-
+            setGameStartStatus()
+            initStartGame()
         }
     }
 

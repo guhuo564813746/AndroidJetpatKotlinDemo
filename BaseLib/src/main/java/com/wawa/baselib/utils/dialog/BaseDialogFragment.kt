@@ -1,6 +1,7 @@
 package com.wawa.baselib.utils.dialog
 
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -8,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.blankj.utilcode.util.SizeUtils
 import com.wawa.baselib.R
-import java.lang.Exception
 
 /**
  *作者：create by 张金 on 2021/3/8 16:37
@@ -56,12 +55,29 @@ abstract class BaseDialogFragment : DialogFragment(){
 //        transaction.add(this, tag).addToBackStack(null);
 //        return transaction.commitAllowingStateLoss();
         if(!isAdded){
-            try {
-                show(manager,tag)
-            }catch (e: Exception){
+            show(manager,tag)
+        }
+    }
 
-            }
-
+    override fun show(
+        manager: FragmentManager,
+        tag: String?
+    ) {
+        /*if (manager.findFragmentByTag(tag) != null && manager.findFragmentByTag(tag).isAdded() && manager.findFragmentByTag(tag).isVisible()){
+            return;
+        }
+        manager.executePendingTransactions();
+        super.show(manager, tag);*/
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            if (manager.isDestroyed) return
+        }
+        try {
+            //在每个add事务前增加一个remove事务，防止连续的add
+            manager.beginTransaction().remove(this).commit()
+            super.show(manager, tag)
+        } catch (e: Exception) {
+            //同一实例使用不同的tag会异常，这里捕获一下
+            e.printStackTrace()
         }
     }
 }

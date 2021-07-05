@@ -1,10 +1,14 @@
 package com.wawa.wawaandroid_ep.activity.game
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.PopupWindow
+import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ToastUtils
@@ -26,6 +30,7 @@ import com.wawa.wawaandroid_ep.adapter.viewmodel.ChatItemViewModel
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatItemBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
+import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.RobotControlerView
 import com.wawa.wawaandroid_ep.view.RockerView
 import com.wawa.wawaandroid_ep.view.ViewUtils
@@ -40,11 +45,12 @@ import java.lang.reflect.Type
 class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, FishGameViewModel>() ,
     GameReadyDialog.GameReadyInterface , GameSetGroupViewControlor.GameViewClickCallback , View.OnTouchListener{
     val TAG="FishGameRoomActivity"
+    private var isCameraShow=false
     private var gameReadyDialog: GameReadyDialog?=null
     val chatAdapter= ArrayListAdapter<GameRoomChatDataBean>()
     private  var popupGameSetWindow: PopupWindow?=null
     var gameSetGroupViewControlor: GameSetGroupViewControlor?=null
-    var cameraDerection: RobotControlerView.Direction?=null
+    var cameraDerection: RockerView.Direction?=null
     var fishingDerection: RockerView.Direction?= null
 
     override fun onIMNotify(jsondata: JSONObject?) {
@@ -158,46 +164,52 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         binding.tvGameShouxian.setOnTouchListener(this)
         binding.btnCameraZoomOut.setOnTouchListener(this)
         binding.cameraZoomIn.setOnTouchListener(this)
-        binding.canmeraControler.mOnShakeListener=object: RobotControlerView.OnShakeListener {
-            override fun onStart() {
+        binding.canmeraControler.setListener(object: ButtonControlPanel.OnTouchListener {
 
-            }
 
-            override fun direction(direction: RobotControlerView.Direction?, distance: Int) {
+            override fun onTouch(
+                view: View?,
+                direction: RockerView.Direction?,
+                event: MotionEvent?
+            ): Boolean {
                 cameraDerection=direction
-                when(cameraDerection?.name){
-                    "DIRECTION_LEFT" ->{
-                        controlCamera("left",1)
+                when(event?.action){
+                    MotionEvent.ACTION_DOWN ->{
+                        when(cameraDerection?.name){
+                            "DIRECTION_LEFT" ->{
+                                controlCamera("left",1)
+                            }
+                            "DIRECTION_RIGHT" ->{
+                                controlCamera("right",1)
+                            }
+                            "DIRECTION_UP" ->{
+                                controlCamera("up",1)
+                            }
+                            "DIRECTION_DOWN" ->{
+                                controlCamera("down",1)
+                            }
+                        }
                     }
-                    "DIRECTION_RIGHT" ->{
-                        controlCamera("right",1)
-                    }
-                    "DIRECTION_UP" ->{
-                        controlCamera("up",1)
-                    }
-                    "DIRECTION_DOWN" ->{
-                        controlCamera("down",1)
+                    MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL ->{
+                        when(cameraDerection?.name){
+                            "DIRECTION_LEFT" ->{
+                                controlCamera("left_r",1)
+                            }
+                            "DIRECTION_RIGHT" ->{
+                                controlCamera("right_r",1)
+                            }
+                            "DIRECTION_UP" ->{
+                                controlCamera("up_r",1)
+                            }
+                            "DIRECTION_DOWN" ->{
+                                controlCamera("down_r",1)
+                            }
+                        }
                     }
                 }
+                return true
             }
-
-            override fun onFinish() {
-                when(cameraDerection?.name){
-                    "DIRECTION_LEFT" ->{
-                        controlCamera("left_r",1)
-                    }
-                    "DIRECTION_RIGHT" ->{
-                        controlCamera("right_r",1)
-                    }
-                    "DIRECTION_UP" ->{
-                        controlCamera("up_r",1)
-                    }
-                    "DIRECTION_DOWN" ->{
-                        controlCamera("down_r",1)
-                    }
-                }
-            }
-        }
+        })
         binding.fishingControler.setListener(object : RockerView.OnShakeListener{
             override fun onFinish() {
                 when(fishingDerection?.name){
@@ -242,6 +254,44 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
 
     fun showCameraControler(view: View){
         //显示摄像头设置
+        var fromX=0f
+        var toX=0f
+
+        if (isCameraShow){
+            fromX=AppUtils.dp2px(this,120f).toFloat()
+            toX=0f
+
+        }else{
+            fromX=0f
+            toX=AppUtils.dp2px(this,120f).toFloat()
+        }
+        val objectAnimation= ObjectAnimator.ofFloat(binding.rlCameraContainer,"translationX",fromX,toX)
+        Log.d(TAG,"showCameraControler--"+fromX+"--"+toX)
+        objectAnimation.addListener(object: Animator.AnimatorListener{
+            override fun onAnimationRepeat(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                val layoutParams=binding.rlCameraControlor.layoutParams
+                if(isCameraShow){
+//                    (layoutParams as RelativeLayout.LayoutParams).leftMargin=-AppUtils.dp2px(baseContext,110f)
+                    isCameraShow=false
+                }else{
+//                    (layoutParams as RelativeLayout.LayoutParams).leftMargin=0
+                    isCameraShow=true
+                }
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+
+            }
+        })
+        objectAnimation.start()
     }
 
     fun casting(view: View){
@@ -273,16 +323,44 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     }
     private fun initGameMenuView(){
         val popGameList: MutableList<PopGameItemBean> = mutableListOf()
-        for (i in 0..2){
+        for (i in 0..8){
             val popGameItemBean=PopGameItemBean()
-            popGameItemBean.enableTab=true
-            popGameItemBean.imgRes=R.mipmap.game_icon_setting
             when(i){
                 0 ->{
-
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.continute_gametime_bg
                 }
                 1 ->{
-
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.fishgame_menu_topup_bg
+                }
+                2->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gamemenu_nav_bg
+                }
+                3->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.dsrank_bg
+                }
+                4->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gamefix_bg
+                }
+                5->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gameseting_bg
+                }
+                6->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gamereset_bg
+                }
+                7->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gamecs_bg
+                }
+                8->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gamechat_bg
                 }
             }
             popGameList.add(popGameItemBean)
@@ -325,7 +403,8 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     }
 
     override fun cancelGame() {
-
+        quitQueue()
+        gameReadyDialog=null
     }
 
     override fun gameSetClick(pos: Int) {
@@ -394,6 +473,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN ->{
+                v?.isSelected=true
                 when(v?.id){
                     R.id.tv_game_fangxian ->{
                         controlFishing("increase_line")
@@ -411,6 +491,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
                 }
             }
             MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL ->{
+                v?.isSelected=false
                 when(v?.id){
                     R.id.tv_game_fangxian ->{
                         controlFishing("stop_line")
@@ -428,6 +509,10 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
             }
         }
         return true
+    }
+
+    override fun back(view: View) {
+        endGame()
     }
 
 

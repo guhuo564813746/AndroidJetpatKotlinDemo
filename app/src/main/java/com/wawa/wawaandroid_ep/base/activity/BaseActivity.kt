@@ -60,7 +60,7 @@ abstract class BaseActivity<V : ViewDataBinding,VM : BaseVM> : AppCompatActivity
     abstract fun initViewModel(): VM
     abstract fun initContentView(savedInstanceState: Bundle?): Int
     abstract fun initView()
-
+    abstract fun back(view: View)
     fun dealNetError(){
         val errorHandler=apolloDataSource.error
             .subscribeOn(Schedulers.io())

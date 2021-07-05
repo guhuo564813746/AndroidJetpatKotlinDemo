@@ -571,5 +571,9 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         operateRobot(ep)
     }
 
+    override fun back(view: View) {
+
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentTransaction
 import com.robotwar.app.BR
@@ -34,6 +35,10 @@ class LoginActivity : BaseActivity<LoginActivityLayBinding,LoginActivityVm>(){
             replace(R.id.fl_container,loginFragment)
             addToBackStack(null)
         }.commitAllowingStateLoss()
+    }
+
+    override fun back(view: View) {
+
     }
 
 }

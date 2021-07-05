@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.webkit.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -70,6 +71,10 @@ class WebActivity : BaseActivity<WebLayBinding,WebViewModel>(){
             binding.web.loadUrl(webUrl)
 
         }
+
+    }
+
+    override fun back(view: View) {
 
     }
 }

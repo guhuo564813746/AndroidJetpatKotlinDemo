@@ -258,4 +258,8 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
         }
     }
 
+    override fun back(view: View) {
+        finish()
+    }
+
 }
