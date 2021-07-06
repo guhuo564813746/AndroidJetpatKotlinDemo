@@ -1,4 +1,4 @@
-package com.wawa.wawaandroid_ep.dialog
+package com.wawa.wawaandroid_ep.dialog.game
 
 import android.view.View
 import android.widget.ImageView

@@ -4,14 +4,12 @@ import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ChargeItemListQuery
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
-import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
 import com.wawa.wawaandroid_ep.WawaApp
-import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
+import com.wawa.baselib.utils.viewmodel.BaseVM
 
 /**
  *作者：create by 张金 on 2021/1/25 11:10

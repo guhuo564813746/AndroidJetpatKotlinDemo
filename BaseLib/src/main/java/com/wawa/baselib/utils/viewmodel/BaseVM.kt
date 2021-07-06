@@ -1,4 +1,4 @@
-package com.wawa.wawaandroid_ep.base.viewmodel
+package com.wawa.baselib.utils.viewmodel
 
 import android.view.View
 import androidx.lifecycle.ViewModel

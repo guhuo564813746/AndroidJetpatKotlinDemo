@@ -1,17 +1,13 @@
 package com.wawa.wawaandroid_ep.activity.viewmodule
 
-import android.util.Log
 import android.view.View
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo.RoomInfoQuery
-import com.robotwar.app.R
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
+import com.wawa.baselib.utils.viewmodel.BaseVM
 
 /**
  *作者：create by 张金 on 2021/2/3 14:41
@@ -33,6 +29,7 @@ open class BaseGameViewModel : BaseVM(){
     var startGameBtnRes = ObservableField<Int>()
     var playerName=ObservableField("")
     var playerHonnorName= ObservableField("")
+    var playerGameViewVisibility= ObservableInt(View.GONE)
     init {
         startGameBtnRes.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {

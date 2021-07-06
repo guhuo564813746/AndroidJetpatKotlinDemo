@@ -1,0 +1,5 @@
+mutation RoomFeedbackAdd($roomId: Int!,$content: String!){
+    roomFeedbackAdd(roomId: $roomId, content: $content){
+        content
+    }
+}

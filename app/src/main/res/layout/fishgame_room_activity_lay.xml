@@ -59,8 +59,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/circle_black_70alpha_bg">
-                <com.wawa.wawaandroid_ep.view.CircularProgressView
+                android:background="@mipmap/im_fish_countdown_bg">
+<!--                android:background="@drawable/circle_black_70alpha_bg">-->
+                <!--<com.wawa.wawaandroid_ep.view.CircularProgressView
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:id="@+id/countdown_progress"
@@ -69,13 +70,21 @@
                     app:backWidth="4dp"
                     app:progColor="@color/progress_red"
                     app:progWidth="4dp"
-                    app:progress="100" />
+                    app:progress="100" />-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:layout_centerInParent="true"
+                    android:textSize="10sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:singleLine="true"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="2dp"
+                    android:autoSizeMaxTextSize="10dp"
                     android:textStyle="bold"
                     android:text="@{viewModel.countdownText}"/>
             </RelativeLayout>
@@ -85,7 +94,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="75dp"
                 android:layout_marginLeft="15dp"
-                android:id="@+id/rl_playerhead">
+                android:id="@+id/rl_playerhead"
+                android:background="@drawable/black_alpha70_cornors20_bg"
+                android:visibility="@{viewModel.playerGameViewVisibility}">
                 <FrameLayout
                     android:layout_width="58dp"
                     android:layout_height="58dp"
@@ -118,22 +129,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_playerName"
-                        android:text="@{viewModel.playerName}"/>
+                        android:text="@{viewModel.playerName}"
+                        android:textColor="@color/white"
+                        android:textSize="14dp"/>
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="16dp"
                         android:id="@+id/tv_playerHonnor"
-                        android:text="@{viewModel.playerHonnorName}"/>
+                        android:text="@{viewModel.playerHonnorName}"
+                        android:textColor="@color/white"
+                        android:textSize="10dp"
+                        android:singleLine="true"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="2dp"
+                        android:autoSizeMaxTextSize="10dp"
+                        android:background="@mipmap/im_honortitle_bg"/>
 
                 </LinearLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tv_fishtips"
-                    android:layout_below="@+id/fl_Head"
-                    android:layout_centerHorizontal="true"
-                    android:text="@{viewModel.fishOnPrizeTips}"/>
             </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_fishtips"
+                android:layout_below="@+id/rl_playerhead"
+                android:layout_alignLeft="@+id/rl_playerhead"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:visibility="@{viewModel.playerGameViewVisibility}"
+                android:text="@{viewModel.fishOnPrizeTips}"
+                android:background="@drawable/black_alpha50_cornors20_bg"/>
             
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -174,9 +198,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="11dp"
+                    android:layout_marginLeft="70dp"
                     android:textColor="@color/white"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="10dp"
+                    android:autoSizeMinTextSize="2dp"
                     android:textSize="10sp"
                     android:text="@={viewModel.queueCount}"
                     />
@@ -265,7 +292,8 @@
                         android:background="#12000000"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="10dp"
+                        app:controlType="2"/>
                     <LinearLayout
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"

@@ -7,9 +7,11 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.wawa.baselib.R
+import com.wawa.baselib.utils.viewmodel.BaseVM
 
 /**
  *作者：create by 张金 on 2021/3/8 16:37

@@ -7,6 +7,10 @@
         <attr name="rockerRadius" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="ButtonControlAttr">
+        <attr name="controlType" format="integer"/>
+    </declare-styleable>
+
     <declare-styleable name="CircularProgressView">
         <attr name="backWidth" format="dimension" />    <!--背景圆环宽度-->
         <attr name="progWidth" format="dimension" />    <!--进度圆环宽度-->

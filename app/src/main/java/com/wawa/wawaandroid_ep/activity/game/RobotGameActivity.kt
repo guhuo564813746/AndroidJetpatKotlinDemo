@@ -3,17 +3,10 @@ package com.wawa.wawaandroid_ep.activity.game
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import androidx.activity.viewModels
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.apollographql.apollo.RoomInfoQuery
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -22,8 +15,6 @@ import com.google.gson.reflect.TypeToken
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.RobotGameActivityLayBinding
-import com.wawa.baselib.utils.SharePreferenceUtils
-import com.wawa.baselib.utils.SharePreferenceUtils.Companion.VIDEO_PLAYER
 import com.wawa.baselib.utils.dialog.ConfirmDialogFatory
 import com.wawa.baselib.utils.dialog.GameOperationDialog
 import com.wawa.baselib.utils.dialog.GameReadyDialog
@@ -37,11 +28,8 @@ import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.adapter.LiveChatListAdapter
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
-import com.wawa.wawaandroid_ep.dialog.GameSetDialog
-import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
-import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
-import com.wawa.wawaandroid_ep.gamevideopager.LiveGameFragment
-import com.wawa.wawaandroid_ep.view.ButtonControlPanel
+import com.wawa.wawaandroid_ep.dialog.game.GameQuit_PortDialog
+import com.wawa.wawaandroid_ep.dialog.game.GameSetDialog
 import com.wawa.wawaandroid_ep.view.DrawableMenuLayout
 import com.wawa.wawaandroid_ep.view.RobotControlerView
 import com.wawa.wawaandroid_ep.view.RockerView
@@ -56,7 +44,8 @@ import java.text.DecimalFormat
  *作者：create by 张金 on 2021/2/3 14:27
  *邮箱：564813746@qq.com
  */
-class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGameViewModel>(), EpGameListener,GameReadyDialog.GameReadyInterface {
+class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGameViewModel>(), EpGameListener
+    ,GameReadyDialog.GameReadyInterface, GameQuit_PortDialog.GameQuitDialogCallback {
     private val TAG = "RobotGameActivity"
     private var gameReadyDialog: GameReadyDialog?=null
     var chatListAdapter: LiveChatListAdapter?= null
@@ -119,7 +108,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     override fun onBackPressed() {
-        quitGameRoom()
+        super.onBackPressed()
     }
 
     fun switchShowUserData(){
@@ -381,7 +370,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
             when (it) {
                 0 -> openSet()
                 1 -> openGameDesc()
-                2 -> quitGameRoom()
+                2 -> onBackPressed()
             }
         }
     }
@@ -572,7 +561,18 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
     }
 
     override fun back(view: View) {
+        onBackPressed()
+    }
 
+    override fun showQuitDislog() {
+        val quitDialog= GameQuit_PortDialog()
+        quitDialog.isQuit=true
+        quitDialog.listener=this
+        quitDialog.showDialog(supportFragmentManager, GameQuit_PortDialog.TAG)
+    }
+
+    override fun onQuitGame() {
+        endGame()
     }
 
 

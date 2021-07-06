@@ -1,7 +1,6 @@
 package com.wawa.wawaandroid_ep.fragment.viewmodule
 
 import android.util.Log
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.UserLoginByPhoneMutation
@@ -12,8 +11,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.MutationCallback
 import com.wawa.wawaandroid_ep.WawaApp
-import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
-import com.wawa.wawaandroid_ep.fragment.LoginFragment
+import com.wawa.baselib.utils.viewmodel.BaseVM
 import com.wawa.wawaandroid_ep.httpcore.bean.ForecastsBean
 
 /**

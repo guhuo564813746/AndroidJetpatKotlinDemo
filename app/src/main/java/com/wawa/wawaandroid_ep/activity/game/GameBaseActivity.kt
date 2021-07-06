@@ -148,6 +148,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGameOver(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameOver")
         runOnUiThread{
+            viewModel.playerGameViewVisibility.set(View.GONE)
             var player=jsondata?.getJSONObject("player")
             var userId=player?.getInt("user_id")
             userId?.let {
@@ -430,6 +431,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGameStart(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameStart")
         runOnUiThread{
+            viewModel.playerGameViewVisibility.set(View.VISIBLE)
             var player=jsondata?.getJSONObject("player")
             var userId=player?.getInt("user_id")
             userId?.let {
@@ -574,6 +576,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         mGameStatus=GAME_STATUS_PLAYING
         viewModel.gamePanelVisibility.set(View.VISIBLE)
         viewModel.guestPanelVisibility.set(View.GONE)
+        viewModel.playerGameViewVisibility.set(View.VISIBLE)
     }
 
     fun setGameOverStatus(){
@@ -614,4 +617,17 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     abstract fun gameStartBtnBg(): Int
     abstract fun gameCancelBtnBg(): Int
     abstract fun gameQueueBtnBg(): Int
+    abstract fun showQuitDislog()
+    override fun back(view: View) {
+
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        if (mGameStatus==GAME_STATUS_PLAYING){
+            showQuitDislog()
+        }else{
+            finish()
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -24,6 +25,15 @@ import com.robotwar.app.R;
  */
 public class ButtonControlPanel extends RoomControlPanel {
     protected OnTouchListener listener;
+    private int mainBtnBg;
+    private int leftBtnBg;
+    private int rightBtnBg;
+    private int upBtnBg;
+    private int downBtnBg;
+    private static final int DEFAULT=0;
+    private static final int FISHING=1;
+    private static final int CAMERA= 2;
+    private int controlorType=DEFAULT;
     View mBtnBg;
     View mBtnUp;
     Button mBtnDown;
@@ -41,6 +51,33 @@ public class ButtonControlPanel extends RoomControlPanel {
 
     protected void init(Context context, AttributeSet attrs) {
         super.init(context, attrs);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ButtonControlAttr);
+        controlorType=typedArray.getInteger(R.styleable.ButtonControlAttr_controlType,DEFAULT);
+        switch (controlorType){
+            case DEFAULT:
+                mainBtnBg=R.mipmap.icon_direction_normal;
+                leftBtnBg=R.mipmap.icon_direction_z;
+                rightBtnBg=R.mipmap.icon_direction_y;
+                upBtnBg=R.mipmap.icon_direction_s;
+                downBtnBg=R.mipmap.icon_direction_x;
+                break;
+            case FISHING:
+                mainBtnBg=R.mipmap.im_fishgame_controlor_n_bg;
+                leftBtnBg=R.mipmap.im_fishgame_controlor_left;
+                rightBtnBg=R.mipmap.im_fishgame_controlor_right;
+                upBtnBg=R.mipmap.im_fishgame_controlor_up;
+                downBtnBg=R.mipmap.im_fishgame_controlor_down;
+                break;
+            case CAMERA:
+                mainBtnBg=R.mipmap.im_fishgame_camera_n_bg;
+                leftBtnBg=R.mipmap.im_fishgame_camera_left;
+                rightBtnBg=R.mipmap.im_fishgame_camera_right;
+                upBtnBg=R.mipmap.im_fishgame_camera_up;
+                downBtnBg=R.mipmap.im_fishgame_camera_down;
+                break;
+        }
+
+        findViewById(R.id.btn_bg).setBackgroundResource(mainBtnBg);
         mBtnUp=findViewById(R.id.btn_up);
         mBtnDown=findViewById(R.id.btn_down);
         mBtnBg=findViewById(R.id.btn_bg);
@@ -87,23 +124,23 @@ public class ButtonControlPanel extends RoomControlPanel {
                 case MotionEvent.ACTION_DOWN: {
                     switch (v.getId()) {
                         case R.id.btn_left:
-                            mBtnBg.setBackgroundResource(R.mipmap.icon_direction_z);
+                            mBtnBg.setBackgroundResource(leftBtnBg);
                             break;
                         case R.id.btn_right:
-                            mBtnBg.setBackgroundResource(R.mipmap.icon_direction_y);
+                            mBtnBg.setBackgroundResource(rightBtnBg);
                             break;
                         case R.id.btn_up:
-                            mBtnBg.setBackgroundResource(R.mipmap.icon_direction_s);
+                            mBtnBg.setBackgroundResource(upBtnBg);
                             break;
                         case R.id.btn_down:
-                            mBtnBg.setBackgroundResource(R.mipmap.icon_direction_x);
+                            mBtnBg.setBackgroundResource(downBtnBg);
                             break;
                     }
                     break;
                 }
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL: {
-                    mBtnBg.setBackgroundResource(R.mipmap.icon_direction_normal);
+                    mBtnBg.setBackgroundResource(mainBtnBg);
                     break;
                 }
             }

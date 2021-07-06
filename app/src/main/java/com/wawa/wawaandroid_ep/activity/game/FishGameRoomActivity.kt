@@ -30,6 +30,8 @@ import com.wawa.wawaandroid_ep.adapter.viewmodel.ChatItemViewModel
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatItemBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
+import com.wawa.wawaandroid_ep.dialog.game.GameFeedBackDialog
+import com.wawa.wawaandroid_ep.dialog.game.GameQuit_PortDialog
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.RobotControlerView
 import com.wawa.wawaandroid_ep.view.RockerView
@@ -43,7 +45,8 @@ import java.lang.reflect.Type
  *邮箱：564813746@qq.com
  */
 class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, FishGameViewModel>() ,
-    GameReadyDialog.GameReadyInterface , GameSetGroupViewControlor.GameViewClickCallback , View.OnTouchListener{
+    GameReadyDialog.GameReadyInterface , GameSetGroupViewControlor.GameViewClickCallback , View.OnTouchListener
+    ,GameQuit_PortDialog.GameQuitDialogCallback{
     val TAG="FishGameRoomActivity"
     private var isCameraShow=false
     private var gameReadyDialog: GameReadyDialog?=null
@@ -155,6 +158,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
 
 
     fun initGameControler(){
+        viewModel.playerGameViewVisibility.set(View.VISIBLE)
         binding.streamReplaced.setOnTouchListener { v, event ->
             when(event.action){
 
@@ -409,22 +413,43 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
 
     override fun gameSetClick(pos: Int) {
         when(pos){
+            0->{
 
+            }
+            1->{}
+            2->{}
+            3->{}
+            4->{
+                //维修
+                val feedbackDialog=GameFeedBackDialog()
+                ROOM_ID?.let {
+                    feedbackDialog.roomId=it.toInt()
+                }
+                feedbackDialog.machineType=""
+                feedbackDialog.showDialog(supportFragmentManager,GameFeedBackDialog.TAG)
+            }
+            5->{}
+            6->{}
+            7->{}
+            8->{}
         }
     }
 
 
 
     override fun gameStartBtnBg(): Int {
-        return R.drawable.startgame_btn_bg
+//        return R.drawable.startgame_btn_bg
+        return R.mipmap.im_fish_startgame
     }
 
     override fun gameCancelBtnBg(): Int {
-        return R.drawable.cancel_yuyue_btbg
+//        return R.drawable.cancel_yuyue_btbg
+        return R.mipmap.im_cancel_fishgame
     }
 
     override fun gameQueueBtnBg(): Int {
-        return R.drawable.gamequeue_btn_bg
+//        return R.drawable.gamequeue_btn_bg
+        return R.mipmap.im_prequeue_fishgame
     }
 
     override fun initStartGame() {
@@ -512,8 +537,19 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     }
 
     override fun back(view: View) {
-        endGame()
+        super.back(view)
+        onBackPressed()
     }
 
+    override fun showQuitDislog() {
+        val quitDialog= GameQuit_PortDialog()
+        quitDialog.isQuit=true
+        quitDialog.listener=this
+        quitDialog.showDialog(supportFragmentManager,GameQuit_PortDialog.TAG)
+    }
+
+    override fun onQuitGame() {
+        endGame()
+    }
 
 }

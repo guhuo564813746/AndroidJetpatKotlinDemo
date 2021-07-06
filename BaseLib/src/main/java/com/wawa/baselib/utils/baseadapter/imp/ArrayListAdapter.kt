@@ -10,7 +10,7 @@ import com.wawa.baselib.utils.baseadapter.BaseViewHolder
  *邮箱：564813746@qq.com
  */
 class ArrayListAdapter<M> : BaseRecyclerViewAdapter<ArrayListViewModel<M>>(){
-    private val observableDataList=ObservableArrayList<ArrayListViewModel<M>>()
+    val observableDataList=ObservableArrayList<ArrayListViewModel<M>>()
 
     init {
         observableDataList.addOnListChangedCallback(object: ObservableList.OnListChangedCallback<ObservableArrayList<ArrayListViewModel<M>>>(){

@@ -2,7 +2,7 @@ package com.wawa.wawaandroid_ep.gamevideopager
 
 import androidx.databinding.ViewDataBinding
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
+import com.wawa.baselib.utils.viewmodel.BaseVM
 
 /**
  * 作者：create by 张金 on 2021/2/4 18:13

@@ -7,8 +7,6 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.apollographql.apollo.BannerListQuery
 import com.apollographql.apollo.RoomListQuery
 import com.robotwar.app.BR
 import com.robotwar.app.R
@@ -20,10 +18,8 @@ import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.dialog.LoadingDialogManager
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.wawaandroid_ep.WawaApp
-import com.wawa.wawaandroid_ep.adapter.RoomListAdapter
 import com.wawa.wawaandroid_ep.adapter.v2.RoomListV2Adapter
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
-import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
 import com.wawa.wawaandroid_ep.fragment.viewmodule.RoomListFragmentViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

@@ -14,7 +14,7 @@ import com.wawa.baselib.utils.baseadapter.BaseRecyclerViewAdapter
 import com.wawa.baselib.utils.baseadapter.BaseRecyclerViewModel
 import com.wawa.baselib.utils.baseadapter.BaseViewHolder
 import com.wawa.wawaandroid_ep.WawaApp
-import com.wawa.wawaandroid_ep.base.viewmodel.BaseVM
+import com.wawa.baselib.utils.viewmodel.BaseVM
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
