@@ -183,8 +183,8 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
                     var distance=event.getX()-x
                     var transX=binding.lvGameNotes.translationX
                     if (distance >0){
-                        if (distance-ScreenUtils.getScreenWidth() >= 0){
-                            distance=ScreenUtils.getScreenWidth().toFloat()
+                        if (distance+transX >= ScreenUtils.getScreenWidth()){
+                            distance=ScreenUtils.getScreenWidth()-transX
                         }
                     }
                     if (distance < 0){
