@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.wawa.wawaandroid_ep.fragment.viewmodule.InputFragmentVM" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff">
+        <com.wawa.wawaandroid_ep.view.recycleview.BottomCallbackRecycler
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/lv_gamemsg"
+            android:visibility="gone"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:paddingLeft="3dp"
+            android:paddingRight="5dp"
+            android:layout_below="@+id/lv_gamemsg">
+
+            <EditText
+                android:id="@+id/input"
+                android:layout_width="0dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input"
+                android:imeActionLabel="@string/send"
+                android:imeOptions="actionSend"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:id="@+id/btn_send"
+                android:layout_width="70dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:text="@string/send"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:onClick="@{viewModel.onClick}"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>

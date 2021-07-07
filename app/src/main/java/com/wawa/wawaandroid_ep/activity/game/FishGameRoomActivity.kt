@@ -1,16 +1,20 @@
 package com.wawa.wawaandroid_ep.activity.game
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.coinhouse777.wawa.widget.popgame.GameSetGroupViewControlor
 import com.google.gson.Gson
@@ -32,6 +36,7 @@ import com.wawa.wawaandroid_ep.bean.game.GameRoomChatItemBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
 import com.wawa.wawaandroid_ep.dialog.game.GameFeedBackDialog
 import com.wawa.wawaandroid_ep.dialog.game.GameQuit_PortDialog
+import com.wawa.wawaandroid_ep.dialog.game.InputFragmentDialog
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.RobotControlerView
 import com.wawa.wawaandroid_ep.view.RockerView
@@ -154,15 +159,111 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
             }
 
         }
+        binding.lvGameNotes.postDelayed(Runnable {
+            binding.lvGameNotes.smoothScrollToPosition(chatAdapter.itemCount-1)
+        },200)
     }
 
 
     fun initGameControler(){
+        val minDistance=ScreenUtils.getScreenWidth()/3
+
         viewModel.playerGameViewVisibility.set(View.VISIBLE)
         binding.streamReplaced.setOnTouchListener { v, event ->
+            var x=0f
+            var y=0f
             when(event.action){
+                MotionEvent.ACTION_DOWN->{
+                    Log.d(TAG,"streamReplaced--onTouchDown"+"-X-"+event.getX() + "-Y-"+event.getY()+"-LawX-"+event.rawX+"-LawY-"+event.rawY)
+                    x=event.getX()
+                    y=event.getY()
+                }
+                MotionEvent.ACTION_MOVE ->{
+                    Log.d(TAG,"streamReplaced--onTouchMove"+"-X-"+event.getX() + "-Y-"+event.getY()+"-LawX-"+event.rawX+"-LawY-"+event.rawY)
+                    var distance=event.getX()-x
+                    var transX=binding.lvGameNotes.translationX
+                    if (distance >0){
+                        if (distance-ScreenUtils.getScreenWidth() >= 0){
+                            distance=ScreenUtils.getScreenWidth().toFloat()
+                        }
+                    }
+                    if (distance < 0){
+                        if (Math.abs(distance)-ScreenUtils.getScreenWidth() >= 0){
 
+                        }
+
+                    }
+
+                    if (binding.lvGameNotes.visibility== View.VISIBLE && distance >0){
+                        binding.lvGameNotes.translationX=distance
+                    }
+                    if (binding.lvGameNotes.visibility==View.GONE && distance < 0){
+                        binding.lvGameNotes.visibility=View.VISIBLE
+                        binding.lvGameNotes.translationX=distance
+                    }
+
+                }
+                MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL ->{
+                    Log.d(TAG,"streamReplaced--onTouchUp"+"-X-"+event.getX() + "-Y-"+event.getY()+"-LawX-"+event.rawX+"-LawY-"+event.rawY)
+                    var distance=event.getX()-x
+                    if (binding.lvGameNotes.visibility== View.VISIBLE ){
+                        if (distance > 0) {
+                            if (distance >= minDistance){
+                                ObjectAnimator.ofFloat(binding.lvGameNotes,"translationX",
+                                    ScreenUtils.getScreenWidth()-distance).apply{
+                                    duration=500
+                                    addListener(object : AnimatorListenerAdapter(){
+                                        override fun onAnimationEnd(animation: Animator?) {
+                                            super.onAnimationEnd(animation)
+                                            binding.lvGameNotes.visibility=View.GONE
+                                        }
+                                    })
+                                    start()
+                                }
+                            }else{
+                                ObjectAnimator.ofFloat(binding.lvGameNotes,"translationX",
+                                    -distance).apply{
+                                    duration=500
+                                    addListener(object : AnimatorListenerAdapter(){
+                                        override fun onAnimationEnd(animation: Animator?) {
+                                            super.onAnimationEnd(animation)
+                                        }
+                                    })
+                                    start()
+                                }
+                            }
+                        }
+                    }else{
+                        if (distance < 0){
+                            if (Math.abs(distance) >= minDistance){
+                                ObjectAnimator.ofFloat(binding.lvGameNotes,"translationX",
+                                    -(ScreenUtils.getScreenWidth()-Math.abs(distance))).apply{
+                                    duration=500
+                                    addListener(object : AnimatorListenerAdapter(){
+                                        override fun onAnimationEnd(animation: Animator?) {
+                                            super.onAnimationEnd(animation)
+                                        }
+                                    })
+                                    start()
+                                }
+                            }else{
+                                ObjectAnimator.ofFloat(binding.lvGameNotes,"translationX",
+                                    Math.abs(distance)).apply{
+                                    duration=500
+                                    addListener(object : AnimatorListenerAdapter(){
+                                        override fun onAnimationEnd(animation: Animator?) {
+                                            super.onAnimationEnd(animation)
+                                            binding.lvGameNotes.visibility=View.GONE
+                                        }
+                                    })
+                                    start()
+                                }
+                            }
+                        }
+                    }
+                }
             }
+            true
         }
         binding.tvGameFangxian.setOnTouchListener(this)
         binding.tvGameShouxian.setOnTouchListener(this)
@@ -214,44 +315,45 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
                 return true
             }
         })
-        binding.fishingControler.setListener(object : RockerView.OnShakeListener{
-            override fun onFinish() {
-                when(fishingDerection?.name){
-                    "DIRECTION_LEFT" ->{
-                        controlFishing("left_r")
-                    }
-                    "DIRECTION_RIGHT" ->{
-                        controlFishing("right_r")
-                    }
-                    "DIRECTION_UP" ->{
-                        controlFishing("up_r")
-                    }
-                    "DIRECTION_DOWN" ->{
-                        controlFishing("down_r")
-                    }
-                }
-            }
+        binding.fishingControler.setListener(object : ButtonControlPanel.OnTouchListener {
 
-            override fun direction(direction: RockerView.Direction?, distance: Int) {
+            override fun onTouch(view: View?, direction: RockerView.Direction?, event: MotionEvent?): Boolean {
                 fishingDerection=direction
-                when(fishingDerection?.name){
-                    "DIRECTION_LEFT" ->{
-                        controlFishing("left")
+                when(event?.action){
+                    MotionEvent.ACTION_DOWN ->{
+                        when(fishingDerection?.name){
+                            "DIRECTION_LEFT" ->{
+                                controlFishing("left")
+                            }
+                            "DIRECTION_RIGHT" ->{
+                                controlFishing("right")
+                            }
+                            "DIRECTION_UP" ->{
+                                controlFishing("up")
+                            }
+                            "DIRECTION_DOWN" ->{
+                                controlFishing("down")
+                            }
+                        }
                     }
-                    "DIRECTION_RIGHT" ->{
-                        controlFishing("right")
-                    }
-                    "DIRECTION_UP" ->{
-                        controlFishing("up")
-                    }
-                    "DIRECTION_DOWN" ->{
-                        controlFishing("down")
+                    MotionEvent.ACTION_UP,MotionEvent.ACTION_CANCEL->{
+                        when(fishingDerection?.name){
+                            "DIRECTION_LEFT" ->{
+                                controlFishing("left_r")
+                            }
+                            "DIRECTION_RIGHT" ->{
+                                controlFishing("right_r")
+                            }
+                            "DIRECTION_UP" ->{
+                                controlFishing("up_r")
+                            }
+                            "DIRECTION_DOWN" ->{
+                                controlFishing("down_r")
+                            }
+                        }
                     }
                 }
-            }
-
-            override fun onStart() {
-
+                return true
             }
         })
     }
@@ -431,7 +533,10 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
             5->{}
             6->{}
             7->{}
-            8->{}
+            8->{
+                val inputDialog= InputFragmentDialog()
+                inputDialog.showDialog(supportFragmentManager,InputFragmentDialog.TAG)
+            }
         }
     }
 

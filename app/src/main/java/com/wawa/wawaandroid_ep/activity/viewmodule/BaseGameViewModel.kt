@@ -27,7 +27,7 @@ open class BaseGameViewModel : BaseVM(){
     var countdownVisibility= ObservableInt(View.GONE)
     var roomInfoData=MutableLiveData<RoomInfoQuery.List>()
     var startGameBtnRes = ObservableField<Int>()
-    var playerName=ObservableField("")
+    var playerName=ObservableField("尊贵的用户666")
     var playerHonnorName= ObservableField("")
     var playerGameViewVisibility= ObservableInt(View.GONE)
     init {

@@ -133,8 +133,8 @@
                         android:textColor="@color/white"
                         android:textSize="14dp"/>
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
+                        android:layout_width="83dp"
+                        android:layout_height="21dp"
                         android:id="@+id/tv_playerHonnor"
                         android:text="@{viewModel.playerHonnorName}"
                         android:textColor="@color/white"
@@ -262,13 +262,14 @@
             android:visibility="@{viewModel.gamePanelVisibility}">
 
 
-            <com.wawa.wawaandroid_ep.view.RockerControlPanel
+            <com.wawa.wawaandroid_ep.view.ButtonControlPanel
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="15dp"
-                android:id="@+id/fishing_controler" />
+                android:id="@+id/fishing_controler"
+                app:controlType="1"/>
 
             <RelativeLayout
                 android:layout_width="150dp"

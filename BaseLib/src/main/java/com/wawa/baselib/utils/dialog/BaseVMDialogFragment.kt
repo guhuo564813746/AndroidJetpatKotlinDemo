@@ -49,6 +49,15 @@ abstract class BaseVMDialogFragment<V : ViewDataBinding,VM : BaseVM> : DialogFra
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return createDialog()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initDialogParams()
+    }
+
+    open fun createDialog(): Dialog{
         val dialog = activity?.let { Dialog(it, R.style.dialog) }
         dialog?.setCanceledOnTouchOutside(true)
         dialog?.setCancelable(true)
@@ -61,8 +70,6 @@ abstract class BaseVMDialogFragment<V : ViewDataBinding,VM : BaseVM> : DialogFra
         window?.setWindowAnimations(R.style.bottomToTopAnim)
         return dialog!!
     }
-
-
     abstract fun initDialogParams()
     abstract fun getLayoutId(): Int
     abstract fun initView(view: View)

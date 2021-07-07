@@ -29,6 +29,7 @@ import com.wawa.wawaandroid_ep.gamevideopager.LiveGameFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -39,6 +40,10 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     companion object{
         val CONSUME_TYPE_COIN=1
         val CONSUNE_TYPE_POINT=2
+        val MSG_TYPE_TEXT=1
+        val MSG_TYPE_AUDIO=2
+        val MSG_TYPE_VIDEO=3
+        val MSG_TYPE_FACE=4
     }
     private val TAG="GameBaseActivity"
     protected val compositeDisposable = CompositeDisposable()
@@ -98,6 +103,9 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     override fun initView() {
+        (application as WawaApp).sendMsg.observe(this, Observer {
+            sendChatMsg(it,MSG_TYPE_TEXT)
+        })
         viewModel.roomInfoData?.observe(this, Observer {
             initGameVideo(it)
             var gameConsumeType=it.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.gameCurrency()
@@ -273,10 +281,6 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         })
     }
 
-    /*发送聊天信息*/
-    fun sendChatMsg(){
-
-    }
 
     fun btnStartGame(view: View) {
 //        startGame()
@@ -620,6 +624,38 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     abstract fun showQuitDislog()
     override fun back(view: View) {
 
+    }
+
+    fun sendChatMsg(msg: String,msgType: Int){
+        var data = JSONObject()
+        data.put("id", GameSocketManager.generateId().toString())
+        data.put("method", "send_message")
+        //init Params
+        val bodyJson=JSONObject()
+        bodyJson.put("text",msg)
+        val msgListBean=JSONObject()
+        msgListBean.put("type",msgType)
+        msgListBean.put("body",bodyJson)
+        val msgList=JSONArray()
+        msgList.put(0,msgListBean)
+        val paramsJson=JSONObject()
+        paramsJson.put("msg_list",msgList)
+        data.put("params",paramsJson)
+
+        GameSocketManager.getInstance()
+            .sendMessage("app", data, object : GameSocketManager.Callback {
+                override fun onSuccess(jsonStr: JSONObject?) {
+                    LogUtils.d(TAG, "sendChatMsg--success")
+
+                }
+
+                override fun onError(errorCode: Int, errorMsg: String?) {
+                    LogUtils.d(TAG, "sendChatMsg--falure" + errorMsg)
+                    runOnUiThread {
+                        ToastUtils.showShort(errorMsg)
+                    }
+                }
+            })
     }
 
     override fun onBackPressed() {

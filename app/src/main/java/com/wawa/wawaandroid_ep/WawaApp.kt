@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Typeface
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.multidex.MultiDex
 import com.apollographql.apollo.ApolloAndroidLogger
 import com.apollographql.apollo.ApolloClient
@@ -47,6 +48,7 @@ class WawaApp : Application(){
         lateinit var apolloClient: ApolloClient
         var mMainTypeface: Typeface?=null
     }
+    var sendMsg = MutableLiveData<String>()
     val dataSource: BaseDataSource by lazy {
         getDataSource(ServiceTypes.COROUTINES)
     }
