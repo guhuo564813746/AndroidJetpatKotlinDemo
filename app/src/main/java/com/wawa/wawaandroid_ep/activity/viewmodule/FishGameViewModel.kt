@@ -13,6 +13,6 @@ class FishGameViewModel : BaseGameViewModel(){
     var countdownImgVisibility=ObservableInt(View.GONE)
     var fishOnPrizeTips=ObservableField("")
     init {
-        startGameBtnRes.set(R.drawable.startgame_btn_bg)
+        startGameBtnRes.set(R.drawable.fishgame_startgame_bg)
     }
 }

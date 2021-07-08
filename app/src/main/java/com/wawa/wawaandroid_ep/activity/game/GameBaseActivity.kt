@@ -198,8 +198,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onRoomQueueKickOff() {
         LogUtils.d(TAG,"onRoomQueueKickOff")
         runOnUiThread{
-            mGameStatus=GAME_STATUS_EMPTY
-            viewModel.startGameBtnRes.set(gameStartBtnBg())
+            setGameOverStatus()
         }
     }
 
@@ -551,7 +550,9 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 //                viewModel.startGameBtnRes.set(R.drawable.btn_cancel_game)
                     queuePosition?.let {
                         if (it >0){
-                            viewModel.queueCount.set(getString(R.string.brefore_queue)+it)
+                            if (mGameStatus != GAME_STATUS_EMPTY){
+                                viewModel.queueCount.set(getString(R.string.brefore_queue)+it)
+                            }
                         }else{
                             viewModel.queueCount.set("")
                         }
@@ -585,6 +586,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     fun setGameOverStatus(){
         mGameStatus=GAME_STATUS_EMPTY
+        viewModel.queueCount.set("")
         viewModel.startGameBtnRes.set(gameStartBtnBg())
         viewModel.gamePanelVisibility.set(View.GONE)
         viewModel.guestPanelVisibility.set(View.VISIBLE)
@@ -622,6 +624,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     abstract fun gameCancelBtnBg(): Int
     abstract fun gameQueueBtnBg(): Int
     abstract fun showQuitDislog()
+    abstract fun showTopUpDialog()
     override fun back(view: View) {
 
     }

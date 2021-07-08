@@ -56,6 +56,14 @@ object  GoPageUtils {
             "invite"->{
                 //邀请好友
             }
+            "feedback"->{
+                (mContext as MainActivity).navBottom.visibility= View.GONE
+                (mContext as MainActivity).navControlor.navigate(R.id.feedbackFragment)
+            }
+            "feedback_detail" ->{
+                (mContext as MainActivity).navBottom.visibility= View.GONE
+                (mContext as MainActivity).navControlor.navigate(R.id.feedbackDetailFragment)
+            }
             "settings"->{
                 //个性设置
                 (mContext as MainActivity).navBottom.visibility= View.GONE

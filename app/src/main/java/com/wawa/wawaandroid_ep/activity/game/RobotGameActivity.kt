@@ -575,5 +575,9 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         endGame()
     }
 
+    override fun showTopUpDialog() {
+
+    }
+
 
 }

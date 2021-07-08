@@ -64,6 +64,12 @@
     <fragment android:id="@+id/profileFragment"
         android:name="com.wawa.wawaandroid_ep.fragment.ProfileFragment"
         android:label="个人信息"></fragment>
+    <fragment android:id="@+id/feedbackFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.FeedBackFragment"
+        android:label="问题反馈"/>
+    <fragment android:id="@+id/feedbackDetailFragment"
+        android:name="com.wawa.wawaandroid_ep.fragment.FeedBackDetailsFragment"
+        android:label="反馈详情"/>
 
     <activity android:id="@+id/wxactivity"
         android:name="com.robotwar.app.wxapi.WXEntryActivity"/>
