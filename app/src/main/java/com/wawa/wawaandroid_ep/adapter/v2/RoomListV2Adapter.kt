@@ -25,6 +25,7 @@ import com.blankj.utilcode.util.SpanUtils
 import com.robotwar.app.R
 import com.wawa.baselib.utils.AppUtils
 import com.wawa.baselib.utils.glide.loader.ImageLoader
+import com.wawa.wawaandroid_ep.activity.game.GameBaseActivity
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import org.xmlpull.v1.XmlPullParserException
 import java.io.IOException
@@ -130,9 +131,18 @@ class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<Ro
             val roomItemInfo=roomLists?.get(position)
             Log.d(TAG,"ROOMINFO--"+roomItemInfo.toString())
             bundle.putSerializable("ROOM_ID",roomItemInfo?.fragments()?.roomFragment()?.roomId())
-            roomLists?.get(position)?.fragments()?.roomFragment()?.machine()?.rawValue()
+            roomLists?.get(position)?.fragments()?.roomFragment()?.machine()?.rawValue()?.let {
+                when(it){
+                    GameBaseActivity.GAME_TYPE_EP ->{
+                        holder.itemView.findNavController().navigate(R.id.robotActivity,bundle)
+                    }
+                    GameBaseActivity.GAME_TYPE_FISH ->{
+                        holder.itemView.findNavController().navigate(R.id.fishGameRoomActivity,bundle)
+                    }
+                }
+            }
 //            it.findNavController().navigate(R.id.robotActivity,bundle)
-            it.findNavController().navigate(R.id.fishGameRoomActivity,bundle)
+
         }
     }
 }

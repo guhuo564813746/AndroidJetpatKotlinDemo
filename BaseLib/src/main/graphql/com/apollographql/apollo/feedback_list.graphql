@@ -1,5 +1,5 @@
-query FeedBackList($index: Int!){
-    feedback(index: $index){
+query FeedBackList($index: Int!,$feedbackId: Int!){
+    feedback(index: $index,feedbackId: $feedbackId){
         currentPage
         list{
             ...feedback

@@ -117,7 +117,7 @@ class GameFeedBackDialog : BaseVMDialogFragment<FeedbackDialogLayBinding,GameFee
         return gameFeedBackVM
     }
 
-    override fun onItemSelected(content: String?) {
+    override fun onItemSelected(content: String?,fbId: String?) {
         fbContent=content
     }
 }

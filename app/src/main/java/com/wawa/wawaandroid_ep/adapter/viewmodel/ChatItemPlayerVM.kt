@@ -22,6 +22,9 @@ class ChatItemPlayerVM : ArrayListViewModel<GameRoomChatDataBean>() {
     override fun onBindAdapter(adapter: ArrayListAdapter<GameRoomChatDataBean>) {
         viewUtils=ViewUtils(mContext)
         viewHolder?.view?.let {
+            model?.user_nickname?.let {
+                viewHolder?.view?.findViewById<TextView>(R.id.tv_gamer_name)?.setText(it)
+            }
             val tvMsgContent1=it.findViewById<TextView>(R.id.tv_msg_content1)
             val tvMsgContent2=it.findViewById<TextView>(R.id.tv_msg_content2)
             var tagContent1=""

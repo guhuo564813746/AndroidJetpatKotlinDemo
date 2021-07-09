@@ -23,6 +23,7 @@ import com.wawa.baselib.utils.baseadapter.imp.ArrayListAdapter
 import com.wawa.baselib.utils.dialog.GameReadyDialog
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
+import com.wawa.baselib.utils.socketio.listener.FishGameListener
 import com.wawa.wawaandroid_ep.activity.viewmodule.FishGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.adapter.viewmodel.ChatItemPlayerVM
@@ -32,6 +33,7 @@ import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
 import com.wawa.wawaandroid_ep.dialog.game.GameFeedBackDialog
 import com.wawa.wawaandroid_ep.dialog.game.GameQuit_PortDialog
 import com.wawa.wawaandroid_ep.dialog.game.InputFragmentDialog
+import com.wawa.wawaandroid_ep.dialog.game.PayPortDialog
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.RockerView
 import com.wawa.wawaandroid_ep.view.ViewUtils
@@ -45,7 +47,7 @@ import java.lang.reflect.Type
  */
 class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, FishGameViewModel>() ,
     GameReadyDialog.GameReadyInterface , GameSetGroupViewControlor.GameViewClickCallback , View.OnTouchListener
-    ,GameQuit_PortDialog.GameQuitDialogCallback{
+    ,GameQuit_PortDialog.GameQuitDialogCallback, FishGameListener {
     val TAG="FishGameRoomActivity"
     private var isCameraShow=false
     private var gameReadyDialog: GameReadyDialog?=null
@@ -103,6 +105,19 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         }
     }
 
+    override fun onHook(msg: JSONObject?) {
+        //上钩了
+    }
+
+    override fun onFishPrize(msg: JSONObject?) {
+        runOnUiThread {
+            val weight=msg?.getInt("weight")
+            val totalWeight=msg?.getInt("total_weight")
+            val totalNumber=msg?.getInt("total_number")
+
+        }
+    }
+
     override fun showGameReadyDialog(timeLeft: Int) {
         //显示游戏准备弹窗
         if (gameReadyDialog == null){
@@ -134,7 +149,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         initChatView()
         initOnlineUserView()
         initGameControler()
-        for (i in 0..3){
+        /*for (i in 0..3){
             val gameRoomChatDataBean=GameRoomChatDataBean()
             gameRoomChatDataBean.user_nickname="test"
             gameRoomChatDataBean.source=i
@@ -158,6 +173,8 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         binding.lvGameNotes.postDelayed(Runnable {
             binding.lvGameNotes.smoothScrollToPosition(chatAdapter.itemCount-1)
         },200)
+        */
+
     }
 
 
@@ -651,7 +668,8 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     }
 
     override fun showTopUpDialog() {
-
+        val payDialog= PayPortDialog()
+        payDialog.showDialog(supportFragmentManager,PayPortDialog.TAG)
     }
 
 }

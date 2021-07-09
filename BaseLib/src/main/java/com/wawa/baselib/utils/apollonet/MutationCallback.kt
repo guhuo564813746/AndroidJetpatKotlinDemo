@@ -3,6 +3,7 @@ package com.wawa.baselib.utils.apollonet
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.blankj.utilcode.util.ToastUtils
 import com.wawa.baselib.utils.dialog.LoadingDialogManager
 
 /**
@@ -12,9 +13,15 @@ import com.wawa.baselib.utils.dialog.LoadingDialogManager
 open class MutationCallback<T> : ApolloCall.Callback<T>(){
     override fun onFailure(e: ApolloException) {
         LoadingDialogManager.dismissLoading()
+        ToastUtils.showShort(e.message)
     }
 
     override fun onResponse(response: Response<T>) {
         LoadingDialogManager.dismissLoading()
+        response?.errors?.let {
+            if (it.size > 0){
+                ToastUtils.showShort(it.get(0).message)
+            }
+        }
     }
 }

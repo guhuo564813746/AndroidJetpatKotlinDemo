@@ -1,0 +1,5 @@
+mutation FeedbackAdd($malfunctionId: Int!,$title: String!,$version: String!,$model :String!,$content: String!,$pictureList: String!){
+    feedbackAdd(malfunctionId: $malfunctionId,title: $title,version: $version,model: $model,content: $content,pictureList: $pictureList){
+        feedbackId
+    }
+}

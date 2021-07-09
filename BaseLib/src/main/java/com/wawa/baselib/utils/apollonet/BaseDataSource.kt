@@ -62,5 +62,5 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     abstract fun getRoomInfoData(roodId: Int)
     abstract fun getConfigData()
     abstract fun getMalfunctionList(machine: String,index: Int=1)
-    abstract fun getFeedbackList(index: Int)
+    abstract fun getFeedbackList(index: Int,feedbackId: Int)
 }

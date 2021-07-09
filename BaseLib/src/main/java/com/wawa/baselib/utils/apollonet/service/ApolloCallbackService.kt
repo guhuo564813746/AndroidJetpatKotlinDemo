@@ -1,3 +1,4 @@
+/*
 package com.wawa.baselib.utils.apollonet.service
 
 import com.apollographql.apollo.ApolloCall
@@ -8,6 +9,7 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 
+*/
 /**
  *
  * @ProjectName:    WawaAndroid_EP
@@ -18,7 +20,8 @@ import com.wawa.baselib.utils.apollonet.BaseDataSource
  * @CreateDate:     2021-01-31 11:45
  * @UpdateDate:     2021-01-31 11:45
  * @Version:        1.0
- */
+ *//*
+
 abstract class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSource(apolloClient){
     override fun getBannerList(categoryId: Int) {
         val bannerListQuery=BannerListQuery(categoryId)
@@ -92,4 +95,4 @@ abstract class ApolloCallbackService(apolloClient: ApolloClient) : BaseDataSourc
 
     }
 
-}
+}*/

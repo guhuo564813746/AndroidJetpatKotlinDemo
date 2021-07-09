@@ -1,3 +1,4 @@
+/*
 package com.wawa.baselib.utils.apollonet.service
 
 import com.apollographql.apollo.ApolloClient
@@ -9,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
+*/
 /**
  *
  * @ProjectName:    WawaAndroid_EP
@@ -19,7 +21,8 @@ import io.reactivex.schedulers.Schedulers
  * @CreateDate:     2021-01-31 12:15
  * @UpdateDate:     2021-01-31 12:15
  * @Version:        1.0
- */
+ *//*
+
 abstract class ApolloRxService(apolloClient: ApolloClient,
                       private val compositeDisposable: CompositeDisposable = CompositeDisposable(),
                       private val processScheduler: Scheduler = Schedulers.io(),
@@ -83,4 +86,4 @@ abstract class ApolloRxService(apolloClient: ApolloClient,
 
     }
 
-}
+}*/

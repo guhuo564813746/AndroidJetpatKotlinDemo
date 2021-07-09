@@ -14,6 +14,7 @@ import com.robotwar.app.BuildConfig
 import com.robotwar.app.R
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
+import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.socketio.GameSocketManager
 import com.wawa.baselib.utils.socketio.listener.GameManagerListener
@@ -44,6 +45,9 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         val MSG_TYPE_AUDIO=2
         val MSG_TYPE_VIDEO=3
         val MSG_TYPE_FACE=4
+
+        val GAME_TYPE_EP="dji_ep"
+        val GAME_TYPE_FISH="fishing"
     }
     private val TAG="GameBaseActivity"
     protected val compositeDisposable = CompositeDisposable()
@@ -420,6 +424,13 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         LogUtils.d(TAG,"onRoomUserAmountChanged")
         //处理房间人员信息
         runOnUiThread{
+            val player=jsondata?.getJSONObject("player")
+            player?.let {
+                val userId=it.getInt("user_id")
+                val nickname=it.getString("nickname")
+                val avatar=it.getString("avatar")
+                viewModel.playerName.set(nickname)
+            }
 
         }
     }
@@ -432,7 +443,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     override fun onGameStart(jsondata: JSONObject?) {
-        LogUtils.d(TAG,"onGameStart")
+        LogUtils.d(TAG,"onGameStart"+jsondata.toString())
         runOnUiThread{
             viewModel.playerGameViewVisibility.set(View.VISIBLE)
             var player=jsondata?.getJSONObject("player")
@@ -514,7 +525,8 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGamePlaying(jsonData: JSONObject?) {
         LogUtils.d(TAG,"onGamePlaying")
         runOnUiThread{
-
+            setGameStartStatus()
+            initStartGame()
         }
     }
 
@@ -590,6 +602,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         viewModel.startGameBtnRes.set(gameStartBtnBg())
         viewModel.gamePanelVisibility.set(View.GONE)
         viewModel.guestPanelVisibility.set(View.VISIBLE)
+        viewModel.playerGameViewVisibility.set(View.GONE)
     }
 
     fun initGameVideo(data: RoomInfoQuery.List) {

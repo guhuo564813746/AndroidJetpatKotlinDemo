@@ -1,0 +1,5 @@
+mutation FeedbackAddWithNoImg($malfunctionId: Int!,$title: String!,$version: String!,$model :String!,$content: String!){
+    feedbackAdd(malfunctionId: $malfunctionId,title: $title,version: $version,model: $model,content: $content){
+        feedbackId
+    }
+}

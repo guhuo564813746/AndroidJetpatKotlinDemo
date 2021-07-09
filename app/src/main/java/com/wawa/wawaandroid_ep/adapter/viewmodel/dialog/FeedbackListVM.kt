@@ -36,7 +36,7 @@ class FeedbackListVM : ArrayListViewModel<MalfunctionListQuery.List>(){
                 adapter.notifyDataSetChanged()
                 listener?.let {
                     model?.let {
-                        listener!!.onItemSelected(it.fragments()?.malfunction()?.title())
+                        listener!!.onItemSelected(it.fragments()?.malfunction()?.title(),it.fragments()?.malfunction()?.malfunctionId())
                     }
                 }
             }
@@ -50,6 +50,6 @@ class FeedbackListVM : ArrayListViewModel<MalfunctionListQuery.List>(){
     }
 
     interface OnItemSelectListener{
-        fun onItemSelected(content: String?)
+        fun onItemSelected(content: String?,fbId: String?)
     }
 }

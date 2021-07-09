@@ -1,0 +1,7 @@
+mutation FeedbackCommentAdd($pictureList: String!,$feedbackId: Int!,$content: String!){
+    feedbackCommentAdd(pictureList: $pictureList,feedbackId: $feedbackId,content: $content){
+        feedback{
+            ...feedback
+        }
+    }
+}

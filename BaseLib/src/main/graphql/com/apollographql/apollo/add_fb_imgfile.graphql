@@ -1,0 +1,5 @@
+mutation UploadFeedbackPicture($file: Upload!){
+    uploadFeedbackPicture(file: $file){
+        url
+    }
+}

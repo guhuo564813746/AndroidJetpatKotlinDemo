@@ -1,5 +1,6 @@
 package com.wawa.baselib.utils.apollonet.service
 
+import android.util.Log
 import com.apollographql.apollo.*
 import com.apollographql.apollo.coroutines.await
 import com.wawa.baselib.utils.apollonet.BaseDataSource
@@ -229,8 +230,9 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    override fun getFeedbackList(index: Int) {
-        val feedBackQuery=FeedBackListQuery(index)
+    override fun getFeedbackList(index: Int,feedbackId: Int) {
+        Log.d(TAG,"getFeedbackList--"+feedbackId)
+        val feedBackQuery=FeedBackListQuery(index,feedbackId)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(feedBackQuery).await()
