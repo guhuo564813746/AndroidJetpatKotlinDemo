@@ -397,7 +397,7 @@ class RobotGameActivity : GameBaseActivity<RobotGameActivityLayBinding,RobotGame
         quitDialog.dialogSelectInterface=object : ConfirmDialogFatory.DialogSelectInterface{
             override fun onPositiveClick() {
                 quitDialog.dismissAllowingStateLoss()
-                when(mGameStatus){
+                when(mGameStatus.get()){
                     GAME_STATUS_PLAYING ->{
                         var data = JSONObject()
                         data.put("id", GameSocketManager.generateId().toString())

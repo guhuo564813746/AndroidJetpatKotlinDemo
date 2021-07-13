@@ -1,0 +1,17 @@
+query FeedbackComment($feedbackId: Int!,$index: Int!){
+    feedbackComment(feedbackId: $feedbackId, index: $index){
+        list{
+            ...feedbackComment
+        }
+    }
+}
+
+fragment feedbackComment on FeedbackComment{
+    addtimeFormat
+    content
+    feedbackCommentId
+    pictureList
+    source
+    uptimeFormat
+    userId
+}

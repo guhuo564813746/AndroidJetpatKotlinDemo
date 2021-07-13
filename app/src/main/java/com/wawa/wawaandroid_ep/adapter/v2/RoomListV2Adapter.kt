@@ -10,6 +10,8 @@ import android.os.Build
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
 import android.text.style.TextAppearanceSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -123,8 +125,11 @@ class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<Ro
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             colorList=mContext.getColorStateList(R.color.coins_colors)
         }
-        coinPerSS.setSpan(TextAppearanceSpan("serif", Typeface.NORMAL,AppUtils.dp2px(mContext,16f),colorList,colorList),
-            0,coinsPer?.toString()?.length ?: 0, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val shortDesc1=coinsPer?.toString()?.length ?: 0
+        coinPerSS.setSpan(ForegroundColorSpan(mContext.resources.getColor(R.color.per_coins)),0,shortDesc1,Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+        coinPerSS.setSpan(AbsoluteSizeSpan(AppUtils.dp2px(mContext,16f)),0,shortDesc1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        coinPerSS.setSpan(ForegroundColorSpan(mContext.resources.getColor(R.color.lineColor)),shortDesc1,shortDescTips.length,Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+        coinPerSS.setSpan(AbsoluteSizeSpan(AppUtils.dp2px(mContext,12f)),shortDesc1,shortDescTips.length,Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         holder.shortDesc.text=coinPerSS
         holder.itemView.setOnClickListener {
             var bundle= Bundle()

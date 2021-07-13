@@ -17,6 +17,7 @@ public class GameRoomChatDataBean {
     private int source;
     private int user_id;
     private String user_nickname;
+    private String user_avatar;
     private List<MsgListBean> msg_list;
 
     public int getUser_id() {
@@ -49,6 +50,14 @@ public class GameRoomChatDataBean {
 
     public void setSource(int source) {
         this.source = source;
+    }
+
+    public String getUser_avatar() {
+        return user_avatar;
+    }
+
+    public void setUser_avatar(String user_avatar) {
+        this.user_avatar = user_avatar;
     }
 
     public static class MsgListBean {

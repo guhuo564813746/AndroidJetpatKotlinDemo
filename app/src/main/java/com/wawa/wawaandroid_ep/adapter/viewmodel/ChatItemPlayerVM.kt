@@ -2,10 +2,12 @@ package com.wawa.wawaandroid_ep.adapter.viewmodel
 
 import android.util.Log
 import android.view.ViewTreeObserver
+import android.widget.ImageView
 import android.widget.TextView
 import com.robotwar.app.R
 import com.wawa.baselib.utils.baseadapter.imp.ArrayListAdapter
 import com.wawa.baselib.utils.baseadapter.imp.ArrayListViewModel
+import com.wawa.baselib.utils.glide.loader.ImageLoader
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.view.ViewUtils
 
@@ -24,6 +26,10 @@ class ChatItemPlayerVM : ArrayListViewModel<GameRoomChatDataBean>() {
         viewHolder?.view?.let {
             model?.user_nickname?.let {
                 viewHolder?.view?.findViewById<TextView>(R.id.tv_gamer_name)?.setText(it)
+            }
+            model?.user_avatar?.let {
+                val headIm=viewHolder!!.view.findViewById<ImageView>(R.id.im_Head)
+                ImageLoader.with(mContext).url(it).asCircle().into(headIm)
             }
             val tvMsgContent1=it.findViewById<TextView>(R.id.tv_msg_content1)
             val tvMsgContent2=it.findViewById<TextView>(R.id.tv_msg_content2)

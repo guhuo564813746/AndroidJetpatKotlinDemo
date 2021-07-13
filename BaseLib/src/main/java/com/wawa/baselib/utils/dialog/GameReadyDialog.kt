@@ -1,6 +1,7 @@
 package com.wawa.baselib.utils.dialog
 
 import android.content.Context
+import android.content.DialogInterface
 import android.view.View
 import android.widget.TextView
 import com.blankj.utilcode.util.SizeUtils
@@ -13,6 +14,8 @@ import com.wawa.baselib.R
 class GameReadyDialog : BaseDialogFragment(){
     private var timeLeft=9
     private var isViewInit=false
+    private var isConfirm=false
+    private var isCancel=false
     var gameReadyInterface: GameReadyInterface?= null
     var btContinuteGame:TextView?= null
     override fun initDialogParams() {
@@ -43,21 +46,33 @@ class GameReadyDialog : BaseDialogFragment(){
     }
 
     override fun initView(view: View) {
+//        isCancelable=false
         var btnCancel=view.findViewById<TextView>(R.id.btn_cancel)
         btContinuteGame=view.findViewById(R.id.btn_confirm)
         btnCancel.setOnClickListener {
             if (gameReadyInterface != null){
                 gameReadyInterface?.cancelGame()
             }
+            isCancel=true
             dismissAllowingStateLoss()
         }
         btContinuteGame?.setOnClickListener {
             if (gameReadyInterface != null){
                 gameReadyInterface?.continuteGame()
             }
+            isConfirm=true
             dismissAllowingStateLoss()
         }
         isViewInit=true
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        if (!isCancel && !isConfirm){
+            if (gameReadyInterface != null){
+                gameReadyInterface?.cancelGame()
+            }
+        }
     }
 
     interface GameReadyInterface{

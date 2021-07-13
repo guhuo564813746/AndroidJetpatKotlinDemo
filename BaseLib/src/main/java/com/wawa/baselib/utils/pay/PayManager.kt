@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.ChargeItemListQuery
@@ -15,10 +12,13 @@ import com.apollographql.apollo.CreateOrderItemMutation
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.blankj.utilcode.util.ToastUtils
+import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.wawa.baselib.R
 import com.wawa.baselib.utils.dialog.PayTypeDialog
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.pay.alipay.AliPayTask
+import com.wawa.baselib.utils.pay.cloudflashpay.CloudFlashPayTask
+import com.wawa.baselib.utils.pay.wxpay.WxPayTask
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
@@ -32,6 +32,8 @@ class PayManager(private val context: Context,
                  ) : PayTypeDialog.PayTypeCallback, LifecycleObserver {
     companion object{
         val PAYTYPE_ALIPAY=1
+        val PAYTYPE_WX=2
+        val PAYTYPE_CLOUD_FLASH_PAY=10
         val PAYTYPE_ZFB_H5=5
     }
     val TAG="PayManager"
@@ -97,6 +99,29 @@ class PayManager(private val context: Context,
                             var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.alipaySignedString()
                             payInfo?.let {
                                 aliPayTask.invokeAliPay(it,callback)
+//                                aliPayTask.invokeAliPayV1(it,callback)
+                                return
+                            }
+                            ToastUtils.showShort(context.getString(R.string.post_fee_pay_failed))
+                        }
+                        PAYTYPE_WX ->{
+                            //微信原生支付
+                            val wxPayTask= WxPayTask(context,callback)
+                            WxPayTask.onWxPayRes= MutableLiveData<BaseResp>()
+                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.alipaySignedString()
+                            payInfo?.let {
+                                wxPayTask.wxPay(it)
+//                                aliPayTask.invokeAliPayV1(it,callback)
+                                return
+                            }
+                            ToastUtils.showShort(context.getString(R.string.post_fee_pay_failed))
+                        }
+                        PAYTYPE_CLOUD_FLASH_PAY ->{
+                            //云闪付
+                            val cloudFlashPayTask = CloudFlashPayTask(context,callback)
+                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.alipaySignedString()
+                            payInfo?.let {
+                                cloudFlashPayTask.cloudFlashPay(it)
 //                                aliPayTask.invokeAliPayV1(it,callback)
                                 return
                             }

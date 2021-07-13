@@ -232,7 +232,7 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
 
     override fun getFeedbackList(index: Int,feedbackId: Int) {
         Log.d(TAG,"getFeedbackList--"+feedbackId)
-        val feedBackQuery=FeedBackListQuery(index,feedbackId)
+        val feedBackQuery=FeedBackListQuery(index)
         job= CoroutineScope(processContext).launch {
             try {
                 val response=apolloClient.query(feedBackQuery).await()
@@ -246,6 +246,10 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
                 exceptionSubject.onNext(e)
             }
         }
+    }
+
+    fun getFbCommentList(feedbackId: Int,index: Int = 1){
+
     }
 
 }

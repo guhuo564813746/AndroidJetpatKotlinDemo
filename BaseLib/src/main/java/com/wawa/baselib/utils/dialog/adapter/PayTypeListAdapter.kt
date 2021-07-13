@@ -57,6 +57,14 @@ class PayTypeListAdapter(private val context: Context,var  list: List<Int>) : Re
                 holder.imPaytypetips.setImageResource(R.mipmap.im_payzfbtag)
                 holder.tvPaytypetips.setText(context.getString(R.string.ali_pay))
             }
+            PayManager.PAYTYPE_WX ->{
+                holder.imPaytypetips.setImageResource(R.mipmap.im_wx_paytag)
+                holder.tvPaytypetips.setText(context.getString(R.string.wx_pay))
+            }
+            PayManager.PAYTYPE_CLOUD_FLASH_PAY ->{
+                holder.imPaytypetips.setImageResource(R.mipmap.im_cloudflashpay_tag)
+                holder.tvPaytypetips.setText(context.getString(R.string.tx_cloud_flash_pay))
+            }
 
         }
 

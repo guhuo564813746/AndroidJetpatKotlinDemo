@@ -44,7 +44,6 @@ class FeedBackFragment : BaseFragment<FeedbackActivityLayBinding,FeedBackFragmen
     val TAG="FeedBackFragment"
     val CHOOSE_IMG_CODE=100
     var imgFile: File?=null
-    var feedbackId=0
     var fbContent: String?=null
     val malfunctionListAdapter= ArrayListAdapter<MalfunctionListQuery.List>()
     val fbRecordListAdapter = ArrayListAdapter<FeedBackListQuery.List>()
@@ -93,7 +92,7 @@ class FeedBackFragment : BaseFragment<FeedbackActivityLayBinding,FeedBackFragmen
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handlerMalfunctionList)
         fragmentDisposible.add(malfunctionsSuccessDp)
-        apolloDataSource.getMalfunctionList("dji_ep")
+        apolloDataSource.getMalfunctionList("")
     }
 
     fun handlerMalfunctionList(feedbackList: MalfunctionListQuery.MalfunctionList){
@@ -108,7 +107,7 @@ class FeedBackFragment : BaseFragment<FeedbackActivityLayBinding,FeedBackFragmen
                     if (i==0){
                         fbContent=mal.model?.fragments()?.malfunction()?.title()
                         mal.model?.fragments()?.malfunction()?.malfunctionId()?.let {
-                            feedbackId=it.toInt()
+
                         }
                         mal.isSelect=true
                     }else{
@@ -129,7 +128,7 @@ class FeedBackFragment : BaseFragment<FeedbackActivityLayBinding,FeedBackFragmen
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handlerFeedBackRecordList)
         fragmentDisposible.add(feedBackRecordList)
-        apolloDataSource.getFeedbackList(1,feedbackId)
+        apolloDataSource.getFeedbackList(1,0)
     }
     fun handlerFeedBackRecordList(feedBackList: FeedBackListQuery.Feedback){
         Log.d(TAG,"handlerFeedBackRecordList--"+feedBackList.toString())
@@ -148,8 +147,7 @@ class FeedBackFragment : BaseFragment<FeedbackActivityLayBinding,FeedBackFragmen
     override fun onItemSelected(content: String?,fbId: String?) {
         fbContent=content
         fbId?.let {
-            feedbackId=it.toInt()
-            apolloDataSource.getFeedbackList(1,feedbackId)
+
         }
     }
 
@@ -202,7 +200,7 @@ class FeedBackFragment : BaseFragment<FeedbackActivityLayBinding,FeedBackFragmen
     }
 
     fun commitFbWithNoImg(){
-        val commitFbWithNoImgMutation=FeedbackAddWithNoImgMutation(feedbackId,fbContent!!,AppUtils.getAppVersionName(activity?.packageName),DeviceUtils.getModel(),binding.etFeedbackcontent.text.toString().trim())
+        val commitFbWithNoImgMutation=FeedbackAddWithNoImgMutation(fbContent!!,AppUtils.getAppVersionName(activity?.packageName),DeviceUtils.getModel(),binding.etFeedbackcontent.text.toString().trim())
         WawaApp.apolloClient.mutate(commitFbWithNoImgMutation)
             .enqueue(object : MutationCallback<FeedbackAddWithNoImgMutation.Data>(){
 
@@ -217,7 +215,7 @@ class FeedBackFragment : BaseFragment<FeedbackActivityLayBinding,FeedBackFragmen
     }
 
     fun commitFeedBack(url: String){
-        val commitFeedbackMutation=FeedbackAddMutation(feedbackId,fbContent!!,AppUtils.getAppVersionName(activity?.packageName),DeviceUtils.getModel(),binding.etFeedbackcontent.text.toString().trim(),url)
+        val commitFeedbackMutation=FeedbackAddMutation(fbContent!!,AppUtils.getAppVersionName(activity?.packageName),DeviceUtils.getModel(),binding.etFeedbackcontent.text.toString().trim(),url)
         WawaApp.apolloClient.mutate(commitFeedbackMutation)
             .enqueue(object : MutationCallback<FeedbackAddMutation.Data>(){
 

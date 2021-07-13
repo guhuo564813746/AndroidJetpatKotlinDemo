@@ -33,6 +33,7 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     protected val configDataSubject: PublishSubject<ConfigDataQuery.Config> = PublishSubject.create()
     protected val feedbackListSubject: PublishSubject<FeedBackListQuery.Feedback> = PublishSubject.create()
     protected val malfunctionListSubject: PublishSubject<MalfunctionListQuery.MalfunctionList> =PublishSubject.create()
+    protected val feedbackCommentListSubject: PublishSubject<FeedbackCommentQuery.Data> = PublishSubject.create()
 
     val bannerList: Observable<List<BannerListQuery.BannerList>> =bannerListSubject.hide()
     val chargeOrderList: Observable<List<ChargeOrderListQuery.List>> = chargeOrderListSubject.hide()
@@ -48,6 +49,7 @@ abstract class BaseDataSource(protected val apolloClient: ApolloClient) {
     val configData: Observable<ConfigDataQuery.Config> =configDataSubject.hide()
     val feedbackList: Observable<FeedBackListQuery.Feedback> =feedbackListSubject.hide()
     val malfunctionList: Observable<MalfunctionListQuery.MalfunctionList> = malfunctionListSubject.hide()
+
 
     abstract fun  getBannerList(categoryId: Int)
     abstract fun getChargeOrderList(index: Int)

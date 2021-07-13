@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.databinding.ObservableInt
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -32,6 +33,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.json.JSONArray
 import org.json.JSONObject
+import java.lang.Exception
 
 /**
  *作者：create by 张金 on 2021/2/3 14:23
@@ -59,7 +61,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     val GAME_STATUS_PLAYING=3
     val GAME_STATUS_ENDING=4
     val GAME_STATUS_PREQUEUE=5
-    var mGameStatus: Int=GAME_STATUS_EMPTY
+    var mGameStatus = ObservableInt(GAME_STATUS_EMPTY)
     var gameCurrency: Int=CONSUME_TYPE_COIN
     var gameResultCurrency: Int=CONSUME_TYPE_COIN
     var coin2hardRatio: Float=0f
@@ -287,7 +289,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     fun btnStartGame(view: View) {
 //        startGame()
-        when(mGameStatus){
+        when(mGameStatus.get()){
             GAME_STATUS_EMPTY,GAME_STATUS_PREQUEUE->{
                 joinQueue()
             }
@@ -366,7 +368,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     abstract fun initStartGame()
 
     fun endGame(){
-        when(mGameStatus){
+        when(mGameStatus.get()){
             GAME_STATUS_PLAYING ->{
                 var data = JSONObject()
                 data.put("id", GameSocketManager.generateId().toString())
@@ -421,17 +423,25 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     override fun onRoomUserAmountChanged(jsondata: JSONObject?) {
-        LogUtils.d(TAG,"onRoomUserAmountChanged")
+        LogUtils.d(TAG,"onRoomUserAmountChanged"+jsondata.toString())
         //处理房间人员信息
         runOnUiThread{
-            val player=jsondata?.getJSONObject("player")
-            player?.let {
-                val userId=it.getInt("user_id")
-                val nickname=it.getString("nickname")
-                val avatar=it.getString("avatar")
-                viewModel.playerName.set(nickname)
-            }
 
+            val playerStr=jsondata?.getString("player")
+            var player: JSONObject?=null
+            playerStr?.let {
+                try {
+                    player= JSONObject(it)
+                    player?.let {
+                        val userId=it.getInt("user_id")
+                        val nickname=it.getString("nickname")
+                        val avatar=it.getString("avatar")
+                        viewModel.playerName.set(nickname)
+                    }
+                }catch (e: Exception){
+
+                }
+            }
         }
     }
 
@@ -451,6 +461,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
             userId?.let {
                 if (it.toString().equals(MainViewModule.userData?.userId())){
                     setGameStartStatus()
+                    initStartGame()
                 }
             }
         }
@@ -494,15 +505,15 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     override fun onGameReconnect(jsondata: JSONObject?) {
         LogUtils.d(TAG,"onGameReconnect")
         runOnUiThread{
-            setGameStartStatus()
-            initStartGame()
+//            setGameStartStatus()
+//            initStartGame()
         }
     }
 
     override fun onGameReady(timeLeft: Int) {
         LogUtils.d(TAG,"onGameReady")
         runOnUiThread{
-            when(mGameStatus){
+            when(mGameStatus.get()){
                 GAME_STATUS_EMPTY,GAME_STATUS_PREQUEUE ->{
 
                 }
@@ -544,13 +555,13 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
                 0->{
                     //全局
                     queueTotal?.let { if (it > 0){
-                        if (mGameStatus==GAME_STATUS_EMPTY){
+                        if (mGameStatus.get()==GAME_STATUS_EMPTY){
                             viewModel.startGameBtnRes.set(gameQueueBtnBg())
                         }
                         viewModel.queueCount.set(getString(R.string.cur_queue)+it)
                     }else{
                         viewModel.queueCount.set("")
-                        if (mGameStatus==GAME_STATUS_EMPTY){
+                        if (mGameStatus.get()==GAME_STATUS_EMPTY){
                             viewModel.startGameBtnRes.set(gameStartBtnBg())
                         }
                     }
@@ -562,7 +573,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 //                viewModel.startGameBtnRes.set(R.drawable.btn_cancel_game)
                     queuePosition?.let {
                         if (it >0){
-                            if (mGameStatus != GAME_STATUS_EMPTY){
+                            if (mGameStatus.get() != GAME_STATUS_EMPTY){
                                 viewModel.queueCount.set(getString(R.string.brefore_queue)+it)
                             }
                         }else{
@@ -581,23 +592,23 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     fun setGameQueueStatus(){
-        mGameStatus=GAME_STATUS_QUEUE
+        mGameStatus.set(GAME_STATUS_QUEUE)
         viewModel.startGameBtnRes.set(gameCancelBtnBg())
     }
 
     fun setGameResultStatus(){
-        mGameStatus=GAME_STATUS_ENDING
+        mGameStatus.set(GAME_STATUS_ENDING)
     }
 
     fun setGameStartStatus(){
-        mGameStatus=GAME_STATUS_PLAYING
+        mGameStatus.set(GAME_STATUS_PLAYING)
         viewModel.gamePanelVisibility.set(View.VISIBLE)
         viewModel.guestPanelVisibility.set(View.GONE)
         viewModel.playerGameViewVisibility.set(View.VISIBLE)
     }
 
     fun setGameOverStatus(){
-        mGameStatus=GAME_STATUS_EMPTY
+        mGameStatus.set(GAME_STATUS_EMPTY)
         viewModel.queueCount.set("")
         viewModel.startGameBtnRes.set(gameStartBtnBg())
         viewModel.gamePanelVisibility.set(View.GONE)
@@ -676,7 +687,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        if (mGameStatus==GAME_STATUS_PLAYING){
+        if (mGameStatus.get()==GAME_STATUS_PLAYING){
             showQuitDislog()
         }else{
             finish()

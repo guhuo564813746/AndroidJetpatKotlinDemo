@@ -159,8 +159,8 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@mipmap/im_getfish_tag"
                     android:layout_centerVertical="true"/>
 
@@ -351,8 +351,8 @@
 
 
             <View
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:text="提杆"
                 android:textColor="@color/white"
                 android:layout_alignParentBottom="true"
@@ -377,9 +377,9 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:id="@+id/tv_game_shouxian"
-                android:layout_alignLeft="@+id/tv_game_paogan"
-                android:layout_above="@+id/tv_game_paogan"
-                android:layout_marginBottom="10dp"
+                android:layout_alignRight="@+id/tv_game_tigan"
+                android:layout_above="@+id/tv_game_tigan"
+                android:layout_marginBottom="20dp"
                 android:text="收线"
                 android:background="@drawable/fishgame_shouxian_bg"/>
             <View
@@ -388,20 +388,21 @@
                 android:id="@+id/tv_game_fangxian"
                 android:text="放线"
                 android:textColor="@color/white"
-                android:layout_alignRight="@+id/tv_game_tigan"
-                android:layout_above="@+id/tv_game_tigan"
-                android:layout_marginBottom="10dp"
+                android:layout_toLeftOf="@+id/tv_game_shouxian"
+                android:layout_above="@+id/tv_game_paogan"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/fishgame_fangxian_bg"/>
             <View
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:id="@+id/tv_game_shanger"
-                android:textSize="14dp"
                 android:textColor="@color/white"
                 android:text="上饵"
-                android:layout_above="@+id/tv_game_fangxian"
-                android:layout_alignRight="@+id/tv_game_tigan"
-                android:layout_marginBottom="10dp"
+                android:layout_above="@+id/tv_game_shouxian"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="30dp"
                 android:onClick="addBait"
                 android:background="@drawable/fishgame_addfishfood_bg"/>
             <View
@@ -411,9 +412,9 @@
                 android:id="@+id/tv_game_getfish"
                 android:textColor="@color/white"
                 android:textSize="14dp"
-                android:layout_alignRight="@+id/tv_game_tigan"
+                android:layout_alignRight="@+id/tv_game_shanger"
                 android:layout_above="@+id/tv_game_shanger"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="15dp"
                 android:onClick="unload"
                 android:background="@drawable/fishgame_getfish_bg"/>
 

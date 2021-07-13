@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
+import androidx.databinding.Observable
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ScreenUtils
 import com.coinhouse777.wawa.widget.popgame.GameSetGroupViewControlor
@@ -28,8 +29,10 @@ import com.wawa.wawaandroid_ep.activity.viewmodule.FishGameViewModel
 import com.wawa.wawaandroid_ep.adapter.GameOnlineUserListAdapter
 import com.wawa.wawaandroid_ep.adapter.viewmodel.ChatItemPlayerVM
 import com.wawa.wawaandroid_ep.adapter.viewmodel.ChatItemViewModel
+import com.wawa.wawaandroid_ep.bean.game.FishGameBuyTime
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
+import com.wawa.wawaandroid_ep.bean.game.SocketBaseBean
 import com.wawa.wawaandroid_ep.dialog.game.GameFeedBackDialog
 import com.wawa.wawaandroid_ep.dialog.game.GameQuit_PortDialog
 import com.wawa.wawaandroid_ep.dialog.game.InputFragmentDialog
@@ -145,6 +148,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
 
     override fun initView() {
         super.initView()
+        initViewObservable()
         initGameMenuView()
         initChatView()
         initOnlineUserView()
@@ -177,7 +181,13 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
 
     }
 
-
+    fun initViewObservable(){
+        mGameStatus.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                initGameMenuData()
+            }
+        })
+    }
 
     fun initGameControler(){
         val minDistance=screenWidth/3
@@ -435,14 +445,19 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
             }
         }
     }
-    private fun initGameMenuView(){
+
+    private fun initGameMenuData(){
         val popGameList: MutableList<PopGameItemBean> = mutableListOf()
         for (i in 0..8){
             val popGameItemBean=PopGameItemBean()
             when(i){
                 0 ->{
-                    popGameItemBean.enableTab=true
-                    popGameItemBean.imgRes=R.drawable.continute_gametime_bg
+                    popGameItemBean.enableTab=mGameStatus.get()==GAME_STATUS_PLAYING
+                    if (mGameStatus.get()==GAME_STATUS_PLAYING){
+                        popGameItemBean.imgRes=R.drawable.continute_gametime_bg
+                    }else{
+                        popGameItemBean.imgRes=R.mipmap.im_continutetime_unable
+                    }
                 }
                 1 ->{
                     popGameItemBean.enableTab=true
@@ -465,8 +480,12 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
                     popGameItemBean.imgRes=R.drawable.gameseting_bg
                 }
                 6->{
-                    popGameItemBean.enableTab=true
-                    popGameItemBean.imgRes=R.drawable.gamereset_bg
+                    popGameItemBean.enableTab=mGameStatus.get()== GAME_STATUS_PLAYING
+                    if (mGameStatus.get() ==GAME_STATUS_PLAYING){
+                        popGameItemBean.imgRes=R.drawable.gamereset_bg
+                    }else{
+                        popGameItemBean.imgRes=R.mipmap.im_resetfishgame_unable
+                    }
                 }
                 7->{
                     popGameItemBean.enableTab=true
@@ -484,6 +503,10 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         }else{
             gameSetGroupViewControlor?.setPopGameSetListData(popGameList)
         }
+    }
+
+    private fun initGameMenuView(){
+        initGameMenuData()
         binding.llGameMenu.setOnClickListener {
             showPopSet()
         }
@@ -521,10 +544,32 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         gameReadyDialog=null
     }
 
+    fun fishBuyTime(num: Int){
+        val fishGameBuyTime=FishGameBuyTime()
+        fishGameBuyTime.number=num
+        val socketBean=SocketBaseBean<FishGameBuyTime>()
+        socketBean.id=GameSocketManager.generateId().toString()
+        socketBean.method="renew"
+        socketBean.params=fishGameBuyTime
+        val jsonStr=Gson().toJson(socketBean)
+        val data=JSONObject(jsonStr)
+        GameSocketManager.getInstance()
+            .sendMessage("game", data, object : GameSocketManager.Callback {
+                override fun onSuccess(jsonStr: JSONObject?) {
+                    LogUtils.d(TAG, "fishBuyTime_success")
+                }
+
+                override fun onError(errorCode: Int, errorMsg: String?) {
+                    LogUtils.d(TAG, "fishBuyTime_error")
+                }
+            })
+
+    }
+
     override fun gameSetClick(pos: Int) {
         when(pos){
             0->{
-
+                fishBuyTime(1)
             }
             1->{
                 showTopUpDialog()
@@ -541,7 +586,10 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
                 feedbackDialog.showDialog(supportFragmentManager,GameFeedBackDialog.TAG)
             }
             5->{}
-            6->{}
+            6->{
+                //钓鱼机复位操作
+                controlFishing("reset")
+            }
             7->{}
             8->{
                 val inputDialog= InputFragmentDialog()

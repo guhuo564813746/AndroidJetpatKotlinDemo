@@ -29,7 +29,7 @@ class ChatItemTagView(private val mContext: Context,private val chatItemTagBean:
         val tvGamerName: TextView = tagView!!.findViewById(R.id.tv_gamer_name)
         val imHead: ImageView = tagView!!.findViewById(R.id.im_Head)
         val imHeadbg: ImageView =tagView!!.findViewById(R.id.im_headbg)
-        val imGamerHonorBg: ImageView= tagView!!.findViewById(R.id.im_gamer_honor_bg)
+//        val imGamerHonorBg: ImageView= tagView!!.findViewById(R.id.im_gamer_honor_bg)
         tvGamerName.setText(chatItemTagBean.name)
 //        ImageLoader.with(mContext)
 //            .url(chatItemTagBean.imgUrl)
@@ -42,17 +42,17 @@ class ChatItemTagView(private val mContext: Context,private val chatItemTagBean:
                 .url(it)
                 .into(imHeadbg)
         }
-        chatItemTagBean.honorBg?.let {
+        /*chatItemTagBean.honorBg?.let {
             ImageLoader.with(mContext)
                 .url(it)
                 .into(imGamerHonorBg)
-        }
+        }*/
 
     }
 
 
 
-   /* fun getChatItemTagViewDrawable(): Drawable?{
+    /*fun getChatItemTagViewDrawable(): Drawable?{
         var tagDrawable: Drawable?= null
         tagView?.let {
             val bitMap=bitmapUtils.createViewBitmap(it)

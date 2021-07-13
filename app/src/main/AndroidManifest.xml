@@ -61,6 +61,9 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity="com.robotwar.app"/>
+        <activity android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <!--<activity android:name="com.wowgotcha.wawa.wxapi.WXEntryActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

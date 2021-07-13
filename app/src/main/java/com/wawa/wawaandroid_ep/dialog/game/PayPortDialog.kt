@@ -2,6 +2,7 @@ package com.wawa.wawaandroid_ep.dialog.game
 
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.apollographql.apollo.ChargeItemListQuery
 import com.robotwar.app.BR
@@ -42,6 +43,15 @@ class PayPortDialog : BaseVMDialogFragment<PayDialogLayBinding, PayDialogViewMod
     }
 
     override fun initView(view: View) {
+        binding.tvGamepay.isSelected=true
+        viewModel.clicks.observe(this, Observer {
+            when(it.id){
+                R.id.im_cancelpay ->{
+                    dismissAllowingStateLoss()
+                }
+
+            }
+        })
         activity?.let { payManager=PayManager(it,WawaApp.apolloClient) }
         lifecycle.addObserver(payManager)
         binding.lvCoinvsdiamenpay.setHasFixedSize(true)
