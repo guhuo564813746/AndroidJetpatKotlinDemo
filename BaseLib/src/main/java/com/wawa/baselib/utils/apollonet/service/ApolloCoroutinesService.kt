@@ -248,8 +248,39 @@ class ApolloCoroutinesService(apolloClient: ApolloClient,
         }
     }
 
-    fun getFbCommentList(feedbackId: Int,index: Int = 1){
+    override fun getFeedbackWithId(index: Int, feedbackId: Int) {
+        val feedbackQuery= FeedBackListWithIdQuery(feedbackId,index)
+        job= CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(feedbackQuery).await()
+                val feedBackList= response?.data?.feedback()
+                withContext(resultContext){
+                    feedBackList?.let {
+                        feedbackListWithIdSubject.onNext(it)
+                    }
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
+    }
 
+    override fun getFbCommentList(feedbackId: Int,index: Int){
+        Log.d(TAG,"getFbCommentList--")
+        val feedBackCommentListQuery = FeedbackCommentQuery(feedbackId,index)
+        job = CoroutineScope(processContext).launch {
+            try {
+                val response=apolloClient.query(feedBackCommentListQuery).await()
+                val feedBackCommentList= response?.data
+                withContext(resultContext){
+                    feedBackCommentList?.let {
+                        feedbackCommentListSubject.onNext(it)
+                    }
+                }
+            }catch (e: Exception){
+                exceptionSubject.onNext(e)
+            }
+        }
     }
 
 }

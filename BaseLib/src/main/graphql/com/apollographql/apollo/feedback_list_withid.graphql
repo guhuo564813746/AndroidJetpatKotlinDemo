@@ -1,0 +1,10 @@
+query FeedBackListWithId($feedbackId: Int!, $index: Int!){
+    feedback(feedbackId: $feedbackId,index: $index){
+        currentPage
+        list{
+            ...feedback
+        }
+        perPage
+        total
+    }
+}

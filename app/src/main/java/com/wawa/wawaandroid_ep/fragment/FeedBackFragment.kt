@@ -5,9 +5,11 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollographql.apollo.*
 import com.apollographql.apollo.api.FileUpload
@@ -61,6 +63,10 @@ class FeedBackFragment : BaseFragment<FeedbackActivityLayBinding,FeedBackFragmen
     }
 
     override fun initFragmentView() {
+        var imBack=binding.viewTitle.findViewById<ImageView>(R.id.im_back)
+        imBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
         binding.viewTitle.findViewById<TextView>(R.id.title).setText(getString(R.string.tx_feedbacktitle))
         viewModel.clicks.observe(this, Observer {
             when(it.id){

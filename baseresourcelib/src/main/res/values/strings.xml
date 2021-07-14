@@ -1,4 +1,5 @@
 <resources>
+    <string name="viewpager_indicator">%d/%d</string>
     <string name="app_name">WawaAndroid_EP</string>
     <string name="facebook_app_id">2247725748677516</string>
     <string name="fb_login_protocol_scheme">fb2247725748677516</string>
