@@ -1,7 +1,7 @@
-package com.wawa.baselib.utils.pay.cloudflashpay
+package com.wawa.wawaandroid_ep.pay.cloudflashpay
 
 import android.content.Context
-import com.wawa.baselib.utils.pay.PayManager
+import com.wawa.wawaandroid_ep.pay.PayManager
 
 /**
  *作者：create by 张金 on 2021/7/13 17:39

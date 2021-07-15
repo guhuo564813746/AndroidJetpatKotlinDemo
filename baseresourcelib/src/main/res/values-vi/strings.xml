@@ -3,6 +3,7 @@
     <!--越南语-->
     <string name="app_label">机甲狮</string>
     <string name="app_name">机甲狮</string>
+    <string name="tx_operation">Operation</string>
     <string name="COIN_VERTICAL">đồng tiền</string>
     <!--    <string name="COIN_VERTICAL">达\n人\n币</string>-->
     <string name="COIN">đồng tiền</string>

@@ -8,13 +8,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.blankj.utilcode.util.BarUtils
 import com.google.android.material.tabs.TabLayout
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.FragmentChargeLayBinding
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.baselib.utils.pay.PayManager
+import com.wawa.wawaandroid_ep.pay.PayManager
 import com.wawa.wawaandroid_ep.*
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.ChargeFragmentViewModel
@@ -59,7 +58,9 @@ class ChargeFragment : BaseFragment<FragmentChargeLayBinding,ChargeFragmentViewM
             viewModel.coin.set(it?.userAccount()?.coin().toString())
             viewModel.diamond.set("0")
         })
-        activity?.let { payManager=PayManager(it,WawaApp.apolloClient) }
+        activity?.let { payManager=
+            PayManager(it, WawaApp.apolloClient)
+        }
         lifecycle.addObserver(payManager)
         initChargeTab()
     }

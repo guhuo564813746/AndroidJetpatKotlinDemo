@@ -4,13 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.ChargeItemListQuery
 import com.blankj.utilcode.util.ToastUtils
 import com.robotwar.app.R
-import com.wawa.baselib.utils.pay.PayManager
+import com.wawa.wawaandroid_ep.pay.PayManager
 import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.fragment.ChargeFragment
 
@@ -70,7 +69,7 @@ class ChargeDialogV2Adapter(context: Context, private val payManager: PayManager
                     chargeList.get(adapterPosition).chargeItemId()?.let { it1 ->
                         payManager.showPayTypeDialog(
                             it, it1,
-                            object:PayManager.PayCallback{
+                            object: PayManager.PayCallback{
                                 override fun paySuccess(payType: Int) {
                                     (mContext as MainActivity).setUpDataSource()
                                 }

@@ -18,7 +18,7 @@ import java.util.*
  *邮箱：564813746@qq.com
  */
 class FeedbackCommentItemVM : ArrayListViewModel<FeedbackCommentQuery.List>() {
-    private val urls2 = ArrayList<String>()
+    var itemSelectListener: OnItemSelectListener? =null
     override fun onBindAdapter(adapter: ArrayListAdapter<FeedbackCommentQuery.List>) {
         val imFeedback=viewHolder!!.view.findViewById<ImageView>(R.id.im_feedback)
         val tvFbDetailTitle: TextView = viewHolder!!.view.findViewById(R.id.tv_fb_detail_title)
@@ -29,18 +29,9 @@ class FeedbackCommentItemVM : ArrayListViewModel<FeedbackCommentQuery.List>() {
                 imFeedback.visibility= View.VISIBLE
                 ImageLoader.with(mContext).url(it.pictureList()!!.get(0)).into(imFeedback)
                 imFeedback.setOnClickListener {
-                    val intent = Intent(mContext, ImagePagerActivity::class.java)
-                    // 图片url,为了演示这里使用常量，一般从数据库中或网络中获取
-                    // 图片url,为了演示这里使用常量，一般从数据库中或网络中获取
-                    intent.putStringArrayListExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, urls2)
-                    var pos = 0
-                    for (i in urls2.indices) {
-                        if (urls2.get(i) == model?.fragments()?.feedbackComment()?.pictureList()?.get(0)) {
-                            pos = i
-                        }
+                    if (itemSelectListener != null){
+                        itemSelectListener!!.onItemSelected(model?.fragments()?.feedbackComment()?.pictureList()!!.get(0))
                     }
-                    intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, pos)
-                    mContext.startActivity(intent)
                 }
             }else{
                 imFeedback.visibility=View.GONE
@@ -60,5 +51,9 @@ class FeedbackCommentItemVM : ArrayListViewModel<FeedbackCommentQuery.List>() {
 
     override fun getLayoutRes(): Int {
         return R.layout.fb_detail_comment_item_lay
+    }
+
+    interface OnItemSelectListener{
+        fun onItemSelected(curImg: String)
     }
 }

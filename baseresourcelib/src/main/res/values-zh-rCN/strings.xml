@@ -346,8 +346,8 @@
     <string name="CHOOSEROOM_TIPS3">了吗?</string>
     <string name="DONTGO">不要走!</string>
     <string name="STAY_HOME_TIPS">留在房间</string>
-    <string name="VOICE_SET_TIPS">声音设置</string>
-    <string name="VIDEO_SET_TIPS">视频设置</string>
+    <string name="VOICE_SET_TIPS">声音</string>
+    <string name="VIDEO_SET_TIPS">视频</string>
     <string name="NOCOINSTIPS">充值吧,为您保留 %s s,您值得拥有,等您!</string>
     <string name="NO_COIN_TIPS_2">, 您值得拥有,等您!</string>
     <string name="GAMELOCK_BTTIPS1">马上充值并锁机</string>
@@ -631,4 +631,5 @@
     <string name="tx_feedback_detail_tips">反馈详情</string>
     <string name="tx_feedback_recordtips">反馈记录</string>
     <string name="tx_pls_install_wx_tips">请先安装微信！</string>
+    <string name="tx_operation">操作</string>
 </resources>

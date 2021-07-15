@@ -11,7 +11,7 @@ import com.robotwar.app.databinding.PayDialogLayBinding
 import com.wawa.baselib.utils.AppUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.dialog.BaseVMDialogFragment
-import com.wawa.baselib.utils.pay.PayManager
+import com.wawa.wawaandroid_ep.pay.PayManager
 import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.adapter.charge.ChargeDialogAdapter
 import com.wawa.wawaandroid_ep.dialog.viewmodel.PayDialogViewModel
@@ -52,7 +52,9 @@ class PayPortDialog : BaseVMDialogFragment<PayDialogLayBinding, PayDialogViewMod
 
             }
         })
-        activity?.let { payManager=PayManager(it,WawaApp.apolloClient) }
+        activity?.let { payManager=
+            PayManager(it, WawaApp.apolloClient)
+        }
         lifecycle.addObserver(payManager)
         binding.lvCoinvsdiamenpay.setHasFixedSize(true)
         binding.lvCoinvsdiamenpay.layoutManager=

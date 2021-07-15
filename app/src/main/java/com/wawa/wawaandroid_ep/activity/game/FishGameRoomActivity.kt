@@ -33,10 +33,7 @@ import com.wawa.wawaandroid_ep.bean.game.FishGameBuyTime
 import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
 import com.wawa.wawaandroid_ep.bean.game.SocketBaseBean
-import com.wawa.wawaandroid_ep.dialog.game.GameFeedBackDialog
-import com.wawa.wawaandroid_ep.dialog.game.GameQuit_PortDialog
-import com.wawa.wawaandroid_ep.dialog.game.InputFragmentDialog
-import com.wawa.wawaandroid_ep.dialog.game.PayPortDialog
+import com.wawa.wawaandroid_ep.dialog.game.*
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.RockerView
 import com.wawa.wawaandroid_ep.view.ViewUtils
@@ -569,13 +566,20 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     override fun gameSetClick(pos: Int) {
         when(pos){
             0->{
+                //续时
                 fishBuyTime(1)
             }
             1->{
+                //充值
                 showTopUpDialog()
             }
-            2->{}
-            3->{}
+            2->{
+                //指南
+
+            }
+            3->{
+                //大神榜
+            }
             4->{
                 //维修
                 val feedbackDialog=GameFeedBackDialog()
@@ -585,13 +589,22 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
                 feedbackDialog.machineType=""
                 feedbackDialog.showDialog(supportFragmentManager,GameFeedBackDialog.TAG)
             }
-            5->{}
+            5->{
+                //设置
+                val gameSetDialog= GameSettingDialog()
+                if (!gameSetDialog.isAdded){
+                    gameSetDialog.showDialog(supportFragmentManager,"GameSettingDialog")
+                }
+            }
             6->{
                 //钓鱼机复位操作
                 controlFishing("reset")
             }
-            7->{}
+            7->{
+                //客服
+            }
             8->{
+                //聊天
                 val inputDialog= InputFragmentDialog()
                 inputDialog.showDialog(supportFragmentManager,InputFragmentDialog.TAG)
             }

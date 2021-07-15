@@ -11,13 +11,12 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.apollographql.apollo.BannerListQuery
-import com.google.android.material.tabs.TabLayout
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.ChargeFmV2LayBinding
 import com.to.aboomy.pager2banner.IndicatorView
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.baselib.utils.pay.PayManager
+import com.wawa.wawaandroid_ep.pay.PayManager
 import com.wawa.wawaandroid_ep.MainActivity
 import com.wawa.wawaandroid_ep.MainViewModule
 import com.wawa.wawaandroid_ep.WawaApp
@@ -26,7 +25,6 @@ import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.ChargeFragment
 import com.wawa.wawaandroid_ep.fragment.ChargeListFragment
 import com.wawa.wawaandroid_ep.fragmentv2.viewmodel.ChargeFmV2ViewModel
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -69,7 +67,9 @@ class ChargeFragmentV2 : BaseFragment<ChargeFmV2LayBinding, ChargeFmV2ViewModel>
             viewModel.coin.set(it?.userAccount()?.coin().toString())
             viewModel.diamond.set("0")
         })
-        activity?.let { payManager=PayManager(it, WawaApp.apolloClient) }
+        activity?.let { payManager=
+            PayManager(it, WawaApp.apolloClient)
+        }
         lifecycle.addObserver(payManager)
         initChargeTab()
         initChargeBanner()

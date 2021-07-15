@@ -630,4 +630,5 @@
     <string name="tx_feedback_detail_tips">Feedback detail</string>
     <string name="tx_feedback_recordtips">Feedback Record</string>
     <string name="tx_pls_install_wx_tips">Please install wechat first！</string>
+    <string name="tx_operation">Operation</string>
 </resources>

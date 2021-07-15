@@ -63,7 +63,10 @@
             android:taskAffinity="com.robotwar.app"/>
         <activity android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity android:name="com.wawa.wawaandroid_ep.activity.ImagePagerActivity"
+            android:screenOrientation="portrait"/>
 
         <!--<activity android:name="com.wowgotcha.wawa.wxapi.WXEntryActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">机甲狮</string>
     <string name="app_label">机甲狮</string><!--Crane-Game-CrabCrab-->
+    <string name="tx_operation">操作</string>
     <string name="COIN">遊戲幣</string>
     <!--    <string name="COIN">達人幣</string>-->
     <string name="LOGIN_NEW_USER_GIFT">新用戶微信登錄送50%1$s</string>
@@ -382,8 +383,8 @@
     <string name="SWITCH_CHAT_TEXT_TIPS">展開聊天</string>
     <string name="SWITCH_CHAT_TEXT_TIPS1">收起聊天</string>
     <string name="SYSSET_TIPS">系統設置</string>
-    <string name="VIDEO_SET_TIPS">視頻設置</string>
-    <string name="VOICE_SET_TIPS">聲音設置</string>
+    <string name="VIDEO_SET_TIPS">視頻</string>
+    <string name="VOICE_SET_TIPS">聲音</string>
     <string name="WELCOME_BACK_TIPS">歡迎回來</string>
     <string name="YOUR_MSG_TIPS">您的信息</string>
     <string name="fapao_set_tips">發炮設置</string>

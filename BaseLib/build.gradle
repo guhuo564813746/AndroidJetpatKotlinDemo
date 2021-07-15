@@ -141,7 +141,7 @@ dependencies {
     api  'com.scwang.smart:refresh-header-radar:2.0.3'       //雷达刷新头
 
     // 支付宝
-    implementation (name: 'alipaySdk-15.6.8-20191021122455-noUtdid', ext: 'aar')
+    api (name: 'alipaySdk-15.6.8-20191021122455-noUtdid', ext: 'aar')
 
     //图片选择器
     api project(path: ':imagepicker')

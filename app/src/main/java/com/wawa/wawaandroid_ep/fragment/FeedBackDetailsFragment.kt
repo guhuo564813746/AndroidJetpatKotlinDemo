@@ -23,6 +23,7 @@ import com.robotwar.app.databinding.FeedbackDetailsFmLayBinding
 import com.wawa.baselib.utils.apollonet.MutationCallback
 import com.wawa.baselib.utils.baseadapter.imp.ArrayListAdapter
 import com.wawa.wawaandroid_ep.WawaApp
+import com.wawa.wawaandroid_ep.activity.ImagePagerActivity
 import com.wawa.wawaandroid_ep.adapter.viewmodel.FeedbackCommentItemVM
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.fragment.viewmodule.FeedBackDetailsFmVm
@@ -34,12 +35,13 @@ import java.io.File
  *作者：create by 张金 on 2021/7/2 14:42
  *邮箱：564813746@qq.com
  */
-class FeedBackDetailsFragment : BaseFragment<FeedbackDetailsFmLayBinding,FeedBackDetailsFmVm>(){
+class FeedBackDetailsFragment : BaseFragment<FeedbackDetailsFmLayBinding,FeedBackDetailsFmVm>(),FeedbackCommentItemVM.OnItemSelectListener{
     val TAG="FeedBackDetailsFragment"
     var feedbackId=0
     val CHOOSE_IMG_CODE=100
     var imgFile: File?=null
     var fbCommentAdapter= ArrayListAdapter<FeedbackCommentQuery.List>()
+    val imgUrls =ArrayList<String>()
     companion object{
         val FEEDBACK_ID="FEEDBACK_ID"
     }
@@ -188,6 +190,12 @@ class FeedBackDetailsFragment : BaseFragment<FeedbackDetailsFmLayBinding,FeedBac
                 for (i in it){
                     val vm=FeedbackCommentItemVM()
                     vm.model=i
+                    vm.itemSelectListener=this
+                    i.fragments()?.feedbackComment()?.pictureList()?.let {
+                        if (it.size > 0){
+                            imgUrls.add(it.get(0))
+                        }
+                    }
                     fbCommentAdapter.add(vm)
                 }
             }
@@ -211,5 +219,14 @@ class FeedBackDetailsFragment : BaseFragment<FeedbackDetailsFmLayBinding,FeedBac
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onItemSelected(curImg: String) {
+        val intent = Intent(activity, ImagePagerActivity::class.java)
+        // 图片url,为了演示这里使用常量，一般从数据库中或网络中获取
+        // 图片url,为了演示这里使用常量，一般从数据库中或网络中获取
+        intent.putStringArrayListExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, imgUrls)
+        intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, curImg)
+        startActivity(intent)
     }
 }

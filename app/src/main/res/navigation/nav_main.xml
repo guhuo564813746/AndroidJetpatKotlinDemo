@@ -89,4 +89,6 @@
         android:name="com.wawa.wawaandroid_ep.activity.LoginActivity"/>
     <activity android:id="@+id/launcherActivity"
         android:name="com.wawa.wawaandroid_ep.activity.LauncherActivity"/>
+    <activity android:id="@+id/imagePagerActivity"
+        android:name="com.wawa.wawaandroid_ep.activity.ImagePagerActivity"/>
 </navigation>

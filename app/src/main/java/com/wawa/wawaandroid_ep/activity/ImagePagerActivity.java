@@ -21,18 +21,22 @@ public class ImagePagerActivity extends FragmentActivity {
     public static final String EXTRA_IMAGE_URLS = "image_urls";
 
     private HackyViewPager mPager;
-    private int pagerPosition;
+    private int pagerPosition=0;
     private TextView indicator;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_detail_pager);
-
-        pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
+        String curImg=getIntent().getStringExtra(EXTRA_IMAGE_INDEX);
         ArrayList<String> urls = getIntent().getStringArrayListExtra(
                 EXTRA_IMAGE_URLS);
-
+        for (int i=0;i<urls.size(); i++){
+            if (urls.get(i).equals(curImg)){
+                pagerPosition=i;
+            }
+        }
         mPager = (HackyViewPager) findViewById(R.id.pager);
         ImagePagerAdapter mAdapter = new ImagePagerAdapter(
                 getSupportFragmentManager(), urls);

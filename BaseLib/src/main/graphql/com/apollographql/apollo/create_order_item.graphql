@@ -13,5 +13,5 @@ mutation CreateOrderItem($chargeItemId: Int!,$payType: Int!){
 
 fragment payParamsFragment on PayParams{
     payRedirectUrl
-    alipaySignedString
+    paymentSignedString
 }

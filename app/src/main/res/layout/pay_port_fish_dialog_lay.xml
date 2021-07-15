@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.wawa.wawaandroid_ep.dialog.viewmodel.PayDialogViewModel" />
+    </data>
+    <RelativeLayout
+        android:layout_width="290dp"
+        android:layout_height="450dp"
+        android:background="@mipmap/im_pay_dialog_bg">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lv_topup"
+            android:layout_marginTop="165dp"
+            android:layout_marginBottom="70dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="40dp"
+            android:id="@+id/bt_set"
+            android:text="@string/confirm"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/blue_10_cornors_bg"
+            android:gravity="center"/>
+    </RelativeLayout>
+</layout>

@@ -1,4 +1,4 @@
-package com.wawa.baselib.utils.pay
+package com.wawa.wawaandroid_ep.pay
 
 import android.content.Context
 import android.content.Intent
@@ -14,11 +14,9 @@ import com.apollographql.apollo.exception.ApolloException
 import com.blankj.utilcode.util.ToastUtils
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.wawa.baselib.R
-import com.wawa.baselib.utils.dialog.PayTypeDialog
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.baselib.utils.pay.alipay.AliPayTask
-import com.wawa.baselib.utils.pay.cloudflashpay.CloudFlashPayTask
-import com.wawa.baselib.utils.pay.wxpay.WxPayTask
+import com.wawa.wawaandroid_ep.pay.alipay.AliPayTask
+import com.wawa.wawaandroid_ep.pay.wxpay.WxPayTask
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
@@ -41,18 +39,20 @@ class PayManager(private val context: Context,
     lateinit var callback: PayCallback
     lateinit var payTypeDialog: PayTypeDialog
     private var isGoH5Pay=false
-    private var payType: Int= PAYTYPE_ZFB_H5
+    private var payType: Int=
+        PAYTYPE_ZFB_H5
     private val compositeDisposable = CompositeDisposable()
     private lateinit var orderSuccessDp: Disposable
     private lateinit var errDp: Disposable
     private var chargeItemId by Delegates.notNull<Int>()
     fun showPayTypeDialog(payGoods: ChargeItemListQuery.Goods,
                           chargeId: Int,
-                          cb: PayCallback){
+                          cb: PayCallback
+    ){
         this.mContext=context
         this.callback=cb
         this.chargeItemId=chargeId
-        payTypeDialog= PayTypeDialog(this,payGoods)
+        payTypeDialog= PayTypeDialog(this, payGoods)
         if (!payTypeDialog.isAdded){
             payTypeDialog.show((context as FragmentActivity).supportFragmentManager,"showPayTypeDialog")
         }
@@ -86,17 +86,17 @@ class PayManager(private val context: Context,
                         }
                     }
                     when(payType){
-                        PAYTYPE_ZFB_H5->{
+                        PAYTYPE_ZFB_H5 ->{
                             //H5支付
                             var payRedirectUrl: String?=response.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.payRedirectUrl()
                             payRedirectUrl.let {
                                 go2H5_ZFB_pay(it)
                             }
                         }
-                        PAYTYPE_ALIPAY->{
+                        PAYTYPE_ALIPAY ->{
                             //原生支付宝
                             var aliPayTask=AliPayTask(context)
-                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.alipaySignedString()
+                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.paymentSignedString()
                             payInfo?.let {
                                 aliPayTask.invokeAliPay(it,callback)
 //                                aliPayTask.invokeAliPayV1(it,callback)
@@ -108,7 +108,7 @@ class PayManager(private val context: Context,
                             //微信原生支付
                             val wxPayTask= WxPayTask(context,callback)
                             WxPayTask.onWxPayRes= MutableLiveData<BaseResp>()
-                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.alipaySignedString()
+                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.paymentSignedString()
                             payInfo?.let {
                                 wxPayTask.wxPay(it)
 //                                aliPayTask.invokeAliPayV1(it,callback)
@@ -118,8 +118,12 @@ class PayManager(private val context: Context,
                         }
                         PAYTYPE_CLOUD_FLASH_PAY ->{
                             //云闪付
-                            val cloudFlashPayTask = CloudFlashPayTask(context,callback)
-                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.alipaySignedString()
+                            val cloudFlashPayTask =
+                                com.wawa.wawaandroid_ep.pay.cloudflashpay.CloudFlashPayTask(
+                                    context,
+                                    callback
+                                )
+                            var payInfo= response?.data?.createChargeOrder()?.payParams()?.fragments()?.payParamsFragment()?.paymentSignedString()
                             payInfo?.let {
                                 cloudFlashPayTask.cloudFlashPay(it)
 //                                aliPayTask.invokeAliPayV1(it,callback)

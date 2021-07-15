@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_horizontal">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.wawa.wawaandroid_ep.dialog.viewmodel.GameOperationSetViewModel" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/ll_game_operation_root">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:id="@+id/ll_playerdanmu_set">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="渔获提醒"
+                    android:textSize="14sp"
+                    android:textColor="@color/light_black"
+                    android:layout_marginLeft="38dp"
+                    android:id="@+id/tv_playerdanmu_title"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.isFishGetRemindOpen?@string/OPEN : @string/CLOSE}"
+                    android:textSize="14sp"
+                    android:textColor="@{viewModel.isFishGetRemindOpen?@color/switch_bg:@color/light_black}"
+                    android:id="@+id/tv_playerdanmu_switch_tips"/>
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:switchMinWidth="30dp"
+                    android:thumb="@drawable/shape_switch_slider"
+                    android:track="@drawable/selector_switch_bg"
+                    android:checked="@{viewModel.isFishGetRemindOpen}"
+                    android:layout_marginRight="37dp"
+                    android:layout_marginLeft="10dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</layout>

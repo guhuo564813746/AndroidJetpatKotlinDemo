@@ -1,13 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
             type="com.wawa.wawaandroid_ep.dialog.viewmodel.GameSettingVM" />
     </data>
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="290dp"
+        android:layout_height="440dp"
+        android:background="@mipmap/im_setdialog_bg">
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/setTab"
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            app:tabTextAppearance="@style/GameSetTabStyle"
+            app:tabIndicatorColor="@color/game_set_blue"
+            />
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="260dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/setTab"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="70dp"
+            android:id="@+id/set_viewpager"
+            android:background="@drawable/translucent_50_white_10_cormors_bg"/>
+
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="40dp"
+            android:id="@+id/bt_set"
+            android:text="@string/confirm"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/blue_10_cornors_bg"
+            android:gravity="center"/>
 
     </RelativeLayout>
 </layout>

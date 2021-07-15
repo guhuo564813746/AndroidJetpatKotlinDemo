@@ -1,4 +1,4 @@
-package com.wawa.baselib.utils.dialog.adapter
+package com.wawa.wawaandroid_ep.pay
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.wawa.baselib.utils.pay.PayManager
 import com.wawa.baseresourcelib.R
 
 

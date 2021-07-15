@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--马来西亚-->
+    <string name="tx_operation">Operation</string>
     <string name="app_label">机甲狮</string>
     <string name="app_name">机甲狮</string>
     <string name="COIN_VERTICAL">Syiling Panda</string>

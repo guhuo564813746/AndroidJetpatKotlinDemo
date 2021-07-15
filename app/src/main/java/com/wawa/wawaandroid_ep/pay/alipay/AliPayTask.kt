@@ -1,17 +1,13 @@
-package com.wawa.baselib.utils.pay.alipay
+package com.wawa.wawaandroid_ep.pay.alipay
 
 import android.app.Activity
 import android.content.Context
-import com.alipay.sdk.app.EnvUtils
 import com.alipay.sdk.app.PayTask
 import com.wawa.baselib.BuildConfig
-import com.wawa.baselib.utils.pay.PayManager
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
-import io.reactivex.internal.util.HalfSerializer.onComplete
-import io.reactivex.internal.util.HalfSerializer.onNext
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -23,7 +19,7 @@ class AliPayTask(private val context: Context) {
     /**
      * 调用支付宝sdk
      */
-    fun invokeAliPay(mPayInfo: String,callback: PayManager.PayCallback) {
+    fun invokeAliPay(mPayInfo: String,callback: com.wawa.wawaandroid_ep.pay.PayManager.PayCallback) {
         if (BuildConfig.DEBUG){
 //            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
         }
@@ -40,7 +36,7 @@ class AliPayTask(private val context: Context) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(Consumer<Map<String, String>> { result ->
                 if ("9000" == result["resultStatus"]) {
-                    callback.paySuccess(PayManager.PAYTYPE_ALIPAY)
+                    callback.paySuccess(com.wawa.wawaandroid_ep.pay.PayManager.PAYTYPE_ALIPAY)
                 } else {
                     result["memo"]?.let { callback.payErr(it) }
                 }
@@ -48,7 +44,7 @@ class AliPayTask(private val context: Context) {
             })
     }
 
-    fun invokeAliPayV1(mPayInfo: String,callback: PayManager.PayCallback) {
+    fun invokeAliPayV1(mPayInfo: String,callback: com.wawa.wawaandroid_ep.pay.PayManager.PayCallback) {
         if (BuildConfig.DEBUG){
 //            EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
         }
@@ -65,7 +61,7 @@ class AliPayTask(private val context: Context) {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(Consumer<String> { result ->
                 if ("9000".equals(result)) {
-                    callback.paySuccess(PayManager.PAYTYPE_ALIPAY)
+                    callback.paySuccess(com.wawa.wawaandroid_ep.pay.PayManager.PAYTYPE_ALIPAY)
                 } else {
                     callback.payErr("pay failed")
                 }

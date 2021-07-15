@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"></LinearLayout>-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center_horizontal">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.wawa.wawaandroid_ep.dialog.viewmodel.AudioSetViewModel" />
+    </data>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+<!--                android:background="@drawable/pay_dialog_select_bg"-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="15dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/SETTING_APP_BGM"
+                        android:textSize="14sp"
+                        android:textColor="@color/light_black"
+                        android:layout_marginLeft="38dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.isBgVoiceSet?@string/OPEN : @string/CLOSE}"
+                        android:textSize="14sp"
+                        android:textColor="@{viewModel.isBgVoiceSet?@color/switch_bg:@color/light_black}"
+                        />
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:switchMinWidth="30dp"
+                        android:thumb="@drawable/shape_switch_slider"
+                        android:track="@drawable/selector_switch_bg"
+                        android:checked="@{viewModel.isBgVoiceSet}"
+                        android:layout_marginRight="37dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/bgm_live"
+                        android:textSize="14sp"
+                        android:textColor="@color/light_black"
+                        android:layout_marginLeft="38dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="@{viewModel.isVideoVoiceSet?@string/OPEN : @string/CLOSE}"
+                        android:textColor="@{viewModel.isVideoVoiceSet?@color/switch_bg:@color/light_black}"/>
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:switchMinWidth="30dp"
+                        android:thumb="@drawable/shape_switch_slider"
+                        android:track="@drawable/selector_switch_bg"
+                        android:checked="@{viewModel.isVideoVoiceSet}"
+                        android:layout_marginRight="37dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/bgm_game"
+                        android:textSize="14sp"
+                        android:textColor="@color/light_black"
+                        android:layout_marginLeft="38dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="@{viewModel.isGameVoiceSet?@string/OPEN : @string/CLOSE}"
+                        android:textColor="@{viewModel.isGameVoiceSet?@color/switch_bg:@color/light_black}"/>
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:switchMinWidth="30dp"
+                        android:thumb="@drawable/shape_switch_slider"
+                        android:track="@drawable/selector_switch_bg"
+                        android:checked="@{viewModel.isGameVoiceSet}"
+                        android:layout_marginRight="37dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/DIALOG_MEDIA_TAG_3"
+                        android:textSize="14sp"
+                        android:textColor="@color/light_black"
+                        android:layout_marginLeft="38dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="@{viewModel.isBtVoiceSet?@string/OPEN : @string/CLOSE}"
+                        android:textColor="@{viewModel.isBtVoiceSet?@color/switch_bg:@color/light_black}"/>
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:switchMinWidth="30dp"
+                        android:thumb="@drawable/shape_switch_slider"
+                        android:track="@drawable/selector_switch_bg"
+                        android:checked="@{viewModel.isBtVoiceSet}"
+                        android:layout_marginRight="37dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/tx_keepvoice"
+                        android:textSize="14sp"
+                        android:textColor="@color/light_black"
+                        android:layout_marginLeft="38dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="@{viewModel.isAppRunBgVoiceSet?@string/OPEN : @string/CLOSE}"
+                        android:textColor="@{viewModel.isAppRunBgVoiceSet?@color/switch_bg:@color/light_black}"/>
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:switchMinWidth="30dp"
+                        android:thumb="@drawable/shape_switch_slider"
+                        android:track="@drawable/selector_switch_bg"
+                        android:checked="@{viewModel.isAppRunBgVoiceSet}"
+                        android:layout_marginRight="37dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/tx_danmutips"
+                        android:textSize="14sp"
+                        android:textColor="@color/light_black"
+                        android:layout_marginLeft="38dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:text="@{viewModel.isTanMuOpen?@string/OPEN : @string/CLOSE}"
+                        android:textColor="@{viewModel.isTanMuOpen?@color/switch_bg:@color/light_black}"/>
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:switchMinWidth="30dp"
+                        android:thumb="@drawable/shape_switch_slider"
+                        android:track="@drawable/selector_switch_bg"
+                        android:checked="@{viewModel.isTanMuOpen}"
+                        android:layout_marginRight="37dp"
+                        android:layout_marginLeft="10dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+<!--    </LinearLayout>-->
+
+</layout>

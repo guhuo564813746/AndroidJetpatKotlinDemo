@@ -54,10 +54,10 @@ abstract class BaseVMDialogFragment<V : ViewDataBinding,VM : BaseVM> : DialogFra
 
     override fun onResume() {
         super.onResume()
-        initDialogParams()
     }
 
     open fun createDialog(): Dialog{
+        initDialogParams()
         val dialog = activity?.let { Dialog(it, R.style.dialog) }
         dialog?.setCanceledOnTouchOutside(true)
         dialog?.setCancelable(true)

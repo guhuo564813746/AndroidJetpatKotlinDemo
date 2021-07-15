@@ -1,4 +1,4 @@
-package com.wawa.baselib.utils.dialog
+package com.wawa.wawaandroid_ep.pay
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -12,16 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollographql.apollo.ChargeItemListQuery
 import com.blankj.utilcode.util.SizeUtils
 import com.wawa.baselib.R
-import com.wawa.baselib.utils.dialog.adapter.PayTypeListAdapter
 import com.wawa.baselib.utils.logutils.LogUtils
-import com.wawa.baselib.utils.pay.PayManager
 
 /**
  *作者：create by 张金 on 2021/3/4 17:46
  *邮箱：564813746@qq.com
  */
 class PayTypeDialog(
-                    private var callback:PayTypeCallback,private var payGoods: ChargeItemListQuery.Goods
+    private var callback: PayTypeCallback, private var payGoods: ChargeItemListQuery.Goods
     ) : DialogFragment(){
     val TAG="PayTypeDialog"
     lateinit var adapter: PayTypeListAdapter
@@ -54,9 +52,9 @@ class PayTypeDialog(
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         LogUtils.d(TAG,"onCancel--")
-        if (callback != null){
+        /*if (callback != null){
             callback.payTypeCancel()
-        }
+        }*/
     }
     fun initView(view: View){
         val lvPaytypeitem=view.findViewById<RecyclerView>(R.id.lv_paytypeitem)
@@ -68,7 +66,13 @@ class PayTypeDialog(
         lvPaytypeitem.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
 
         activity?.let {
-            adapter=PayTypeListAdapter(it, listOf(PayManager.PAYTYPE_ALIPAY,PayManager.PAYTYPE_WX,PayManager.PAYTYPE_CLOUD_FLASH_PAY))
+            adapter= PayTypeListAdapter(
+                it, listOf(
+                    PayManager.PAYTYPE_ALIPAY,
+                    PayManager.PAYTYPE_WX,
+                    PayManager.PAYTYPE_CLOUD_FLASH_PAY
+                )
+            )
             lvPaytypeitem.adapter=adapter }
         tvPaytips.setText(payGoods.fragments()?.chargeGoodsFields()?.name())
         tvPaytypeTips.setText(payGoods.fragments()?.chargeGoodsFields()?.detailDesc())
