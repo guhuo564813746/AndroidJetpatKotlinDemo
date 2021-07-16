@@ -28,6 +28,7 @@ import com.wawa.wawaandroid_ep.commen.Comen
 import com.wawa.wawaandroid_ep.gamevideopager.BaseGameVideoControlor
 import com.wawa.wawaandroid_ep.gamevideopager.DaniuGameVideoControlor
 import com.wawa.wawaandroid_ep.gamevideopager.LiveGameFragment
+import com.wawa.wawaandroid_ep.sound.SoundManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -109,6 +110,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     override fun initView() {
+        viewModel.soundManager= SoundManager(this)
         (application as WawaApp).sendMsg.observe(this, Observer {
             sendChatMsg(it,MSG_TYPE_TEXT)
         })
@@ -601,6 +603,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     }
 
     fun setGameStartStatus(){
+        viewModel.soundManager?.playSound(SoundManager.GAME_START)
         mGameStatus.set(GAME_STATUS_PLAYING)
         viewModel.gamePanelVisibility.set(View.VISIBLE)
         viewModel.guestPanelVisibility.set(View.GONE)

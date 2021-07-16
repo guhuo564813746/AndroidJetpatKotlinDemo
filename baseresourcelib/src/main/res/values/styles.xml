@@ -15,6 +15,9 @@
         <item name="android:windowEnterAnimation">@anim/bottomview_anim_enter</item>
         <item name="android:windowExitAnimation">@anim/bottomview_anim_exit</item>
     </style>
+    <style name="UPPay">
+        <item name="android:dialogTheme">@android:style/Theme.Dialog</item>
+    </style>
 
     <style name="dialogLoading" >
         <item name="android:windowFrame">@null</item>

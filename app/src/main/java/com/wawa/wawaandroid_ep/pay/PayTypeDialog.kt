@@ -59,9 +59,7 @@ class PayTypeDialog(
     fun initView(view: View){
         val lvPaytypeitem=view.findViewById<RecyclerView>(R.id.lv_paytypeitem)
         val tvPaytips=view.findViewById<TextView>(R.id.tv_paytips)
-        val imCancelpay=view.findViewById<ImageView>(R.id.im_cancelpay)
         val tvPaybuynow=view.findViewById<TextView>(R.id.tv_paybuynow)
-        val tvPaytypeTips=view.findViewById<TextView>(R.id.tv_paytype_tips)
         lvPaytypeitem.setHasFixedSize(true)
         lvPaytypeitem.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
 
@@ -75,13 +73,6 @@ class PayTypeDialog(
             )
             lvPaytypeitem.adapter=adapter }
         tvPaytips.setText(payGoods.fragments()?.chargeGoodsFields()?.name())
-        tvPaytypeTips.setText(payGoods.fragments()?.chargeGoodsFields()?.detailDesc())
-        imCancelpay.setOnClickListener {
-            if (callback != null){
-                callback.payTypeCancel()
-            }
-            dismissAllowingStateLoss()
-        }
         tvPaybuynow.setOnClickListener {
             if (callback != null){
                 adapter?.list?.let {

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Typeface
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.multidex.MultiDex
 import com.apollographql.apollo.ApolloAndroidLogger
@@ -17,6 +18,7 @@ import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore
 import com.apollographql.apollo.cache.normalized.CacheKey
 import com.apollographql.apollo.cache.normalized.CacheKeyResolver
 import com.apollographql.apollo.cache.normalized.sql.SqlNormalizedCacheFactory
+import com.blankj.utilcode.util.ToastUtils
 import com.robotwar.app.R
 import com.scwang.smart.refresh.footer.BallPulseFooter
 import com.scwang.smart.refresh.header.BezierRadarHeader
@@ -27,7 +29,11 @@ import com.wawa.baselib.utils.LanguageUtils
 import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.apollonet.BaseDataSource
 import com.wawa.baselib.utils.apollonet.service.ApolloCoroutinesService
+import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.net.datasource.GraphqlRemoteDataSource
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.File
@@ -38,8 +44,10 @@ import java.io.File
  *邮箱：564813746@qq.com
  */
 class WawaApp : Application(){
-
+    val TAG="WawaApp"
+    private val compositeDisposable = CompositeDisposable()
     companion object{
+        var app: WawaApp?=null
         lateinit var  lContext: Context
 //        var apolloClient: ApolloClient=GraphqlRemoteDataSource.apolloClient
         lateinit var apolloClient: ApolloClient
@@ -108,6 +116,33 @@ class WawaApp : Application(){
             .build()
     }*/
 
+    fun setUpDataSource(){
+        LogUtils.d(TAG,"setUpDataSource--")
+        val successUserDisposable=dataSource.userData
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleSuccessUserData)
+
+        val errorUserDisposable=dataSource.error
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleErrorData)
+        compositeDisposable.add(successUserDisposable)
+        compositeDisposable.add(errorUserDisposable)
+        dataSource.getUserData()
+    }
+
+    private fun handleErrorData(error: Throwable?){
+        Log.d(TAG,"handleErrorData--")
+        Toast.makeText(this,error?.message,Toast.LENGTH_SHORT).show()
+    }
+
+    private fun handleSuccessUserData(userData: UserQuery.User){
+        LogUtils.d(TAG,"handleSuccessUserData--${userData.toString()}")
+        MainViewModule.mutableLiveuserData.value=userData
+        MainViewModule.userData=userData
+    }
+
     fun refreshApolloClient(){
         val logInterceptor = HttpLoggingInterceptor(
             object : HttpLoggingInterceptor.Logger {
@@ -147,6 +182,7 @@ class WawaApp : Application(){
 
     override fun onCreate() {
         super.onCreate()
+        app=this
         lContext=this
         MultiDex.install(lContext)
         SharePreferenceUtils.initSp(this)
@@ -154,6 +190,7 @@ class WawaApp : Application(){
         initRefreshLayoutConfig()
         
     }
+
 
     fun initRefreshLayoutConfig(){
         //设置全局的Header构建器

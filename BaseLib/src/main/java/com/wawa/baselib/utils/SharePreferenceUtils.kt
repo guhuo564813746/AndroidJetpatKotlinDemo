@@ -28,6 +28,8 @@ class SharePreferenceUtils {
         const val BGM_GAME = "bgm_game"//游戏音效
         const val BGM_KEY = "bgm_key"//按键音效
         const val LOGIN_AGREEMENT="LOGIN_AGREEMENT"
+        const val FISHGAME_AUTO_TIME="FISHGAME_AUTO_TIME"
+        const val FISHGAME_GETFISH_REMIND ="FISHGAME_GETFISH_REMIND"
         val PLAYER_OPENGL = "PLAYER_OPENGL"
         val VIDEO_PLAYER = "VIDEO_PLAYER"
         val WIFI_SET="WIFI_SET"
@@ -67,6 +69,10 @@ class SharePreferenceUtils {
 
         fun getSwitch(tag: String): Boolean{
             return sPUser.getBoolean(tag,false)
+        }
+
+        fun getSwitch(tag: String,default: Boolean): Boolean{
+            return sPUser.getBoolean(tag,default)
         }
 
         fun saveStr(tag: String,content: String?){

@@ -3,6 +3,7 @@ package com.wawa.wawaandroid_ep.activity.viewmodule
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
+import androidx.lifecycle.MutableLiveData
 import com.robotwar.app.R
 
 /**
@@ -12,6 +13,10 @@ import com.robotwar.app.R
 class FishGameViewModel : BaseGameViewModel(){
     var countdownImgVisibility=ObservableInt(View.GONE)
     var fishOnPrizeTips=ObservableField("")
+    companion object{
+        val stopSound=MutableLiveData<Boolean>(false)
+
+    }
     init {
         startGameBtnRes.set(R.drawable.fishgame_startgame_bg)
     }

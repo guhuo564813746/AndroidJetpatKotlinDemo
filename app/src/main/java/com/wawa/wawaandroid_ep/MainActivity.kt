@@ -130,27 +130,6 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModule>() {
         }
     }
 
-     fun setUpDataSource(){
-         LogUtils.d(TAG,"setUpDataSource--")
-        val successUserDisposable=dataSource.userData
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleSuccessUserData)
-
-        val errorUserDisposable=dataSource.error
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleErrorData)
-        compositeDisposable.add(successUserDisposable)
-        compositeDisposable.add(errorUserDisposable)
-        dataSource.getUserData()
-    }
-
-    private fun handleSuccessUserData(userData: UserQuery.User){
-        LogUtils.d(TAG,"handleSuccessUserData--${userData.toString()}")
-        MainViewModule.mutableLiveuserData.value=userData
-        MainViewModule.userData=userData
-    }
 
     private fun handleErrorData(error: Throwable?){
         Log.d(TAG,"handleErrorData--")

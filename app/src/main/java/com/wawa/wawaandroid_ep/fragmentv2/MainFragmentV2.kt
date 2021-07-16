@@ -84,7 +84,7 @@ class MainFragmentV2 : BaseFragment<MainFmV2LayBinding,MainFmV2ViewModel>(){
             MainViewModule.configData=it
             initNavListView()
         })
-        (activity as MainActivity).setUpDataSource()
+        (WawaApp.app)!!.setUpDataSource()
         binding.mainSlideTab.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
 

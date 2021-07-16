@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.robotwar.app.R
 import com.wawa.wawaandroid_ep.pay.PayManager
 import com.wawa.wawaandroid_ep.MainActivity
+import com.wawa.wawaandroid_ep.WawaApp
 import com.wawa.wawaandroid_ep.fragment.ChargeFragment
 
 /**
@@ -71,7 +72,7 @@ class ChargeDialogV2Adapter(context: Context, private val payManager: PayManager
                             it, it1,
                             object: PayManager.PayCallback{
                                 override fun paySuccess(payType: Int) {
-                                    (mContext as MainActivity).setUpDataSource()
+                                    (WawaApp.app)!!.setUpDataSource()
                                 }
 
                                 override fun payErr(msg: String) {

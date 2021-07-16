@@ -54,6 +54,7 @@ abstract class BaseVMDialogFragment<V : ViewDataBinding,VM : BaseVM> : DialogFra
 
     override fun onResume() {
         super.onResume()
+        getDialog()?.getWindow()?.setLayout(dialogWidth,dialogHeight)
     }
 
     open fun createDialog(): Dialog{

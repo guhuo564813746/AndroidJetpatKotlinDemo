@@ -22,7 +22,6 @@ class MainViewModule : BaseVM(){
     val isUserLogined=MutableLiveData<Boolean>()
     override fun onCleared() {
         super.onCleared()
-
     }
 
 }

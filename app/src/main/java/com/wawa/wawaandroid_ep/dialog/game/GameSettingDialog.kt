@@ -21,19 +21,14 @@ import com.wawa.wawaandroid_ep.dialog.viewmodel.GameSettingVM
 class GameSettingDialog : BaseVMDialogFragment<GameSettingDialogLayBinding,GameSettingVM>(){
 
     override fun initDialogParams() {
-
+        dialogWidth=AppUtils.dp2px(activity,290f)
+        dialogHeight=AppUtils.dp2px(activity,440f)
     }
 
     override fun getLayoutId(): Int {
         return R.layout.game_setting_dialog_lay
     }
 
-    override fun onResume() {
-        super.onResume()
-        dialogWidth=AppUtils.dp2px(activity,290f)
-        dialogHeight=AppUtils.dp2px(activity,440f)
-        getDialog()?.getWindow()?.setLayout(dialogWidth,dialogHeight);
-    }
 
     override fun initView(view: View) {
         val gameSetViewPagerAdapter= BaseViewPagerAdapter(childFragmentManager,initVpFragments(),getViewPagerTitles())

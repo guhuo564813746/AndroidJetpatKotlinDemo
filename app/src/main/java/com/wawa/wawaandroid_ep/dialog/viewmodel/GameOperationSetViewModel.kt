@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.dialog.viewmodel
 
 import androidx.databinding.ObservableBoolean
+import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.viewmodel.BaseVM
 
 /**
@@ -9,4 +10,9 @@ import com.wawa.baselib.utils.viewmodel.BaseVM
  */
 class GameOperationSetViewModel : BaseVM(){
     var isFishGetRemindOpen= ObservableBoolean(true)
+    var isGameFishAutoTime = ObservableBoolean(false)
+    init {
+        isFishGetRemindOpen.set(SharePreferenceUtils.getSwitch(SharePreferenceUtils.FISHGAME_GETFISH_REMIND,true))
+        isGameFishAutoTime.set(SharePreferenceUtils.getSwitch(SharePreferenceUtils.FISHGAME_AUTO_TIME,true))
+    }
 }

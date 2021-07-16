@@ -8,10 +8,17 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-feature android:name="android.hardware.nfc.hce"/>
+
+    <!--云闪付    -->
+    <uses-permission android:name="org.simalliance.openmobileapi.SMARTCARD" />
 
     <!--存储权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -33,6 +40,21 @@
             android:value="1c9e485a2e8dcbdbf3a07a25e2b61edb"/>-->
         <meta-data android:name="APP_CHANNEL" android:value="qq"/>
 
+        <!-- 云闪付配置       -->
+        <uses-library android:name="org.simalliance.openmobileapi" android:required="false"/>
+        <activity android:name="com.unionpay.uppay.PayActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/UPPay"/>
+        <activity  android:name="com.unionpay.UPPayWapActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/UPPay"/>
+        <!--云闪付end        -->
         <activity android:name="com.wawa.wawaandroid_ep.activity.LauncherActivity"
             android:theme="@style/startpageTheme"
             android:exported="true">

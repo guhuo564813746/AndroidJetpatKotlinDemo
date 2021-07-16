@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.pay.cloudflashpay
 
 import android.content.Context
+import android.util.Log
 import com.wawa.wawaandroid_ep.pay.PayManager
 
 /**
@@ -8,10 +9,11 @@ import com.wawa.wawaandroid_ep.pay.PayManager
  *邮箱：564813746@qq.com
  */
 class CloudFlashPayTask(private val mContext: Context, private val callback: PayManager.PayCallback) {
+    val TAG="CloudFlashPayTask"
     init {
 
     }
     fun cloudFlashPay(json: String){
-
+        Log.d(TAG,"cloudFlashPay--"+json)
     }
 }

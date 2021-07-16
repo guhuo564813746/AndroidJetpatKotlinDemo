@@ -82,7 +82,7 @@ class MainFragment : BaseFragment<FragmentMainLayBinding,MainFragmentViewModel>(
     }
 
     override fun initFragmentView() {
-        (activity as MainActivity).setUpDataSource()
+        (WawaApp.app)!!.setUpDataSource()
         mainTabLay=binding.tabLay2.findViewById(R.id.main_slide_tab) as TabLayout
         mainTabLay.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {

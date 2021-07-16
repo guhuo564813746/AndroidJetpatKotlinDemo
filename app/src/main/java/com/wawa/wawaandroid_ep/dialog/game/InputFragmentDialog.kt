@@ -41,11 +41,6 @@ class InputFragmentDialog : BaseVMDialogFragment<InputFmLayBinding,InputFragment
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG,"onResume--")
-        getDialog()?.getWindow()?.setLayout(dialogWidth,dialogHeight);
-    }
 
     override fun createDialog(): Dialog {
         Log.d(TAG,"createDialog--")

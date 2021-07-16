@@ -1,5 +1,6 @@
 package com.wawa.wawaandroid_ep.activity.viewmodule
 
+import android.util.Log
 import android.view.View
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
@@ -8,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.apollographql.apollo.RoomInfoQuery
 import com.wawa.baselib.utils.logutils.LogUtils
 import com.wawa.baselib.utils.viewmodel.BaseVM
+import com.wawa.wawaandroid_ep.sound.SoundManager
 
 /**
  *作者：create by 张金 on 2021/2/3 14:41
@@ -30,6 +32,7 @@ open class BaseGameViewModel : BaseVM(){
     var playerName=ObservableField("尊贵的用户666")
     var playerHonnorName= ObservableField("")
     var playerGameViewVisibility= ObservableInt(View.GONE)
+    var soundManager: SoundManager?= null
     init {
         startGameBtnRes.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -38,9 +41,13 @@ open class BaseGameViewModel : BaseVM(){
         })
     }
 
+
     override fun onCleared() {
         super.onCleared()
-
+        Log.d(TAG,"onCleared--")
+        if (soundManager != null){
+            soundManager?.releaseSound()
+        }
     }
 
 }

@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.PopupWindow
 import androidx.activity.viewModels
 import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ScreenUtils
 import com.coinhouse777.wawa.widget.popgame.GameSetGroupViewControlor
@@ -34,6 +35,7 @@ import com.wawa.wawaandroid_ep.bean.game.GameRoomChatDataBean
 import com.wawa.wawaandroid_ep.bean.game.GameRoomUsers
 import com.wawa.wawaandroid_ep.bean.game.SocketBaseBean
 import com.wawa.wawaandroid_ep.dialog.game.*
+import com.wawa.wawaandroid_ep.sound.SoundManager
 import com.wawa.wawaandroid_ep.view.ButtonControlPanel
 import com.wawa.wawaandroid_ep.view.RockerView
 import com.wawa.wawaandroid_ep.view.ViewUtils
@@ -50,7 +52,9 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     ,GameQuit_PortDialog.GameQuitDialogCallback, FishGameListener {
     val TAG="FishGameRoomActivity"
     private var isCameraShow=false
+    private var gameFishPrizeDialog: GameFishPrizeDialog?=null
     private var gameReadyDialog: GameReadyDialog?=null
+    private var gifDialog: GifDialog?= null
     val chatAdapter= ArrayListAdapter<GameRoomChatDataBean>()
     private  var popupGameSetWindow: PopupWindow?=null
     var gameSetGroupViewControlor: GameSetGroupViewControlor?=null
@@ -105,15 +109,48 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         }
     }
 
+    override fun onGamePlaying(jsonData: JSONObject?) {
+        super.onGamePlaying(jsonData)
+        runOnUiThread {
+            jsonData?.let {
+                val userCoin=jsonData?.getInt("user_coin")
+                val userPoint=jsonData?.getInt("user_point")
+                val gameRecordId=jsonData?.getInt("game_record_id")
+                val totalWeight=jsonData?.getInt("total_weight")
+                val totalNumber=jsonData?.getInt("total_number")
+                viewModel.fishOnPrizeTips.set("渔获 ")
+            }
+
+        }
+    }
+
     override fun onHook(msg: JSONObject?) {
         //上钩了
+        viewModel.soundManager?.playSound(SoundManager.FISH_ONHOOK)
+        Log.d(TAG,"onHook--"+ (viewModel.soundManager== null))
+        if (gifDialog == null){
+            gifDialog=GifDialog()
+            gifDialog!!.dialogWidth=0
+            gifDialog!!.dialogHeight=0
+        }
+        if (!gifDialog!!.isAdded){
+            gifDialog!!.showDialog(supportFragmentManager,"GifDialog")
+        }
     }
 
     override fun onFishPrize(msg: JSONObject?) {
         runOnUiThread {
+            viewModel.soundManager?.playSound(SoundManager.FISH_PRIZE)
             val weight=msg?.getInt("weight")
             val totalWeight=msg?.getInt("total_weight")
             val totalNumber=msg?.getInt("total_number")
+            //显示渔获弹窗
+            if (gameFishPrizeDialog == null){
+                gameFishPrizeDialog= GameFishPrizeDialog()
+            }
+            if (!gameFishPrizeDialog!!.isAdded){
+                gameFishPrizeDialog!!.showDialog(supportFragmentManager,"GameFishPrizeDialog")
+            }
 
         }
     }
@@ -182,6 +219,12 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
         mGameStatus.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 initGameMenuData()
+            }
+        })
+        FishGameViewModel.stopSound.observe(this, Observer {
+            Log.d(TAG,"fishOnHook__observe"+it)
+            if (it){
+                viewModel.soundManager?.stopSound()
             }
         })
     }
@@ -729,7 +772,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     }
 
     override fun showTopUpDialog() {
-        val payDialog= PayPortDialog()
+        val payDialog= PayPortDialog_V2()
         payDialog.showDialog(supportFragmentManager,PayPortDialog.TAG)
     }
 

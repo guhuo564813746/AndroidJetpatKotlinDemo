@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.QuitGamePortdialogLayBinding
+import com.wawa.baselib.utils.AppUtils
 import com.wawa.baselib.utils.dialog.BaseVMDialogFragment
 import com.wawa.wawaandroid_ep.dialog.viewmodel.GameQuitPortDialogVm
 
@@ -19,8 +20,10 @@ class GameQuit_PortDialog : BaseVMDialogFragment<QuitGamePortdialogLayBinding,Ga
     }
     var isQuit=true
     var listener: GameQuitDialogCallback?=null
-    override fun initDialogParams() {
 
+    override fun initDialogParams() {
+        dialogWidth=AppUtils.dp2px(activity,290f)
+        dialogHeight=AppUtils.dp2px(activity,337f)
     }
 
     override fun getLayoutId(): Int {
