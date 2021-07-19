@@ -1,6 +1,7 @@
 package com.wawa.wawaandroid_ep.dialog.viewmodel
 
 import androidx.databinding.ObservableBoolean
+import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.baselib.utils.viewmodel.BaseVM
 
 /**
@@ -14,6 +15,11 @@ class AudioSetViewModel : BaseVM(){
     var isBtVoiceSet = ObservableBoolean(false)
     var isAppRunBgVoiceSet = ObservableBoolean(true)
     var isTanMuOpen = ObservableBoolean(true)
-
+    init {
+        isBgVoiceSet.set(SharePreferenceUtils.getSwitch(SharePreferenceUtils.BGM,true))
+        isVideoVoiceSet.set(SharePreferenceUtils.getSwitch(SharePreferenceUtils.BGM_LIVE,true))
+        isGameVoiceSet.set(SharePreferenceUtils.getSwitch(SharePreferenceUtils.BGM_GAME,true))
+        isBtVoiceSet.set(SharePreferenceUtils.getSwitch(SharePreferenceUtils.BGM_KEY,true))
+    }
 
 }

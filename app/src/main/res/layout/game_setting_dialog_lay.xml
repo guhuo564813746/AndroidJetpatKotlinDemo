@@ -10,6 +10,13 @@
         android:layout_width="290dp"
         android:layout_height="440dp"
         android:background="@mipmap/im_setdialog_bg">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/im_gameset_tag"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="100dp"/>
+
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +48,8 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="15dp"
             android:background="@drawable/blue_10_cornors_bg"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:onClick="@{viewModel.onClick}"/>
 
     </RelativeLayout>
 </layout>

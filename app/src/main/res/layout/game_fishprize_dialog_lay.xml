@@ -6,8 +6,34 @@
             type="com.wawa.wawaandroid_ep.dialog.viewmodel.GameFishPrizeDialogVM" />
     </data>
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="290dp"
+        android:layout_height="318dp"
+        android:background="@mipmap/im_fishget_success_dialog_bg">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你太棒啦"
+            android:textColor="#FF8C65"
+            android:textSize="24dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FDA34A"
+            android:textSize="14dp"
+            android:layout_centerHorizontal="true"
+            android:text="@{viewModel.gameFishPrizeTips}"
+            android:layout_marginTop="200dp"
+            android:id="@+id/tv_gamefishget_tips"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11dp"
+            android:layout_centerHorizontal="true"
+            android:text="技术棒棒哒，准备连杆"
+            android:textColor="#EE6333"
+            android:layout_marginTop="220dp"/>
 
     </RelativeLayout>
 </layout>

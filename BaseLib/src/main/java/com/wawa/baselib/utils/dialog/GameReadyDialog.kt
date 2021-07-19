@@ -3,6 +3,7 @@ package com.wawa.baselib.utils.dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
+import android.widget.ImageButton
 import android.widget.TextView
 import com.blankj.utilcode.util.SizeUtils
 import com.wawa.baselib.R
@@ -17,10 +18,10 @@ class GameReadyDialog : BaseDialogFragment(){
     private var isConfirm=false
     private var isCancel=false
     var gameReadyInterface: GameReadyInterface?= null
-    var btContinuteGame:TextView?= null
+    var tvTimecounter: TextView?= null
     override fun initDialogParams() {
         dialogWidth=SizeUtils.dp2px(290f)
-        dialogHeight=SizeUtils.dp2px(350f)
+        dialogHeight=SizeUtils.dp2px(365f)
     }
 
     override fun onAttach(context: Context) {
@@ -30,8 +31,8 @@ class GameReadyDialog : BaseDialogFragment(){
 
     fun setTimes(time: Int){
         this.timeLeft=time
-        if (btContinuteGame != null && isViewInit){
-            btContinuteGame?.setText(getString(R.string.start_game)+"(${timeLeft}s)")
+        if (tvTimecounter != null && isViewInit){
+            tvTimecounter?.setText("${timeLeft}s")
         }
         if (timeLeft==0){
             if (gameReadyInterface != null && isViewInit){
@@ -47,8 +48,9 @@ class GameReadyDialog : BaseDialogFragment(){
 
     override fun initView(view: View) {
 //        isCancelable=false
-        var btnCancel=view.findViewById<TextView>(R.id.btn_cancel)
-        btContinuteGame=view.findViewById(R.id.btn_confirm)
+        var btnCancel=view.findViewById<View>(R.id.btn_cancel)
+        tvTimecounter=view.findViewById<TextView>(R.id.tv_timecounter)
+        var btContinuteGame=view.findViewById<View>(R.id.btn_confirm)
         btnCancel.setOnClickListener {
             if (gameReadyInterface != null){
                 gameReadyInterface?.cancelGame()

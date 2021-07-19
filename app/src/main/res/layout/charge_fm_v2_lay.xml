@@ -22,37 +22,46 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="15dp"/>
-            <RelativeLayout
-                android:layout_width="80dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="15dp"
                 android:id="@+id/rl_cointips">
-                <TextView
-                    android:layout_width="60dp"
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="17dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="11dp"
-                    android:gravity="center"
-                    android:textSize="10dp"
-                    android:textColor="@color/light_black"
-                    android:background="#BDD6FF"
-                    android:text="@={viewModel.coin}"
-                    android:id="@+id/coin"/>
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="17dp"
-                    android:src="@mipmap/im_coin"
-                    android:layout_centerVertical="true"/>
+                    android:layout_marginRight="-9dp"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="17dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="14dp"
+                        android:gravity="center"
+                        android:textSize="10dp"
+                        android:textColor="@color/light_black"
+                        android:background="#BDD6FF"
+                        android:text="@={viewModel.coin}"
+                        android:layout_marginLeft="30dp"
+                        android:id="@+id/coin"/>
+                    <View
+                        android:layout_width="35dp"
+                        android:layout_height="17dp"
+                        android:background="@mipmap/im_dianliang_tag"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/view_cointips_left" />
+                </FrameLayout>
                 <View
                     android:layout_width="17dp"
                     android:layout_height="17dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center_vertical"
                     android:background="@mipmap/home_icon_chargeadd"/>
-            </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="80dp"

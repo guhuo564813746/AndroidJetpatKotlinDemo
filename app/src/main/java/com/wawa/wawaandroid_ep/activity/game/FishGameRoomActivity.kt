@@ -148,6 +148,7 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
             if (gameFishPrizeDialog == null){
                 gameFishPrizeDialog= GameFishPrizeDialog()
             }
+            gameFishPrizeDialog!!.viewModel.gameFishPrizeTips.set("恭喜中鱼，重${weight}斤")
             if (!gameFishPrizeDialog!!.isAdded){
                 gameFishPrizeDialog!!.showDialog(supportFragmentManager,"GameFishPrizeDialog")
             }
@@ -774,6 +775,13 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     override fun showTopUpDialog() {
         val payDialog= PayPortDialog_V2()
         payDialog.showDialog(supportFragmentManager,PayPortDialog.TAG)
+    }
+
+    override fun showTopUpTipsDialog() {
+        val noCoinsTipsDialog= NoCoinsTipsDialog()
+        if (!noCoinsTipsDialog.isAdded){
+            noCoinsTipsDialog.showDialog(supportFragmentManager,"NoCoinsTipsDialog")
+        }
     }
 
 }

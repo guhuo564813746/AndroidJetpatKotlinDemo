@@ -44,7 +44,7 @@ class GameFeedBackDialog : BaseVMDialogFragment<FeedbackDialogLayBinding,GameFee
     }
     override fun initDialogParams() {
         dialogWidth= SizeUtils.dp2px(290f)
-        dialogHeight= SizeUtils.dp2px(380f)
+        dialogHeight= SizeUtils.dp2px(440f)
     }
 
     override fun getLayoutId(): Int {

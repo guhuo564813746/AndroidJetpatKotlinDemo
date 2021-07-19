@@ -1,9 +1,11 @@
 package com.wawa.wawaandroid_ep.dialog.game.fragment
 
 import androidx.fragment.app.viewModels
+import com.apollographql.apollo.RoomInfoQuery
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.VideoSetLayBinding
+import com.wawa.wawaandroid_ep.activity.game.GameBaseActivity
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
 import com.wawa.wawaandroid_ep.dialog.viewmodel.VideoSetViewModel
 
@@ -12,6 +14,7 @@ import com.wawa.wawaandroid_ep.dialog.viewmodel.VideoSetViewModel
  *邮箱：564813746@qq.com
  */
 class VideoSetFragment : BaseFragment<VideoSetLayBinding,VideoSetViewModel>(){
+    var roomData: RoomInfoQuery.List?= null
     override fun initVariableId(): Int {
         return BR.viewModel
     }
@@ -26,6 +29,9 @@ class VideoSetFragment : BaseFragment<VideoSetLayBinding,VideoSetViewModel>(){
     }
 
     override fun initFragmentView() {
+        activity?.let {
+            roomData=(it as GameBaseActivity<*,*>).viewModel.roomInfoData.value
 
+        }
     }
 }

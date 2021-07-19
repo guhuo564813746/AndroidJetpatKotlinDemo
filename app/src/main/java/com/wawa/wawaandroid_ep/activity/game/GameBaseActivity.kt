@@ -48,10 +48,10 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         val MSG_TYPE_AUDIO=2
         val MSG_TYPE_VIDEO=3
         val MSG_TYPE_FACE=4
-
         val GAME_TYPE_EP="dji_ep"
         val GAME_TYPE_FISH="fishing"
     }
+    private val ERRORCODE_NO_BALANCE=0
     private val TAG="GameBaseActivity"
     protected val compositeDisposable = CompositeDisposable()
     protected var gameVideoControlor: Fragment?=null
@@ -113,6 +113,13 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         viewModel.soundManager= SoundManager(this)
         (application as WawaApp).sendMsg.observe(this, Observer {
             sendChatMsg(it,MSG_TYPE_TEXT)
+        })
+        viewModel.topUpTipsDialogShow.observe(this, Observer {
+            if (it){
+                runOnUiThread{
+                    showTopUpTipsDialog()
+                }
+            }
         })
         viewModel.roomInfoData?.observe(this, Observer {
             initGameVideo(it)
@@ -318,6 +325,10 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
                 runOnUiThread {
                     ToastUtils.showShort(errorMsg)
                     setGameOverStatus()
+                    if (errorCode ==ERRORCODE_NO_BALANCE){
+                        //余额不足，显示充值提示弹窗
+                        showTopUpTipsDialog()
+                    }
                 }
             }
         })
@@ -652,6 +663,7 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
     abstract fun gameQueueBtnBg(): Int
     abstract fun showQuitDislog()
     abstract fun showTopUpDialog()
+    abstract fun showTopUpTipsDialog()
     override fun back(view: View) {
 
     }

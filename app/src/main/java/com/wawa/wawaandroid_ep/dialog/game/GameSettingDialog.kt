@@ -3,6 +3,8 @@ package com.wawa.wawaandroid_ep.dialog.game
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.GameSettingDialogLayBinding
@@ -19,7 +21,9 @@ import com.wawa.wawaandroid_ep.dialog.viewmodel.GameSettingVM
  *邮箱：564813746@qq.com
  */
 class GameSettingDialog : BaseVMDialogFragment<GameSettingDialogLayBinding,GameSettingVM>(){
-
+    companion object{
+        val confirmSubmit=MutableLiveData<Boolean>()
+    }
     override fun initDialogParams() {
         dialogWidth=AppUtils.dp2px(activity,290f)
         dialogHeight=AppUtils.dp2px(activity,440f)
@@ -34,6 +38,13 @@ class GameSettingDialog : BaseVMDialogFragment<GameSettingDialogLayBinding,GameS
         val gameSetViewPagerAdapter= BaseViewPagerAdapter(childFragmentManager,initVpFragments(),getViewPagerTitles())
         binding.setViewpager.adapter=gameSetViewPagerAdapter
         binding.setTab.setupWithViewPager(binding.setViewpager)
+        viewModel.clicks.observe(this, Observer {
+            when(it.id){
+                R.id.bt_set ->{
+                    confirmSubmit.value=true
+                }
+            }
+        })
     }
 
     fun initVpFragments(): List<Fragment>{

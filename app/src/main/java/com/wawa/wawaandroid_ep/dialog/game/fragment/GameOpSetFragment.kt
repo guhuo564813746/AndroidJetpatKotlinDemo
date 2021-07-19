@@ -1,10 +1,13 @@
 package com.wawa.wawaandroid_ep.dialog.game.fragment
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.GameOpsetLayBinding
+import com.wawa.baselib.utils.SharePreferenceUtils
 import com.wawa.wawaandroid_ep.base.fragment.BaseFragment
+import com.wawa.wawaandroid_ep.dialog.game.GameSettingDialog
 import com.wawa.wawaandroid_ep.dialog.viewmodel.GameOperationSetViewModel
 
 /**
@@ -26,6 +29,11 @@ class GameOpSetFragment : BaseFragment<GameOpsetLayBinding,GameOperationSetViewM
     }
 
     override fun initFragmentView() {
-
+        GameSettingDialog.confirmSubmit.observe(this, Observer {
+            if(it){
+                SharePreferenceUtils.saveSwitch(SharePreferenceUtils.FISHGAME_GETFISH_REMIND,viewModel.isFishGetRemindOpen.get())
+                SharePreferenceUtils.saveSwitch(SharePreferenceUtils.FISHGAME_AUTO_TIME,viewModel.isGameFishAutoTime.get())
+            }
+        })
     }
 }

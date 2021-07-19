@@ -35,23 +35,30 @@ class InputFragmentDialog : BaseVMDialogFragment<InputFmLayBinding,InputFragment
     var msgSendable=false
     val sendBg= GradientDrawable()
     override fun initDialogParams() {
-        dialogWidth=WindowManager.LayoutParams.MATCH_PARENT
-        activity?.let {
-            dialogHeight=AppUtils.dp2px(it,40f)
-        }
+        Log.d(TAG,"initDialogParams--dialogWidth${dialogWidth}--dialogHeight${dialogHeight}")
+//        Log.d(TAG,"createDialog--"+dialogWidth+dialogHeight)
+
+    }
+
+    override fun onResume() {
+        dialogWidth=ScreenUtils.getScreenWidth()
+        dialogHeight=AppUtils.dp2px(activity,40f)
+        super.onResume()
     }
 
 
     override fun createDialog(): Dialog {
-        Log.d(TAG,"createDialog--")
         activity?.let {
             val dialog = Dialog(it, R.style.dialog2)
             dialog.setCanceledOnTouchOutside(true)
             dialog.setCancelable(true)
             val window = dialog.window
             val params = window!!.attributes
+//            val dWidth=ScreenUtils.getScreenWidth()
+//            val dHeight=AppUtils.dp2px(activity,40f)
             params.width = dialogWidth
             params.height = dialogHeight
+            Log.d(TAG,"createDialog--"+dialogWidth+dialogHeight)
             params.gravity = Gravity.BOTTOM
             window!!.attributes = params
             window?.setWindowAnimations(com.wawa.baselib.R.style.bottomToTopAnim)

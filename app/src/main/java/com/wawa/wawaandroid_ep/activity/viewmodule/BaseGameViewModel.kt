@@ -17,6 +17,7 @@ import com.wawa.wawaandroid_ep.sound.SoundManager
  */
 open class BaseGameViewModel : BaseVM(){
     private val TAG="BaseGameViewModel"
+    var topUpTipsDialogShow= MutableLiveData<Boolean>()
     var userDataGroupVisibility = ObservableInt(View.VISIBLE)
     var fee = ObservableField("")
     var coin=ObservableField("")

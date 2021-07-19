@@ -118,7 +118,7 @@ class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<Ro
         }
         holder.tvRoomStatus.background=statusBg
         val coinsPer=roomLists?.get(position)?.fragments()?.roomFragment()?.roomGameOption()?.fragments()?.roomGameOptionFragment()?.coin2hardRatio()?.toInt()
-        val shortDescTips="$coinsPer 游戏币/次"
+        val shortDescTips="$coinsPer"
         val coinPerSS= SpannableStringBuilder()
         coinPerSS.append(shortDescTips)
         var colorList: ColorStateList?=null
@@ -128,8 +128,8 @@ class RoomListV2Adapter(private val mContext: Context) : RecyclerView.Adapter<Ro
         val shortDesc1=coinsPer?.toString()?.length ?: 0
         coinPerSS.setSpan(ForegroundColorSpan(mContext.resources.getColor(R.color.per_coins)),0,shortDesc1,Spanned.SPAN_INCLUSIVE_INCLUSIVE)
         coinPerSS.setSpan(AbsoluteSizeSpan(AppUtils.dp2px(mContext,16f)),0,shortDesc1,Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-        coinPerSS.setSpan(ForegroundColorSpan(mContext.resources.getColor(R.color.lineColor)),shortDesc1,shortDescTips.length,Spanned.SPAN_INCLUSIVE_INCLUSIVE)
-        coinPerSS.setSpan(AbsoluteSizeSpan(AppUtils.dp2px(mContext,12f)),shortDesc1,shortDescTips.length,Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+//        coinPerSS.setSpan(ForegroundColorSpan(mContext.resources.getColor(R.color.lineColor)),shortDesc1,shortDescTips.length,Spanned.SPAN_INCLUSIVE_INCLUSIVE)
+//        coinPerSS.setSpan(AbsoluteSizeSpan(AppUtils.dp2px(mContext,12f)),shortDesc1,shortDescTips.length,Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         holder.shortDesc.text=coinPerSS
         holder.itemView.setOnClickListener {
             var bundle= Bundle()

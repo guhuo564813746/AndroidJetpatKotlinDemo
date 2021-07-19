@@ -143,5 +143,5 @@ dependencies {
     //云闪付sdk集成
     implementation files('libs/UPPayAssistEx.jar')
     implementation files('libs/UPPayPluginExPro.jar')
-    provided files('libs/org.simalliance.openmobileapi.jar')
+//    provided files('libs/org.simalliance.openmobileapi.jar')
 }

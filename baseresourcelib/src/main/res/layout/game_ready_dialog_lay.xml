@@ -5,54 +5,78 @@
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="290dp"
-        android:layout_height="350dp"
-        android:background="@drawable/white_10_corners_bg">
+        android:layout_height="365dp"
+        android:background="@mipmap/im_game_ready_bg">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:background="@mipmap/im_turnyou">
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ONTURNME_TIPS"
+                android:text="准备好了吗"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
-                android:textSize="20sp"
-                android:textColor="@color/white"
+                android:layout_marginTop="190dp"
+                android:textSize="24sp"
+                android:textColor="#FF622D"
                 android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="轮到你啦！等着你咧~"
+                android:textColor="#FF9315"
+                android:textSize="14dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="235dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="快d啦，快d啦~"
+                android:textSize="14dp"
+                android:textColor="#FE762C"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="255dp"/>
         </RelativeLayout>
-
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:layout_marginTop="100dp"
+            android:id="@+id/tv_timecounter"
+            android:background="@mipmap/im_game_countdown_time_bg"
+            android:gravity="center_horizontal|bottom"/>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="22dp"
+            android:layout_marginBottom="15dp"
             android:gravity="center">
-            <TextView
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:text="@string/GAMELOCK_SET_BTTEXT3"
+            <View
+                android:layout_width="115dp"
+                android:layout_height="57dp"
                 android:textSize="15sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:id="@+id/btn_cancel"
-                android:background="@drawable/blue_20_cornors_bg"/>
+                android:background="@mipmap/im_btn_leave"
+                android:layout_marginLeft="15dp"/>
 
-            <TextView
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:text="@string/continue_game"
+            <View
+                android:layout_width="115dp"
+                android:layout_height="57dp"
                 android:textSize="15sp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:id="@+id/btn_confirm"
-                android:background="@drawable/blue_20_cornors_bg"
-                android:layout_marginLeft="12dp"/>
+                android:background="@mipmap/im_btn_startgame"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="15dp"/>
         </LinearLayout>
 
         <!--    <LinearLayout-->

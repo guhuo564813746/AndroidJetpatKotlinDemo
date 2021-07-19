@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import com.robotwar.app.BR
 import com.robotwar.app.R
 import com.robotwar.app.databinding.GameFishprizeDialogLayBinding
+import com.wawa.baselib.utils.AppUtils
 import com.wawa.baselib.utils.dialog.BaseVMDialogFragment
 import com.wawa.wawaandroid_ep.activity.viewmodule.FishGameViewModel
 import com.wawa.wawaandroid_ep.dialog.viewmodel.GameFishPrizeDialogVM
@@ -15,8 +16,10 @@ import com.wawa.wawaandroid_ep.dialog.viewmodel.GameFishPrizeDialogVM
  *邮箱：564813746@qq.com
  */
 class GameFishPrizeDialog : BaseVMDialogFragment<GameFishprizeDialogLayBinding,GameFishPrizeDialogVM>(){
-    override fun initDialogParams() {
 
+    override fun initDialogParams() {
+        dialogWidth=AppUtils.dp2px(activity,290f)
+        dialogHeight=AppUtils.dp2px(activity,318f)
     }
 
     override fun getLayoutId(): Int {

@@ -23,7 +23,7 @@ class GameQuit_PortDialog : BaseVMDialogFragment<QuitGamePortdialogLayBinding,Ga
 
     override fun initDialogParams() {
         dialogWidth=AppUtils.dp2px(activity,290f)
-        dialogHeight=AppUtils.dp2px(activity,337f)
+        dialogHeight=AppUtils.dp2px(activity,204f)
     }
 
     override fun getLayoutId(): Int {
@@ -51,11 +51,11 @@ class GameQuit_PortDialog : BaseVMDialogFragment<QuitGamePortdialogLayBinding,Ga
         if (isQuit){
             binding.llTwobtBottom.setVisibility(View.VISIBLE)
             binding.btQuitgameRoom.setVisibility(View.GONE)
-            binding.tvGameClearingTips.setText(getString(R.string.GAME_LOCK_TIPS5))
+//            binding.tvGameClearingTips.setText(getString(R.string.GAME_LOCK_TIPS5))
         }else{
             binding.llTwobtBottom.setVisibility(View.GONE)
             binding.btQuitgameRoom.setVisibility(View.VISIBLE)
-            binding.tvGameClearingTips.setText(getString(R.string.GAME_LOCK_TIPS6))
+//            binding.tvGameClearingTips.setText(getString(R.string.GAME_LOCK_TIPS6))
         }
     }
 
