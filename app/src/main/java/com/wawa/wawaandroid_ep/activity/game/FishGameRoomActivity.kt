@@ -148,9 +148,11 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
             if (gameFishPrizeDialog == null){
                 gameFishPrizeDialog= GameFishPrizeDialog()
             }
-            gameFishPrizeDialog!!.viewModel.gameFishPrizeTips.set("恭喜中鱼，重${weight}斤")
             if (!gameFishPrizeDialog!!.isAdded){
                 gameFishPrizeDialog!!.showDialog(supportFragmentManager,"GameFishPrizeDialog")
+            }
+            if (gameFishPrizeDialog!!.isAdded){
+                gameFishPrizeDialog!!.viewModel.gameFishPrizeTips.set("恭喜中鱼，重${weight}斤")
             }
 
         }
@@ -489,38 +491,10 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
 
     private fun initGameMenuData(){
         val popGameList: MutableList<PopGameItemBean> = mutableListOf()
-        for (i in 0..8){
+        for (i in 0..7){
             val popGameItemBean=PopGameItemBean()
             when(i){
-                0 ->{
-                    popGameItemBean.enableTab=mGameStatus.get()==GAME_STATUS_PLAYING
-                    if (mGameStatus.get()==GAME_STATUS_PLAYING){
-                        popGameItemBean.imgRes=R.drawable.continute_gametime_bg
-                    }else{
-                        popGameItemBean.imgRes=R.mipmap.im_continutetime_unable
-                    }
-                }
-                1 ->{
-                    popGameItemBean.enableTab=true
-                    popGameItemBean.imgRes=R.drawable.fishgame_menu_topup_bg
-                }
-                2->{
-                    popGameItemBean.enableTab=true
-                    popGameItemBean.imgRes=R.drawable.gamemenu_nav_bg
-                }
-                3->{
-                    popGameItemBean.enableTab=true
-                    popGameItemBean.imgRes=R.drawable.dsrank_bg
-                }
-                4->{
-                    popGameItemBean.enableTab=true
-                    popGameItemBean.imgRes=R.drawable.gamefix_bg
-                }
-                5->{
-                    popGameItemBean.enableTab=true
-                    popGameItemBean.imgRes=R.drawable.gameseting_bg
-                }
-                6->{
+                0->{
                     popGameItemBean.enableTab=mGameStatus.get()== GAME_STATUS_PLAYING
                     if (mGameStatus.get() ==GAME_STATUS_PLAYING){
                         popGameItemBean.imgRes=R.drawable.gamereset_bg
@@ -528,11 +502,40 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
                         popGameItemBean.imgRes=R.mipmap.im_resetfishgame_unable
                     }
                 }
-                7->{
+                1 ->{
+                    popGameItemBean.enableTab=mGameStatus.get()==GAME_STATUS_PLAYING
+                    if (mGameStatus.get()==GAME_STATUS_PLAYING){
+                        popGameItemBean.imgRes=R.drawable.continute_gametime_bg
+                    }else{
+                        popGameItemBean.imgRes=R.mipmap.im_continutetime_unable
+                    }
+                }
+                2 ->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.fishgame_menu_topup_bg
+                }
+                3->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gamemenu_nav_bg
+                }
+                /*4->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.dsrank_bg
+                }*/
+                5->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gamefix_bg
+                }
+                4->{
+                    popGameItemBean.enableTab=true
+                    popGameItemBean.imgRes=R.drawable.gameseting_bg
+                }
+
+                6->{
                     popGameItemBean.enableTab=true
                     popGameItemBean.imgRes=R.drawable.gamecs_bg
                 }
-                8->{
+                7->{
                     popGameItemBean.enableTab=true
                     popGameItemBean.imgRes=R.drawable.gamechat_bg
                 }
@@ -610,21 +613,25 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
     override fun gameSetClick(pos: Int) {
         when(pos){
             0->{
-                //续时
-                fishBuyTime(1)
+                //钓鱼机复位操作
+                val gameFishResetDialog= GameFishResetDialog()
+                gameFishResetDialog.showDialog(supportFragmentManager,"GameFishResetDialog")
             }
             1->{
+                //续时
+                val gameFishBuyTimeDialog=GameFishBuyTimeDialog()
+                gameFishBuyTimeDialog.showDialog(supportFragmentManager,"GameFishBuyTimeDialog")
+            }
+            2->{
                 //充值
                 showTopUpDialog()
             }
-            2->{
+            3->{
                 //指南
 
             }
-            3->{
-                //大神榜
-            }
-            4->{
+
+            5->{
                 //维修
                 val feedbackDialog=GameFeedBackDialog()
                 ROOM_ID?.let {
@@ -633,21 +640,18 @@ class FishGameRoomActivity : GameBaseActivity<FishgameRoomActivityLayBinding, Fi
                 feedbackDialog.machineType=""
                 feedbackDialog.showDialog(supportFragmentManager,GameFeedBackDialog.TAG)
             }
-            5->{
+            4->{
                 //设置
                 val gameSetDialog= GameSettingDialog()
                 if (!gameSetDialog.isAdded){
                     gameSetDialog.showDialog(supportFragmentManager,"GameSettingDialog")
                 }
             }
+
             6->{
-                //钓鱼机复位操作
-                controlFishing("reset")
-            }
-            7->{
                 //客服
             }
-            8->{
+            7->{
                 //聊天
                 val inputDialog= InputFragmentDialog()
                 inputDialog.showDialog(supportFragmentManager,InputFragmentDialog.TAG)

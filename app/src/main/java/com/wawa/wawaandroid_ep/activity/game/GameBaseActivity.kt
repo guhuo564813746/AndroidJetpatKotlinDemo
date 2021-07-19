@@ -317,7 +317,9 @@ abstract class GameBaseActivity<V : ViewDataBinding,VM : BaseGameViewModel> : Ba
         GameSocketManager.getInstance().sendMessage("game",data,object: GameSocketManager.Callback{
             override fun onSuccess(jsonStr: JSONObject?) {
                 LogUtils.d(TAG,"join_queue--success")
-                setGameQueueStatus()
+                runOnUiThread{
+                    setGameQueueStatus()
+                }
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {

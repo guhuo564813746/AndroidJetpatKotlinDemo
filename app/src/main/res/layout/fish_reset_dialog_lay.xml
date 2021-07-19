@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.wawa.wawaandroid_ep.dialog.viewmodel.GameFishBuyTimeDialogVM" />
-    </data>
+<data>
+    <variable
+        name="viewModel"
+        type="com.wawa.wawaandroid_ep.dialog.viewmodel.FishResetDialogVM" />
+</data>
     <RelativeLayout
         android:layout_width="290dp"
         android:layout_height="440dp"
@@ -12,51 +12,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="续时"
-            android:layout_marginTop="90dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="24dp"
-            android:id="@+id/tv_titletips"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_Firsttips"
-            android:layout_below="@+id/tv_titletips"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="40dp"
-            android:text="选择续时时长"
-            android:textSize="14dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_fishtime"
-            android:layout_below="@+id/tv_Firsttips"
+            android:id="@+id/tv_titletips"
+            android:text="请问是否复位机器?"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="@{viewModel.fishBuyTime}"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="180dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:id="@+id/buytime_seekbar"
-            android:layout_below="@+id/tv_fishtime"/>
-
+            android:gravity="center"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_buytime_tips"
+            android:id="@+id/tv_secondtips"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tv_titletips"
+            android:layout_marginTop="20dp"
+            android:text="机器复位是指将机器恢复至初始状态，方便重新开始游戏。"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_below="@+id/buytime_seekbar"
-            android:layout_marginTop="10dp"
-            android:text="@{viewModel.buyTimeTips}"
-            android:textSize="12dp"
-            android:textColor="@color/roseRed"/>
-
+            android:gravity="center"/>
         <TextView
             android:layout_width="120dp"
             android:layout_height="40dp"
@@ -84,6 +57,5 @@
             android:background="@drawable/blue_10_cornors_bg"
             android:layout_marginBottom="15dp"
             android:onClick="@{viewModel.onClick}"/>
-
     </RelativeLayout>
 </layout>

@@ -24,8 +24,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/lv_question_feedback"
-            android:layout_marginTop="40dp"
-            android:paddingTop="25dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:paddingTop="15dp"
             android:background="@drawable/translucent_50_white_10_cormors_bg"/>
 
         <TextView

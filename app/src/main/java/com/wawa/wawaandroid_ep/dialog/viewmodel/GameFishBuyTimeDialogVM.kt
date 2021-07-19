@@ -1,5 +1,6 @@
 package com.wawa.wawaandroid_ep.dialog.viewmodel
 
+import androidx.databinding.ObservableField
 import com.wawa.baselib.utils.viewmodel.BaseVM
 
 /**
@@ -7,4 +8,6 @@ import com.wawa.baselib.utils.viewmodel.BaseVM
  *邮箱：564813746@qq.com
  */
 class GameFishBuyTimeDialogVM : BaseVM(){
+    var fishBuyTime=ObservableField<String>()
+    var buyTimeTips= ObservableField<String>()
 }

@@ -5,24 +5,31 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.robotwar.app.BR
 import com.robotwar.app.R
-import com.robotwar.app.databinding.GameBuytimeDialogLayBinding
+import com.robotwar.app.databinding.FishResetDialogLayBinding
 import com.wawa.baselib.utils.AppUtils
 import com.wawa.baselib.utils.dialog.BaseVMDialogFragment
 import com.wawa.wawaandroid_ep.activity.game.FishGameRoomActivity
-import com.wawa.wawaandroid_ep.dialog.viewmodel.GameFishBuyTimeDialogVM
+import com.wawa.wawaandroid_ep.dialog.viewmodel.FishResetDialogVM
 
 /**
- *作者：create by 张金 on 2021/7/19 18:56
- *邮箱：564813746@qq.com
+ *
+ * @ProjectName:    WawaAndroid_EP
+ * @Package:        com.wawa.wawaandroid_ep.dialog.game
+ * @ClassName:      GameFishResetDialog
+ * @Description:     java类作用描述
+ * @Author:         zhangjin
+ * @CreateDate:     2021-07-19 22:19
+ * @UpdateDate:     2021-07-19 22:19
+ * @Version:        1.0
  */
-class GameFishBuyTimeDialog : BaseVMDialogFragment<GameBuytimeDialogLayBinding,GameFishBuyTimeDialogVM>(){
+class GameFishResetDialog : BaseVMDialogFragment<FishResetDialogLayBinding,FishResetDialogVM>(){
     override fun initDialogParams() {
         dialogWidth=AppUtils.dp2px(activity,290f)
         dialogHeight=AppUtils.dp2px(activity,440f)
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.game_buytime_dialog_lay
+        return R.layout.fish_reset_dialog_lay
     }
 
     override fun initView(view: View) {
@@ -31,9 +38,9 @@ class GameFishBuyTimeDialog : BaseVMDialogFragment<GameBuytimeDialogLayBinding,G
                 R.id.tv_cancel ->{
                     dismissAllowingStateLoss()
                 }
-                R.id.tv_confirm->{
+                R.id.tv_confirm ->{
                     activity?.let {
-                        (it as FishGameRoomActivity).fishBuyTime(1)
+                        (it as FishGameRoomActivity).controlFishing("reset")
                     }
                     dismissAllowingStateLoss()
                 }
@@ -45,8 +52,8 @@ class GameFishBuyTimeDialog : BaseVMDialogFragment<GameBuytimeDialogLayBinding,G
         return BR.viewModel
     }
 
-    override fun initViewModel(): GameFishBuyTimeDialogVM {
-        val gameFishBuyTimeDialog: GameFishBuyTimeDialogVM by viewModels()
-        return gameFishBuyTimeDialog
+    override fun initViewModel(): FishResetDialogVM {
+        val fishResetDialogVM: FishResetDialogVM by viewModels()
+        return fishResetDialogVM
     }
 }

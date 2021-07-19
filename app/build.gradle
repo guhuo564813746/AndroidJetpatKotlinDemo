@@ -25,7 +25,8 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('D:\\AndroidXMZZPj\\WawaAndroidEpPj\\wawaRobot\\RobotEpPj\\keystore\\robotwarapp.keystore')
+//            storeFile file('D:\\AndroidXMZZPj\\WawaAndroidEpPj\\wawaRobot\\RobotEpPj\\keystore\\robotwarapp.keystore')
+            storeFile file('E:\\AndroidXMZZNEWPJ\\wawarobot\\AndroidJetpatKotlinDemo\\keystore\\robotwarapp.keystore')
             storePassword "robot@0304"
             keyAlias "robotwarapp"
             keyPassword "robot@0304"
